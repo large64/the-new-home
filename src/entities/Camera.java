@@ -1,6 +1,7 @@
 package entities;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -23,6 +24,24 @@ public class Camera {
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             position.x -= 0.02f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            position.z += 0.02f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+            position.y += 0.02f;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+            position.y -= 0.02f;
+        }
+
+        yaw += Mouse.getDX() / 2f;
+        pitch += -Mouse.getDY() / 2f;
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_R)) {
+            position.set(0.0f, 0.0f, 0.0f);
+            yaw = 0;
+            pitch = 0;
         }
     }
 

@@ -8,7 +8,7 @@ import textures.ModelTexture;
  * Created by large64 on 9/22/15.
  */
 public class Terrain {
-    private static final float SIZE = 800;
+    private static final float SIZE = 500;
     private static final int VERTEX_COUNT = 128;
 
     private float x;
@@ -57,12 +57,6 @@ public class Terrain {
                 normals[vertexPointer * 3 + 2] = 0;
                 textureCoords[vertexPointer * 2] = (float)j / ((float)VERTEX_COUNT - 1);
                 textureCoords[vertexPointer * 2 + 1] = (float)i / ((float)VERTEX_COUNT - 1);
-                if (j < 50 && i < 2) {
-                    System.out.println("i: " + i);
-                    System.out.println("j: " + j);
-                    System.out.println("textureCoords[" + (vertexPointer * 2) + "] = " + (float) j / ((float) VERTEX_COUNT - 1));
-                    System.out.println("textureCoords[" + (vertexPointer * 2 + 1) + "] = " + (float) i / ((float) VERTEX_COUNT - 1));
-                }
                 vertexPointer++;
             }
         }

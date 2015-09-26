@@ -6,6 +6,7 @@ package engineTester;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
+import entities.Player;
 import models.RawModel;
 import models.TexturedModel;
 import org.lwjgl.opengl.Display;
@@ -17,6 +18,7 @@ import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -80,12 +82,20 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap);
         Terrain terrain2 = new Terrain(-1, -1, loader, texturePack, blendMap);
 
+        // Player
+        RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
+        TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
+        Player player = new Player(stanfordBunny, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+
         Camera camera = new Camera();
 
         MasterRenderer renderer = new MasterRenderer();
 
         while(!Display.isCloseRequested()) {
             camera.move();
+            player.move();
+            renderer.processEntity(player);
+
             for (Entity entity : entities) {
                 renderer.processEntity(entity);
             }

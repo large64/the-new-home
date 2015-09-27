@@ -16,11 +16,14 @@ uniform vec3 lightPosition;
 
 uniform float useFakeLighting;
 
+uniform float numberOfRows;
+uniform vec2 offset;
+
 void main(void) {
 
     vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
     gl_Position = projectionMatrix * viewMatrix * worldPosition;
-    pass_textureCoords = textureCoords;
+    pass_textureCoords = (textureCoords / numberOfRows) + offset;
 
     vec3 actualNormal = normal;
 

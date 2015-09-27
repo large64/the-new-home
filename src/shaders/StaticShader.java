@@ -3,6 +3,7 @@ package shaders;
 import entities.Camera;
 import entities.Light;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 import toolbox.Maths;
 
 /**
@@ -21,6 +22,8 @@ public class StaticShader extends ShaderProgram {
     private int location_shineDamper;
     private int location_reflectivity;
     private int location_useFakeLighting;
+    private int location_numberOfRows;
+    private int location_offset;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -36,6 +39,16 @@ public class StaticShader extends ShaderProgram {
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
         location_useFakeLighting = super.getUniformLocation("useFakeLighting");
+        location_numberOfRows = super.getUniformLocation("numberOfRows");
+        location_offset = super.getUniformLocation("offset");
+    }
+
+    public void loadNumberOfRows(int numberOfRows) {
+        super.loadFloat(location_numberOfRows, numberOfRows);
+    }
+
+    public void loadOffset(float x, float y) {
+        super.load2DVector(location_offset, new Vector2f(x, y));
     }
 
     @Override
@@ -59,8 +72,8 @@ public class StaticShader extends ShaderProgram {
     }
 
     public void loadLight(Light light) {
-        super.loadVector(location_lightPosition, light.getPosition());
-        super.loadVector(location_lightColor, light.getColor());
+        super.load3DVector(location_lightPosition, light.getPosition());
+        super.load3DVector(location_lightColor, light.getColor());
     }
 
     public void loadViewMatrix(Camera camera) {

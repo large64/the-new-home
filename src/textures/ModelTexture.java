@@ -10,6 +10,7 @@ public class ModelTexture {
     private float reflectivity = 0;
     private boolean hasTransparency = false;
     private boolean useFakeLighting = false;
+    private int numberOfRows = 1;
 
     public boolean isUseFakeLighting() {
         return useFakeLighting;
@@ -51,5 +52,11 @@ public class ModelTexture {
         this.reflectivity = reflectivity;
     }
 
+    public int getNumberOfRows() {
+        return numberOfRows;
+    }
 
+    public void setNumberOfRows(int numberOfRows) {
+        this.numberOfRows = numberOfRows;
+    }
 }

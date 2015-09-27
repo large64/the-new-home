@@ -73,8 +73,8 @@ public class TerrainShader extends ShaderProgram {
     }
 
     public void loadLight(Light light) {
-        super.loadVector(location_lightPosition, light.getPosition());
-        super.loadVector(location_lightColor, light.getColor());
+        super.load3DVector(location_lightPosition, light.getPosition());
+        super.load3DVector(location_lightColor, light.getColor());
     }
 
     public void loadViewMatrix(Camera camera) {

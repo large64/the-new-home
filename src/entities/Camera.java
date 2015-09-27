@@ -19,6 +19,14 @@ public class Camera {
     public void move() {
         pitch += -Mouse.getDY() / 2f;
         yaw += Mouse.getDX() / 2f;
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            this.position.y -= 0.1f;
+        }
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+            this.position.y += 0.1f;
+        }
     }
 
     public Vector3f getPosition() {

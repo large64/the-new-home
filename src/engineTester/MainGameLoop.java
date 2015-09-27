@@ -7,9 +7,12 @@ import entities.Camera;
 import entities.Entity;
 import entities.Light;
 import entities.Player;
+import guis.GuiRenderer;
+import guis.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.*;
 
@@ -93,6 +96,11 @@ public class MainGameLoop {
 
         Light light = new Light(new Vector3f(20000, 40000, 20000), new Vector3f(1, 1, 1));
 
+        List<GuiTexture> guis = new ArrayList<>();
+        GuiTexture gui = new GuiTexture(loader.loadTexture("julia_set"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        guis.add(gui);
+        GuiRenderer guiRenderer = new GuiRenderer(loader);
+
         // Player
         RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
         TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
@@ -112,9 +120,11 @@ public class MainGameLoop {
             }
             renderer.render(light, camera);
             renderer.processTerrain(terrain);
+            guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }
 
+        guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();

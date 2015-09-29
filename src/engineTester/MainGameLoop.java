@@ -11,6 +11,7 @@ import guis.GuiRenderer;
 import guis.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -58,6 +59,9 @@ public class MainGameLoop {
         TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader),
                 new ModelTexture(loader.loadTexture("lowPolyTree")));
 
+        TexturedModel lamp = new TexturedModel(OBJLoader.loadObjModel("lamp", loader),
+                new ModelTexture(loader.loadTexture("lamp")));
+
         grass.getTexture().setHasTransparency(true);
         grass.getTexture().setUseFakeLighting(true);
         //flower.getTexture().setHasTransparency(true);
@@ -69,14 +73,12 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, texturePack, blendMap, "heightmap");
 
         for (int i = 0; i < 200; ++i) {
-            if (i % 7 == 0) {
+            /*if (i % 7 == 0) {
                 float x = random.nextFloat() * 400;
                 float z = random.nextFloat() * -600;
                 float y = terrain.getHeightOfTerrain(x, z);
                 entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1.8f));
-                /*entities.add(new Entity(flower, new Vector3f(random.nextFloat() * 400 - 200, 0,
-                        random.nextFloat() * -400), 0, 0, 0, 2.3f));*/
-            }
+            }*/
             if (i % 3 == 0) {
                 float x = random.nextFloat() * 400;
                 float z = random.nextFloat() * -600;
@@ -94,11 +96,15 @@ public class MainGameLoop {
             }
         }
 
-        Light light = new Light(new Vector3f(20000, 40000, 20000), new Vector3f(1, 1, 1));
         List<Light> lights = new ArrayList<>();
-        lights.add(light);
-        lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
-        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
+        lights.add(new Light(new Vector3f(-2000, 1000, -2000), new Vector3f(1f, 1f, 1f)));
+        lights.add(new Light(new Vector3f(185, terrain.getHeightOfTerrain(185, -293) + 16, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(370, terrain.getHeightOfTerrain(370, -300) + 16, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
+        lights.add(new Light(new Vector3f(293, terrain.getHeightOfTerrain(293, -305) + 16, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+
+        entities.add(new Entity(lamp, new Vector3f(185, terrain.getHeightOfTerrain(185, -293), -293), 0, 0, 0, 1));
+        entities.add(new Entity(lamp, new Vector3f(370, terrain.getHeightOfTerrain(370, -300), -300), 0, 0, 0, 1));
+        entities.add(new Entity(lamp, new Vector3f(293, terrain.getHeightOfTerrain(293, -305), -305), 0, 0, 0, 1));
 
         List<GuiTexture> guis = new ArrayList<>();
         GuiTexture gui = new GuiTexture(loader.loadTexture("julia_set"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
@@ -108,7 +114,7 @@ public class MainGameLoop {
         // Player
         RawModel bunnyModel = OBJLoader.loadObjModel("stanfordBunny", loader);
         TexturedModel stanfordBunny = new TexturedModel(bunnyModel, new ModelTexture(loader.loadTexture("white")));
-        Player player = new Player(stanfordBunny, new Vector3f(100, 0, -50), 0, 0, 0, 1);
+        Player player = new Player(stanfordBunny, new Vector3f(190, terrain.getHeightOfTerrain(190, -300), -300), 0, 0, 0, 1);
 
         Camera camera = new Camera();
 
@@ -124,11 +130,11 @@ public class MainGameLoop {
             }
             renderer.render(lights, camera);
             renderer.processTerrain(terrain);
-            guiRenderer.render(guis);
+            //guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }
 
-        guiRenderer.cleanUp();
+        //guiRenderer.cleanUp();
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();

@@ -28,7 +28,7 @@ public class Player extends Entity {
     }
 
     public void move(Terrain terrain) {
-        checkInputs();
+        //checkInputs();
         super.increaseRotation(0, currentTurnSpeed * DisplayManager.getFrameTimeSeconds(), 0);
         float distance = currentSpeed * DisplayManager.getFrameTimeSeconds();
 

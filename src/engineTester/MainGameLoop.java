@@ -95,6 +95,10 @@ public class MainGameLoop {
         }
 
         Light light = new Light(new Vector3f(20000, 40000, 20000), new Vector3f(1, 1, 1));
+        List<Light> lights = new ArrayList<>();
+        lights.add(light);
+        lights.add(new Light(new Vector3f(-200, 10, -200), new Vector3f(10, 0, 0)));
+        lights.add(new Light(new Vector3f(200, 10, 200), new Vector3f(0, 0, 10)));
 
         List<GuiTexture> guis = new ArrayList<>();
         GuiTexture gui = new GuiTexture(loader.loadTexture("julia_set"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
@@ -118,7 +122,7 @@ public class MainGameLoop {
             for (Entity entity : entities) {
                 renderer.processEntity(entity);
             }
-            renderer.render(light, camera);
+            renderer.render(lights, camera);
             renderer.processTerrain(terrain);
             guiRenderer.render(guis);
             DisplayManager.updateDisplay();

@@ -80,17 +80,17 @@ public class MainGameLoop {
                 entities.add(new Entity(grass, new Vector3f(x, y, z), 0, 0, 0, 1.8f));
             }*/
             if (i % 3 == 0) {
-                float x = random.nextFloat() * 400;
-                float z = random.nextFloat() * -600;
+                float x = random.nextFloat() * 400.0f;
+                float z = random.nextFloat() * -400.0f;
                 float y = terrain.getHeightOfTerrain(x, z);
                 entities.add(new Entity(fern, random.nextInt(4), new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 0.9f));
-                x = random.nextFloat() * 400;
-                z = random.nextFloat() * -600;
+                x = random.nextFloat() * 400f;
+                z = random.nextFloat() * -400f;
                 y = terrain.getHeightOfTerrain(x, z);
                 entities.add(new Entity(bobble, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0,
                         random.nextFloat() * 0.1f + 0.6f));
-                x = random.nextFloat() * 400;
-                z = random.nextFloat() * -600;
+                x = random.nextFloat() * 400f;
+                z = random.nextFloat() * -400f;
                 y = terrain.getHeightOfTerrain(x, z);
                 entities.add(new Entity(staticModel, new Vector3f(x, y, z), 0, 0, 0, random.nextFloat() * 1 + 4));
             }
@@ -118,7 +118,7 @@ public class MainGameLoop {
 
         Camera camera = new Camera();
 
-        MasterRenderer renderer = new MasterRenderer();
+        MasterRenderer renderer = new MasterRenderer(loader);
 
         while(!Display.isCloseRequested()) {
             camera.move();

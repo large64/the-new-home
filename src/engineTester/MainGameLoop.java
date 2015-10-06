@@ -21,6 +21,7 @@ import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.MousePicker;
 
 import javax.xml.soap.Text;
 import java.util.ArrayList;
@@ -100,11 +101,13 @@ public class MainGameLoop {
         lights.add(new Light(new Vector3f(-2000, 1000, -2000), new Vector3f(1f, 1f, 1f)));
         lights.add(new Light(new Vector3f(185, terrain.getHeightOfTerrain(185, -293) + 16, -293), new Vector3f(2, 0, 0), new Vector3f(1, 0.01f, 0.002f)));
         lights.add(new Light(new Vector3f(370, terrain.getHeightOfTerrain(370, -300) + 16, -300), new Vector3f(0, 2, 2), new Vector3f(1, 0.01f, 0.002f)));
-        lights.add(new Light(new Vector3f(293, terrain.getHeightOfTerrain(293, -305) + 16, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f)));
+        Light moveableLight = new Light(new Vector3f(293, terrain.getHeightOfTerrain(293, -305) + 16, -305), new Vector3f(2, 2, 0), new Vector3f(1, 0.01f, 0.002f));
+        lights.add(moveableLight);
 
         entities.add(new Entity(lamp, new Vector3f(185, terrain.getHeightOfTerrain(185, -293), -293), 0, 0, 0, 1));
         entities.add(new Entity(lamp, new Vector3f(370, terrain.getHeightOfTerrain(370, -300), -300), 0, 0, 0, 1));
-        entities.add(new Entity(lamp, new Vector3f(293, terrain.getHeightOfTerrain(293, -305), -305), 0, 0, 0, 1));
+        Entity lampEntity = new Entity(lamp, new Vector3f(293, terrain.getHeightOfTerrain(293, -305), -305), 0, 0, 0, 1);
+        entities.add(lampEntity);
 
         List<GuiTexture> guis = new ArrayList<>();
         GuiTexture gui = new GuiTexture(loader.loadTexture("julia_set"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
@@ -120,9 +123,20 @@ public class MainGameLoop {
 
         MasterRenderer renderer = new MasterRenderer(loader);
 
+        MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
+
         while(!Display.isCloseRequested()) {
             camera.move();
             player.move(terrain);
+            picker.update();
+
+            Vector3f terrainPoint = picker.getCurrentTerrainPoint();
+
+            if (terrainPoint != null) {
+                lampEntity.setPosition(terrainPoint);
+                moveableLight.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y + 15, terrainPoint.z));
+            }
+
             renderer.processEntity(player);
 
             for (Entity entity : entities) {

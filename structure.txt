@@ -1,0 +1,12 @@
+Game structure:
+	Loading screen (Screen)
+	Menu (Panel)
+		New Game (Game)
+			Choose Map (Map)
+				Game
+					Panel (Panel)
+						Bottom (Panel)
+						Top (Panel)
+					Pause Menu (Panel)
+		Settings (Screen)
+		Exit

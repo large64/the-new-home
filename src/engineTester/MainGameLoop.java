@@ -11,7 +11,6 @@ import guis.GuiRenderer;
 import guis.GuiTexture;
 import models.RawModel;
 import models.TexturedModel;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -23,7 +22,6 @@ import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.MousePicker;
 
-import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -129,13 +127,6 @@ public class MainGameLoop {
             camera.move();
             player.move(terrain);
             picker.update();
-
-            Vector3f terrainPoint = picker.getCurrentTerrainPoint();
-
-            if (terrainPoint != null) {
-                lampEntity.setPosition(terrainPoint);
-                moveableLight.setPosition(new Vector3f(terrainPoint.x, terrainPoint.y + 15, terrainPoint.z));
-            }
 
             renderer.processEntity(player);
 

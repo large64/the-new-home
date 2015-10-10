@@ -16,7 +16,7 @@ public class DisplayManager {
     private static float delta;
 
     public static void createDisplay() {
-        ContextAttribs attribs = new ContextAttribs(3,2)
+        ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true)
                 .withProfileCore(true);
 
@@ -30,6 +30,10 @@ public class DisplayManager {
 
         GL11.glViewport(0, 0, WIDTH, HEIGHT);
         lastFrameTime = getCurrentTime();
+    }
+
+    private static long getCurrentTime() {
+        return Sys.getTime() * 1000 / Sys.getTimerResolution();
     }
 
     public static void updateDisplay() {
@@ -46,9 +50,5 @@ public class DisplayManager {
 
     public static void closeDisplay() {
         Display.destroy();
-    }
-
-    private static long getCurrentTime() {
-        return Sys.getTime() * 1000 / Sys.getTimerResolution();
     }
 }

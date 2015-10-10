@@ -4,7 +4,6 @@ import models.RawModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
-import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 import toolbox.Maths;
@@ -38,26 +37,6 @@ public class Terrain {
         this.model = generateTerrain(loader, heightMap);
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public float getZ() {
-        return z;
-    }
-
-    public RawModel getModel() {
-        return model;
-    }
-
-    public TerrainTexturePack getTexturePack() {
-        return texturePack;
-    }
-
-    public TerrainTexture getBlendMap() {
-        return blendMap;
-    }
-
     private RawModel generateTerrain(Loader loader, String heightMap) {
         BufferedImage image = null;
         try {
@@ -77,25 +56,25 @@ public class Terrain {
         int[] indices = new int[6 * (VERTEX_COUNT - 1) * (VERTEX_COUNT - 1)];
         int vertexPointer = 0;
 
-        for(int i = 0; i < VERTEX_COUNT; i++){
-            for(int j = 0; j < VERTEX_COUNT; j++){
-                vertices[vertexPointer * 3] = (float)j / ((float)VERTEX_COUNT - 1) * SIZE;
+        for (int i = 0; i < VERTEX_COUNT; i++) {
+            for (int j = 0; j < VERTEX_COUNT; j++) {
+                vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
                 float height = getHeight(j, i, image);
                 heights[j][i] = height;
                 vertices[vertexPointer * 3 + 1] = height;
-                vertices[vertexPointer * 3 + 2] = (float)i / ((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
                 Vector3f normal = calculateNormal(j, i, image);
                 normals[vertexPointer * 3] = normal.x;
                 normals[vertexPointer * 3 + 1] = normal.y;
                 normals[vertexPointer * 3 + 2] = normal.z;
-                textureCoords[vertexPointer * 2] = (float)j / ((float)VERTEX_COUNT - 1);
-                textureCoords[vertexPointer * 2 + 1] = (float)i / ((float)VERTEX_COUNT - 1);
+                textureCoords[vertexPointer * 2] = (float) j / ((float) VERTEX_COUNT - 1);
+                textureCoords[vertexPointer * 2 + 1] = (float) i / ((float) VERTEX_COUNT - 1);
                 vertexPointer++;
             }
         }
         int pointer = 0;
-        for(int gz = 0; gz < VERTEX_COUNT - 1; gz++){
-            for(int gx = 0; gx < VERTEX_COUNT - 1; gx++){
+        for (int gz = 0; gz < VERTEX_COUNT - 1; gz++) {
+            for (int gx = 0; gx < VERTEX_COUNT - 1; gx++) {
                 int topLeft = (gz * VERTEX_COUNT) + gx;
                 int topRight = topLeft + 1;
                 int bottomLeft = ((gz + 1) * VERTEX_COUNT) + gx;
@@ -125,10 +104,10 @@ public class Terrain {
     }
 
     private Vector3f calculateNormal(int x, int y, BufferedImage image) {
-        float heightLeft = getHeight(x-1, y, image);
-        float heightRight = getHeight(x+1, y, image);
-        float heightUpper = getHeight(x, y-1, image);
-        float heightLower = getHeight(x, y+1, image);
+        float heightLeft = getHeight(x - 1, y, image);
+        float heightRight = getHeight(x + 1, y, image);
+        float heightUpper = getHeight(x, y - 1, image);
+        float heightLower = getHeight(x, y + 1, image);
 
         Vector3f normal = new Vector3f(heightLeft - heightRight, 2f, heightLower - heightUpper);
         normal.normalise();
@@ -136,11 +115,31 @@ public class Terrain {
         return normal;
     }
 
+    public float getX() {
+        return x;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public RawModel getModel() {
+        return model;
+    }
+
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
+    }
+
     public float getHeightOfTerrain(float worldX, float worldY) {
         float terrainX = worldX - this.x;
         float terrainY = worldY - this.z;
 
-        float gridSquareSize = SIZE / ((float)heights.length -1);
+        float gridSquareSize = SIZE / ((float) heights.length - 1);
         int gridX = (int) Math.floor(terrainX / gridSquareSize);
         int gridY = (int) Math.floor(terrainY / gridSquareSize);
 
@@ -152,15 +151,14 @@ public class Terrain {
         float yCoord = (terrainY % gridSquareSize) / gridSquareSize;
 
         float result;
-        if (xCoord <= (1-yCoord)) {
+        if (xCoord <= (1 - yCoord)) {
             result = Maths.barryCentric(
                     new Vector3f(0, heights[gridX][gridY], 0),
                     new Vector3f(1, heights[gridX + 1][gridY], 0),
                     new Vector3f(0, heights[gridX][gridY + 1], 1),
                     new Vector2f(xCoord, yCoord)
             );
-        }
-        else {
+        } else {
             result = Maths.barryCentric(
                     new Vector3f(1, heights[gridX + 1][gridY], 0),
                     new Vector3f(1, heights[gridX + 1][gridY + 1], 1),

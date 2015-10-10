@@ -3,7 +3,10 @@ package renderEngine;
 import entities.Entity;
 import models.RawModel;
 import models.TexturedModel;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import shaders.StaticShader;
 import textures.ModelTexture;
@@ -26,11 +29,11 @@ public class EntityRenderer {
     }
 
     public void render(Map<TexturedModel, List<Entity>> entities) {
-        for(TexturedModel model : entities.keySet()) {
+        for (TexturedModel model : entities.keySet()) {
             prepareTexturedModel(model);
             List<Entity> batch = entities.get(model);
 
-            for (Entity entity:batch) {
+            for (Entity entity : batch) {
                 prepareInstance(entity);
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
                         GL11.GL_UNSIGNED_INT, 0);

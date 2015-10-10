@@ -3,11 +3,9 @@ package renderEngine;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import models.RawModel;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import sun.text.resources.cldr.ar.FormatData_ar_TN;
 import textures.TextureData;
 
 import java.io.FileInputStream;
@@ -37,6 +35,52 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
+    private int createVAO() {
+        int vaoID = GL30.glGenVertexArrays();
+        vaos.add(vaoID);
+        GL30.glBindVertexArray(vaoID);
+
+        return vaoID;
+    }
+
+    private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
+        int vboID = GL15.glGenBuffers();
+        vbos.add(vboID);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
+        FloatBuffer buffer = storeDataInFloatBuffer(data);
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    }
+
+    private FloatBuffer storeDataInFloatBuffer(float[] data) {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+
+        return buffer;
+    }
+
+    private void unbindVAO() {
+        GL30.glBindVertexArray(0);
+    }
+
+    private void bindIndicesBuffer(int[] indices) {
+        int vboID = GL15.glGenBuffers();
+        vbos.add(vboID);
+        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
+        IntBuffer buffer = storeDataInIntBuffer(indices);
+        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+    }
+
+    private IntBuffer storeDataInIntBuffer(int[] data) {
+        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+        buffer.put(data);
+        buffer.flip();
+
+        return buffer;
+    }
+
     public RawModel loadToVAO(float[] positions, int dimensions) {
         int vaoID = createVAO();
         this.storeDataInAttributeList(0, dimensions, positions);
@@ -45,7 +89,7 @@ public class Loader {
     }
 
     public void cleanUp() {
-        for(int vao : vaos) {
+        for (int vao : vaos) {
             GL30.glDeleteVertexArrays(vao);
         }
         for (int vbo : vbos) {
@@ -54,14 +98,6 @@ public class Loader {
         for (int texture : textures) {
             GL11.glDeleteTextures(texture);
         }
-    }
-
-    private int createVAO() {
-        int vaoID = GL30.glGenVertexArrays();
-        vaos.add(vaoID);
-        GL30.glBindVertexArray(vaoID);
-
-        return vaoID;
     }
 
     public int loadTexture(String fileName) {
@@ -83,44 +119,6 @@ public class Loader {
         textures.add(textureID);
 
         return textureID;
-    }
-
-    private void storeDataInAttributeList(int attributeNumber, int coordinateSize, float[] data) {
-        int vboID = GL15.glGenBuffers();
-        vbos.add(vboID);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
-        FloatBuffer buffer = storeDataInFloatBuffer(data);
-        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
-        GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    }
-
-    private void unbindVAO() {
-        GL30.glBindVertexArray(0);
-    }
-
-    private void bindIndicesBuffer(int [] indices) {
-        int vboID = GL15.glGenBuffers();
-        vbos.add(vboID);
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
-        IntBuffer buffer = storeDataInIntBuffer(indices);
-        GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
-    }
-
-    private IntBuffer storeDataInIntBuffer(int[] data) {
-        IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
-        buffer.put(data);
-        buffer.flip();
-
-        return buffer;
-    }
-
-    private FloatBuffer storeDataInFloatBuffer(float[] data) {
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
-        buffer.put(data);
-        buffer.flip();
-
-        return buffer;
     }
 
     public int loadCubeMap(String[] textureFiles) {

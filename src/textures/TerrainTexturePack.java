@@ -4,10 +4,10 @@ package textures;
  * Created by large64 on 2015.09.26..
  */
 public class TerrainTexturePack {
-    private  TerrainTexture backgroundTexture;
-    private  TerrainTexture rTexture;
-    private  TerrainTexture gTexture;
-    private  TerrainTexture bTexture;
+    private TerrainTexture backgroundTexture;
+    private TerrainTexture rTexture;
+    private TerrainTexture gTexture;
+    private TerrainTexture bTexture;
 
     public TerrainTexturePack(TerrainTexture backgroundTexture, TerrainTexture rTexture,
                               TerrainTexture gTexture, TerrainTexture bTexture) {

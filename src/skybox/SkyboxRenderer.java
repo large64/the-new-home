@@ -10,8 +10,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
 
-import javax.xml.ws.Dispatch;
-
 /**
  * Created by large64 on 2015.09.29..
  */
@@ -19,47 +17,47 @@ public class SkyboxRenderer {
     private static final float SIZE = 500f;
 
     private static final float[] VERTICES = {
-            -SIZE,  SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
             -SIZE, -SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
-            SIZE,  SIZE, -SIZE,
-            -SIZE,  SIZE, -SIZE,
+            SIZE, SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
 
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, SIZE,
             -SIZE, -SIZE, -SIZE,
-            -SIZE,  SIZE, -SIZE,
-            -SIZE,  SIZE, -SIZE,
-            -SIZE,  SIZE,  SIZE,
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
+            -SIZE, SIZE, SIZE,
+            -SIZE, -SIZE, SIZE,
 
             SIZE, -SIZE, -SIZE,
-            SIZE, -SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE, -SIZE,
+            SIZE, -SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
 
-            -SIZE, -SIZE,  SIZE,
-            -SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE, -SIZE,  SIZE,
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, SIZE,
+            -SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, -SIZE, SIZE,
+            -SIZE, -SIZE, SIZE,
 
-            -SIZE,  SIZE, -SIZE,
-            SIZE,  SIZE, -SIZE,
-            SIZE,  SIZE,  SIZE,
-            SIZE,  SIZE,  SIZE,
-            -SIZE,  SIZE,  SIZE,
-            -SIZE,  SIZE, -SIZE,
+            -SIZE, SIZE, -SIZE,
+            SIZE, SIZE, -SIZE,
+            SIZE, SIZE, SIZE,
+            SIZE, SIZE, SIZE,
+            -SIZE, SIZE, SIZE,
+            -SIZE, SIZE, -SIZE,
 
             -SIZE, -SIZE, -SIZE,
-            -SIZE, -SIZE,  SIZE,
+            -SIZE, -SIZE, SIZE,
             SIZE, -SIZE, -SIZE,
             SIZE, -SIZE, -SIZE,
-            -SIZE, -SIZE,  SIZE,
-            SIZE, -SIZE,  SIZE
+            -SIZE, -SIZE, SIZE,
+            SIZE, -SIZE, SIZE
     };
 
     private static String[] TEXTURE_FILES = {"right", "left", "top", "bottom", "back", "front"};
@@ -107,18 +105,15 @@ public class SkyboxRenderer {
             texture1 = nightTexture;
             texture2 = nightTexture;
             blendFactor = (time - 0) / (5000 - 0);
-        }
-        else if (time >= 5000 && time < 8000) {
+        } else if (time >= 5000 && time < 8000) {
             texture1 = nightTexture;
             texture2 = texture;
             blendFactor = (time - 5000) / (8000 - 5000);
-        }
-        else if (time >= 8000 && time < 21000) {
+        } else if (time >= 8000 && time < 21000) {
             texture1 = texture;
             texture2 = texture;
             blendFactor = (time - 8000) / (21000 - 8000);
-        }
-        else {
+        } else {
             texture1 = texture;
             texture2 = nightTexture;
             blendFactor = (time - 21000) / (24000 - 21000);

@@ -14,7 +14,8 @@ public class Camera {
     private float yaw;
     private float roll;
 
-    public Camera() {}
+    public Camera() {
+    }
 
     public void move() {
         pitch += -Mouse.getDY() / 2f;

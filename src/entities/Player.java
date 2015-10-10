@@ -11,7 +11,7 @@ import terrains.Terrain;
  */
 public class Player extends Entity {
 
-    private static  final float RUN_SPEED = 20;
+    private static final float RUN_SPEED = 20;
     private static final float TURN_SPEED = 160;
     private static final float GRAVITY = -50;
     private static final float JUMP_POWER = 30;
@@ -47,36 +47,32 @@ public class Player extends Entity {
         }
     }
 
-    private void jump() {
-        if (!isInAir) {
-            this.upwardSpeed = JUMP_POWER;
-            isInAir = true;
-        }
-    }
-
     private void checkInputs() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
             this.currentSpeed = RUN_SPEED;
-        }
-        else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             this.currentSpeed = -RUN_SPEED;
-        }
-        else  {
+        } else {
             this.currentSpeed = 0;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             this.currentTurnSpeed = -TURN_SPEED;
-        }
-        else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+        } else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             this.currentTurnSpeed = TURN_SPEED;
-        }
-        else {
+        } else {
             currentTurnSpeed = 0;
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             jump();
+        }
+    }
+
+    private void jump() {
+        if (!isInAir) {
+            this.upwardSpeed = JUMP_POWER;
+            isInAir = true;
         }
     }
 }

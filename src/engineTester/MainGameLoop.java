@@ -14,8 +14,10 @@ import models.TexturedModel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.*;
-
+import renderEngine.DisplayManager;
+import renderEngine.Loader;
+import renderEngine.MasterRenderer;
+import renderEngine.OBJLoader;
 import terrains.Terrain;
 import textures.ModelTexture;
 import textures.TerrainTexture;
@@ -53,7 +55,7 @@ public class MainGameLoop {
 
         ModelTexture fernModelTexture = new ModelTexture(loader.loadTexture("fern"));
         fernModelTexture.setNumberOfRows(2);
-        TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader),fernModelTexture);
+        TexturedModel fern = new TexturedModel(OBJLoader.loadObjModel("fern", loader), fernModelTexture);
 
         TexturedModel bobble = new TexturedModel(OBJLoader.loadObjModel("lowPolyTree", loader),
                 new ModelTexture(loader.loadTexture("lowPolyTree")));
@@ -123,7 +125,7 @@ public class MainGameLoop {
 
         MousePicker picker = new MousePicker(camera, renderer.getProjectionMatrix(), terrain);
 
-        while(!Display.isCloseRequested()) {
+        while (!Display.isCloseRequested()) {
             camera.move();
             player.move(terrain);
             picker.update();

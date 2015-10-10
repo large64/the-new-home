@@ -3,16 +3,15 @@ package skybox;
 /**
  * Created by large64 on 2015.09.29..
  */
-import org.lwjgl.util.vector.Matrix4f;
 
 import entities.Camera;
-
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import shaders.ShaderProgram;
 import toolbox.Maths;
 
-public class SkyboxShader extends ShaderProgram{
+public class SkyboxShader extends ShaderProgram {
 
     private static final String VERTEX_FILE = "src/skybox/skyboxVertexShader";
     private static final String FRAGMENT_FILE = "src/skybox/skyboxFragmentShader";
@@ -30,11 +29,11 @@ public class SkyboxShader extends ShaderProgram{
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
-    public void loadProjectionMatrix(Matrix4f matrix){
+    public void loadProjectionMatrix(Matrix4f matrix) {
         super.loadMatrix(location_projectionMatrix, matrix);
     }
 
-    public void loadViewMatrix(Camera camera){
+    public void loadViewMatrix(Camera camera) {
         Matrix4f matrix = Maths.createViewMatrix(camera);
         matrix.m30 = 0;
         matrix.m31 = 0;

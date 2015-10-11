@@ -51,24 +51,24 @@ public class MousePicker {
     private Vector3f calculateMouseRay() {
         float mouseX = Mouse.getX();
         float mouseY = Mouse.getY();
-        Vector2f normalizedCoords = getNormalisedDeviceCoordinates(mouseX, mouseY);
-        Vector4f clipCoords = new Vector4f(normalizedCoords.x, normalizedCoords.y, -1.0f, 1.0f);
-        Vector4f eyeCoords = toEyeCoords(clipCoords);
-        return toWorldCoords(eyeCoords);
+        Vector2f normalizedCoordinates = getNormalisedDeviceCoordinates(mouseX, mouseY);
+        Vector4f clipCoordinates = new Vector4f(normalizedCoordinates.x, normalizedCoordinates.y, -1.0f, 1.0f);
+        Vector4f eyeCoordinates = toEyeCoordinates(clipCoordinates);
+        return toWorldCoordinates(eyeCoordinates);
     }
 
-    private Vector3f toWorldCoords(Vector4f eyeCoords) {
+    private Vector3f toWorldCoordinates(Vector4f eyeCoordinates) {
         Matrix4f invertedView = Matrix4f.invert(viewMatrix, null);
-        Vector4f rayWorld = Matrix4f.transform(invertedView, eyeCoords, null);
+        Vector4f rayWorld = Matrix4f.transform(invertedView, eyeCoordinates, null);
         Vector3f mouseRay = new Vector3f(rayWorld.x, rayWorld.y, rayWorld.z);
         mouseRay.normalise();
         return mouseRay;
     }
 
-    private Vector4f toEyeCoords(Vector4f clipCoords) {
+    private Vector4f toEyeCoordinates(Vector4f clipCoordinates) {
         Matrix4f invertedProjection = Matrix4f.invert(projectionMatrix, null);
-        Vector4f eyeCoords = Matrix4f.transform(invertedProjection, clipCoords, null);
-        return new Vector4f(eyeCoords.x, eyeCoords.y, -1f, 0f);
+        Vector4f eyeCoordinates = Matrix4f.transform(invertedProjection, clipCoordinates, null);
+        return new Vector4f(eyeCoordinates.x, eyeCoordinates.y, -1f, 0f);
     }
 
     private Vector2f getNormalisedDeviceCoordinates(float mouseX, float mouseY) {

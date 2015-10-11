@@ -2,6 +2,7 @@ package entities;
 
 import models.TexturedModel;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 

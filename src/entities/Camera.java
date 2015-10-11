@@ -24,7 +24,6 @@ public class Camera {
 
     private float displayHeight = Display.getHeight();
     private float displayWidth = Display.getWidth();
-    private float distanceFromGround = 29f;
 
     public Camera() {
     }

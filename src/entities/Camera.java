@@ -34,44 +34,18 @@ public class Camera {
 
         if (Mouse.getX() >= displayWidth - CURSOR_MARGIN) {
                 this.position.x += 1f;
+            move = true;
         }
         else if (Mouse.getX() <= CURSOR_MARGIN) {
             this.position.x -= 1f;
+            move = true;
         }
         else if (Mouse.getY() >= displayHeight - CURSOR_MARGIN) {
             this.position.z -= 1f;
+            move = true;
         }
         else if (Mouse.getY() <= CURSOR_MARGIN) {
             this.position.z += 1f;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            this.position.z -= 0.1f;
-            move = true;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            this.position.z += 0.1f;
-            move = true;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            this.position.x -= 0.1f;
-            move = true;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            this.position.x += 0.1f;
-            move = true;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            this.position.y -= 0.1f;
-            move = true;
-        }
-
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            this.position.y += 0.1f;
             move = true;
         }
 

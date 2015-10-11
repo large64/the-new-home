@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -18,7 +18,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>295</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -31,7 +31,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>435</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -43,7 +43,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>575</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -55,7 +55,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>715</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -67,19 +67,21 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>660</x>
-      <y>245</y>
+      <y>220</y>
       <w>125</w>
-      <h>155</h>
+      <h>45</h>
     </coordinates>
     <panel_attributes>Unit
---</panel_attributes>
+--
++increasePosition(): void
++increaseRotationPosition(): void</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>995</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -91,7 +93,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1135</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -103,7 +105,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>150</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -115,7 +117,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>855</x>
-      <y>470</y>
+      <y>445</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -127,53 +129,60 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>715</x>
-      <y>395</y>
+      <y>260</y>
       <w>215</w>
-      <h>85</h>
+      <h>195</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;100.0;410.0;100.0;410.0;150.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>720</x>
-      <y>395</y>
-      <w>350</w>
-      <h>85</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;80.0;680.0;80.0;680.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;320.0;410.0;320.0;410.0;370.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>725</x>
-      <y>395</y>
-      <w>485</w>
-      <h>85</h>
+      <y>260</y>
+      <w>345</w>
+      <h>195</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;70.0;950.0;70.0;950.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;300.0;670.0;300.0;670.0;370.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>735</x>
+      <y>260</y>
+      <w>475</w>
+      <h>195</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;290.0;930.0;290.0;930.0;370.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>415</x>
-      <y>30</y>
-      <w>125</w>
-      <h>145</h>
+      <x>405</x>
+      <y>60</y>
+      <w>145</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>/Entity/
 --
-</panel_attributes>
+#model: TexturedModel
+#position: Vector3f
+#rotX: float
+#rotY: float
+#rotZ: float
+#scale: float
+#textureIndex: int
+#health: float</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>340</x>
-      <y>245</y>
+      <y>220</y>
       <w>125</w>
       <h>155</h>
     </coordinates>
@@ -185,7 +194,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>395</x>
-      <y>395</y>
+      <y>370</y>
       <w>395</w>
       <h>85</h>
     </coordinates>
@@ -196,7 +205,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>385</x>
-      <y>395</y>
+      <y>370</y>
       <w>265</w>
       <h>85</h>
     </coordinates>
@@ -207,7 +216,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>375</x>
-      <y>395</y>
+      <y>370</y>
       <w>135</w>
       <h>85</h>
     </coordinates>
@@ -218,7 +227,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>495</x>
-      <y>170</y>
+      <y>145</y>
       <w>235</w>
       <h>85</h>
     </coordinates>
@@ -229,7 +238,7 @@ units:List&lt;Unit&gt;</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>395</x>
-      <y>170</y>
+      <y>145</y>
       <w>65</w>
       <h>85</h>
     </coordinates>

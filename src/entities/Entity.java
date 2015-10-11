@@ -12,6 +12,7 @@ public class Entity {
     protected float rotX, rotY, rotZ;
     protected float scale;
     protected int textureIndex = 0;
+    protected float health = 100;
 
     public float getTextureXOffset() {
         int column = textureIndex % model.getTexture().getNumberOfRows();

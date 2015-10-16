@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="13.3">
-  <zoom_level>5</zoom_level>
+  <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>0</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>160</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Player
 --
@@ -17,10 +17,10 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>295</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>750</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Map
 --
@@ -30,10 +30,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>435</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>1030</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Home
 --</panel_attributes>
@@ -42,10 +42,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>575</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>1310</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Hospital
 --</panel_attributes>
@@ -54,10 +54,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>715</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>1590</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Barrack
 --</panel_attributes>
@@ -66,10 +66,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>660</x>
-      <y>220</y>
-      <w>125</w>
-      <h>45</h>
+      <x>1480</x>
+      <y>820</y>
+      <w>250</w>
+      <h>90</h>
     </coordinates>
     <panel_attributes>Unit
 --
@@ -80,10 +80,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>995</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>2150</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Soldier
 --</panel_attributes>
@@ -92,10 +92,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1135</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>2430</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Scientist
 --</panel_attributes>
@@ -104,10 +104,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>150</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>460</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Town
 --</panel_attributes>
@@ -116,10 +116,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>855</x>
-      <y>445</y>
-      <w>125</w>
-      <h>155</h>
+      <x>1870</x>
+      <y>1270</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Healer
 --</panel_attributes>
@@ -128,10 +128,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>715</x>
-      <y>260</y>
-      <w>215</w>
-      <h>195</h>
+      <x>1590</x>
+      <y>900</y>
+      <w>430</w>
+      <h>390</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;320.0;410.0;320.0;410.0;370.0</additional_attributes>
@@ -139,10 +139,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>725</x>
-      <y>260</y>
-      <w>345</w>
-      <h>195</h>
+      <x>1610</x>
+      <y>900</y>
+      <w>690</w>
+      <h>390</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;300.0;670.0;300.0;670.0;370.0</additional_attributes>
@@ -150,10 +150,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>735</x>
-      <y>260</y>
-      <w>475</w>
-      <h>195</h>
+      <x>1630</x>
+      <y>900</y>
+      <w>950</w>
+      <h>390</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;290.0;930.0;290.0;930.0;370.0</additional_attributes>
@@ -161,12 +161,12 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>405</x>
-      <y>60</y>
-      <w>145</w>
-      <h>90</h>
+      <x>970</x>
+      <y>500</y>
+      <w>290</w>
+      <h>180</h>
     </coordinates>
-    <panel_attributes>/Entity/
+    <panel_attributes>Entity
 --
 #model: TexturedModel
 #position: Vector3f
@@ -181,10 +181,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>340</x>
-      <y>220</y>
-      <w>125</w>
-      <h>155</h>
+      <x>840</x>
+      <y>820</y>
+      <w>250</w>
+      <h>310</h>
     </coordinates>
     <panel_attributes>Building
 --</panel_attributes>
@@ -193,10 +193,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>395</x>
-      <y>370</y>
-      <w>395</w>
-      <h>85</h>
+      <x>950</x>
+      <y>1120</y>
+      <w>790</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;110.0;770.0;110.0;770.0;150.0</additional_attributes>
@@ -204,10 +204,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>385</x>
-      <y>370</y>
-      <w>265</w>
-      <h>85</h>
+      <x>930</x>
+      <y>1120</y>
+      <w>530</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;120.0;510.0;120.0;510.0;150.0</additional_attributes>
@@ -215,10 +215,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>375</x>
-      <y>370</y>
-      <w>135</w>
-      <h>85</h>
+      <x>910</x>
+      <y>1120</y>
+      <w>270</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;140.0;250.0;140.0;250.0;150.0</additional_attributes>
@@ -226,10 +226,10 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>495</x>
-      <y>145</y>
-      <w>235</w>
-      <h>85</h>
+      <x>1150</x>
+      <y>670</y>
+      <w>470</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>10.0;10.0;10.0;80.0;450.0;80.0;450.0;150.0</additional_attributes>
@@ -237,12 +237,112 @@ units:List&lt;Unit&gt;</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>395</x>
-      <y>145</y>
-      <w>65</w>
-      <h>85</h>
+      <x>950</x>
+      <y>670</y>
+      <w>130</w>
+      <h>170</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>110.0;10.0;110.0;100.0;10.0;100.0;10.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>0</y>
+      <w>230</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>MainGameLoop
+--
+_+main(args: String[]): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>90</x>
+      <y>450</y>
+      <w>330</w>
+      <h>380</h>
+    </coordinates>
+    <panel_attributes>MasterRenderer
+--
+_-FOV: float = 70_
+_-NEAR_PLANE: float = 0.1_
+_-FAR_PLANE: float = 1000_
+
+-shader: StaticShader
+-renderer: EntityRenderer
+-projectionMatrix: Matrix4f
+-mapRenderer: MapRenderer
+-terrainShader: TerrainShader
+-entities: Map
+-skyboxRenderer: SkyboxRenderer
+--
+_+enableCulling(): void_
+-createProjectionMatrix(): void
+_+disableCulling(): void_
++render(lights: List, camera: Camera): void
++prepare(): void
++processTerrain(map: Map): void
++processEntity(entity: Entity): void
++cleanUp(): void
++getProjectionMatrix(): Matrix4f
+_+renderScene(): void_
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>140</y>
+      <w>290</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>DisplayManager
+--
+_-WIDTH: int = 800_
+_-FPS_CAP: int = 720_
+_-HEIGHT: int = 600_
+
+_-lastFrameTime: long_
+_-delta: float_
+--
+_+createDisplay(): void_
+_-getCurrentTime(): long_
+_+updateDisplay(): void_
+_+getFrameTimeSeconds(): float_
+_+updateDisplay(): void_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>790</x>
+      <y>40</y>
+      <w>620</w>
+      <h>280</h>
+    </coordinates>
+    <panel_attributes>Loader
+--
+-vaos: List
+-vbos: List
+-textures: List
+--
++loadToVAO(positions: float[], textureCoords: float[], indices: int[]): RawModel
++loadToVAO(positions: float[], dimensions: int): RawModel
+-createVAO(): int
+-storeDataInAttributeList(attributeNumber: int, coodinateSize: int, data: float[]): void
+-storeDataInFloatBuffer(data: float[]): FloatBuffer
+-unbindVAO(): void
+-bindIndicesBuffer(indices: int[]) void
+-storeDataInIntBuffer(data: int[]): IntBuffer
++cleanUp(): void
++loadTexture(fileName: String): int
++loadCubeMap(textureFiles: String[]): int
+-decodeTextureFile(fileName: String): TextureData</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>

@@ -4,6 +4,7 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
 import org.lwjgl.opengl.DisplayMode;
+import toolbox.Screen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,19 +25,7 @@ public class DisplayManager {
                 .withForwardCompatible(true)
                 .withProfileCore(true);
 
-        JFrame frame = new JFrame();
 
-        Canvas canvas = new Canvas();
-        canvas.setSize(WIDTH, HEIGHT);
-
-        try {
-            Display.setParent(canvas);
-        } catch (Exception e) {
-        }
-
-        frame.add(canvas);
-        frame.pack();
-        frame.setVisible(true);
 
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));

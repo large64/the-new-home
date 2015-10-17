@@ -4,13 +4,31 @@
 package engineTester;
 
 
+import org.lwjgl.opengl.Display;
 import renderEngine.MasterRenderer;
+import toolbox.Screen;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by large64 on 9/6/15.
  */
 public class MainGameLoop {
     public static void main(String[] args) {
+        Canvas canvas = new Canvas();
+        canvas.setSize(800, 600);
+        Screen screen = new Screen(canvas);
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setSize(canvas.getSize());
+
+        screen = new Screen(canvas);
+
+        try {
+            Display.setParent(canvas);
+        } catch (Exception e) {
+        }
+
         MasterRenderer.renderScene();
     }
 }

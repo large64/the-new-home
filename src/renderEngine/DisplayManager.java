@@ -3,6 +3,10 @@ package renderEngine;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.DisplayMode;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Created by large64 on 9/6/15.
@@ -19,6 +23,20 @@ public class DisplayManager {
         ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true)
                 .withProfileCore(true);
+
+        JFrame frame = new JFrame();
+
+        Canvas canvas = new Canvas();
+        canvas.setSize(WIDTH, HEIGHT);
+
+        try {
+            Display.setParent(canvas);
+        } catch (Exception e) {
+        }
+
+        frame.add(canvas);
+        frame.pack();
+        frame.setVisible(true);
 
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));

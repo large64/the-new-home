@@ -1,5 +1,6 @@
 package renderEngine;
 
+import engineTester.MainGameLoop;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
@@ -13,9 +14,9 @@ import java.awt.*;
  * Created by large64 on 9/6/15.
  */
 public class DisplayManager {
-    private static final int WIDTH = 800;
+    private static final int WIDTH = MainGameLoop.mainFrame.getWidth();
     private static final int FPS_CAP = 720;
-    private static final int HEIGHT = 600;
+    private static final int HEIGHT = MainGameLoop.mainFrame.getHeight();
 
     private static long lastFrameTime;
     private static float delta;

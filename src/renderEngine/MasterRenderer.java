@@ -17,6 +17,7 @@ import terrains.Map;
 import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
+import toolbox.Indicator;
 import toolbox.MousePicker;
 
 import java.util.ArrayList;
@@ -185,6 +186,7 @@ public class MasterRenderer {
             // Move the player per frame (and so the camera)
             player.move();
             picker.update();
+            Indicator.lookForChanges();
 
             for (Entity entity : entities) {
                 renderer.processEntity(entity);

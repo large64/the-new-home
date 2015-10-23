@@ -23,7 +23,7 @@ public class Camera {
     private float displayHeight = Display.getHeight();
     private float displayWidth = Display.getWidth();
 
-    private boolean isMouseGrabbed = false;
+    public static boolean isMouseGrabbed = false;
 
     public Camera() {
     }

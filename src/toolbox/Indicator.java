@@ -11,12 +11,14 @@ import java.awt.*;
 public class Indicator {
     private static final String[] types = {"button", "text"};
     private static JTextPane textPane;
+    private static Color color;
 
     public Indicator(String type) {
         switch (type) {
             case "text":
                 textPane = new JTextPane();
                 textPane.setEnabled(false);
+                textPane.setOpaque(false);
                 textPane.setDisabledTextColor(new Color(0, 0, 0));
                 break;
             default:
@@ -28,12 +30,17 @@ public class Indicator {
         return textPane;
     }
 
+    public static void setColor(Color color) {
+        textPane.setOpaque(true);
+        textPane.setBackground(color);
+    }
+
     public static void lookForChanges() {
         if (Camera.isMouseGrabbed) {
-            textPane.setText("Mouse grabbed");
+            textPane.setText("Playing");
         }
         else {
-            textPane.setText("Mouse free");
+            textPane.setText("Game paused");
         }
     }
 }

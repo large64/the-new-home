@@ -5,19 +5,12 @@ package engineTester;
 
 
 import org.lwjgl.opengl.Display;
-import renderEngine.DisplayManager;
 import renderEngine.MasterRenderer;
 import toolbox.Indicator;
-import toolbox.Screen;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.lang.management.ManagementFactory;
 
 /**
  * Created by large64 on 9/6/15.

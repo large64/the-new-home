@@ -5,6 +5,7 @@ package engineTester;
 
 
 import org.lwjgl.opengl.Display;
+import renderEngine.DisplayManager;
 import renderEngine.MasterRenderer;
 import toolbox.Indicator;
 import toolbox.Screen;
@@ -13,15 +14,19 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.lang.management.ManagementFactory;
 
 /**
  * Created by large64 on 9/6/15.
  */
 public class MainGameLoop {
-    public static JFrame mainFrame;
+    public static JFrame mainFrame = new JFrame("The New Home");
+    public static JPanel menuWrapperPanel = new JPanel(new BorderLayout());
 
     public static void main(String[] args) {
-        mainFrame = new JFrame("The New Home");
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
         Canvas canvas = new Canvas();
@@ -32,14 +37,20 @@ public class MainGameLoop {
         BorderLayout layout = new BorderLayout();
 
         JPanel menuPanel = new JPanel(new GridLayout(2, 1));
-        JPanel indicatorPanel = new JPanel(new GridLayout(1,1));
-        JPanel menuWrapperPanel = new JPanel(new BorderLayout());
+        JPanel indicatorPanel = new JPanel(new GridLayout(2,1));
 
         JButton button = new JButton("Test test test");
         JButton button1 = new JButton("Test2");
 
         mainFrame.setLayout(layout);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                MasterRenderer.requestExit(true);
+                System.exit(0);
+            }
+        });
 
         menuPanel.setBorder(menuPanelBorder);
         indicatorPanel.setBorder(menuPanelBorder);
@@ -51,6 +62,7 @@ public class MainGameLoop {
         menuPanel.add(button1);
 
         indicatorPanel.add(btnIndicator.getTextPane());
+        indicatorPanel.add(new JButton("Test"));
 
         menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
         menuWrapperPanel.add(indicatorPanel, BorderLayout.AFTER_LAST_LINE);
@@ -63,8 +75,8 @@ public class MainGameLoop {
         try {
             Display.setParent(canvas);
         } catch (Exception e) {
+            System.err.println("Could not set canvas for Display.");
         }
-        System.out.println("mainFrame width: " + mainFrame.getWidth());
 
         MasterRenderer.renderScene();
     }

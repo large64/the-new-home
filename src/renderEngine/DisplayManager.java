@@ -5,16 +5,12 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
 import org.lwjgl.opengl.DisplayMode;
-import toolbox.Screen;
-
-import javax.swing.*;
-import java.awt.*;
 
 /**
  * Created by large64 on 9/6/15.
  */
 public class DisplayManager {
-    private static final int WIDTH = MainGameLoop.mainFrame.getWidth();
+    private static final int WIDTH = MainGameLoop.mainFrame.getWidth() - MainGameLoop.menuWrapperPanel.getWidth();
     private static final int FPS_CAP = 720;
     private static final int HEIGHT = MainGameLoop.mainFrame.getHeight();
 
@@ -25,9 +21,6 @@ public class DisplayManager {
         ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true)
                 .withProfileCore(true);
-
-
-
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
             Display.create(new PixelFormat(), attribs);

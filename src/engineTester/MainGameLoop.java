@@ -44,13 +44,6 @@ public class MainGameLoop {
 
         mainFrame.setLayout(layout);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                MasterRenderer.requestExit(true);
-                System.exit(0);
-            }
-        });
 
         menuPanel.setBorder(menuPanelBorder);
         indicatorPanel.setBorder(menuPanelBorder);

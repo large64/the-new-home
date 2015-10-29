@@ -32,7 +32,6 @@ public class MasterRenderer {
     private static final float FOV = 70; // Field of view
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
-    private static boolean exitRequested = false;
     private StaticShader shader = new StaticShader();
     private EntityRenderer renderer;
     private Matrix4f projectionMatrix;
@@ -50,10 +49,6 @@ public class MasterRenderer {
         this.renderer = new EntityRenderer(shader, projectionMatrix);
         this.mapRenderer = new MapRenderer(terrainShader, projectionMatrix);
         skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
-    }
-
-    public static void requestExit(boolean exitRequested) {
-        MasterRenderer.exitRequested = exitRequested;
     }
 
     public static void enableCulling() {
@@ -187,7 +182,7 @@ public class MasterRenderer {
         MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix(), map);
 
         // Start an infinite loop for rendering
-        while(!Display.isCloseRequested() && !exitRequested) {
+        while(!Display.isCloseRequested()) {
             // Move the player per frame (and so the camera)
             player.move();
             picker.update();

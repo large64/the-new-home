@@ -4,6 +4,7 @@ import engineTester.MainGameLoop;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
+import toolbox.Window;
 
 /**
  * Created by large64 on 9/15/15.
@@ -34,12 +35,12 @@ public class Camera {
     public void move() {
         if (Mouse.isButtonDown(0)) {
             isMouseGrabbed = true;
-            MainGameLoop.menuWrapperPanel.setVisible(false);
+            Window.getMenuWrapperPanel().setVisible(false);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             isMouseGrabbed = false;
-            MainGameLoop.menuWrapperPanel.setVisible(true);
+            Window.getMenuWrapperPanel().setVisible(true);
             // @TODO: focus on menuWrapperPanel after pressing Esc key
 
         }

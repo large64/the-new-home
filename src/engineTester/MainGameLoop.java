@@ -6,69 +6,18 @@ package engineTester;
 
 import org.lwjgl.opengl.Display;
 import renderEngine.MasterRenderer;
-import toolbox.Indicator;
+import toolbox.Window;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 /**
  * Created by large64 on 9/6/15.
  */
 public class MainGameLoop {
-    public static JFrame mainFrame = new JFrame("The New Home");
-    public static JPanel menuWrapperPanel = new JPanel(new BorderLayout());
-    public static JPanel indicatorWrapperPanel = new JPanel(new BorderLayout());
-
     public static void main(String[] args) {
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         Canvas canvas = new Canvas();
-        Color menuBgColor = new Color(2, 120, 0);
-        Indicator btnIndicator = new Indicator("text");
-
-        EmptyBorder menuPanelBorder = new EmptyBorder(10, 10, 20, 10);
-        BorderLayout layout = new BorderLayout();
-
-        JPanel menuPanel = new JPanel(new GridLayout(2, 1));
-        JPanel indicatorPanel = new JPanel(new GridLayout(1,1));
-
-        JButton button = new JButton("Test test test");
-        JButton button1 = new JButton("Test2");
-
-        mainFrame.setLayout(layout);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        menuPanel.setBorder(menuPanelBorder);
-        indicatorPanel.setBorder(menuPanelBorder);
-        menuWrapperPanel.setBackground(menuBgColor);
-        menuPanel.setOpaque(false);
-        indicatorPanel.setOpaque(false);
-        indicatorPanel.setBorder(BorderFactory.createLineBorder(new Color(186, 186, 186), 1, true));
-
-        menuPanel.add(button);
-        menuPanel.add(button1);
-
-        indicatorPanel.add(btnIndicator.getTextPane());
-
-        menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
-        indicatorWrapperPanel.add(indicatorPanel);
-        JTextField indicatorPanelTitle = new JTextField("Indicator panel");
-        indicatorPanelTitle.setBorder(new EmptyBorder(0, 5, 10, 0));
-        indicatorPanelTitle.setOpaque(false);
-        indicatorPanelTitle.setEnabled(false);
-        indicatorPanelTitle.setDisabledTextColor(Color.BLACK);
-        indicatorWrapperPanel.add(indicatorPanelTitle, BorderLayout.NORTH);
-        indicatorWrapperPanel.setBorder(BorderFactory.createLineBorder(menuBgColor, 5));
-        indicatorWrapperPanel.setBackground(new Color(9, 168, 5));
-        menuWrapperPanel.add(indicatorWrapperPanel, BorderLayout.AFTER_LAST_LINE);
-        mainFrame.add(menuWrapperPanel, BorderLayout.WEST);
-        mainFrame.pack();
-        mainFrame.add(canvas, BorderLayout.CENTER);
-        mainFrame.setVisible(true);
-        canvas.setSize(mainFrame.getWidth(), mainFrame.getHeight());
-
+        Window window = new Window(canvas);
+        canvas.setSize(window.getWidth(), window.getHeight());
         try {
             Display.setParent(canvas);
         } catch (Exception e) {

@@ -20,6 +20,10 @@ public class Player {
         camera.move();
     }
 
+    public void reset() {
+        camera.reset();
+    }
+
     public Camera getCamera() {
         return camera;
     }

@@ -1,6 +1,5 @@
 package entities;
 
-import engineTester.MainGameLoop;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -13,11 +12,14 @@ public class Camera {
     private static final int MAX_ZOOM = 5;
     private static final int MAX_BACK_ZOOM = 29;
     private static final float DEFAULT_PITCH = 36;
+    // Create new final variable for default position to prevent it from changing in runtime
+    private static final float DEFAULT_X = 212.70139f;
+    private static final float DEFAULT_Z = -275.4985f;
     // Set default position (y) to be the maximum back zoom level
-    private static final Vector3f DEFAULT_POSITION = new Vector3f(212.70139f, (float) MAX_BACK_ZOOM, -275.4985f);
+    private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float CURSOR_MARGIN = 10;
 
-    private Vector3f position = DEFAULT_POSITION;
+    private Vector3f position;
     private float pitch = DEFAULT_PITCH;
     private float yaw = 0;
     private float roll = 0;
@@ -30,6 +32,7 @@ public class Camera {
     public static boolean isMouseGrabbed = false;
 
     public Camera() {
+        this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_X);
     }
 
     public void move() {
@@ -47,7 +50,7 @@ public class Camera {
 
         if (isMouseGrabbed) {
             boolean move = false;
-            float changePositionBy = (0.6f - calculateMoveDamping(newZoomDistance));
+            float changePositionBy = (0.3f - calculateMoveDamping(newZoomDistance));
 
             if (Mouse.getX() >= displayWidth - CURSOR_MARGIN) {
                 this.position.x += changePositionBy;
@@ -77,6 +80,10 @@ public class Camera {
         return position;
     }
 
+    public void reset() {
+        this.position = DEFAULT_POSITION;
+    }
+
     public float getPitch() {
         return pitch;
     }
@@ -99,6 +106,6 @@ public class Camera {
         // newZoomDistance is between MAX_ZOOM and MAX_BACK_ZOOM
         // create number between 0 and 0.3 to subtract it from the default speed
         // using formula (a + ((X - Xmin) * (b - a)/(Xmax - Xmin)))
-        return 0.3f + ((newZoomDistance - 5) * (0 - 0.3f) / (MAX_BACK_ZOOM - MAX_ZOOM));
+        return 0.2f + ((newZoomDistance - 5) * (0 - 0.2f) / (MAX_BACK_ZOOM - MAX_ZOOM));
     }
 }

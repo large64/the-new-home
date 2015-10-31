@@ -1,28 +1,29 @@
 package toolbox;
 
+import org.lwjgl.opengl.Display;
+import renderEngine.MasterRenderer;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.html.ObjectView;
 import java.awt.*;
-import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by large64 on 31/10/15.
  */
 public class Window {
-    private Map indicators = new HashMap<String, Indicator>();
-    private Map buttons = new HashMap<String, JButton>();
-    private Map panels = new HashMap<String, JPanel>();
-    private Map colors = new HashMap<String, Color>();
-    private Map borders = new HashMap<String, Border>();
-
     private static JFrame mainFrame;
     private static JPanel menuWrapperPanel;
 
+    private Map<String, Object> elements;
+
     public Window(Canvas canvas) {
+        elements = new HashMap<>();
         initElements();
 
         mainFrame = new JFrame();
@@ -31,18 +32,18 @@ public class Window {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         menuWrapperPanel = new JPanel();
-        menuWrapperPanel.setBackground((Color) colors.get("darkGreen"));
-        JPanel menuPanel = (JPanel) panels.get("menuPanel");
+        menuWrapperPanel.setBackground((Color) elements.get("darkGreen"));
+        JPanel menuPanel = (JPanel) elements.get("menuPanel");
         menuPanel.setOpaque(false);
 
-        JPanel indicatorPanel = (JPanel) panels.get("indicatorPanel");
+        JPanel indicatorPanel = (JPanel) elements.get("indicatorPanel");
         indicatorPanel.setOpaque(false);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(new Color(186, 186, 186), 1, true));
 
-        menuPanel.add((JButton) buttons.get("button1"));
-        menuPanel.add((JButton) buttons.get("button2"));
+        menuPanel.add((JButton) elements.get("button1"));
+        menuPanel.add((JButton) elements.get("button2"));
 
-        Indicator btnIndicator = (Indicator) indicators.get("btnIndicator");
+        Indicator btnIndicator = (Indicator) elements.get("btnIndicator");
         indicatorPanel.add(btnIndicator.getTextPane());
 
         menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
@@ -52,28 +53,31 @@ public class Window {
         mainFrame.pack();
         mainFrame.setVisible(true);
 
-        menuPanel.setBorder((Border) borders.get("menuPanelBorder"));
+        menuPanel.setBorder((Border) elements.get("menuPanelBorder"));
     }
 
     private void initElements() {
         Color menuBgColor = new Color(2, 120, 0);
-        colors.put("darkGreen", menuBgColor);
+        elements.put("darkGreen", menuBgColor);
 
         Indicator btnIndicator = new Indicator("text");
-        indicators.put("btnIndicator", btnIndicator);
+        elements.put("btnIndicator", btnIndicator);
 
         EmptyBorder menuPanelBorder = new EmptyBorder(10, 10, 20, 10);
-        borders.put("menuPanelBorder", menuPanelBorder);
+        elements.put("menuPanelBorder", menuPanelBorder);
 
-        JButton button = new JButton("Test");
-        JButton button1 = new JButton("Test2");
-        buttons.put("button1", button);
-        buttons.put("button2", button1);
+        JButton button = new JButton("New Game");
+        JButton button1 = new JButton("Quit");
+        button.addActionListener(e -> {
+            MasterRenderer.restart();
+        });
+        elements.put("button1", button);
+        elements.put("button2", button1);
 
         JPanel menuPanel = new JPanel(new GridLayout(2, 1));
         JPanel indicatorPanel = new JPanel(new GridLayout(1,1));
-        panels.put("menuPanel", menuPanel);
-        panels.put("indicatorPanel", indicatorPanel);
+        elements.put("menuPanel", menuPanel);
+        elements.put("indicatorPanel", indicatorPanel);
     }
 
     public static int getWidth() {
@@ -82,10 +86,6 @@ public class Window {
 
     public static int getHeight() {
         return mainFrame.getHeight();
-    }
-
-    public static JFrame getMainFrame() {
-        return mainFrame;
     }
 
     public static JPanel getMenuWrapperPanel() {

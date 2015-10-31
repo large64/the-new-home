@@ -32,6 +32,7 @@ public class MasterRenderer {
     private static final float FOV = 70; // Field of view
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
+    private static boolean restart = false;
     private StaticShader shader = new StaticShader();
     private EntityRenderer renderer;
     private Matrix4f projectionMatrix;
@@ -148,7 +149,7 @@ public class MasterRenderer {
 
         // Set features of entities
         List<Entity> entities = new ArrayList<>();
-        TexturedModel tree = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
+        TexturedModel soldier = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
                 new ModelTexture(loader.loadTexture("soldier")));
 
         // Generate random coordinates for entities
@@ -159,8 +160,7 @@ public class MasterRenderer {
                 float y = map.getHeightOfMap(x, z);
                 x = random.nextFloat() * 400f;
                 z = random.nextFloat() * -400f;
-                y = map.getHeightOfMap(x, z);
-                entities.add(new Soldier(tree, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
+                entities.add(new Soldier(soldier, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
             }
         }
 
@@ -183,8 +183,17 @@ public class MasterRenderer {
 
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
+            if (restart) {
+                player.reset();
+                for (Entity entity : entities) {
+                    entity.reset();
+                }
+                restart = false;
+            }
+            else {
+                player.move();
+            }
             // Move the player per frame (and so the camera)
-            player.move();
             picker.update();
             Indicator.lookForChanges();
 
@@ -201,5 +210,9 @@ public class MasterRenderer {
         renderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
+    }
+
+    public static void restart() {
+        restart = true;
     }
 }

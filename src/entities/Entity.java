@@ -24,6 +24,10 @@ public class Entity {
         return (float) row / (float) model.getTexture().getNumberOfRows();
     }
 
+    public void reset() {
+
+    }
+
     public TexturedModel getModel() {
         return model;
     }

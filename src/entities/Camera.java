@@ -1,5 +1,6 @@
 package entities;
 
+import engineTester.MainGameLoop;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
@@ -20,6 +21,8 @@ public class Camera {
     private float yaw = 0;
     private float roll = 0;
 
+    private float newZoomDistance;
+
     private float displayHeight = Display.getHeight();
     private float displayWidth = Display.getWidth();
 
@@ -31,26 +34,31 @@ public class Camera {
     public void move() {
         if (Mouse.isButtonDown(0)) {
             isMouseGrabbed = true;
+            MainGameLoop.menuWrapperPanel.setVisible(false);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             isMouseGrabbed = false;
+            MainGameLoop.menuWrapperPanel.setVisible(true);
+            // @TODO: focus on menuWrapperPanel after pressing Esc key
+
         }
 
         if (isMouseGrabbed) {
             boolean move = false;
+            float changePositionBy = (0.6f - calculateMoveDamping(newZoomDistance));
 
             if (Mouse.getX() >= displayWidth - CURSOR_MARGIN) {
-                this.position.x += 0.6f;
+                this.position.x += changePositionBy;
                 move = true;
             } else if (Mouse.getX() <= CURSOR_MARGIN) {
-                this.position.x -= 0.6f;
+                this.position.x -= changePositionBy;
                 move = true;
             } else if (Mouse.getY() >= displayHeight - CURSOR_MARGIN) {
-                this.position.z -= 0.6f;
+                this.position.z -= changePositionBy;
                 move = true;
             } else if (Mouse.getY() <= CURSOR_MARGIN) {
-                this.position.z += 0.6f;
+                this.position.z += changePositionBy;
                 move = true;
             }
 
@@ -78,11 +86,18 @@ public class Camera {
 
     private void calculateZoom() {
         float zoomLevel = Mouse.getDWheel() * 0.008f;
-        float newZoomDistance = this.position.y - zoomLevel;
+        newZoomDistance = this.position.y - zoomLevel;
 
         if (newZoomDistance > MAX_ZOOM && newZoomDistance < MAX_BACK_ZOOM) {
             this.position.y -= zoomLevel;
             this.position.z -= zoomLevel;
         }
+    }
+
+    private float calculateMoveDamping(float newZoomDistance) {
+        // newZoomDistance is between MAX_ZOOM and MAX_BACK_ZOOM
+        // create number between 0 and 0.3 to subtract it from the default speed
+        // using formula (a + ((X - Xmin) * (b - a)/(Xmax - Xmin)))
+        return 0.3f + ((newZoomDistance - 5) * (0 - 0.3f) / (MAX_BACK_ZOOM - MAX_ZOOM));
     }
 }

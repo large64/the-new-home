@@ -32,7 +32,7 @@ public class Camera {
     public static boolean isMouseGrabbed = false;
 
     public Camera() {
-        this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_X);
+        this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     }
 
     public void move() {

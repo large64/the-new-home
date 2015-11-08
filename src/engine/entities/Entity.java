@@ -1,5 +1,6 @@
 package engine.entities;
 
+import engine.Map;
 import engine.toolbox.Position;
 
 /**
@@ -37,5 +38,26 @@ public class Entity {
 
     public void changeHealth(int by) {
         this.health += by;
+    }
+
+    public boolean isOnTheEdge() {
+        return this.position.getRow() == 0 || this.position.getColumn() == 0
+                || this.position.getRow() == Map.getRowNumber()|| this.position.getColumn() == Map.getRowNumber();
+    }
+
+    public boolean isOnTheLeftEdge() {
+        return (this.position.getColumn() == 0);
+    }
+
+    public boolean isOnTheRightEdge() {
+        return (this.position.getColumn() == Map.getRowNumber());
+    }
+
+    public boolean isOnTheTopEdge() {
+        return (this.position.getRow() == 0);
+    }
+
+    public boolean isOnTheBottomEdge() {
+        return (this.position.getRow() == Map.getRowNumber());
     }
 }

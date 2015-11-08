@@ -2,7 +2,7 @@ package main;
 
 import engine.Map;
 import engine.entities.Entity;
-import engine.toolbox.Position;
+import engine.entities.units.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,12 @@ public class Game {
         int to = 5;
 
         for (int i = 0; i < to; ++i) {
-            int posX = random.nextInt(rowsOfMap + 1);
-            int posZ = random.nextInt(rowsOfMap + 1);
-            Entity entity = new Entity(new Position(posX, posZ));
-            System.out.println(entity.toString());
-            entities.add(entity);
+            int rowPos = random.nextInt(rowsOfMap + 1);
+            int columnPos = random.nextInt(rowsOfMap + 1);
+            Unit unit = new Unit(rowPos, columnPos);
+            System.out.println(unit.toString());
+            entities.add(unit);
         }
-        Entity myEntity = new Entity(new Position(0, 0));
-        entities.add(myEntity);
         Game.map = new Map(entities);
 
         while (true) {
@@ -37,7 +35,7 @@ public class Game {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            ((Entity) entities.get(0)).getPosition().increase(0, 1);
+            ((Unit) entities.get(0)).stepTowards((Unit) entities.get(1));
             map.lookForChanges();
         }
     }

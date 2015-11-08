@@ -4,57 +4,49 @@ package engine.toolbox;
  * Created by Dénes on 2015. 11. 07..
  */
 public class Position {
-    // x points from left to right
-    // y points from bottom to top
-    // z points from camera into the distance
-    // now we use a flat terrain to represent the position of an entity on the map, so y is always going to be 0
-    private int x;
-    private int y;
-    private int z;
+    private int row;
+    private int column;
 
     public Position() {
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
+        this.row = 0;
+        this.column = 0;
     }
 
-    public Position(int x, int z) {
-        this.x = x;
-        this.z = z;
-        this.y = 0;
+    public Position(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
-    public void increase(int byX, int byZ) {
-        this.x += byX;
-        this.z += byZ;
+    public void increase(int byRow, int byColumn) {
+        this.row += byRow;
+        this.column += byColumn;
     }
 
     // Use this function to make code more readable for humans
-    public void decrease(int byX, int byZ) {
-        this.x -= byX;
-        this.z -= byZ;
+    public void decrease(int byRow, int byColumn) {
+        this.row -= byRow;
+        this.column -= byColumn;
     }
 
-    public void set(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    public void set(int row, int column) {
+        this.row = row;
+        this.column = column;
     }
 
     @Override
     public String toString() {
-        return "[" + this.x + ", " + this.y + ", " + this.z + "]";
+        return "[" + this.row + "," + this.column + "]";
     }
 
-    public int getX() {
-        return this.x;
+    public int getRow() {
+        return this.row;
     }
 
-    public int getZ() {
-        return this.z;
+    public int getColumn() {
+        return this.column;
     }
 
     public int convertToMatrixPosition(int size) {
-        return ((this.x) * size) + this.z;
+        return ((this.row) * size) + this.column;
     }
 }

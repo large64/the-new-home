@@ -11,10 +11,6 @@ public class Unit extends Entity {
         super(new Position(row, column));
     }
 
-    public void attack(Unit unit) {
-
-    }
-
     public void stepUp() {
         this.position.increase(-1, 0);
     }
@@ -27,6 +23,10 @@ public class Unit extends Entity {
         this.position.increase(0, -1);
     }
 
+    public void changeHealth(int by) {
+        super.changeHealth(by);
+    }
+
     public void stepRight() {
         this.position.increase(0, 1);
     }
@@ -34,25 +34,63 @@ public class Unit extends Entity {
     public void stepTowards(Entity entity) {
         int entityRow = entity.getPosition().getRow();
         int entityColumn = entity.getPosition().getColumn();
-        System.out.println(entity.isOnTheEdge());
 
         // x offset of entities relative to each other
         int rowOffset = entityRow - this.position.getRow();
         int columnOffset = entityColumn - this.position.getColumn();
 
-        if (!(Math.abs(rowOffset) == 1 || Math.abs(columnOffset) == 1)) {
-            if (rowOffset > 1) {
-                this.stepDown();
-            }
-            if (rowOffset < -1) {
+        //System.out.println(this.isNextToAnEntity(entity));
+
+        if (!this.isNextToAnEntity(entity)) {
+            if (rowOffset == -1 && columnOffset == -1) {
                 this.stepUp();
             }
-            if (columnOffset > 1) {
+            else if (rowOffset == 1 && columnOffset == 1) {
+                this.stepDown();
+            }
+            else if (rowOffset == 1 && columnOffset == -1) {
                 this.stepLeft();
             }
-            if (columnOffset < -1) {
+            else if (rowOffset == -1 && columnOffset == 1) {
                 this.stepRight();
             }
+            else if (rowOffset >= 1 && columnOffset <= -1) {
+                this.stepDown();
+                this.stepLeft();
+            }
+            else if (rowOffset >= 1 && columnOffset >= 1) {
+                this.stepDown();
+                this.stepRight();
+            }
+            else if (rowOffset <= -1 && columnOffset >= 1) {
+                this.stepUp();
+                this.stepRight();
+            }
+            else if (rowOffset <= -1 && columnOffset <= -1) {
+                this.stepUp();
+                this.stepLeft();
+            }
+            else if (rowOffset >= 1 && columnOffset == 0) {
+                this.stepDown();
+            }
+            else if (rowOffset == 0 && columnOffset >= 1) {
+                this.stepRight();
+            }
+            else if (rowOffset <= -1 && columnOffset == 0) {
+                this.stepUp();
+            }
+            else if (rowOffset == 0 && columnOffset <= -1) {
+                this.stepLeft();
+            }
+        }
+    }
+
+    public void attack(Entity entity) {
+        if (this.isNextToAnEntity(entity)) {
+            entity.changeHealth(10);
+        }
+        else {
+            stepTowards(entity);
         }
     }
 }

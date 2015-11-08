@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Dénes on 2015. 11. 06..
  */
 public class Map {
-    private static final int SIZE = 20;
+    private static final int SIZE = 40;
     private static int[][] places;
     private static List entities;
     private static JFrame frame;
@@ -71,7 +71,7 @@ public class Map {
     public static void lookForChanges() {
         panel.removeAll();
         init();
-        panel.repaint();
+        //panel.repaint();
         panel.revalidate();
     }
 

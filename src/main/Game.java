@@ -16,13 +16,13 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        Random random = new Random(6543);
+        Random random = new Random(6545);
         int rowsOfMap = Map.getRowNumber();
         int to = 5;
 
         for (int i = 0; i < to; ++i) {
-            int rowPos = random.nextInt(rowsOfMap + 1);
-            int columnPos = random.nextInt(rowsOfMap + 1);
+            int rowPos = random.nextInt(rowsOfMap);
+            int columnPos = random.nextInt(rowsOfMap);
             Unit unit = new Unit(rowPos, columnPos);
             System.out.println(unit.toString());
             entities.add(unit);
@@ -35,8 +35,9 @@ public class Game {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            ((Unit) entities.get(0)).stepTowards((Unit) entities.get(1));
-            map.lookForChanges();
+            ((Unit) entities.get(0)).attack((Entity) entities.get(2));
+            System.out.println((entities.get(2)).toString());
+            Map.lookForChanges();
         }
     }
 }

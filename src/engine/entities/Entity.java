@@ -13,6 +13,7 @@ public class Entity {
     protected Position position;
     private static final int DEFAULT_HEALTH = 100;
     private int health;
+    private boolean isBeingAttacked = false;
 
     public Entity() {
         counter++;
@@ -39,12 +40,6 @@ public class Entity {
         return (this.id + ": " + this.getPosition().toString() + " " + this.health);
     }
 
-    public void changeHealth(int by) {
-        if (this.health < 0) {
-            this.health += by;
-        }
-    }
-
     public boolean isOnTheEdge() {
         return this.position.getRow() == 0 || this.position.getColumn() == 0
                 || this.position.getRow() == (Map.getRowNumber() - 1)
@@ -67,5 +62,20 @@ public class Entity {
 
     public int getHealth() {
         return health;
+    }
+
+    public void setHealth(int by) {
+        this.health += by;
+        if (by < 0) {
+            this.isBeingAttacked = true;
+        }
+    }
+
+    public boolean isAlive() {
+        return (this.health > 0);
+    }
+
+    public boolean isBeingAttacked() {
+        return isBeingAttacked;
     }
 }

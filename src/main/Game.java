@@ -16,7 +16,7 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        Random random = new Random(6545);
+        Random random = new Random(6546);
         int rowsOfMap = Map.getRowNumber();
         int to = 5;
 
@@ -29,14 +29,27 @@ public class Game {
         }
         Game.map = new Map(entities);
 
+        Unit selectedUnit = (Unit) entities.get(0);
+
         while (true) {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            ((Unit) entities.get(0)).attack((Entity) entities.get(2));
-            System.out.println((entities.get(2)).toString());
+
+            if (((Unit) entities.get(1)).isAlive()) {
+                selectedUnit.attack((Unit) entities.get(1));
+            }
+            else if (((Unit) entities.get(2)).isAlive()) {
+                selectedUnit.attack((Unit) entities.get(2));
+            }
+            else if (((Unit) entities.get(3)).isAlive()) {
+                selectedUnit.attack((Unit) entities.get(3));
+            }
+            else if (((Unit) entities.get(4)).isAlive()) {
+                selectedUnit.attack((Unit) entities.get(4));
+            }
             Map.lookForChanges();
         }
     }

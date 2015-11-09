@@ -6,16 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Dénes on 2015. 11. 06..
  */
 public class Map {
-    private static final int SIZE = 40;
+    private static final int SIZE = 20;
     private static int[][] places;
     private static List entities;
     private static JFrame frame;
@@ -34,7 +32,7 @@ public class Map {
         panel.setLayout(gridLayout);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
-        init();
+        repaint();
         frame.add(panel);
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -51,7 +49,7 @@ public class Map {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private static void init() {
+    private static void repaint() {
         for (int j = 0; j < getSize(); j++) {
             JTextPane toAdd = new JTextPane();
             toAdd.setEnabled(false);
@@ -60,8 +58,13 @@ public class Map {
 
             for (int i = 0; i < entities.size(); ++i) {
                 Entity entity = (Entity) entities.get(i);
-                if (entity.getPosition().convertToMatrixPosition(SIZE) == j) {
-                    toAdd.setText(entity.getID());
+                if (entity.isAlive() && entity.getPosition().convertToMatrixPosition(SIZE) == j) {
+                    String text = entity.getID();
+                    if (entity.isBeingAttacked()) {
+                        toAdd.setBackground(new Color(255, 0, 27));
+                        text += " " + entity.getHealth();
+                    }
+                    toAdd.setText(text);
                 }
             }
             panel.add(toAdd);
@@ -70,8 +73,7 @@ public class Map {
 
     public static void lookForChanges() {
         panel.removeAll();
-        init();
-        //panel.repaint();
+        repaint();
         panel.revalidate();
     }
 

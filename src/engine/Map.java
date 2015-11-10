@@ -4,9 +4,7 @@ import engine.entities.Entity;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.util.List;
 
 /**
@@ -18,6 +16,7 @@ public class Map {
     private static List entities;
     private static JFrame frame;
     private static JPanel panel;
+    private static final Color DEFAULT_COLOR = new Color(209, 209, 209);
 
     public Map(List entities) {
         places = new int[SIZE][SIZE];
@@ -32,7 +31,7 @@ public class Map {
         panel.setLayout(gridLayout);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
-        repaint();
+        repaint(true);
         frame.add(panel);
         frame.addKeyListener(new KeyAdapter() {
             @Override
@@ -44,14 +43,27 @@ public class Map {
                 //System.out.println(e.getKeyCode());
             }
         });
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                System.out.println(e.getClickCount());
+            }
+        });
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    private static void repaint() {
+    private static void repaint(boolean first) {
         for (int j = 0; j < getSize(); j++) {
-            JTextPane toAdd = new JTextPane();
+            JTextPane toAdd;
+            if (first) {
+                toAdd = new JTextPane();
+            }
+            else {
+                toAdd = (JTextPane) panel.getComponent(j);
+            }
+
             toAdd.setEnabled(false);
             toAdd.setDisabledTextColor(new Color(0, 0, 0));
             toAdd.setText("");
@@ -61,19 +73,23 @@ public class Map {
                 if (entity.isAlive() && entity.getPosition().convertToMatrixPosition(SIZE) == j) {
                     String text = entity.getID();
                     if (entity.isBeingAttacked()) {
-                        toAdd.setBackground(new Color(255, 0, 27));
                         text += " " + entity.getHealth();
+                    }
+                    else {
+                        entity.setBeingAttacked(false);
                     }
                     toAdd.setText(text);
                 }
             }
-            panel.add(toAdd);
+            if (first) {
+                panel.add(toAdd);
+            }
         }
     }
 
     public static void lookForChanges() {
-        panel.removeAll();
-        repaint();
+        //panel.removeAll();
+        repaint(false);
         panel.revalidate();
     }
 

@@ -78,4 +78,8 @@ public class Entity {
     public boolean isBeingAttacked() {
         return isBeingAttacked;
     }
+
+    public void setBeingAttacked(boolean beingAttacked) {
+        isBeingAttacked = beingAttacked;
+    }
 }

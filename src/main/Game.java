@@ -25,7 +25,10 @@ public class Game {
             int columnPos = random.nextInt(rowsOfMap);
             Unit unit;
             if (i == 3) {
-                unit = new Unit(9, 9);
+                unit = new Unit(8, 8);
+            }
+            else if (i == 0) {
+                unit = new Unit(2, 2);
             }
             else {
                 unit = new Unit(rowPos, columnPos);

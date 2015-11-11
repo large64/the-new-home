@@ -110,7 +110,6 @@ public class Unit extends Entity {
 
     public void step() {
         if (this.nextStep != null) {
-            System.out.println("stepping " + this.nextStep);
             switch (this.nextStep) {
                 case UP:
                     if (Map.isPositionFree(
@@ -153,6 +152,9 @@ public class Unit extends Entity {
                             new Position(this.getPosition().getRow() + 1, this.getPosition().getColumn() + 1)
                     )) {
                         this.stepDown();
+                        this.stepRight();
+                    }
+                    else {
                         this.stepRight();
                     }
                     break;

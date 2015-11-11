@@ -51,6 +51,7 @@ public class Map {
     private static void repaint(boolean first) {
         for (int i = 0; i < getSize(); i++) {
             JTextPane toAdd;
+            places[i] = true;
             if (first) {
                 toAdd = new JTextPane();
             }
@@ -74,9 +75,6 @@ public class Map {
                     }
                     toAdd.setText(text);
                     places[i] = false;
-                }
-                else {
-                    places[i] = true;
                 }
             }
             if (first) {

@@ -1,6 +1,7 @@
 package engine;
 
 import engine.entities.Entity;
+import engine.toolbox.Position;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,14 +13,13 @@ import java.util.List;
  */
 public class Map {
     private static final int SIZE = 20;
-    private static int[][] places;
+    private static boolean[] places;
     private static List entities;
     private static JFrame frame;
     private static JPanel panel;
-    private static final Color DEFAULT_COLOR = new Color(209, 209, 209);
 
     public Map(List entities) {
-        places = new int[SIZE][SIZE];
+        places = new boolean[SIZE * SIZE];
         frame = new JFrame("The New Home - engine tester");
         Map.entities = entities;
 
@@ -43,34 +43,28 @@ public class Map {
                 //System.out.println(e.getKeyCode());
             }
         });
-        frame.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                System.out.println(e.getClickCount());
-            }
-        });
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private static void repaint(boolean first) {
-        for (int j = 0; j < getSize(); j++) {
+        for (int i = 0; i < getSize(); i++) {
             JTextPane toAdd;
             if (first) {
                 toAdd = new JTextPane();
             }
             else {
-                toAdd = (JTextPane) panel.getComponent(j);
+                toAdd = (JTextPane) panel.getComponent(i);
             }
 
             toAdd.setEnabled(false);
             toAdd.setDisabledTextColor(new Color(0, 0, 0));
             toAdd.setText("");
 
-            for (int i = 0; i < entities.size(); ++i) {
-                Entity entity = (Entity) entities.get(i);
-                if (entity.isAlive() && entity.getPosition().convertToMatrixPosition(SIZE) == j) {
+            for (int j = 0; j < entities.size(); ++j) {
+                Entity entity = (Entity) entities.get(j);
+                if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
                     String text = entity.getID();
                     if (entity.isBeingAttacked()) {
                         text += " " + entity.getHealth();
@@ -79,6 +73,10 @@ public class Map {
                         entity.setBeingAttacked(false);
                     }
                     toAdd.setText(text);
+                    places[i] = false;
+                }
+                else {
+                    places[i] = true;
                 }
             }
             if (first) {
@@ -102,5 +100,13 @@ public class Map {
      */
     public static int getRowNumber() {
         return SIZE;
+    }
+
+    public static List getEntities() {
+        return entities;
+    }
+
+    public static boolean isPositionFree(Position position) {
+        return places[position.convertToMatrixPosition()];
     }
 }

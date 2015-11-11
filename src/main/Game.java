@@ -23,7 +23,13 @@ public class Game {
         for (int i = 0; i < to; ++i) {
             int rowPos = random.nextInt(rowsOfMap);
             int columnPos = random.nextInt(rowsOfMap);
-            Unit unit = new Unit(rowPos, columnPos);
+            Unit unit;
+            if (i == 3) {
+                unit = new Unit(9, 9);
+            }
+            else {
+                unit = new Unit(rowPos, columnPos);
+            }
             System.out.println(unit.toString());
             entities.add(unit);
         }
@@ -38,7 +44,7 @@ public class Game {
                 e.printStackTrace();
             }
 
-            if (((Unit) entities.get(1)).isAlive()) {
+            /*if (((Unit) entities.get(1)).isAlive()) {
                 selectedUnit.attack((Unit) entities.get(1));
             }
             else if (((Unit) entities.get(2)).isAlive()) {
@@ -49,7 +55,8 @@ public class Game {
             }
             else if (((Unit) entities.get(4)).isAlive()) {
                 selectedUnit.attack((Unit) entities.get(4));
-            }
+            }*/
+            selectedUnit.stepTowards((Unit) entities.get(1));
             Map.lookForChanges();
         }
     }

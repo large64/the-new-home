@@ -1,5 +1,7 @@
 package engine.toolbox;
 
+import engine.Map;
+
 /**
  * Created by Dénes on 2015. 11. 07..
  */
@@ -46,7 +48,7 @@ public class Position {
         return this.column;
     }
 
-    public int convertToMatrixPosition(int size) {
-        return ((this.row) * size) + this.column;
+    public int convertToMatrixPosition() {
+        return ((this.row) * Map.getRowNumber()) + this.column;
     }
 }

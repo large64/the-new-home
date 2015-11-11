@@ -82,4 +82,14 @@ public class Entity {
     public void setBeingAttacked(boolean beingAttacked) {
         isBeingAttacked = beingAttacked;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        Entity entity = (Entity) object;
+        if (entity.getID().equals(this.getID())) {
+            return true;
+        }
+
+        return false;
+    }
 }

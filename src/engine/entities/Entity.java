@@ -41,9 +41,17 @@ public class Entity {
     }
 
     public boolean isOnTheEdge() {
-        return this.position.getRow() == 0 || this.position.getColumn() == 0
+        return this.position.getRow() == 1 || this.position.getColumn() == 1
                 || this.position.getRow() == (Map.getRowNumber() - 1)
                 || this.position.getColumn() == (Map.getRowNumber() - 1);
+    }
+
+    public boolean isOnTheRightEdge() {
+        return this.position.getColumn() == Map.getRowNumber() - 1;
+    }
+
+    public boolean isOnTheLeftEdge() {
+        return (this.position.getColumn() == 0);
     }
 
     public boolean isNextToAnEntity(Entity entity) {

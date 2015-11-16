@@ -20,25 +20,22 @@ public class Game {
         int rowsOfMap = Map.getRowNumber();
         int to = 5;
 
-        for (int i = 0; i < to; ++i) {
-            int rowPos = random.nextInt(rowsOfMap);
-            int columnPos = random.nextInt(rowsOfMap);
-            Unit unit;
-            if (i == 3) {
-                unit = new Unit(8, 8);
-            }
-            else if (i == 0) {
-                unit = new Unit(2, 2);
-            }
-            else {
-                unit = new Unit(rowPos, columnPos);
-            }
-            System.out.println(unit.toString());
-            entities.add(unit);
-        }
-        Game.map = new Map(entities);
+        Unit unit0 = new Unit(0, 0);
+        entities.add(unit0);
 
-        Unit selectedUnit = (Unit) entities.get(0);
+        Unit unit1 = new Unit(1, 0);
+        entities.add(unit1);
+
+        Unit unit2 = new Unit(1, 1);
+        entities.add(unit2);
+
+        Unit unit3 = new Unit(1, 2);
+        entities.add(unit3);
+
+        Unit selectedUnit = new Unit(3, 2);
+        entities.add(selectedUnit);
+
+        Game.map = new Map(entities);
 
         while (true) {
             try {
@@ -59,7 +56,7 @@ public class Game {
             else if (((Unit) entities.get(4)).isAlive()) {
                 selectedUnit.attack((Unit) entities.get(4));
             }*/
-            selectedUnit.stepTowards((Unit) entities.get(1));
+            selectedUnit.stepTowards((Unit) entities.get(0));
             Map.lookForChanges();
         }
     }

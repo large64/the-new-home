@@ -53,8 +53,6 @@ public class Unit extends Entity {
         int rowOffset = entityRow - this.position.getRow();
         int columnOffset = entityColumn - this.position.getColumn();
 
-        //System.out.println(this.isNextToAnEntity(entity));
-
         if (!this.isNextToAnEntity(entity)) {
             if (rowOffset == -1 && columnOffset == -1) {
                 this.nextStep = Step.UP;
@@ -126,29 +124,12 @@ public class Unit extends Entity {
             switch (this.nextStep) {
                 case UP:
                     if (Map.isPositionFree(
-                            new Position(this.getPosition().getRow() - 1, this.getPosition().getColumn())
+                            new Position(currentPositionRow - 1, currentPositionColumn)
                     )) {
                         this.stepUp();
                     }
-                    else if (Map.isPositionFree(new Position(currentPositionRow - 1, currentPositionColumn + 1))) {
-                        this.stepRight();
-                        this.stepUp();
-                    }
-                    else if (this.horizontalBypassStrategy == HorizontalBypassStrategy.LEFT){
-                        if (this.isOnTheLeftEdge()) {
-                            this.horizontalBypassStrategy = HorizontalBypassStrategy.RIGHT;
-                        }
-                        else {
-                            stepLeft();
-                        }
-                    }
                     else {
-                        if (this.isOnTheRightEdge()) {
-                            this.horizontalBypassStrategy = HorizontalBypassStrategy.LEFT;
-                        }
-                        else {
-                            stepRight();
-                        }
+                        lookAround(currentPositionRow, currentPositionColumn);
                     }
                     break;
                 case DOWN:
@@ -197,6 +178,9 @@ public class Unit extends Entity {
                         this.stepUp();
                         this.stepRight();
                     }
+                    else {
+                        this.stepUp();
+                    }
                     break;
                 case UP_LEFT:
                     if (Map.isPositionFree(
@@ -205,33 +189,55 @@ public class Unit extends Entity {
                         this.stepUp();
                         this.stepLeft();
                     }
-                    else if (Map.isPositionFree(new Position(currentPositionRow - 1, currentPositionColumn))) {
-                        this.stepUp();
-                    }
-                    else if (Map.isPositionFree(new Position(currentPositionRow - 1, currentPositionColumn + 1))) {
-                        this.stepUp();
-                        this.stepRight();
-                    }
-                    // @TODO get this code out of this mehtod, put it into a new one
-                    // @TODO read about way-finding algorithms
-                    else if (this.horizontalBypassStrategy == HorizontalBypassStrategy.LEFT){
-                        if (this.isOnTheLeftEdge()) {
-                            this.horizontalBypassStrategy = HorizontalBypassStrategy.RIGHT;
-                        }
-                        else {
-                            stepLeft();
-                        }
-                    }
-                    else {
-                        if (this.isOnTheRightEdge()) {
-                            this.horizontalBypassStrategy = HorizontalBypassStrategy.LEFT;
-                        }
-                        else {
-                            stepRight();
-                        }
-                    }
                     break;
             }
+        }
+    }
+
+    private void switchStrategy() {
+        if (this.horizontalBypassStrategy == HorizontalBypassStrategy.LEFT){
+            if (this.isOnTheLeftEdge()) {
+                this.horizontalBypassStrategy = HorizontalBypassStrategy.RIGHT;
+            }
+            else {
+                stepLeft();
+            }
+        }
+        else {
+            if (this.isOnTheRightEdge()) {
+                this.horizontalBypassStrategy = HorizontalBypassStrategy.LEFT;
+            }
+            else {
+                stepRight();
+            }
+        }
+    }
+    private void lookAround(int positionRow, int positionColumn) {
+        switch (this.nextStep) {
+            case UP:
+                if (Map.isPositionFree(new Position(positionRow - 1, positionColumn -1))) {
+                    this.stepUp();
+                    this.stepLeft();
+                }
+                else if (Map.isPositionFree(new Position(positionRow - 1, positionColumn + 1))) {
+                    this.stepUp();
+                    this.stepRight();
+                }
+                else {
+                    switchStrategy();
+                }
+                break;
+            case UP_LEFT:
+                if (Map.isPositionFree(new Position(positionRow, positionColumn - 1))) {
+                    this.stepLeft();
+                }
+                else if (Map.isPositionFree(new Position(positionRow - 1, positionColumn))) {
+                    this.stepUp();
+                }
+                else {
+                    switchStrategy();
+                }
+                break;
         }
     }
 }

@@ -16,26 +16,35 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        Random random = new Random(6546);
+        Random random = new Random(6547);
         int rowsOfMap = Map.getRowNumber();
         int to = 5;
 
-        Unit unit0 = new Unit(0, 0);
+        Unit unit0 = new Unit(rowsOfMap - 10, rowsOfMap - 10);
         entities.add(unit0);
 
-        Unit unit1 = new Unit(1, 0);
+        Unit unit1 = new Unit(11, 10);
         entities.add(unit1);
 
-        Unit unit2 = new Unit(1, 1);
+        Unit unit2 = new Unit(11, 11);
         entities.add(unit2);
 
-        Unit unit3 = new Unit(1, 2);
+        Unit unit3 = new Unit(11, 9);
         entities.add(unit3);
 
-        Unit selectedUnit = new Unit(3, 2);
+        /*for (int i = 1; i < rowsOfMap + 5; ++i) {
+            Unit unit = new Unit(random.nextInt(Map.getRowNumber()), random.nextInt(Map.getRowNumber()));
+            entities.add(unit);
+        }*/
+
+        Unit selectedUnit = new Unit(13, 10);
         entities.add(selectedUnit);
 
         Game.map = new Map(entities);
+
+        for (Object entity : entities) {
+            System.out.println(entity.toString());
+        }
 
         while (true) {
             try {

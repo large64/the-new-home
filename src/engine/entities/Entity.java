@@ -62,6 +62,10 @@ public class Entity {
         int rowOffset = entityRow - this.position.getRow();
         int columnOffset = entityColumn - this.position.getColumn();
 
+        if (this.getID().equals("entity20")) {
+            this.getID();
+        }
+
         return (((rowOffset == 1) && (columnOffset == 0)) ||
                 ((columnOffset == 1) && (rowOffset == 0)) ||
                 ((rowOffset == -1) && (columnOffset == 0)) ||

@@ -51,4 +51,14 @@ public class Position {
     public int convertToMatrixPosition() {
         return ((this.row) * Map.getRowNumber()) + this.column;
     }
+
+    public boolean isBlocked() {
+        return (
+                this.row == Map.getRowNumber()
+                || this.row == 0
+                || this.column == Map.getRowNumber()
+                || this.column == 0
+                || !Map.isPositionFree(this)
+                );
+    }
 }

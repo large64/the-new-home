@@ -4,6 +4,7 @@ import engine.Map;
 import engine.entities.Entity;
 import engine.toolbox.Position;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -21,8 +22,38 @@ public class Unit extends Entity {
     private enum VerticalBypassStrategy {
         UP, DOWN
     }
+
+    private class PathPosition {
+        public int row;
+        public int column;
+        public int counter;
+
+        public PathPosition(int row, int column, int counter) {
+            this.column = column;
+            this.row = row;
+            this.counter = counter;
+        }
+
+        @Override
+        public boolean equals(Object object) {
+            if (object != null) {
+                PathPosition position = (PathPosition) object;
+                if (position.column == this.column && position.row == this.row) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + row + ", " + column + "] " + counter;
+        }
+    }
     private Step nextStep;
     private HorizontalBypassStrategy horizontalBypassStrategy;
+    private LinkedList<PathPosition> path = new LinkedList();
+    int counter = 0;
 
     public Unit(int row, int column) {
         super(new Position(row, column));
@@ -46,7 +77,63 @@ public class Unit extends Entity {
     }
 
     public void stepTowards(Entity entity) {
-        int entityRow = entity.getPosition().getRow();
+        if (path.isEmpty()) {
+            path.add(new PathPosition(
+                    entity.getPosition().getRow(),
+                    entity.getPosition().getColumn(),
+                    counter
+            ));
+        }
+
+        counter++;
+
+        for (int i = 0; i < path.size(); ++i) {
+            PathPosition pathElement = (PathPosition) path.get(i);
+            LinkedList<PathPosition> neighbors = new LinkedList<>();
+
+            neighbors.add(new PathPosition(
+                    pathElement.row,
+                    pathElement.column - 1,
+                    counter
+            ));
+
+            neighbors.add(new PathPosition(
+                    pathElement.row + 1,
+                    pathElement.column,
+                    counter
+            ));
+
+            neighbors.add(new PathPosition(
+                    pathElement.row,
+                    pathElement.column + 1,
+                    counter
+            ));
+
+            neighbors.add(new PathPosition(
+                    pathElement.row - 1,
+                    pathElement.column,
+                    counter
+            ));
+
+            for (int j = 0; j < neighbors.size(); j++) {
+                PathPosition neighborElement = neighbors.get(j);
+                Position neighborPosition = new Position(neighborElement.row, neighborElement.column);
+                if (neighborPosition.isBlocked()) {
+                    path.remove(neighborElement);
+                }
+                else if (path.contains(neighborElement)) {
+                    if (neighborPosition.equals(new Position(pathElement.row, pathElement.column)) && neighbors.get(j).counter >= pathElement.counter) {
+                        path.remove(neighborElement);
+                    }
+                }
+                else {
+                    path.add(neighborElement);
+                }
+            }
+        }
+
+        path = path;
+        /*int entityRow = entity.getPosition().getRow();
         int entityColumn = entity.getPosition().getColumn();
 
         // x offset of entities relative to each other
@@ -81,7 +168,7 @@ public class Unit extends Entity {
             }
 
             step();
-        }
+        }*/
     }
 
     public void attack(Entity entity) {

@@ -12,7 +12,7 @@ import java.util.List;
  * Created by Dénes on 2015. 11. 06..
  */
 public class Map {
-    private static final int SIZE = 20;
+    private static final int SIZE = 5;
     private static boolean[] places;
     private static List entities;
     private static JFrame frame;

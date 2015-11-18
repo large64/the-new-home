@@ -52,7 +52,7 @@ public class Unit extends Entity {
     }
     private Step nextStep;
     private HorizontalBypassStrategy horizontalBypassStrategy;
-    private LinkedList<PathPosition> path = new LinkedList();
+    public static LinkedList<PathPosition> path = new LinkedList();
     int counter = 0;
 
     public Unit(int row, int column) {
@@ -81,38 +81,51 @@ public class Unit extends Entity {
             path.add(new PathPosition(
                     entity.getPosition().getRow(),
                     entity.getPosition().getColumn(),
-                    counter
+                    0
             ));
         }
 
-        counter++;
-
         for (int i = 0; i < path.size(); ++i) {
-            PathPosition pathElement = (PathPosition) path.get(i);
+            PathPosition pathElement = path.get(i);
             LinkedList<PathPosition> neighbors = new LinkedList<>();
+
+            Position temporaryPosition = new Position(pathElement.row, pathElement.column);
+            if (temporaryPosition.isBlocked()) {
+                path.remove(i);
+            }
+            else if (path.contains(pathElement)) {
+                for (PathPosition aPath : path) {
+                    if (aPath.equals(pathElement) && aPath.counter >= pathElement.counter) {
+                        path.remove(i);
+                    }
+                }
+            }
+            else {
+                path.add(pathElement);
+            }
 
             neighbors.add(new PathPosition(
                     pathElement.row,
                     pathElement.column - 1,
-                    counter
+                    i + 1
             ));
 
             neighbors.add(new PathPosition(
                     pathElement.row + 1,
                     pathElement.column,
-                    counter
+                    i + 1
             ));
 
             neighbors.add(new PathPosition(
                     pathElement.row,
                     pathElement.column + 1,
-                    counter
+                    i + 1
             ));
 
             neighbors.add(new PathPosition(
                     pathElement.row - 1,
                     pathElement.column,
-                    counter
+                    i + 1
             ));
 
             for (int j = 0; j < neighbors.size(); j++) {
@@ -122,17 +135,19 @@ public class Unit extends Entity {
                     path.remove(neighborElement);
                 }
                 else if (path.contains(neighborElement)) {
-                    if (neighborPosition.equals(new Position(pathElement.row, pathElement.column)) && neighbors.get(j).counter >= pathElement.counter) {
-                        path.remove(neighborElement);
+                    for (PathPosition aPath : path) {
+                        if (aPath.equals(neighborElement) && aPath.counter >= neighborElement.counter) {
+                            path.remove(i);
+                        }
                     }
                 }
                 else {
                     path.add(neighborElement);
                 }
             }
+            //Map.lookForChanges();
         }
 
-        path = path;
         /*int entityRow = entity.getPosition().getRow();
         int entityColumn = entity.getPosition().getColumn();
 

@@ -37,27 +37,6 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        while (true) {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            /*if (((Unit) entities.get(1)).isAlive()) {
-                selectedUnit.attack((Unit) entities.get(1));
-            }
-            else if (((Unit) entities.get(2)).isAlive()) {
-                selectedUnit.attack((Unit) entities.get(2));
-            }
-            else if (((Unit) entities.get(3)).isAlive()) {
-                selectedUnit.attack((Unit) entities.get(3));
-            }
-            else if (((Unit) entities.get(4)).isAlive()) {
-                selectedUnit.attack((Unit) entities.get(4));
-            }*/
-            selectedUnit.stepTowards(destination);
-            Map.lookForChanges();
-        }
+        selectedUnit.stepTowards(destination);
     }
 }

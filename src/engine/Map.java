@@ -43,9 +43,9 @@ public class Map {
                 //System.out.println(e.getKeyCode());
             }
         });
-        frame.pack();
+        /*frame.pack();
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
     }
 
     private static void repaint(boolean first) {

@@ -4,6 +4,8 @@ import engine.Map;
 import engine.entities.Entity;
 import engine.toolbox.Position;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,7 +54,7 @@ public class Unit extends Entity {
     }
     private Step nextStep;
     private HorizontalBypassStrategy horizontalBypassStrategy;
-    public static LinkedList<PathPosition> path = new LinkedList();
+    public static List<PathPosition> path = new ArrayList<>();
     int counter = 0;
 
     public Unit(int row, int column) {
@@ -89,21 +91,6 @@ public class Unit extends Entity {
             PathPosition pathElement = path.get(i);
             LinkedList<PathPosition> neighbors = new LinkedList<>();
 
-            Position temporaryPosition = new Position(pathElement.row, pathElement.column);
-            if (temporaryPosition.isBlocked()) {
-                path.remove(i);
-            }
-            else if (path.contains(pathElement)) {
-                for (PathPosition aPath : path) {
-                    if (aPath.equals(pathElement) && aPath.counter >= pathElement.counter) {
-                        path.remove(i);
-                    }
-                }
-            }
-            else {
-                path.add(pathElement);
-            }
-
             neighbors.add(new PathPosition(
                     pathElement.row,
                     pathElement.column - 1,
@@ -128,25 +115,26 @@ public class Unit extends Entity {
                     i + 1
             ));
 
-            for (int j = 0; j < neighbors.size(); j++) {
-                PathPosition neighborElement = neighbors.get(j);
+            for (Iterator<PathPosition> iterator = neighbors.iterator(); iterator.hasNext();) {
+                PathPosition neighborElement = iterator.next();
                 Position neighborPosition = new Position(neighborElement.row, neighborElement.column);
+
                 if (neighborPosition.isBlocked()) {
-                    path.remove(neighborElement);
+                    iterator.remove();
                 }
                 else if (path.contains(neighborElement)) {
                     for (PathPosition aPath : path) {
-                        if (aPath.equals(neighborElement) && aPath.counter >= neighborElement.counter) {
-                            path.remove(i);
+                        if (aPath.equals(neighborElement) && aPath.counter <= neighborElement.counter) {
+                            iterator.remove();
                         }
                     }
                 }
-                else {
-                    path.add(neighborElement);
-                }
             }
+
+            path.addAll(neighbors);
             //Map.lookForChanges();
         }
+        path = path;
 
         /*int entityRow = entity.getPosition().getRow();
         int entityColumn = entity.getPosition().getColumn();

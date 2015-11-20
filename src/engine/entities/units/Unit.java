@@ -77,12 +77,12 @@ public class Unit extends Entity {
                     continue;
                 }
 
-                int gCost = current.gCost + neighbor.getgCost();
+                int gCost = current.gCost + neighbor.getgCost(current);
                 boolean isgCostBest = false;
 
                 if (!open.contains(neighbor)) {
                     isgCostBest = true;
-                    neighbor.gethCost(neighborPosition, entity.getPosition());
+                    neighbor.hCost = neighbor.gethCost(neighborPosition, entity.getPosition());
                     open.add(neighbor);
                 }
                 else if (gCost < neighbor.gCost) {

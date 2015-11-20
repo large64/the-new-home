@@ -55,9 +55,10 @@ public class Position {
     public boolean isBlocked() {
         return (
                 this.row >= Map.getRowNumber()
-                || this.row <= 0
+                || this.row < 0
                 || this.column >= Map.getRowNumber()
-                || this.column <= 0
+                || this.column < 0
+                || !Map.isPositionFree(new Position(row, column))
                 );
     }
 }

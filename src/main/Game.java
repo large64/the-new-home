@@ -25,11 +25,14 @@ public class Game {
             entities.add(unit);
         }*/
 
-        Unit selectedUnit = new Unit(0, 0);
+        Unit selectedUnit = new Unit(0, 3);
         entities.add(selectedUnit);
 
-        Unit destination = new Unit(4, 4);
+        Unit destination = new Unit(1, 0);
         entities.add(destination);
+
+        Unit anotherEntity = new Unit(0, 2);
+        entities.add(anotherEntity);
 
         Game.map = new Map(entities);
 

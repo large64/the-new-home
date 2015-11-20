@@ -25,9 +25,6 @@ public class Node {
         this.row = row;
     }
 
-    public void updateCosts(Position start, Position destination) {
-    }
-
     public List getNeighbors() {
         neighbors.clear();
 
@@ -74,28 +71,16 @@ public class Node {
         return neighbors;
     }
 
-    public int getDistanceToThisNode() {
-        int distance = 0;
-        Node current = this;
-        while (parent != null) {
-            distance += current.gCost;
-            current = current.parent;
-        }
-        return distance;
-    }
-
-    public int getgCost() {
-        if (row != 0 && column != 0) {
-            this.gCost = 14;
+    public int getgCost(Node current) {
+        int rowOffset = Math.abs(current.row - this.row);
+        int columnOffset = Math.abs(current.column - this.column);
+        if (rowOffset != 0 && columnOffset != 0) {
             return 14;
         }
-        else {
-            this.gCost = 10;
-            return 10;
-        }
+        return 10;
     }
 
-    public int gethCost(Position position1, Position position2) {
+    public static int gethCost(Position position1, Position position2) {
         int distance1 = Math.abs(position1.getRow() - position2.getRow());
         int distance2 = Math.abs(position1.getColumn() - position2.getColumn());
         return distance1 + distance2;
@@ -114,6 +99,6 @@ public class Node {
 
     @Override
     public String toString() {
-        return "[" + row + ", " + column + "] ";
+        return "[" + row + ", " + column + "]";
     }
 }

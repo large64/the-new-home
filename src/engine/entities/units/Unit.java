@@ -2,12 +2,10 @@ package engine.entities.units;
 
 import engine.Map;
 import engine.entities.Entity;
+import engine.toolbox.Node;
 import engine.toolbox.Position;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Dénes on 2015. 11. 06..
@@ -17,49 +15,8 @@ public class Unit extends Entity {
         UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT
     }
 
-    private enum HorizontalBypassStrategy {
-        LEFT, RIGHT
-    }
-
-    private enum VerticalBypassStrategy {
-        UP, DOWN
-    }
-
-    private class PathPosition {
-        public int row;
-        public int column;
-        public int counter;
-
-        public PathPosition(int row, int column, int counter) {
-            this.column = column;
-            this.row = row;
-            this.counter = counter;
-        }
-
-        @Override
-        public boolean equals(Object object) {
-            if (object != null) {
-                PathPosition position = (PathPosition) object;
-                if (position.column == this.column && position.row == this.row) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public String toString() {
-            return "[" + row + ", " + column + "] " + counter;
-        }
-    }
-    private Step nextStep;
-    private HorizontalBypassStrategy horizontalBypassStrategy;
-    public static List<PathPosition> path = new ArrayList<>();
-    int counter = 0;
-
     public Unit(int row, int column) {
         super(new Position(row, column));
-        this.horizontalBypassStrategy = HorizontalBypassStrategy.LEFT;
     }
 
     public void stepUp() {
@@ -79,99 +36,66 @@ public class Unit extends Entity {
     }
 
     public void stepTowards(Entity entity) {
-        if (path.isEmpty()) {
-            path.add(new PathPosition(
-                    entity.getPosition().getRow(),
-                    entity.getPosition().getColumn(),
-                    0
-            ));
-        }
+        Queue<Node> open = new LinkedList<>();
+        Queue<Node> closed = new LinkedList<>();
 
-        for (int i = 0; i < path.size(); ++i) {
-            PathPosition pathElement = path.get(i);
-            LinkedList<PathPosition> neighbors = new LinkedList<>();
+        Node startPosition = new Node(this.getPosition().getRow(), this.getPosition().getColumn());
+        open.add(startPosition);
 
-            neighbors.add(new PathPosition(
-                    pathElement.row,
-                    pathElement.column - 1,
-                    i + 1
-            ));
+        Iterator<Node> iterator = open.iterator();
+        while (!open.isEmpty() || iterator.hasNext()) {
+            Node current = open.poll();
+            int min = 0;
 
-            neighbors.add(new PathPosition(
-                    pathElement.row + 1,
-                    pathElement.column,
-                    i + 1
-            ));
-
-            neighbors.add(new PathPosition(
-                    pathElement.row,
-                    pathElement.column + 1,
-                    i + 1
-            ));
-
-            neighbors.add(new PathPosition(
-                    pathElement.row - 1,
-                    pathElement.column,
-                    i + 1
-            ));
-
-            for (Iterator<PathPosition> iterator = neighbors.iterator(); iterator.hasNext();) {
-                PathPosition neighborElement = iterator.next();
-                Position neighborPosition = new Position(neighborElement.row, neighborElement.column);
-
-                if (neighborPosition.isBlocked()) {
-                    iterator.remove();
-                }
-                else if (path.contains(neighborElement)) {
-                    for (PathPosition aPath : path) {
-                        if (aPath.equals(neighborElement) && aPath.counter <= neighborElement.counter) {
-                            iterator.remove();
-                        }
-                    }
+            for (Node node : open) {
+                if (node.fCost < min) {
+                    current = node;
+                    min = node.fCost;
                 }
             }
 
-            path.addAll(neighbors);
-            //Map.lookForChanges();
-        }
-        path = path;
-
-        /*int entityRow = entity.getPosition().getRow();
-        int entityColumn = entity.getPosition().getColumn();
-
-        // x offset of entities relative to each other
-        int rowOffset = entityRow - this.position.getRow();
-        int columnOffset = entityColumn - this.position.getColumn();
-
-        if (!this.isNextToAnEntity(entity)) {
-            if (rowOffset == -1 && columnOffset == -1) {
-                this.nextStep = Step.UP;
-            } else if (rowOffset == 1 && columnOffset == 1) {
-                this.nextStep = Step.DOWN;
-            } else if (rowOffset == 1 && columnOffset == -1) {
-                this.nextStep = Step.LEFT;
-            } else if (rowOffset == -1 && columnOffset == 1) {
-                this.nextStep = Step.RIGHT;
-            } else if (rowOffset >= 1 && columnOffset <= -1) {
-                this.nextStep = Step.DOWN_LEFT;
-            } else if (rowOffset >= 1 && columnOffset >= 1) {
-                this.nextStep = Step.DOWN_RIGHT;
-            } else if (rowOffset <= -1 && columnOffset >= 1) {
-                this.nextStep = Step.UP_RIGHT;
-            } else if (rowOffset <= -1 && columnOffset <= -1) {
-                this.nextStep = Step.UP_LEFT;
-            } else if (rowOffset >= 1 && columnOffset == 0) {
-                this.nextStep = Step.DOWN;
-            } else if (rowOffset == 0 && columnOffset >= 1) {
-                this.nextStep = Step.RIGHT;
-            } else if (rowOffset <= -1 && columnOffset == 0) {
-                this.nextStep = Step.UP;
-            } else if (rowOffset == 0 && columnOffset <= -1) {
-                this.nextStep = Step.LEFT;
+            if (current.equals(new Node(entity.getPosition().getRow(),
+                    entity.getPosition().getColumn()))) {
+                List<Node> result = new ArrayList<>();
+                while (current.parent != null) {
+                    result.add(current);
+                    current = current.parent;
+                }
+                System.out.println(result);
+                return;
             }
 
-            step();
-        }*/
+            closed.add(current);
+
+            List<Node> neighbors = current.getNeighbors();
+
+            // We got the neighbors
+            for (Node neighbor : neighbors) {
+                Position neighborPosition = new Position(neighbor.row, neighbor.column);
+
+                if (closed.contains(neighbor) || neighborPosition.isBlocked()) {
+                    continue;
+                }
+
+                int gCost = current.gCost + neighbor.getgCost();
+                boolean isgCostBest = false;
+
+                if (!open.contains(neighbor)) {
+                    isgCostBest = true;
+                    neighbor.gethCost(neighborPosition, entity.getPosition());
+                    open.add(neighbor);
+                }
+                else if (gCost < neighbor.gCost) {
+                    isgCostBest = true;
+                }
+
+                if (isgCostBest) {
+                    neighbor.parent = current;
+                    neighbor.gCost = gCost;
+                    neighbor.fCost = neighbor.gCost + neighbor.hCost;
+                }
+            }
+        }
     }
 
     public void attack(Entity entity) {
@@ -203,131 +127,5 @@ public class Unit extends Entity {
         }
 
         return true;
-    }
-
-    public void step() {
-        if (this.nextStep != null) {
-            int currentPositionRow = this.getPosition().getRow();
-            int currentPositionColumn = this.getPosition().getColumn();
-            Position nextPosition;
-
-            switch (this.nextStep) {
-                case UP:
-                    if (Map.isPositionFree(
-                            new Position(currentPositionRow - 1, currentPositionColumn)
-                    )) {
-                        this.stepUp();
-                    }
-                    else {
-                        lookAround(currentPositionRow, currentPositionColumn);
-                    }
-                    break;
-                case DOWN:
-                    if (Map.isPositionFree(
-                            new Position(this.getPosition().getRow() + 1, this.getPosition().getColumn())
-                    )) {
-                        this.stepDown();
-                    }
-                    break;
-                case LEFT:
-                    if (Map.isPositionFree(
-                            new Position(this.getPosition().getRow(), this.getPosition().getColumn() - 1)
-                    )) {
-                        this.stepLeft();
-                    }
-                    break;
-                case RIGHT:
-                    if (Map.isPositionFree(
-                            new Position(this.getPosition().getRow(), this.getPosition().getColumn() + 1)
-                    )) {
-                        this.stepRight();
-                    }
-                    break;
-                case DOWN_LEFT:
-                    if (Map.isPositionFree(
-                            new Position(this.getPosition().getRow() + 1, this.getPosition().getColumn() - 1)
-                    )) {
-                        this.stepDown();
-                        this.stepLeft();
-                    }
-                    break;
-                case DOWN_RIGHT:
-                    nextPosition = new Position(currentPositionRow + 1, currentPositionColumn + 1);
-                    if (Map.isPositionFree(nextPosition)) {
-                        this.stepDown();
-                        this.stepRight();
-                    }
-                    else {
-                        this.stepRight();
-                    }
-                    break;
-                case UP_RIGHT:
-                    if (Map.isPositionFree(
-                            new Position(this.getPosition().getRow() - 1, this.getPosition().getColumn() + 1)
-                    )) {
-                        this.stepUp();
-                        this.stepRight();
-                    }
-                    else {
-                        this.stepUp();
-                    }
-                    break;
-                case UP_LEFT:
-                    if (Map.isPositionFree(
-                            new Position(currentPositionRow - 1, currentPositionColumn - 1)
-                    )) {
-                        this.stepUp();
-                        this.stepLeft();
-                    }
-                    break;
-            }
-        }
-    }
-
-    private void switchStrategy() {
-        if (this.horizontalBypassStrategy == HorizontalBypassStrategy.LEFT){
-            if (this.isOnTheLeftEdge()) {
-                this.horizontalBypassStrategy = HorizontalBypassStrategy.RIGHT;
-            }
-            else {
-                stepLeft();
-            }
-        }
-        else {
-            if (this.isOnTheRightEdge()) {
-                this.horizontalBypassStrategy = HorizontalBypassStrategy.LEFT;
-            }
-            else {
-                stepRight();
-            }
-        }
-    }
-    private void lookAround(int positionRow, int positionColumn) {
-        switch (this.nextStep) {
-            case UP:
-                if (Map.isPositionFree(new Position(positionRow - 1, positionColumn -1))) {
-                    this.stepUp();
-                    this.stepLeft();
-                }
-                else if (Map.isPositionFree(new Position(positionRow - 1, positionColumn + 1))) {
-                    this.stepUp();
-                    this.stepRight();
-                }
-                else {
-                    switchStrategy();
-                }
-                break;
-            case UP_LEFT:
-                if (Map.isPositionFree(new Position(positionRow, positionColumn - 1))) {
-                    this.stepLeft();
-                }
-                else if (Map.isPositionFree(new Position(positionRow - 1, positionColumn))) {
-                    this.stepUp();
-                }
-                else {
-                    switchStrategy();
-                }
-                break;
-        }
     }
 }

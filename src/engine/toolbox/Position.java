@@ -52,13 +52,24 @@ public class Position {
         return ((this.row) * Map.getRowNumber()) + this.column;
     }
 
-    public boolean isBlocked() {
+    public boolean isBlocked(boolean isDestination) {
         return (
                 this.row >= Map.getRowNumber()
                 || this.row < 0
                 || this.column >= Map.getRowNumber()
                 || this.column < 0
-                || !Map.isPositionFree(new Position(row, column))
+                || !Map.isPositionFree(new Position(row, column), isDestination)
                 );
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object != null) {
+            Position position = (Position) object;
+            if (position.row == this.row && position.column == this.column) {
+                return true;
+            }
+        }
+        return false;
     }
 }

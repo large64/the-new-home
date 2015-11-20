@@ -34,6 +34,12 @@ public class Game {
         Unit anotherEntity = new Unit(0, 2);
         entities.add(anotherEntity);
 
+        Unit anotherEntity2 = new Unit(1, 3);
+        entities.add(anotherEntity2);
+
+        Unit anotherEntity3 = new Unit(1, 2);
+        entities.add(anotherEntity3);
+
         Game.map = new Map(entities);
 
         for (Object entity : entities) {

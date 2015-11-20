@@ -107,4 +107,13 @@ public class Map {
     public static boolean isPositionFree(Position position) {
         return places[position.convertToMatrixPosition()];
     }
+
+    public static boolean isPositionFree(Position position, boolean isDestination) {
+        if (!isDestination) {
+            return places[position.convertToMatrixPosition()];
+        }
+        else {
+            return true;
+        }
+    }
 }

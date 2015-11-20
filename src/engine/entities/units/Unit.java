@@ -36,35 +36,38 @@ public class Unit extends Entity {
     }
 
     public void stepTowards(Entity entity) {
-        Queue<Node> open = new LinkedList<>();
+        List<Node> open = new ArrayList<>();
         Queue<Node> closed = new LinkedList<>();
 
         Node startPosition = new Node(this.getPosition().getRow(), this.getPosition().getColumn());
         open.add(startPosition);
 
-        Iterator<Node> iterator = open.iterator();
-        while (!open.isEmpty() || iterator.hasNext()) {
-            Node current = open.poll();
-            int min = 0;
+        while (!open.isEmpty()) {
+            Node current = open.get(0);
+            int min = current.fCost;
 
-            for (Node node : open) {
-                if (node.fCost < min) {
-                    current = node;
-                    min = node.fCost;
+
+            for (int i = 0; i < open.size(); i++) {
+                Node innerCurrent = open.get(i);
+                if (innerCurrent.fCost < min) {
+                    min = innerCurrent.fCost;
+                    current = innerCurrent;
                 }
             }
 
             if (current.equals(new Node(entity.getPosition().getRow(),
                     entity.getPosition().getColumn()))) {
                 List<Node> result = new ArrayList<>();
-                while (current.parent != null) {
+                while (current != null) {
                     result.add(current);
                     current = current.parent;
                 }
+                Collections.reverse(result);
                 System.out.println(result);
                 return;
             }
 
+            open.remove(current);
             closed.add(current);
 
             List<Node> neighbors = current.getNeighbors();
@@ -72,8 +75,13 @@ public class Unit extends Entity {
             // We got the neighbors
             for (Node neighbor : neighbors) {
                 Position neighborPosition = new Position(neighbor.row, neighbor.column);
+                boolean isDestination = false;
 
-                if (closed.contains(neighbor) || neighborPosition.isBlocked()) {
+                if(neighborPosition.equals(entity.getPosition())) {
+                    isDestination = true;
+                }
+
+                if (closed.contains(neighbor) || neighborPosition.isBlocked(isDestination)) {
                     continue;
                 }
 

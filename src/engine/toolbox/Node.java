@@ -16,7 +16,7 @@ public class Node {
     private static final int DISTANCE = 10;
     private static final int DIAGONAL_DISTANCE = 14;
 
-    private List<Node> neighbors = new ArrayList<>();
+    private ArrayList<Node> neighbors = new ArrayList<>();
 
     public Node parent = null;
 
@@ -25,7 +25,7 @@ public class Node {
         this.row = row;
     }
 
-    public List getNeighbors() {
+    public ArrayList<Node> getNeighbors() {
         neighbors.clear();
 
         neighbors.add(new Node(

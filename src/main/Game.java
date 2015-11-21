@@ -23,6 +23,6 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        ((Unit)(entities.get(0))).stepTowards((Unit) entities.get(entities.size()-1));
+        ((Unit)(entities.get(0))).goTo((Unit) entities.get(entities.size()-1));
     }
 }

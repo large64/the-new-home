@@ -1,11 +1,13 @@
 package engine;
 
 import engine.entities.Entity;
+import engine.toolbox.Node;
 import engine.toolbox.Position;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,12 +19,12 @@ public class Map {
     private static List entities;
     private static JFrame frame;
     private static JPanel panel;
+    private static List<Integer> markers = new ArrayList<>();
 
     public Map(List entities) {
         places = new boolean[SIZE * SIZE];
         frame = new JFrame("The New Home - engine tester");
         Map.entities = entities;
-
 
         panel = new JPanel();
         GridLayout gridLayout = new GridLayout(SIZE, SIZE);
@@ -77,6 +79,9 @@ public class Map {
                     places[i] = false;
                 }
             }
+            if (markers.contains(i)) {
+                toAdd.setBackground(new Color(0, 255, 255));
+            }
             if (first) {
                 panel.add(toAdd);
             }
@@ -115,5 +120,9 @@ public class Map {
         else {
             return true;
         }
+    }
+
+    public static void mark(int position) {
+        markers.add(position);
     }
 }

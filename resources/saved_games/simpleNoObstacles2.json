@@ -1,0 +1,21 @@
+{
+  "mapSize": 10,
+  "entities": {
+    "entity0": {
+      "position": {
+        "row": 2,
+        "column": 0
+      },
+      "health": 100,
+      "type": "unit"
+    },
+    "entity1": {
+      "position": {
+        "row": 2,
+        "column": 4
+      },
+      "health": 100,
+      "type": "unit"
+    }
+  }
+}

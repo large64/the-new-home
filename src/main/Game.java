@@ -15,7 +15,7 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        entities = GameLoader.load("20151121151530");
+        entities = GameLoader.load("complex2");
 
         Game.map = new Map(entities);
 

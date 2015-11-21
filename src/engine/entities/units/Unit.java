@@ -114,7 +114,7 @@ public class Unit extends Entity {
     public void attack(Entity entity) {
         if (this.isNextToAnEntity(entity)) {
             if (entity.getHealth() > 0) {
-                entity.setHealth(-10);
+                entity.changeHealth(-10);
             }
         }
         else {

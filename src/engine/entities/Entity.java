@@ -76,11 +76,15 @@ public abstract class Entity {
         return health;
     }
 
-    public void setHealth(int by) {
+    public void changeHealth(int by) {
         this.health += by;
         if (by < 0) {
             this.isBeingAttacked = true;
         }
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public boolean isAlive() {

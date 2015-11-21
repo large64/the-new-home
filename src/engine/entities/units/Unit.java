@@ -41,71 +41,87 @@ public class Unit extends Entity {
     }
 
     public void stepTowards(Entity entity) {
-        List<Node> open = new ArrayList<>();
-        Queue<Node> closed = new LinkedList<>();
+        List<Node> result = new ArrayList<>();
+        if (result.isEmpty()) {
 
-        Node startPosition = new Node(this.getPosition().getRow(), this.getPosition().getColumn());
-        open.add(startPosition);
+            List<Node> open = new ArrayList<>();
+            Queue<Node> closed = new LinkedList<>();
 
-        while (!open.isEmpty()) {
-            Node current = open.get(0);
-            int min = current.fCost;
+            Node startPosition = new Node(this.getPosition().getRow(), this.getPosition().getColumn());
+            open.add(startPosition);
+
+            while (!open.isEmpty()) {
+                Node current = open.get(0);
+                int min = current.fCost;
 
 
-            for (int i = 0; i < open.size(); i++) {
-                Node innerCurrent = open.get(i);
-                if (innerCurrent.fCost < min) {
-                    min = innerCurrent.fCost;
-                    current = innerCurrent;
-                }
-            }
-
-            if (current.equals(new Node(entity.getPosition().getRow(),
-                    entity.getPosition().getColumn()))) {
-                List<Node> result = new ArrayList<>();
-                while (current != null) {
-                    result.add(current);
-                    current = current.parent;
-                }
-                Collections.reverse(result);
-                System.out.println(result);
-                return;
-            }
-
-            open.remove(current);
-            closed.add(current);
-
-            List<Node> neighbors = current.getNeighbors();
-
-            // We got the neighbors
-            for (Node neighbor : neighbors) {
-                Position neighborPosition = new Position(neighbor.row, neighbor.column);
-                boolean isDestination = false;
-
-                if(neighborPosition.equals(entity.getPosition())) {
-                    isDestination = true;
+                for (int i = 0; i < open.size(); i++) {
+                    Node innerCurrent = open.get(i);
+                    if (innerCurrent.fCost < min) {
+                        min = innerCurrent.fCost;
+                        current = innerCurrent;
+                    }
                 }
 
-                if (closed.contains(neighbor) || neighborPosition.isBlocked(isDestination)) {
-                    continue;
+                if (current.equals(new Node(entity.getPosition().getRow(),
+                        entity.getPosition().getColumn()))) {
+                    while (current != null) {
+                        result.add(current);
+                        current = current.parent;
+                    }
+                    Collections.reverse(result);
+                    result.remove(result.size() - 1);
+                    System.out.println(result);
+
+                    ListIterator iterator = result.listIterator();
+                    while (!result.isEmpty()) {
+                        Node node = (Node) iterator.next();
+                        this.position = new Position(node.row, node.column);
+                        Map.lookForChanges();
+                        iterator.remove();
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return;
                 }
 
-                int gCost = current.gCost + neighbor.getgCost(current);
-                boolean isgCostBest = false;
+                open.remove(current);
+                closed.add(current);
 
-                if (!open.contains(neighbor)) {
-                    isgCostBest = true;
-                    neighbor.hCost = neighbor.gethCost(neighborPosition, entity.getPosition());
-                    open.add(neighbor);
-                }
-                else if (gCost < neighbor.gCost) {
-                    isgCostBest = true;
-                }
+                List<Node> neighbors = current.getNeighbors();
 
-                if (isgCostBest) {
-                    neighbor.parent = current;
-                    neighbor.gCost = gCost;
-                    neighbor.fCost = neighbor.gCost + neighbor.hCost;
+                // We got the neighbors
+                for (Node neighbor : neighbors) {
+                    Position neighborPosition = new Position(neighbor.row, neighbor.column);
+                    boolean isDestination = false;
+
+                    if (neighborPosition.equals(entity.getPosition())) {
+                        isDestination = true;
+                    }
+
+                    if (closed.contains(neighbor) || neighborPosition.isBlocked(isDestination)) {
+                        continue;
+                    }
+
+                    int gCost = current.gCost + neighbor.getgCost(current);
+                    boolean isgCostBest = false;
+
+                    if (!open.contains(neighbor)) {
+                        isgCostBest = true;
+                        neighbor.hCost = neighbor.gethCost(neighborPosition, entity.getPosition());
+                        open.add(neighbor);
+                    } else if (gCost < neighbor.gCost) {
+                        isgCostBest = true;
+                    }
+
+                    if (isgCostBest) {
+                        neighbor.parent = current;
+                        neighbor.gCost = gCost;
+                        neighbor.fCost = neighbor.gCost + neighbor.hCost;
+                    }
                 }
             }
         }

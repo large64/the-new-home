@@ -15,7 +15,7 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        entities = GameLoader.load("complex2");
+        entities = GameLoader.load("simpleWithObstacles2");
 
         Game.map = new Map(entities);
 

@@ -15,7 +15,7 @@
         "column": 3
       },
       "health": 100,
-      "type": "unit"
+      "type": "building"
     },
     "entity2": {
       "position": {
@@ -23,7 +23,7 @@
         "column": 3
       },
       "health": 100,
-      "type": "unit"
+      "type": "building"
     },
     "entity3": {
       "position": {
@@ -31,7 +31,7 @@
         "column": 3
       },
       "health": 100,
-      "type": "unit"
+      "type": "building"
     },
 
     "entity4": {
@@ -40,7 +40,7 @@
         "column": 1
       },
       "health": 100,
-      "type": "unit"
+      "type": "building"
     },
     "entity5": {
       "position": {

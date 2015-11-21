@@ -40,20 +40,6 @@ public abstract class Entity {
         return (this.id + ": " + this.getPosition().toString() + " " + this.health);
     }
 
-    public boolean isOnTheEdge() {
-        return this.position.getRow() == 1 || this.position.getColumn() == 1
-                || this.position.getRow() == (Map.getRowNumber() - 1)
-                || this.position.getColumn() == (Map.getRowNumber() - 1);
-    }
-
-    public boolean isOnTheRightEdge() {
-        return this.position.getColumn() == Map.getRowNumber() - 1;
-    }
-
-    public boolean isOnTheLeftEdge() {
-        return (this.position.getColumn() == 0);
-    }
-
     public boolean isNextToAnEntity(Entity entity) {
         int entityRow = entity.getPosition().getRow();
         int entityColumn = entity.getPosition().getColumn();
@@ -62,14 +48,7 @@ public abstract class Entity {
         int rowOffset = entityRow - this.position.getRow();
         int columnOffset = entityColumn - this.position.getColumn();
 
-        if (this.getID().equals("entity20")) {
-            this.getID();
-        }
-
-        return (((rowOffset == 1) && (columnOffset == 0)) ||
-                ((columnOffset == 1) && (rowOffset == 0)) ||
-                ((rowOffset == -1) && (columnOffset == 0)) ||
-                ((columnOffset == -1) && (rowOffset == 0)));
+        return (rowOffset >= -1 && rowOffset <= 1 && columnOffset >= -1 && columnOffset <= 1);
     }
 
     public int getHealth() {

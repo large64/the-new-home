@@ -4,6 +4,7 @@ import engine.Map;
 import engine.entities.Entity;
 import engine.toolbox.Node;
 import engine.toolbox.Position;
+import main.Game;
 
 import java.lang.reflect.Array;
 import java.util.*;
@@ -62,13 +63,13 @@ public class Unit extends Entity {
     }
 
     public void attack(Entity entity) {
-        if (this.isNextToAnEntity(entity)) {
-            if (entity.getHealth() > 0) {
-                entity.changeHealth(-10);
-            }
-        }
-        else {
+        while (!this.isNextToAnEntity(entity)) {
             this.goTo(entity);
+        }
+        while (entity.getHealth() > 0) {
+            entity.changeHealth(-10);
+            Map.lookForChanges();
+            Game.makeTimePass();
         }
     }
 
@@ -80,11 +81,7 @@ public class Unit extends Entity {
             Map.mark(position.convertToMatrixPosition());
             Map.lookForChanges();
             iterator.remove();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            Game.makeTimePass();
         }
     }
 

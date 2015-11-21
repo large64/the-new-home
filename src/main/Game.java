@@ -2,6 +2,7 @@ package main;
 
 import engine.Map;
 import engine.entities.Entity;
+import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
 
 import java.util.ArrayList;
@@ -23,6 +24,15 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        ((Unit)(entities.get(0))).goTo((Unit) entities.get(entities.size()-1));
+        ((Unit)(entities.get(0))).attack((Unit) entities.get(entities.size()-1));
+        ((Unit)(entities.get(0))).attack((Building) entities.get(1));
+    }
+
+    public static void makeTimePass() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

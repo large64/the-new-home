@@ -68,10 +68,7 @@ public class Map {
                 Entity entity = (Entity) entities.get(j);
                 if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
                     String text = entity.toString();
-                    if (entity.isBeingAttacked()) {
-                        text += " " + entity.getHealth();
-                    }
-                    else {
+                    if (!entity.isBeingAttacked()) {
                         entity.setBeingAttacked(false);
                     }
                     toAdd.setText(text);

@@ -2,8 +2,6 @@ package main;
 
 import engine.entities.Entity;
 import engine.entities.units.Unit;
-import engine.toolbox.Position;
-import org.kopitubruk.util.json.JSONConfig;
 import org.kopitubruk.util.json.JSONParser;
 
 import java.io.File;

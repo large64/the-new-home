@@ -6,7 +6,7 @@ import engine.toolbox.Position;
 /**
  * Created by Dénes on 2015. 11. 06..
  */
-public class Entity {
+public abstract class Entity {
     private static final String ID = "entity";
     private static int counter = 0;
     private String id = ID + counter;

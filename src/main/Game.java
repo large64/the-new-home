@@ -6,7 +6,6 @@ import engine.entities.units.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by Dénes on 2015. 11. 07..
@@ -16,29 +15,7 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        Random random = new Random(6547);
-        int rowsOfMap = Map.getRowNumber();
-
-
-        /*for (int i = 1; i < rowsOfMap; ++i) {
-            Unit unit = new Unit(random.nextInt(Map.getRowNumber()), random.nextInt(Map.getRowNumber()));
-            entities.add(unit);
-        }*/
-
-        Unit selectedUnit = new Unit(0, 3);
-        entities.add(selectedUnit);
-
-        Unit destination = new Unit(1, 0);
-        entities.add(destination);
-
-        Unit anotherEntity = new Unit(0, 2);
-        entities.add(anotherEntity);
-
-        Unit anotherEntity2 = new Unit(1, 3);
-        entities.add(anotherEntity2);
-
-        Unit anotherEntity3 = new Unit(1, 2);
-        entities.add(anotherEntity3);
+        entities = GameLoader.load("20151121151530");
 
         Game.map = new Map(entities);
 
@@ -46,6 +23,6 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        selectedUnit.stepTowards(destination);
+        ((Unit)(entities.get(0))).stepTowards((Unit) entities.get(entities.size()-1));
     }
 }

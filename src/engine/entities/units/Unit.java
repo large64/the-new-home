@@ -19,6 +19,11 @@ public class Unit extends Entity {
         super(new Position(row, column));
     }
 
+    public Unit(int row, int column, int health) {
+        super(new Position(row, column));
+        this.setHealth(health);
+    }
+
     public void stepUp() {
         this.position.increase(-1, 0);
     }

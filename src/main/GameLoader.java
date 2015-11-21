@@ -1,6 +1,8 @@
 package main;
 
+import engine.*;
 import engine.entities.Entity;
+import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
 import org.kopitubruk.util.json.JSONParser;
 
@@ -8,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.Map;
 
 /**
  * Created by Dénes on 2015. 11. 21..
@@ -46,9 +49,14 @@ public class GameLoader {
                     case "unit":
                         entities.add(new Unit(entityRow, entityColumn, health));
                         break;
+                    case "building":
+                        entities.add(new Building(entityRow, entityColumn, health));
+                        break;
                 }
             }
+            engine.Map.setSize(mapSize / 2);
         }
+
         return entities;
     }
 

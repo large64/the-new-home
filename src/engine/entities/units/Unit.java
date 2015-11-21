@@ -72,7 +72,7 @@ public class Unit extends Entity {
         }
     }
 
-    public void walk(List path) {
+    private void walk(List path) {
         ListIterator iterator = path.listIterator();
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
@@ -118,5 +118,11 @@ public class Unit extends Entity {
                 neighbor.fCost = neighbor.gCost + neighbor.hCost;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        String toReturn = super.toString();
+        return toReturn.replaceAll("entity", "unit");
     }
 }

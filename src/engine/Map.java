@@ -1,7 +1,6 @@
 package engine;
 
 import engine.entities.Entity;
-import engine.toolbox.Node;
 import engine.toolbox.Position;
 
 import javax.swing.*;
@@ -14,7 +13,7 @@ import java.util.List;
  * Created by Dénes on 2015. 11. 06..
  */
 public class Map {
-    private static final int SIZE = 5;
+    private static int size = 20;
     private static boolean[] places;
     private static List entities;
     private static JFrame frame;
@@ -22,12 +21,12 @@ public class Map {
     private static List<Integer> markers = new ArrayList<>();
 
     public Map(List entities) {
-        places = new boolean[SIZE * SIZE];
+        places = new boolean[size * size];
         frame = new JFrame("The New Home - engine tester");
         Map.entities = entities;
 
         panel = new JPanel();
-        GridLayout gridLayout = new GridLayout(SIZE, SIZE);
+        GridLayout gridLayout = new GridLayout(size, size);
         gridLayout.setHgap(2);
         gridLayout.setVgap(2);
         panel.setLayout(gridLayout);
@@ -68,7 +67,7 @@ public class Map {
             for (int j = 0; j < entities.size(); ++j) {
                 Entity entity = (Entity) entities.get(j);
                 if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
-                    String text = entity.getID();
+                    String text = entity.toString();
                     if (entity.isBeingAttacked()) {
                         text += " " + entity.getHealth();
                     }
@@ -95,14 +94,14 @@ public class Map {
     }
 
     public static int getSize() {
-        return (SIZE * SIZE);
+        return (size * size);
     }
 
     /**
      * Returns the number of rows of the map matrix that equals to the number of columns
      */
     public static int getRowNumber() {
-        return SIZE;
+        return size;
     }
 
     public static List getEntities() {
@@ -124,5 +123,9 @@ public class Map {
 
     public static void mark(int position) {
         markers.add(position);
+    }
+
+    public static void setSize(int size) {
+        Map.size = size;
     }
 }

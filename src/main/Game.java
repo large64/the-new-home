@@ -1,6 +1,7 @@
 package main;
 
 import engine.Map;
+import engine.actions.Attack;
 import engine.entities.Entity;
 import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
@@ -20,28 +21,26 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        class AttackRunnable implements Runnable {
-            private Unit unit;
-            private Entity entity;
+        Attack attackRunnable = new Attack((Unit) entities.get(0), (Building) entities.get(3));
+        Attack attackRunnable1 = new Attack((Unit) entities.get(7), (Building) entities.get(1));
+        Attack attackRunnable2 = new Attack((Unit) entities.get(8), (Building) entities.get(6));
 
-            public AttackRunnable(Unit unit, Entity entity) {
-                this.unit = unit;
-                this.entity = entity;
-            }
+        Thread thread = new Thread(attackRunnable);
+        Thread thread1 = new Thread(attackRunnable1);
+        Thread thread2 = new Thread(attackRunnable2);
 
-            @Override
-            public void run() {
-                unit.attack(entity);
-            }
+        thread.start();
+        thread1.start();
+        try {
+            thread.join();
+            thread1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-        AttackRunnable attackRunnable = new AttackRunnable((Unit) entities.get(0), (Building) entities.get(5));
-        AttackRunnable attackRunnable1 = new AttackRunnable((Unit) entities.get(7), (Building) entities.get(3));
-
-        new Thread(attackRunnable).start();
-        new Thread(attackRunnable1).start();
+        thread2.start();
     }
 
-    public synchronized static void makeTimePass() {
+    public static void makeTimePass() {
         try {
             Thread.sleep(500);
             Map.lookForChanges();

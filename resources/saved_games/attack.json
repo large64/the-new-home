@@ -64,6 +64,14 @@
       },
       "health": 100,
       "type": "unit"
+    },
+    "entity8": {
+      "position": {
+        "row": 0,
+        "column": 4
+      },
+      "health": 100,
+      "type": "unit"
     }
   }
 }

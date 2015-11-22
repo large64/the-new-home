@@ -63,6 +63,7 @@ public class Map {
             toAdd.setEnabled(false);
             toAdd.setDisabledTextColor(new Color(255, 255, 255));
             toAdd.setText("");
+            toAdd.setBackground(new Color(0, 0, 0));
 
             for (Object object : entities) {
                 Entity entity = (Entity) object;
@@ -71,11 +72,13 @@ public class Map {
                     if (!entity.isBeingAttacked()) {
                         entity.setBeingAttacked(false);
                     }
+                    else {
+                        toAdd.setBackground(new Color(255, 0, 0));
+                    }
                     toAdd.setText(text);
                     places[i] = false;
                 }
             }
-            toAdd.setBackground(new Color(0, 0, 0));
             if (markers.contains(i)) {
                 toAdd.setBackground(new Color(0, 0, 149));
             }
@@ -85,7 +88,7 @@ public class Map {
         }
     }
 
-    public static void lookForChanges() {
+    public synchronized static void lookForChanges() {
         repaint(false);
         panel.revalidate();
     }

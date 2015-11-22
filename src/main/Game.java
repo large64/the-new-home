@@ -16,7 +16,7 @@ public class Game {
     private static List entities = new ArrayList<Entity>();
 
     public static void main(String[] args) {
-        entities = GameLoader.load("simpleWithObstacles2");
+        entities = GameLoader.load("attack");
 
         Game.map = new Map(entities);
 
@@ -24,13 +24,14 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        ((Unit)(entities.get(0))).attack((Unit) entities.get(entities.size()-1));
-        ((Unit)(entities.get(0))).attack((Building) entities.get(1));
+        ((Unit)(entities.get(0))).attack((Building) entities.get(5));
+        ((Unit)(entities.get(0))).attack((Building) entities.get(6));
     }
 
     public static void makeTimePass() {
         try {
             Thread.sleep(500);
+            Map.lookForChanges();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

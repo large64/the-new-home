@@ -68,7 +68,6 @@ public class Unit extends Entity {
         }
         while (entity.getHealth() > 0) {
             entity.changeHealth(-10);
-            Map.lookForChanges();
             Game.makeTimePass();
         }
     }
@@ -79,7 +78,6 @@ public class Unit extends Entity {
             Node node = (Node) iterator.next();
             this.position = new Position(node.row, node.column);
             Map.mark(position.convertToMatrixPosition());
-            Map.lookForChanges();
             iterator.remove();
             Game.makeTimePass();
         }

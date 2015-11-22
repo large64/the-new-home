@@ -2,6 +2,7 @@ package main;
 
 import engine.Map;
 import engine.actions.Attack;
+import engine.actions.Healing;
 import engine.entities.Entity;
 import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
@@ -22,12 +23,12 @@ public class Game {
         }
 
         Attack attackRunnable = new Attack((Unit) entities.get(0), (Building) entities.get(3));
-        Attack attackRunnable1 = new Attack((Unit) entities.get(7), (Building) entities.get(1));
-        Attack attackRunnable2 = new Attack((Unit) entities.get(8), (Building) entities.get(6));
+        Attack attackRunnable1 = new Attack((Unit) entities.get(7), (Building) entities.get(5));
+        Healing healing = new Healing((Unit) entities.get(8), (Building) entities.get(6));
 
         Thread thread = new Thread(attackRunnable);
         Thread thread1 = new Thread(attackRunnable1);
-        Thread thread2 = new Thread(attackRunnable2);
+        Thread thread2 = new Thread(healing);
 
         thread.start();
         thread1.start();

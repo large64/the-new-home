@@ -1,12 +1,12 @@
 package engine.entities.units;
 
 import engine.Map;
+import engine.actions.ActionType;
 import engine.entities.Entity;
 import engine.toolbox.Node;
 import engine.toolbox.Position;
 import main.Game;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -62,13 +62,23 @@ public class Unit extends Entity {
         }
     }
 
-    public void attack(Entity entity) {
+    public void performAction(Entity entity, ActionType action) {
         while (!this.isNextToAnEntity(entity)) {
             this.goTo(entity);
         }
-        while (entity.getHealth() > 0) {
-            entity.changeHealth(-10);
-            Game.makeTimePass();
+        switch (action) {
+            case ATTACK:
+                while (entity.getHealth() > 0) {
+                    entity.changeHealth(-10);
+                    Game.makeTimePass();
+                }
+                break;
+            case HEAL:
+                while (entity.getHealth() < 100) {
+                    entity.changeHealth(10);
+                    Game.makeTimePass();
+                }
+                break;
         }
     }
 

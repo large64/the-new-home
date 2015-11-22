@@ -5,30 +5,43 @@ import engine.entities.Entity;
 import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Dénes on 2015. 11. 07..
  */
 public class Game {
-    private static Map map;
-    private static List entities = new ArrayList<Entity>();
-
     public static void main(String[] args) {
-        entities = GameLoader.load("attack");
+        List entities = GameLoader.load("attack");
 
-        Game.map = new Map(entities);
+        new Map(entities);
 
         for (Object entity : entities) {
             System.out.println(entity.toString());
         }
 
-        ((Unit)(entities.get(0))).attack((Building) entities.get(5));
-        ((Unit)(entities.get(0))).attack((Building) entities.get(6));
+        class AttackRunnable implements Runnable {
+            private Unit unit;
+            private Entity entity;
+
+            public AttackRunnable(Unit unit, Entity entity) {
+                this.unit = unit;
+                this.entity = entity;
+            }
+
+            @Override
+            public void run() {
+                unit.attack(entity);
+            }
+        }
+        AttackRunnable attackRunnable = new AttackRunnable((Unit) entities.get(0), (Building) entities.get(5));
+        AttackRunnable attackRunnable1 = new AttackRunnable((Unit) entities.get(7), (Building) entities.get(3));
+
+        new Thread(attackRunnable).start();
+        new Thread(attackRunnable1).start();
     }
 
-    public static void makeTimePass() {
+    public synchronized static void makeTimePass() {
         try {
             Thread.sleep(500);
             Map.lookForChanges();

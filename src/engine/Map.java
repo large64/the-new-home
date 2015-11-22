@@ -61,11 +61,11 @@ public class Map {
             }
 
             toAdd.setEnabled(false);
-            toAdd.setDisabledTextColor(new Color(0, 0, 0));
+            toAdd.setDisabledTextColor(new Color(255, 255, 255));
             toAdd.setText("");
 
-            for (int j = 0; j < entities.size(); ++j) {
-                Entity entity = (Entity) entities.get(j);
+            for (Object object : entities) {
+                Entity entity = (Entity) object;
                 if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
                     String text = entity.toString();
                     if (!entity.isBeingAttacked()) {
@@ -75,8 +75,9 @@ public class Map {
                     places[i] = false;
                 }
             }
+            toAdd.setBackground(new Color(0, 0, 0));
             if (markers.contains(i)) {
-                toAdd.setBackground(new Color(0, 255, 255));
+                toAdd.setBackground(new Color(0, 0, 149));
             }
             if (first) {
                 panel.add(toAdd);
@@ -85,7 +86,6 @@ public class Map {
     }
 
     public static void lookForChanges() {
-        //panel.removeAll();
         repaint(false);
         panel.revalidate();
     }
@@ -110,12 +110,7 @@ public class Map {
     }
 
     public static boolean isPositionFree(Position position, boolean isDestination) {
-        if (!isDestination) {
-            return places[position.convertToMatrixPosition()];
-        }
-        else {
-            return true;
-        }
+        return isDestination || places[position.convertToMatrixPosition()];
     }
 
     public static void mark(int position) {

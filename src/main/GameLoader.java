@@ -1,6 +1,5 @@
 package main;
 
-import engine.*;
 import engine.entities.Entity;
 import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
@@ -23,7 +22,7 @@ public class GameLoader {
         LinkedHashMap jsonData = null;
 
         List<Entity> entities = new ArrayList<>();
-        int mapSize = 0;
+        int mapSize;
 
         try {
             jsonData = (LinkedHashMap) JSONParser.parseJSON(jsonFileContent);

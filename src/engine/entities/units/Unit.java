@@ -22,10 +22,10 @@ public class Unit extends Entity {
     }
 
     /**
-     * Helps this to perform an ActionType on entity.
+     * Helps this to perform an ActionType on entity
      *
-     * @param entity The entity on which the action will be performed.
-     * @param action The action to be performed on entity.
+     * @param entity The entity on which the action will be performed
+     * @param action The action to be performed on entity
      * @throws ImproperActionException
      */
     public void performAction(Entity entity, ActionType action) throws ImproperActionException {
@@ -65,10 +65,11 @@ public class Unit extends Entity {
     /**
      * Finds a way to entity (if there is) and approaches it. It is an implementation of A* algorithm.
      *
-     * @param entity The entity to be approached.
+     * @param entity The entity to be approached
      */
     public void goTo(Entity entity) {
         List<Node> path = new ArrayList<>();
+
         if (path.isEmpty()) {
             List<Node> open = new ArrayList<>();
             Queue<Node> closed = new LinkedList<>();
@@ -111,8 +112,9 @@ public class Unit extends Entity {
     }
 
     /**
-     * Makes this walk a given path step by step.
-     * @param path The path to be taken.
+     * Makes this walk a given path step by step
+     *
+     * @param path The path to be taken
      */
     private void walk(List path) {
         ListIterator iterator = path.listIterator();
@@ -129,10 +131,11 @@ public class Unit extends Entity {
 
     /**
      * Processes neighbors of a selected node in a graph. This is a part of A* algorithm.
-     * @param neighbors The neighbors of the selected node to be processed.
-     * @param entity The destination entity, which we are heading to.
-     * @param open The list of currently open (not yet processed) nodes.
-     * @param closed The list of already processed nodes.
+     *
+     * @param neighbors The neighbors of the selected node to be processed
+     * @param entity The destination entity, which we are heading to
+     * @param open The list of currently open (not yet processed) nodes
+     * @param closed The list of already processed nodes
      * @param current The current node which is being processed. Taken from the open list, and put into closed when
      *                processed.
      */
@@ -169,8 +172,9 @@ public class Unit extends Entity {
     }
 
     /**
-     * Provides a string representation of this.
-     * @return String representation of this.
+     * Provides a string representation of this
+     *
+     * @return String representation of this
      */
     @Override
     public String toString() {

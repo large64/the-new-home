@@ -26,7 +26,7 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return (this.id + ": " + this.getPosition().toString() + " " + this.health);
+        return (this.id + ": " + this.getPosition().toString() + " " + this.health + " " + side);
     }
 
     public Position getPosition() {

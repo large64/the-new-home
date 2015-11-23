@@ -15,6 +15,7 @@ public class Soldier extends Unit{
      */
     @Override
     public String toString() {
-        return "soldier" + counter;
+        String toReturn = super.toString();
+        return toReturn.replaceAll("entity", "soldier");
     }
 }

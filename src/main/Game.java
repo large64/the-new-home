@@ -3,7 +3,6 @@ package main;
 import engine.Map;
 import engine.actions.Attack;
 import engine.actions.Healing;
-import engine.entities.Entity;
 import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
 

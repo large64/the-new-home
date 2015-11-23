@@ -21,6 +21,52 @@ public class Unit extends Entity {
         this.setSide(side);
     }
 
+    /**
+     * Helps this to perform an ActionType on entity.
+     *
+     * @param entity The entity on which the action will be performed.
+     * @param action The action to be performed on entity.
+     * @throws ImproperActionException
+     */
+    public void performAction(Entity entity, ActionType action) throws ImproperActionException {
+        switch (action) {
+            case ATTACK:
+                if (this.getSide() != entity.getSide()) {
+                    while (!this.isNextToAnEntity(entity)) {
+                        this.goTo(entity);
+                    }
+
+                    while (entity.getHealth() > 0) {
+                        entity.changeHealth(-10);
+                        Game.makeTimePass();
+                    }
+                } else {
+                    throw new ImproperActionException("Will not attack friendly entity.");
+                }
+                break;
+
+            case HEAL:
+                if (this.getSide() == entity.getSide()) {
+                    while (!this.isNextToAnEntity(entity)) {
+                        this.goTo(entity);
+                    }
+
+                    while (entity.getHealth() < 100) {
+                        entity.changeHealth(10);
+                        Game.makeTimePass();
+                    }
+                } else {
+                    throw new ImproperActionException("Will not heal hostile entity.");
+                }
+                break;
+        }
+    }
+
+    /**
+     * Finds a way to entity (if there is) and approaches it. It is an implementation of A* algorithm.
+     *
+     * @param entity The entity to be approached.
+     */
     public void goTo(Entity entity) {
         List<Node> path = new ArrayList<>();
         if (path.isEmpty()) {
@@ -41,8 +87,7 @@ public class Unit extends Entity {
                     }
                 }
 
-                if (current.equals(new Node(entity.getPosition().getRow(),
-                        entity.getPosition().getColumn()))) {
+                if (current.equals(new Node(entity.getPosition().getRow(), entity.getPosition().getColumn()))) {
                     while (current != null) {
                         path.add(current);
                         current = current.parent;
@@ -65,42 +110,10 @@ public class Unit extends Entity {
         }
     }
 
-    public void performAction(Entity entity, ActionType action) throws ImproperActionException {
-        switch (action) {
-            case ATTACK:
-                if (this.getSide() != entity.getSide()) {
-                    while (!this.isNextToAnEntity(entity)) {
-                        this.goTo(entity);
-                    }
-
-                    while (entity.getHealth() > 0) {
-                        entity.changeHealth(-10);
-                        Game.makeTimePass();
-                    }
-                }
-                else {
-                    throw new ImproperActionException("Will not attack friendly entity.");
-                }
-                break;
-
-            case HEAL:
-                if (this.getSide() == entity.getSide()) {
-                    while (!this.isNextToAnEntity(entity)) {
-                        this.goTo(entity);
-                    }
-
-                    while (entity.getHealth() < 100) {
-                        entity.changeHealth(10);
-                        Game.makeTimePass();
-                    }
-                }
-                else {
-                    throw new ImproperActionException("Will not heal hostile entity.");
-                }
-                break;
-        }
-    }
-
+    /**
+     * Makes this walk a given path step by step.
+     * @param path The path to be taken.
+     */
     private void walk(List path) {
         ListIterator iterator = path.listIterator();
 
@@ -114,6 +127,15 @@ public class Unit extends Entity {
         }
     }
 
+    /**
+     * Processes neighbors of a selected node in a graph. This is a part of A* algorithm.
+     * @param neighbors The neighbors of the selected node to be processed.
+     * @param entity The destination entity, which we are heading to.
+     * @param open The list of currently open (not yet processed) nodes.
+     * @param closed The list of already processed nodes.
+     * @param current The current node which is being processed. Taken from the open list, and put into closed when
+     *                processed.
+     */
     private void processNeighbors(List<Node> neighbors, Entity entity, List open, Queue<Node> closed, Node current) {
         for (Node neighbor : neighbors) {
             Position neighborPosition = new Position(neighbor.row, neighbor.column);
@@ -146,6 +168,10 @@ public class Unit extends Entity {
         }
     }
 
+    /**
+     * Provides a string representation of this.
+     * @return String representation of this.
+     */
     @Override
     public String toString() {
         String toReturn = super.toString();

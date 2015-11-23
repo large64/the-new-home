@@ -10,9 +10,8 @@ public abstract class Entity {
     private static final int DEFAULT_HEALTH = 100;
 
     private static int counter = 0;
-
-    private String id = ID + counter;
     protected Position position;
+    private String id = ID + counter;
     private int health;
     private boolean isBeingAttacked = false;
     private Side side;
@@ -24,17 +23,13 @@ public abstract class Entity {
         this.side = Side.ENEMY;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
-    public String getID() {
-        return id;
-    }
-
     @Override
     public String toString() {
         return (this.id + ": " + this.getPosition().toString() + " " + this.health);
+    }
+
+    public Position getPosition() {
+        return position;
     }
 
     public boolean isNextToAnEntity(Entity entity) {
@@ -52,16 +47,16 @@ public abstract class Entity {
         return health;
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public void changeHealth(int by) {
         this.health += by;
 
         if (by < 0) {
             this.isBeingAttacked = true;
         }
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public boolean isAlive() {
@@ -87,6 +82,10 @@ public abstract class Entity {
         }
 
         return false;
+    }
+
+    public String getID() {
+        return id;
     }
 
     public Side getSide() {

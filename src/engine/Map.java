@@ -5,7 +5,9 @@ import engine.toolbox.Position;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +63,7 @@ public class Map {
 
             if (first) {
                 toAdd = new JTextPane();
-            }
-            else {
+            } else {
                 toAdd = (JTextPane) panel.getComponent(i);
             }
 
@@ -79,8 +80,7 @@ public class Map {
 
                     if (!entity.isBeingAttacked()) {
                         entity.setBeingAttacked(false);
-                    }
-                    else {
+                    } else {
                         toAdd.setBackground(BEING_ATTACKED_COLOR);
                     }
 
@@ -97,13 +97,17 @@ public class Map {
         }
     }
 
+    public static int getSize() {
+        return (size * size);
+    }
+
+    public static void setSize(int size) {
+        Map.size = size;
+    }
+
     public synchronized static void lookForChanges() {
         repaint(false);
         panel.revalidate();
-    }
-
-    public static int getSize() {
-        return (size * size);
     }
 
     /**
@@ -127,9 +131,5 @@ public class Map {
 
     public static void mark(int position) {
         markers.add(position);
-    }
-
-    public static void setSize(int size) {
-        Map.size = size;
     }
 }

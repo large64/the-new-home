@@ -23,6 +23,13 @@ public class Node {
         this.row = row;
     }
 
+    public static int gethCost(Position position1, Position position2) {
+        int distance1 = Math.abs(position1.getRow() - position2.getRow());
+        int distance2 = Math.abs(position1.getColumn() - position2.getColumn());
+
+        return distance1 + distance2;
+    }
+
     public ArrayList<Node> getNeighbors() {
         neighbors.clear();
 
@@ -77,13 +84,6 @@ public class Node {
             return DIAGONAL_DISTANCE;
         }
         return DISTANCE;
-    }
-
-    public static int gethCost(Position position1, Position position2) {
-        int distance1 = Math.abs(position1.getRow() - position2.getRow());
-        int distance2 = Math.abs(position1.getColumn() - position2.getColumn());
-
-        return distance1 + distance2;
     }
 
     @Override

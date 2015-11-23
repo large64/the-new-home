@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.*;
-import java.util.Map;
 
 /**
  * Created by Dénes on 2015. 11. 21..
@@ -39,7 +38,7 @@ public class GameLoader {
                 Map entityDataMap = (Map) jsonDataMap.get("entity" + i);
                 String type = (String) entityDataMap.get("type");
                 int health = Math.toIntExact((long) entityDataMap.get("health"));
-                int intSide =  Math.toIntExact((long) entityDataMap.get("side"));
+                int intSide = Math.toIntExact((long) entityDataMap.get("side"));
                 boolean side = true;
 
                 if (intSide == 0) {

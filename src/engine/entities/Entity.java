@@ -9,7 +9,7 @@ public abstract class Entity {
     private static final String ID = "entity";
     private static final int DEFAULT_HEALTH = 100;
 
-    private static int counter = 0;
+    protected static int counter = 0;
     protected Position position;
     private String id = ID + counter;
     private int health;

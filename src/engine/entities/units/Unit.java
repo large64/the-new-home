@@ -170,15 +170,4 @@ public class Unit extends Entity {
             }
         }
     }
-
-    /**
-     * Provides a string representation of this
-     *
-     * @return String representation of this
-     */
-    @Override
-    public String toString() {
-        String toReturn = super.toString();
-        return toReturn.replaceAll("entity", "unit");
-    }
 }

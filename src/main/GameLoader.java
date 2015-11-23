@@ -2,6 +2,8 @@ package main;
 
 import engine.entities.Entity;
 import engine.entities.buildings.Building;
+import engine.entities.units.Healer;
+import engine.entities.units.Soldier;
 import engine.entities.units.Unit;
 import org.kopitubruk.util.json.JSONParser;
 
@@ -51,8 +53,11 @@ public class GameLoader {
                 int entityColumn = Math.toIntExact((long) entityPositionMap.get("column"));
 
                 switch (type) {
-                    case "unit":
-                        entities.add(new Unit(entityRow, entityColumn, health, side));
+                    case "soldier":
+                        entities.add(new Soldier(entityRow, entityColumn, health, side));
+                        break;
+                    case "healer":
+                        entities.add(new Healer(entityRow, entityColumn, health, side));
                         break;
                     case "building":
                         entities.add(new Building(entityRow, entityColumn, health, side));

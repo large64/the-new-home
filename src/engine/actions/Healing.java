@@ -17,7 +17,6 @@ public class Healing extends Action {
         try {
             unit.performAction(entity, ActionType.HEAL);
         } catch (ImproperActionException e) {
-            System.out.println("Cannot heal hostile entity.");
             // @TODO: show notification to user
         }
     }

@@ -17,8 +17,8 @@ public class Attack extends Action {
         try {
             unit.performAction(entity, ActionType.ATTACK);
         } catch (ImproperActionException e) {
-            System.out.println("Will not attack friendly entity.");
             // @TODO: show notification to user
+            // @TODO: add fields to exception to know the problem
         }
     }
 }

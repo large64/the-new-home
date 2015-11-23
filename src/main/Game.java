@@ -4,6 +4,7 @@ import engine.Map;
 import engine.actions.Attack;
 import engine.actions.Healing;
 import engine.entities.buildings.Building;
+import engine.entities.units.Soldier;
 import engine.entities.units.Unit;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class Game {
             System.out.println(entity.toString());
         }
 
-        Attack attackRunnable = new Attack((Unit) entities.get(0), (Building) entities.get(3));
+        Attack attackRunnable = new Attack((Soldier) entities.get(0), (Building) entities.get(3));
         Attack attackRunnable1 = new Attack((Unit) entities.get(7), (Building) entities.get(5));
         Healing healing = new Healing((Unit) entities.get(8), (Building) entities.get(6));
 

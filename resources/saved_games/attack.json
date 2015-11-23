@@ -7,7 +7,7 @@
         "column": 4
       },
       "health": 100,
-      "type": "unit",
+      "type": "soldier",
       "side" : 1
     },
     "entity1": {
@@ -70,7 +70,7 @@
         "column": 3
       },
       "health": 100,
-      "type": "unit",
+      "type": "soldier",
       "side" : 0
     },
     "entity8": {
@@ -79,7 +79,7 @@
         "column": 4
       },
       "health": 100,
-      "type": "unit",
+      "type": "healer",
       "side" : 0
     }
   }

@@ -1,6 +1,5 @@
 package main;
 
-import com.sun.javafx.css.converters.BooleanConverter;
 import engine.entities.Entity;
 import engine.entities.buildings.Building;
 import engine.entities.units.Unit;
@@ -42,9 +41,11 @@ public class GameLoader {
                 int health = Math.toIntExact((long) entityDataMap.get("health"));
                 int intSide =  Math.toIntExact((long) entityDataMap.get("side"));
                 boolean side = true;
+
                 if (intSide == 0) {
                     side = false;
                 }
+
                 Map entityPositionMap = (Map) entityDataMap.get("position");
 
                 int entityRow = Math.toIntExact((long) entityPositionMap.get("row"));
@@ -69,6 +70,7 @@ public class GameLoader {
         String content = "";
         try {
             Scanner scanner = new Scanner(file);
+
             while (scanner.hasNextLine()) {
                 String nextLine = scanner.nextLine();
                 content += nextLine;

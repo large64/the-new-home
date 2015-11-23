@@ -13,6 +13,10 @@ import java.util.List;
  * Created by Dénes on 2015. 11. 06..
  */
 public class Map {
+    private static final Color BASE_TILE_COLOR = new Color(0, 0, 0);
+    private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
+    private static final Color MARKED_COLOR = new Color(0, 0, 150);
+
     private static int size = 20;
     private static boolean[] places;
     private static List entities;
@@ -24,11 +28,12 @@ public class Map {
         places = new boolean[size * size];
         frame = new JFrame("The New Home - engine tester");
         Map.entities = entities;
-
         panel = new JPanel();
         GridLayout gridLayout = new GridLayout(size, size);
+
         gridLayout.setHgap(2);
         gridLayout.setVgap(2);
+
         panel.setLayout(gridLayout);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //frame.setUndecorated(true);
@@ -53,6 +58,7 @@ public class Map {
         for (int i = 0; i < getSize(); i++) {
             JTextPane toAdd;
             places[i] = true;
+
             if (first) {
                 toAdd = new JTextPane();
             }
@@ -63,24 +69,27 @@ public class Map {
             toAdd.setEnabled(false);
             toAdd.setDisabledTextColor(new Color(255, 255, 255));
             toAdd.setText("");
-            toAdd.setBackground(new Color(0, 0, 0));
+            toAdd.setBackground(BASE_TILE_COLOR);
 
             for (Object object : entities) {
                 Entity entity = (Entity) object;
+
                 if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
                     String text = entity.toString();
+
                     if (!entity.isBeingAttacked()) {
                         entity.setBeingAttacked(false);
                     }
                     else {
-                        toAdd.setBackground(new Color(255, 0, 0));
+                        toAdd.setBackground(BEING_ATTACKED_COLOR);
                     }
+
                     toAdd.setText(text);
                     places[i] = false;
                 }
             }
             if (markers.contains(i)) {
-                toAdd.setBackground(new Color(0, 0, 149));
+                toAdd.setBackground(MARKED_COLOR);
             }
             if (first) {
                 panel.add(toAdd);

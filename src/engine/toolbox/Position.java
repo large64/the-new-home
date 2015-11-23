@@ -9,28 +9,7 @@ public class Position {
     private int row;
     private int column;
 
-    public Position() {
-        this.row = 0;
-        this.column = 0;
-    }
-
     public Position(int row, int column) {
-        this.row = row;
-        this.column = column;
-    }
-
-    public void increase(int byRow, int byColumn) {
-        this.row += byRow;
-        this.column += byColumn;
-    }
-
-    // Use this function to make code more readable for humans
-    public void decrease(int byRow, int byColumn) {
-        this.row -= byRow;
-        this.column -= byColumn;
-    }
-
-    public void set(int row, int column) {
         this.row = row;
         this.column = column;
     }
@@ -64,7 +43,7 @@ public class Position {
 
     @Override
     public boolean equals(Object object) {
-        if (object != null) {
+        if (object instanceof Position) {
             Position position = (Position) object;
             if (position.row == this.row && position.column == this.column) {
                 return true;

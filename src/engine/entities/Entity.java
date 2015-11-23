@@ -7,10 +7,12 @@ import engine.toolbox.Position;
  */
 public abstract class Entity {
     private static final String ID = "entity";
+    private static final int DEFAULT_HEALTH = 100;
+
     private static int counter = 0;
+
     private String id = ID + counter;
     protected Position position;
-    private static final int DEFAULT_HEALTH = 100;
     private int health;
     private boolean isBeingAttacked = false;
     private Side side;
@@ -52,6 +54,7 @@ public abstract class Entity {
 
     public void changeHealth(int by) {
         this.health += by;
+
         if (by < 0) {
             this.isBeingAttacked = true;
         }
@@ -75,9 +78,12 @@ public abstract class Entity {
 
     @Override
     public boolean equals(Object object) {
-        Entity entity = (Entity) object;
-        if (entity.getID().equals(this.getID())) {
-            return true;
+        if (object instanceof Entity) {
+            Entity entity = (Entity) object;
+
+            if (entity.getID().equals(this.getID())) {
+                return true;
+            }
         }
 
         return false;

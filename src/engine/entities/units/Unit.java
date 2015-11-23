@@ -40,6 +40,7 @@ public class Unit extends Entity {
                         entity.changeHealth(-10);
                         Game.makeTimePass();
                     }
+                    entity.setBeingAttacked(false);
                 } else {
                     throw new ImproperActionException();
                 }
@@ -55,11 +56,13 @@ public class Unit extends Entity {
                         entity.changeHealth(10);
                         Game.makeTimePass();
                     }
+                    entity.setBeingHealed(false);
                 } else {
                     throw new ImproperActionException();
                 }
                 break;
         }
+        Game.makeTimePass();
     }
 
     /**

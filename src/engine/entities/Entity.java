@@ -14,6 +14,7 @@ public abstract class Entity {
     private String id = ID + counter;
     private int health;
     private boolean isBeingAttacked = false;
+    private boolean isBeingHealed = false;
     private Side side;
 
     public Entity(Position position) {
@@ -57,6 +58,9 @@ public abstract class Entity {
         if (by < 0) {
             this.isBeingAttacked = true;
         }
+        else if (by > 0) {
+            this.isBeingHealed = true;
+        }
     }
 
     public boolean isAlive() {
@@ -67,8 +71,16 @@ public abstract class Entity {
         return isBeingAttacked;
     }
 
+    public boolean isBeingHealed() {
+        return isBeingHealed;
+    }
+
     public void setBeingAttacked(boolean beingAttacked) {
-        isBeingAttacked = beingAttacked;
+        this.isBeingAttacked = beingAttacked;
+    }
+
+    public void setBeingHealed(boolean isBeingHealed) {
+        this.isBeingHealed = isBeingHealed;
     }
 
     @Override

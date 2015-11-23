@@ -16,6 +16,7 @@ import java.util.List;
  */
 public class Map {
     private static final Color BASE_TILE_COLOR = new Color(0, 0, 0);
+    private static final Color BEING_HEALED_COLOR = new Color(3, 132, 24);
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
 
@@ -78,10 +79,12 @@ public class Map {
                 if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
                     String text = entity.toString();
 
-                    if (!entity.isBeingAttacked()) {
-                        entity.setBeingAttacked(false);
-                    } else {
+                    if (entity.isBeingAttacked()) {
                         toAdd.setBackground(BEING_ATTACKED_COLOR);
+                    }
+
+                    if (entity.isBeingHealed()) {
+                        toAdd.setBackground(BEING_HEALED_COLOR);
                     }
 
                     toAdd.setText(text);

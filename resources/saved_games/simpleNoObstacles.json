@@ -7,7 +7,8 @@
         "column": 0
       },
       "health": 100,
-      "type": "unit"
+      "type": "unit",
+      "side": 0
     },
     "entity1": {
       "position": {
@@ -15,7 +16,8 @@
         "column": 3
       },
       "health": 100,
-      "type": "unit"
+      "type": "unit",
+      "side": 0
     }
   }
 }

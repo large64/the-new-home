@@ -7,7 +7,8 @@
         "column": 4
       },
       "health": 100,
-      "type": "unit"
+      "type": "unit",
+      "side" : 1
     },
     "entity1": {
       "position": {
@@ -15,7 +16,8 @@
         "column": 2
       },
       "health": 100,
-      "type": "building"
+      "type": "building",
+      "side" : 0
     },
     "entity2": {
       "position": {
@@ -23,7 +25,8 @@
         "column": 2
       },
       "health": 100,
-      "type": "building"
+      "type": "building",
+      "side" : 0
     },
     "entity3": {
       "position": {
@@ -31,7 +34,8 @@
         "column": 2
       },
       "health": 100,
-      "type": "building"
+      "type": "building",
+      "side" : 0
     },
     "entity4": {
       "position": {
@@ -39,7 +43,8 @@
         "column": 2
       },
       "health": 100,
-      "type": "building"
+      "type": "building",
+      "side" : 0
     },
     "entity5": {
       "position": {
@@ -47,7 +52,8 @@
         "column": 2
       },
       "health": 100,
-      "type": "building"
+      "type": "building",
+      "side" : 0
     },
     "entity6": {
       "position": {
@@ -55,7 +61,8 @@
         "column": 0
       },
       "health": 20,
-      "type": "building"
+      "type": "building",
+      "side" : 0
     },
     "entity7": {
       "position": {
@@ -63,7 +70,8 @@
         "column": 3
       },
       "health": 100,
-      "type": "unit"
+      "type": "unit",
+      "side" : 0
     },
     "entity8": {
       "position": {
@@ -71,7 +79,8 @@
         "column": 4
       },
       "health": 100,
-      "type": "unit"
+      "type": "unit",
+      "side" : 0
     }
   }
 }

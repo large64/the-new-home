@@ -3,6 +3,7 @@ package engine.entities.units;
 import engine.Map;
 import engine.actions.ActionType;
 import engine.entities.Entity;
+import engine.exceptions.ImproperActionException;
 import engine.toolbox.Node;
 import engine.toolbox.Position;
 import main.Game;
@@ -62,21 +63,31 @@ public class Unit extends Entity {
         }
     }
 
-    public void performAction(Entity entity, ActionType action) {
+    public void performAction(Entity entity, ActionType action) throws ImproperActionException {
         while (!this.isNextToAnEntity(entity)) {
             this.goTo(entity);
         }
         switch (action) {
             case ATTACK:
-                while (entity.getHealth() > 0) {
-                    entity.changeHealth(-10);
-                    Game.makeTimePass();
+                if (this.getType() != entity.getType()) {
+                    while (entity.getHealth() > 0) {
+                        entity.changeHealth(-10);
+                        Game.makeTimePass();
+                    }
+                }
+                else {
+                    throw new ImproperActionException("Cannot attack friendly entity.");
                 }
                 break;
             case HEAL:
-                while (entity.getHealth() < 100) {
-                    entity.changeHealth(10);
-                    Game.makeTimePass();
+                if (this.getType() == entity.getType()) {
+                    while (entity.getHealth() < 100) {
+                        entity.changeHealth(10);
+                        Game.makeTimePass();
+                    }
+                }
+                else {
+                    throw new ImproperActionException("Cannot heal hostile entity");
                 }
                 break;
         }

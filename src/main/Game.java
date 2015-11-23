@@ -39,6 +39,7 @@ public class Game {
             e.printStackTrace();
         }
         thread2.start();
+        // @TODO: implement enemy/friend feature in saved games
     }
 
     public static void makeTimePass() {

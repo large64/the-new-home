@@ -14,17 +14,13 @@ public abstract class Entity {
     private static final int DEFAULT_HEALTH = 100;
     private int health;
     private boolean isBeingAttacked = false;
-
-    public Entity() {
-        counter++;
-        this.position = new Position();
-        this.health = DEFAULT_HEALTH;
-    }
+    private Type type;
 
     public Entity(Position position) {
         counter++;
         this.position = position;
         this.health = DEFAULT_HEALTH;
+        this.type = Type.ENEMY;
     }
 
     public Position getPosition() {
@@ -86,5 +82,9 @@ public abstract class Entity {
         }
 
         return false;
+    }
+
+    public Type getType() {
+        return type;
     }
 }

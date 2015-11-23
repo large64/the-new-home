@@ -31,7 +31,7 @@ public class Unit extends Entity {
     public void performAction(Entity entity, ActionType action) throws ImproperActionException {
         switch (action) {
             case ATTACK:
-                if (this.getSide() != entity.getSide()) {
+                if (this instanceof Soldier && this.getSide() != entity.getSide()) {
                     while (!this.isNextToAnEntity(entity)) {
                         this.goTo(entity);
                     }
@@ -41,12 +41,12 @@ public class Unit extends Entity {
                         Game.makeTimePass();
                     }
                 } else {
-                    throw new ImproperActionException("Will not attack friendly entity.");
+                    throw new ImproperActionException();
                 }
                 break;
 
             case HEAL:
-                if (this.getSide() == entity.getSide()) {
+                if (this instanceof Healer && this.getSide() == entity.getSide()) {
                     while (!this.isNextToAnEntity(entity)) {
                         this.goTo(entity);
                     }
@@ -56,7 +56,7 @@ public class Unit extends Entity {
                         Game.makeTimePass();
                     }
                 } else {
-                    throw new ImproperActionException("Will not heal hostile entity.");
+                    throw new ImproperActionException();
                 }
                 break;
         }

@@ -1,6 +1,5 @@
 package engine.entities;
 
-import engine.Map;
 import engine.toolbox.Position;
 
 /**
@@ -14,13 +13,13 @@ public abstract class Entity {
     private static final int DEFAULT_HEALTH = 100;
     private int health;
     private boolean isBeingAttacked = false;
-    private Type type;
+    private Side side;
 
     public Entity(Position position) {
         counter++;
         this.position = position;
         this.health = DEFAULT_HEALTH;
-        this.type = Type.ENEMY;
+        this.side = Side.ENEMY;
     }
 
     public Position getPosition() {
@@ -84,7 +83,11 @@ public abstract class Entity {
         return false;
     }
 
-    public Type getType() {
-        return type;
+    public Side getSide() {
+        return side;
+    }
+
+    public void setSide(boolean side) {
+        this.side = side ? Side.FRIEND : Side.ENEMY;
     }
 }

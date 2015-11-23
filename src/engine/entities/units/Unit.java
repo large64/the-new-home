@@ -14,9 +14,10 @@ import java.util.*;
  * Created by Dénes on 2015. 11. 06..
  */
 public class Unit extends Entity {
-    public Unit(int row, int column, int health) {
+    public Unit(int row, int column, int health, boolean side) {
         super(new Position(row, column));
         this.setHealth(health);
+        this.setSide(side);
     }
 
     public void goTo(Entity entity) {
@@ -64,30 +65,36 @@ public class Unit extends Entity {
     }
 
     public void performAction(Entity entity, ActionType action) throws ImproperActionException {
-        while (!this.isNextToAnEntity(entity)) {
-            this.goTo(entity);
-        }
         switch (action) {
             case ATTACK:
-                if (this.getType() != entity.getType()) {
+                if (this.getSide() != entity.getSide()) {
+                    while (!this.isNextToAnEntity(entity)) {
+                        this.goTo(entity);
+                    }
+
                     while (entity.getHealth() > 0) {
                         entity.changeHealth(-10);
                         Game.makeTimePass();
                     }
                 }
                 else {
-                    throw new ImproperActionException("Cannot attack friendly entity.");
+                    throw new ImproperActionException("Will not attack friendly entity.");
                 }
                 break;
+
             case HEAL:
-                if (this.getType() == entity.getType()) {
+                if (this.getSide() == entity.getSide()) {
+                    while (!this.isNextToAnEntity(entity)) {
+                        this.goTo(entity);
+                    }
+
                     while (entity.getHealth() < 100) {
                         entity.changeHealth(10);
                         Game.makeTimePass();
                     }
                 }
                 else {
-                    throw new ImproperActionException("Cannot heal hostile entity");
+                    throw new ImproperActionException("Will not heal hostile entity.");
                 }
                 break;
         }
@@ -95,9 +102,11 @@ public class Unit extends Entity {
 
     private void walk(List path) {
         ListIterator iterator = path.listIterator();
+
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
             this.position = new Position(node.row, node.column);
+
             Map.mark(position.convertToMatrixPosition());
             iterator.remove();
             Game.makeTimePass();

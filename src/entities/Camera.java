@@ -13,8 +13,8 @@ public class Camera {
     private static final int MAX_BACK_ZOOM = 29;
     private static final float DEFAULT_PITCH = 36;
     // Create new final variable for default position to prevent it from changing in runtime
-    private static final float DEFAULT_X = 212.70139f;
-    private static final float DEFAULT_Z = -275.4985f;
+    private static final float DEFAULT_X = 178.20064f; //212.70139f;
+    private static final float DEFAULT_Z = -34.497454f; //-275.4985f;
     // Set default position (y) to be the maximum back zoom level
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float CURSOR_MARGIN = 10;
@@ -81,7 +81,7 @@ public class Camera {
     }
 
     public void reset() {
-        this.position = DEFAULT_POSITION;
+        this.position = new Vector3f(DEFAULT_POSITION);
     }
 
     public float getPitch() {

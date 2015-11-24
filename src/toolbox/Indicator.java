@@ -35,12 +35,15 @@ public class Indicator {
         textPane.setBackground(color);
     }
 
-    public static void lookForChanges() {
-        if (Camera.isMouseGrabbed) {
-            textPane.setText("Playing");
-        }
-        else {
-            textPane.setText("Game paused");
+    public static void lookForChanges(MousePicker picker) {
+        try {
+            textPane.setText(
+                    "x: " + picker.getCurrentTerrainPoint().getX() + "\n" +
+                    "y: " + picker.getCurrentTerrainPoint().getY() + "\n" +
+                    "z: " +  picker.getCurrentTerrainPoint().getZ()
+            );
+        } catch (NullPointerException e) {
+            System.err.println("Could not determine mouse position. MAX_ZOOM must be too small.");
         }
     }
 }

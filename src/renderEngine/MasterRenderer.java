@@ -195,7 +195,7 @@ public class MasterRenderer {
             }
             // Move the player per frame (and so the camera)
             picker.update();
-            Indicator.lookForChanges();
+            Indicator.lookForChanges(picker);
 
             for (Entity entity : entities) {
                 renderer.processEntity(entity);

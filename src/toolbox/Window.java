@@ -1,5 +1,6 @@
 package toolbox;
 
+import com.sun.glass.events.WindowEvent;
 import org.lwjgl.opengl.Display;
 import renderEngine.MasterRenderer;
 
@@ -10,6 +11,8 @@ import javax.swing.text.html.ObjectView;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +35,10 @@ public class Window {
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         menuWrapperPanel = new JPanel();
+        menuWrapperPanel.setLayout(new BorderLayout());
         menuWrapperPanel.setBackground((Color) elements.get("darkGreen"));
+        // Set menu panel size
+        menuWrapperPanel.setPreferredSize(new Dimension(150, mainFrame.getHeight()));
         JPanel menuPanel = (JPanel) elements.get("menuPanel");
         menuPanel.setOpaque(false);
 
@@ -43,10 +49,11 @@ public class Window {
         menuPanel.add((JButton) elements.get("button1"));
         menuPanel.add((JButton) elements.get("button2"));
 
-        Indicator btnIndicator = (Indicator) elements.get("btnIndicator");
+        Indicator btnIndicator = (Indicator) elements.get("indicator");
         indicatorPanel.add(btnIndicator.getTextPane());
 
         menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
+        menuWrapperPanel.add(indicatorPanel, BorderLayout.AFTER_LAST_LINE);
 
         mainFrame.add(menuWrapperPanel, BorderLayout.WEST);
         mainFrame.add(canvas, BorderLayout.CENTER);
@@ -60,19 +67,23 @@ public class Window {
         Color menuBgColor = new Color(2, 120, 0);
         elements.put("darkGreen", menuBgColor);
 
-        Indicator btnIndicator = new Indicator("text");
-        elements.put("btnIndicator", btnIndicator);
-
         EmptyBorder menuPanelBorder = new EmptyBorder(10, 10, 20, 10);
         elements.put("menuPanelBorder", menuPanelBorder);
 
         JButton button = new JButton("New Game");
-        JButton button1 = new JButton("Quit");
         button.addActionListener(e -> {
             MasterRenderer.restart();
         });
+
+        JButton button1 = new JButton("Quit");
+        button1.addActionListener(e1 -> {
+            mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
+        });
         elements.put("button1", button);
         elements.put("button2", button1);
+
+        Indicator indicator = new Indicator("text");
+        elements.put("indicator", indicator);
 
         JPanel menuPanel = new JPanel(new GridLayout(2, 1));
         JPanel indicatorPanel = new JPanel(new GridLayout(1,1));

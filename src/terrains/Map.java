@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public class Map {
     private static final float SIZE = 500;
-    private static final float MAX_HEIGHT = 10;
+    private static final float MAX_HEIGHT = 25;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
     private float x;
@@ -168,5 +168,9 @@ public class Map {
         }
 
         return result;
+    }
+
+    public static boolean isPointOnMap(float x, float z) {
+        return (x < SIZE && z < SIZE);
     }
 }

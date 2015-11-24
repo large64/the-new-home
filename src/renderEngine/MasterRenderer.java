@@ -158,8 +158,6 @@ public class MasterRenderer {
                 float x = random.nextFloat() * 400.0f;
                 float z = random.nextFloat() * -400.0f;
                 float y = map.getHeightOfMap(x, z);
-                x = random.nextFloat() * 400f;
-                z = random.nextFloat() * -400f;
                 entities.add(new Soldier(soldier, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
             }
         }

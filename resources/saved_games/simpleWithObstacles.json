@@ -1,0 +1,59 @@
+{
+  "mapSize": 10,
+  "entities": {
+    "entity0": {
+      "position": {
+        "row": 0,
+        "column": 3
+      },
+      "health": 100,
+      "type": "unit",
+      "side": 0
+    },
+    "entity1": {
+      "position": {
+        "row": 3,
+        "column": 1
+      },
+      "health": 100,
+      "type": "building",
+      "side": 0
+    },
+    "entity2": {
+      "position": {
+        "row": 0,
+        "column": 2
+      },
+      "health": 100,
+      "type": "building",
+      "side": 0
+    },
+    "entity3": {
+      "position": {
+        "row": 1,
+        "column": 3
+      },
+      "health": 100,
+      "type": "building",
+      "side": 0
+    },
+    "entity4": {
+      "position": {
+        "row": 1,
+        "column": 2
+      },
+      "health": 100,
+      "type": "building",
+      "side": 0
+    },
+    "entity5": {
+      "position": {
+        "row": 4,
+        "column": 0
+      },
+      "health": 40,
+      "type": "unit",
+      "side": 0
+    }
+  }
+}

@@ -1,10 +1,10 @@
 package main;
 
-import engine.Map;
+import engine.RawMap;
 import engine.actions.Attack;
 import engine.actions.Healing;
-import engine.entities.buildings.Building;
-import engine.entities.units.Soldier;
+import engine.entities.buildings.RawBuilding;
+import engine.entities.units.RawSoldier;
 import engine.entities.units.Unit;
 
 import java.util.List;
@@ -16,15 +16,15 @@ public class Game {
     public static void main(String[] args) {
         List entities = GameLoader.load("attack");
 
-        new Map(entities);
+        new RawMap(entities);
 
         for (Object entity : entities) {
             System.out.println(entity.toString());
         }
 
-        Attack attackRunnable = new Attack((Soldier) entities.get(0), (Building) entities.get(3));
-        Attack attackRunnable1 = new Attack((Unit) entities.get(7), (Building) entities.get(5));
-        Healing healing = new Healing((Unit) entities.get(8), (Building) entities.get(6));
+        Attack attackRunnable = new Attack((RawSoldier) entities.get(0), (RawBuilding) entities.get(3));
+        Attack attackRunnable1 = new Attack((Unit) entities.get(7), (RawBuilding) entities.get(5));
+        Healing healing = new Healing((Unit) entities.get(8), (RawBuilding) entities.get(6));
 
         Thread thread = new Thread(attackRunnable);
         Thread thread1 = new Thread(attackRunnable1);
@@ -44,7 +44,7 @@ public class Game {
     public static void makeTimePass() {
         try {
             Thread.sleep(500);
-            Map.lookForChanges();
+            RawMap.lookForChanges();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

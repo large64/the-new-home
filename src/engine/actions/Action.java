@@ -1,6 +1,6 @@
 package engine.actions;
 
-import engine.entities.Entity;
+import engine.entities.RawEntity;
 import engine.entities.units.Unit;
 
 /**
@@ -8,10 +8,10 @@ import engine.entities.units.Unit;
  */
 public abstract class Action implements Runnable {
     Unit unit;
-    Entity entity;
+    RawEntity rawEntity;
 
-    public Action(Unit unit, Entity entity) {
+    public Action(Unit unit, RawEntity rawEntity) {
         this.unit = unit;
-        this.entity = entity;
+        this.rawEntity = rawEntity;
     }
 }

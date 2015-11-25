@@ -1,6 +1,6 @@
 package engine.toolbox;
 
-import engine.Map;
+import engine.RawMap;
 
 /**
  * Created by Dénes on 2015. 11. 07..
@@ -28,16 +28,16 @@ public class Position {
     }
 
     public int convertToMatrixPosition() {
-        return ((this.row) * Map.getRowNumber()) + this.column;
+        return ((this.row) * RawMap.getRowNumber()) + this.column;
     }
 
     public boolean isBlocked(boolean isDestination) {
         return (
-                this.row >= Map.getRowNumber()
+                this.row >= RawMap.getRowNumber()
                         || this.row < 0
-                        || this.column >= Map.getRowNumber()
+                        || this.column >= RawMap.getRowNumber()
                         || this.column < 0
-                        || !Map.isPositionFree(new Position(row, column), isDestination)
+                        || !RawMap.isPositionFree(new Position(row, column), isDestination)
         );
     }
 

@@ -3,8 +3,8 @@ package engine.entities.units;
 /**
  * Created by large64 on 23/11/15.
  */
-public class Soldier extends Unit{
-    public Soldier(int row, int column, int health, boolean side) {
+public class RawHealer extends Unit{
+    public RawHealer(int row, int column, int health, boolean side) {
         super(row, column, health, side);
     }
 
@@ -16,6 +16,6 @@ public class Soldier extends Unit{
     @Override
     public String toString() {
         String toReturn = super.toString();
-        return toReturn.replaceAll("entity", "soldier");
+        return toReturn.replaceAll("entity", "healer");
     }
 }

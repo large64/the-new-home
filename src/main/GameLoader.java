@@ -1,10 +1,10 @@
 package main;
 
-import engine.entities.Entity;
-import engine.entities.buildings.Building;
-import engine.entities.units.Healer;
-import engine.entities.units.Soldier;
-import engine.entities.units.Unit;
+import engine.RawMap;
+import engine.entities.RawEntity;
+import engine.entities.buildings.RawBuilding;
+import engine.entities.units.RawHealer;
+import engine.entities.units.RawSoldier;
 import org.kopitubruk.util.json.JSONParser;
 
 import java.io.File;
@@ -22,7 +22,7 @@ public class GameLoader {
         String jsonFileContent = GameLoader.getFileContent(jsonFile);
         LinkedHashMap jsonData = null;
 
-        List<Entity> entities = new ArrayList<>();
+        List<RawEntity> entities = new ArrayList<>();
         int mapSize;
 
         try {
@@ -54,17 +54,17 @@ public class GameLoader {
 
                 switch (type) {
                     case "soldier":
-                        entities.add(new Soldier(entityRow, entityColumn, health, side));
+                        entities.add(new RawSoldier(entityRow, entityColumn, health, side));
                         break;
                     case "healer":
-                        entities.add(new Healer(entityRow, entityColumn, health, side));
+                        entities.add(new RawHealer(entityRow, entityColumn, health, side));
                         break;
                     case "building":
-                        entities.add(new Building(entityRow, entityColumn, health, side));
+                        entities.add(new RawBuilding(entityRow, entityColumn, health, side));
                         break;
                 }
             }
-            engine.Map.setSize(mapSize / 2);
+            RawMap.setSize(mapSize / 2);
         }
 
         return entities;

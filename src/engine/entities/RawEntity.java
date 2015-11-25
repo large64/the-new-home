@@ -5,7 +5,7 @@ import engine.toolbox.Position;
 /**
  * Created by Dénes on 2015. 11. 06..
  */
-public abstract class Entity {
+public abstract class RawEntity {
     private static final String ID = "entity";
     private static final int DEFAULT_HEALTH = 100;
 
@@ -17,7 +17,7 @@ public abstract class Entity {
     private boolean isBeingHealed = false;
     private Side side;
 
-    public Entity(Position position) {
+    public RawEntity(Position position) {
         counter++;
         this.position = position;
         this.health = DEFAULT_HEALTH;
@@ -33,9 +33,9 @@ public abstract class Entity {
         return position;
     }
 
-    public boolean isNextToAnEntity(Entity entity) {
-        int entityRow = entity.getPosition().getRow();
-        int entityColumn = entity.getPosition().getColumn();
+    public boolean isNextToAnEntity(RawEntity rawEntity) {
+        int entityRow = rawEntity.getPosition().getRow();
+        int entityColumn = rawEntity.getPosition().getColumn();
 
         // offsets of entities relative to each other
         int rowOffset = entityRow - this.position.getRow();
@@ -85,10 +85,10 @@ public abstract class Entity {
 
     @Override
     public boolean equals(Object object) {
-        if (object instanceof Entity) {
-            Entity entity = (Entity) object;
+        if (object instanceof RawEntity) {
+            RawEntity rawEntity = (RawEntity) object;
 
-            if (entity.getID().equals(this.getID())) {
+            if (rawEntity.getID().equals(this.getID())) {
                 return true;
             }
         }

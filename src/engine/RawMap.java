@@ -1,6 +1,6 @@
 package engine;
 
-import engine.entities.Entity;
+import engine.entities.RawEntity;
 import engine.toolbox.Position;
 
 import javax.swing.*;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Dénes on 2015. 11. 06..
  */
-public class Map {
+public class RawMap {
     private static final Color BASE_TILE_COLOR = new Color(0, 0, 0);
     private static final Color BEING_HEALED_COLOR = new Color(3, 132, 24);
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
@@ -27,10 +27,10 @@ public class Map {
     private static JPanel panel;
     private static List<Integer> markers = new ArrayList<>();
 
-    public Map(List entities) {
+    public RawMap(List entities) {
         places = new boolean[size * size];
         frame = new JFrame("The New Home - engine tester");
-        Map.entities = entities;
+        RawMap.entities = entities;
         panel = new JPanel();
         GridLayout gridLayout = new GridLayout(size, size);
 
@@ -74,16 +74,16 @@ public class Map {
             toAdd.setBackground(BASE_TILE_COLOR);
 
             for (Object object : entities) {
-                Entity entity = (Entity) object;
+                RawEntity rawEntity = (RawEntity) object;
 
-                if (entity.isAlive() && entity.getPosition().convertToMatrixPosition() == i) {
-                    String text = entity.toString();
+                if (rawEntity.isAlive() && rawEntity.getPosition().convertToMatrixPosition() == i) {
+                    String text = rawEntity.toString();
 
-                    if (entity.isBeingAttacked()) {
+                    if (rawEntity.isBeingAttacked()) {
                         toAdd.setBackground(BEING_ATTACKED_COLOR);
                     }
 
-                    if (entity.isBeingHealed()) {
+                    if (rawEntity.isBeingHealed()) {
                         toAdd.setBackground(BEING_HEALED_COLOR);
                     }
 
@@ -105,7 +105,7 @@ public class Map {
     }
 
     public static void setSize(int size) {
-        Map.size = size;
+        RawMap.size = size;
     }
 
     public synchronized static void lookForChanges() {

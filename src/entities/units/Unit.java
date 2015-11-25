@@ -1,5 +1,6 @@
 package entities.units;
 
+import engine.entities.units.RawSoldier;
 import entities.Entity;
 import models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
@@ -27,6 +28,15 @@ public class Unit extends Entity {
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+    }
+
+    public Unit(TexturedModel model, RawSoldier rawSoldier, float rotX, float rotY, float rotZ, float scale) {
+        this.model = model;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+        this.setRawEntity(rawSoldier);
     }
 
     public void increasePosition(float dx, float dy, float dz) {

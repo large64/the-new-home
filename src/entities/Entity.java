@@ -1,5 +1,6 @@
 package entities;
 
+import engine.entities.RawEntity;
 import models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -13,6 +14,7 @@ public class Entity {
     protected float scale;
     protected int textureIndex = 0;
     protected float health = 100;
+    private RawEntity rawEntity;
 
     public float getTextureXOffset() {
         int column = textureIndex % model.getTexture().getNumberOfRows();
@@ -26,6 +28,14 @@ public class Entity {
 
     public void reset() {
 
+    }
+
+    public void setRawEntity(RawEntity rawEntity) {
+        this.rawEntity = rawEntity;
+    }
+
+    public RawEntity getRawEntity() {
+        return rawEntity;
     }
 
     public TexturedModel getModel() {

@@ -1,5 +1,7 @@
 package renderEngine;
 
+import engine.entities.RawEntity;
+import engine.entities.units.RawSoldier;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -148,19 +150,15 @@ public class MasterRenderer {
         Map map = new Map(0, -1, loader, texturePack, blendMap, "heightmap");
 
         // Set features of entities
+        List<RawEntity> rawEntities = new ArrayList<>();
         List<Entity> entities = new ArrayList<>();
-        TexturedModel soldier = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
+        TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
                 new ModelTexture(loader.loadTexture("soldier")));
 
         // Generate random coordinates for entities
-        for (int i = 0; i < 200; ++i) {
-            if (i % 3 == 0) {
-                float x = random.nextFloat() * 400.0f;
-                float z = random.nextFloat() * -400.0f;
-                float y = map.getHeightOfMap(x, z);
-                entities.add(new Soldier(soldier, new Vector3f(x, y, z), 0, random.nextFloat() * 360, 0, 1));
-            }
-        }
+        RawSoldier rawSoldier = new RawSoldier(5, 5, 100, true);
+        Soldier soldier = new Soldier(soldierModel, rawSoldier, map, 0, 0, 0, 1);
+        entities.add(soldier);
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();

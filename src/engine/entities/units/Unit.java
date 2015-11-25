@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class Unit extends RawEntity {
     public Unit(int row, int column, int health, boolean side) {
-        super(new Position(row, column));
+        super(new Position(row, -column));
 
         this.setHealth(health);
         this.setSide(side);

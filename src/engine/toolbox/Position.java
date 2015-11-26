@@ -1,43 +1,42 @@
 package engine.toolbox;
 
 import engine.RawMap;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Created by Dénes on 2015. 11. 07..
  */
-public class Position {
-    private int row;
-    private int column;
-
-    public Position(int row, int column) {
-        this.row = row;
-        this.column = column;
+public class Position extends Vector3f {
+    public Position(float x, float z) {
+        this.x = (int) x;
+        this.z = (int) z;
+        this.y = 0;
     }
 
     @Override
     public String toString() {
-        return "[" + this.row + "," + this.column + "]";
+        return "[" + this.x + "," + this.z + "]";
     }
 
     public int getRow() {
-        return this.row;
+        return (int) this.x;
     }
 
     public int getColumn() {
-        return this.column;
+        return (int) this.z;
     }
 
     public int convertToMatrixPosition() {
-        return ((this.row) * RawMap.getRowNumber()) + this.column;
+        return (int) (((this.x) * RawMap.getRowNumber()) + this.z);
     }
 
     public boolean isBlocked(boolean isDestination) {
         return (
-                this.row >= RawMap.getRowNumber()
-                        || this.row < 0
-                        || this.column >= RawMap.getRowNumber()
-                        || this.column < 0
-                        || !RawMap.isPositionFree(new Position(row, column), isDestination)
+                this.x >= RawMap.getRowNumber()
+                        || this.x < 0
+                        || this.z >= RawMap.getRowNumber()
+                        || this.z < 0
+                        || !RawMap.isPositionFree(new Position(x, z), isDestination)
         );
     }
 
@@ -45,7 +44,7 @@ public class Position {
     public boolean equals(Object object) {
         if (object instanceof Position) {
             Position position = (Position) object;
-            if (position.row == this.row && position.column == this.column) {
+            if (position.x == this.x && position.z == this.z) {
                 return true;
             }
         }

@@ -37,6 +37,7 @@ public class Unit extends Entity {
         this.rotZ = rotZ;
         this.scale = scale;
         this.setRawEntity(rawSoldier);
+        this.position = rawSoldier.getPosition();
     }
 
     public void increasePosition(float dx, float dy, float dz) {

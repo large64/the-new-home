@@ -1,7 +1,12 @@
 package renderEngine;
 
+import engine.RawMap;
+import engine.actions.ActionType;
+import engine.actions.Attack;
 import engine.entities.RawEntity;
+import engine.entities.buildings.RawBuilding;
 import engine.entities.units.RawSoldier;
+import engine.entities.units.Unit;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -159,10 +164,19 @@ public class MasterRenderer {
         RawSoldier rawSoldier = new RawSoldier(5, 5, 100, true);
         Soldier soldier = new Soldier(soldierModel, rawSoldier, map, 0, 0, 0, 1);
         entities.add(soldier);
+        rawEntities.add(rawSoldier);
+
+
+        RawSoldier rawSoldier2 = new RawSoldier(20, 20, 100, false);
+        Soldier soldier2 = new Soldier(soldierModel, rawSoldier2, map, 0, 0, 0, 1);
+        entities.add(soldier2);
+        rawEntities.add(rawSoldier2);
+
+        new RawMap(rawEntities);
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(-2000, 5000, -2000), new Vector3f(1f, 1f, 1f)));
+        lights.add(new Light(new Vector3f(-2000, 2000, -2000), new Vector3f(1f, 1f, 1f)));
 
         // Set features of GUIs
         /*List<GuiTexture> guis = new ArrayList<>();
@@ -180,9 +194,17 @@ public class MasterRenderer {
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
             if (restart) {
-                player.reset();
+                //player.reset();
                 for (Entity entity : entities) {
                     entity.reset();
+                }
+
+                for (int i = 0; i < entities.size(); i++) {
+                    if (i == 0) {
+                        Attack attackRunnable = new Attack((Unit) (entities.get(i).getRawEntity()), entities.get(1).getRawEntity());
+                        Thread thread = new Thread(attackRunnable);
+                        thread.start();
+                    }
                 }
                 restart = false;
             }

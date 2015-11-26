@@ -20,7 +20,7 @@ public class RawMap {
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
 
-    private static int size = 20;
+    private static int size = 30;
     private static boolean[] places;
     private static List entities;
     private static JFrame frame;

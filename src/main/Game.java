@@ -42,11 +42,6 @@ public class Game {
     }
 
     public static void makeTimePass() {
-        try {
-            Thread.sleep(500);
             RawMap.lookForChanges();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

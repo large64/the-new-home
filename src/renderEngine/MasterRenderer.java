@@ -1,10 +1,8 @@
 package renderEngine;
 
-import engine.RawMap;
-import engine.actions.ActionType;
+import engine.MiniMap;
 import engine.actions.Attack;
 import engine.entities.RawEntity;
-import engine.entities.buildings.RawBuilding;
 import engine.entities.units.RawSoldier;
 import engine.entities.units.Unit;
 import entities.Camera;
@@ -172,7 +170,7 @@ public class MasterRenderer {
         entities.add(soldier2);
         rawEntities.add(rawSoldier2);
 
-        new RawMap(rawEntities);
+        new MiniMap(rawEntities);
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();

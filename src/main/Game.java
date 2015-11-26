@@ -1,6 +1,6 @@
 package main;
 
-import engine.RawMap;
+import engine.MiniMap;
 import engine.actions.Attack;
 import engine.actions.Healing;
 import engine.entities.buildings.RawBuilding;
@@ -16,7 +16,7 @@ public class Game {
     public static void main(String[] args) {
         List entities = GameLoader.load("attack");
 
-        new RawMap(entities);
+        new MiniMap(entities);
 
         for (Object entity : entities) {
             System.out.println(entity.toString());
@@ -42,6 +42,6 @@ public class Game {
     }
 
     public static void makeTimePass() {
-            RawMap.lookForChanges();
+            MiniMap.lookForChanges();
     }
 }

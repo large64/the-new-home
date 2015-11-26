@@ -51,4 +51,8 @@ public class Unit extends Entity {
         this.rotY += dy;
         this.rotZ += dz;
     }
+
+    public void refreshPosition() {
+        this.position = getRawEntity().getPosition();
+    }
 }

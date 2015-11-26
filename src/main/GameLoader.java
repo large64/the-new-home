@@ -1,6 +1,6 @@
 package main;
 
-import engine.RawMap;
+import engine.MiniMap;
 import engine.entities.RawEntity;
 import engine.entities.buildings.RawBuilding;
 import engine.entities.units.RawHealer;
@@ -64,7 +64,7 @@ public class GameLoader {
                         break;
                 }
             }
-            RawMap.setSize(mapSize / 2);
+            MiniMap.setSize(mapSize / 2);
         }
 
         return entities;

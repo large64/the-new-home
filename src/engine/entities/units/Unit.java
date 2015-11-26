@@ -1,6 +1,6 @@
 package engine.entities.units;
 
-import engine.RawMap;
+import engine.MiniMap;
 import engine.actions.ActionType;
 import engine.entities.RawEntity;
 import engine.exceptions.ImproperActionException;
@@ -126,7 +126,7 @@ public class Unit extends RawEntity {
             Node node = (Node) iterator.next();
             this.position = new Position(node.row, node.column);
 
-            RawMap.mark(position.convertToMatrixPosition());
+            MiniMap.mark(position.convertToMatrixPosition());
             iterator.remove();
             Game.makeTimePass();
         }

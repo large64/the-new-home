@@ -1,6 +1,6 @@
 package engine.toolbox;
 
-import engine.RawMap;
+import engine.MiniMap;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -27,16 +27,16 @@ public class Position extends Vector3f {
     }
 
     public int convertToMatrixPosition() {
-        return (int) (((this.x) * RawMap.getRowNumber()) + this.z);
+        return (int) (((this.x) * MiniMap.getRowNumber()) + this.z);
     }
 
     public boolean isBlocked(boolean isDestination) {
         return (
-                this.x >= RawMap.getRowNumber()
+                this.x >= MiniMap.getRowNumber()
                         || this.x < 0
-                        || this.z >= RawMap.getRowNumber()
+                        || this.z >= MiniMap.getRowNumber()
                         || this.z < 0
-                        || !RawMap.isPositionFree(new Position(x, z), isDestination)
+                        || !MiniMap.isPositionFree(new Position(x, z), isDestination)
         );
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Created by Dénes on 2015. 11. 06..
  */
-public class RawMap {
+public class MiniMap {
     private static final Color BASE_TILE_COLOR = new Color(0, 0, 0);
     private static final Color BEING_HEALED_COLOR = new Color(3, 132, 24);
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
@@ -27,10 +27,10 @@ public class RawMap {
     private static JPanel panel;
     private static List<Integer> markers = new ArrayList<>();
 
-    public RawMap(List entities) {
+    public MiniMap(List entities) {
         places = new boolean[size * size];
         frame = new JFrame("The New Home - engine tester");
-        RawMap.entities = entities;
+        MiniMap.entities = entities;
         panel = new JPanel();
         GridLayout gridLayout = new GridLayout(size, size);
 
@@ -105,7 +105,7 @@ public class RawMap {
     }
 
     public static void setSize(int size) {
-        RawMap.size = size;
+        MiniMap.size = size;
     }
 
     public synchronized static void lookForChanges() {

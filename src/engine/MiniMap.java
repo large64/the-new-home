@@ -3,6 +3,7 @@ package engine;
 import engine.entities.RawEntity;
 import engine.toolbox.Position;
 import renderEngine.MasterRenderer;
+import terrains.Map;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,12 +17,12 @@ import java.util.List;
  * Created by Dénes on 2015. 11. 06..
  */
 public class MiniMap {
-    private static final Color BASE_TILE_COLOR = new Color(0, 0, 0);
+    private static final Color BASE_TILE_COLOR = new Color(183, 177, 42);
     private static final Color BEING_HEALED_COLOR = new Color(3, 132, 24);
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
 
-    private static int size = 30;
+    private static int size = (int) Map.getSIZE();
     private static boolean[] places;
     private static List entities = new ArrayList<>();
     private static JPanel frame;
@@ -38,13 +39,13 @@ public class MiniMap {
         gridLayout.setVgap(2);
 
         drawingPanel.setLayout(gridLayout);
-        //frame.setUndecorated(true);
         repaint(true);
+        drawingPanel.setPreferredSize(new Dimension(150, 150));
         frame.add(drawingPanel);
     }
 
     private static void repaint(boolean first) {
-        for (int i = 0; i < getSize(); i++) {
+        for (int i = 0; i < getSize() / 20; i++) {
             JTextPane toAdd;
             places[i] = true;
 
@@ -62,7 +63,7 @@ public class MiniMap {
             for (Object object : entities) {
                 RawEntity rawEntity = (RawEntity) object;
 
-                if (rawEntity.isAlive() && rawEntity.getPosition().convertToMatrixPosition() == i) {
+                if (rawEntity.isAlive() && (rawEntity.getPosition().convertToMatrixPosition() / 20) == i) {
                     String text = rawEntity.toString();
 
                     if (rawEntity.isBeingAttacked()) {
@@ -96,6 +97,7 @@ public class MiniMap {
 
     public synchronized static void lookForChanges() {
         repaint(false);
+        drawingPanel.setPreferredSize(new Dimension(150, 150));
         drawingPanel.revalidate();
     }
 

@@ -23,6 +23,7 @@ import java.util.Map;
 public class Window {
     private static JFrame mainFrame;
     private static JPanel menuWrapperPanel;
+    private static JPanel bottomWrapperPanel;
 
     private Map<String, Object> elements;
 
@@ -43,6 +44,13 @@ public class Window {
         JPanel menuPanel = (JPanel) elements.get("menuPanel");
         menuPanel.setOpaque(false);
 
+        new MiniMap();
+        bottomWrapperPanel = new JPanel();
+        bottomWrapperPanel.setLayout(new BorderLayout());
+        bottomWrapperPanel.setBackground((Color) elements.get("darkGreen"));
+        bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
+        bottomWrapperPanel.add(MiniMap.getFrame(), BorderLayout.EAST);
+
         JPanel indicatorPanel = (JPanel) elements.get("indicatorPanel");
         indicatorPanel.setOpaque(false);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(new Color(186, 186, 186), 1, true));
@@ -53,13 +61,11 @@ public class Window {
         Indicator btnIndicator = (Indicator) elements.get("indicator");
         indicatorPanel.add(btnIndicator.getTextPane());
 
-        MiniMap miniMap = new MiniMap();
-
         menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
         menuWrapperPanel.add(indicatorPanel, BorderLayout.AFTER_LAST_LINE);
-        menuWrapperPanel.add(MiniMap.getFrame(), BorderLayout.AFTER_LAST_LINE);
 
         mainFrame.add(menuWrapperPanel, BorderLayout.WEST);
+        mainFrame.add(bottomWrapperPanel, BorderLayout.SOUTH);
         mainFrame.add(canvas, BorderLayout.CENTER);
         mainFrame.pack();
         mainFrame.setVisible(true);
@@ -91,8 +97,11 @@ public class Window {
 
         JPanel menuPanel = new JPanel(new GridLayout(2, 1));
         JPanel indicatorPanel = new JPanel(new GridLayout(1,1));
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+
         elements.put("menuPanel", menuPanel);
         elements.put("indicatorPanel", indicatorPanel);
+        elements.put("bottomPanel", bottomPanel);
     }
 
     public static int getWidth() {

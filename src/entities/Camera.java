@@ -44,8 +44,6 @@ public class Camera {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             isMouseGrabbed = false;
             Window.getMenuWrapperPanel().setVisible(true);
-            // @TODO: focus on menuWrapperPanel after pressing Esc key
-
         }
 
         if (isMouseGrabbed) {

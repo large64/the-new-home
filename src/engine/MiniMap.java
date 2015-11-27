@@ -2,6 +2,7 @@ package engine;
 
 import engine.entities.RawEntity;
 import engine.toolbox.Position;
+import renderEngine.MasterRenderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,39 +23,24 @@ public class MiniMap {
 
     private static int size = 30;
     private static boolean[] places;
-    private static List entities;
-    private static JFrame frame;
-    private static JPanel panel;
+    private static List entities = new ArrayList<>();
+    private static JPanel frame;
+    private static JPanel drawingPanel;
     private static List<Integer> markers = new ArrayList<>();
 
-    public MiniMap(List entities) {
+    public MiniMap() {
         places = new boolean[size * size];
-        frame = new JFrame("The New Home - engine tester");
-        MiniMap.entities = entities;
-        panel = new JPanel();
+        drawingPanel = new JPanel();
+        frame = new JPanel();
         GridLayout gridLayout = new GridLayout(size, size);
 
         gridLayout.setHgap(2);
         gridLayout.setVgap(2);
 
-        panel.setLayout(gridLayout);
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        drawingPanel.setLayout(gridLayout);
         //frame.setUndecorated(true);
         repaint(true);
-        frame.add(panel);
-        frame.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                super.keyPressed(e);
-                if (e.getKeyCode() == 27) {
-                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                }
-                //System.out.println(e.getKeyCode());
-            }
-        });
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(drawingPanel);
     }
 
     private static void repaint(boolean first) {
@@ -65,7 +51,7 @@ public class MiniMap {
             if (first) {
                 toAdd = new JTextPane();
             } else {
-                toAdd = (JTextPane) panel.getComponent(i);
+                toAdd = (JTextPane) drawingPanel.getComponent(i);
             }
 
             toAdd.setEnabled(false);
@@ -95,7 +81,7 @@ public class MiniMap {
                 toAdd.setBackground(MARKED_COLOR);
             }
             if (first) {
-                panel.add(toAdd);
+                drawingPanel.add(toAdd);
             }
         }
     }
@@ -110,7 +96,7 @@ public class MiniMap {
 
     public synchronized static void lookForChanges() {
         repaint(false);
-        panel.revalidate();
+        drawingPanel.revalidate();
     }
 
     /**
@@ -134,5 +120,13 @@ public class MiniMap {
 
     public static void mark(int position) {
         markers.add(position);
+    }
+
+    public static void setEntities(List entities) {
+        MiniMap.entities = entities;
+    }
+
+    public static JPanel getFrame() {
+        return frame;
     }
 }

@@ -45,6 +45,7 @@ public class MasterRenderer {
     private TerrainShader terrainShader = new TerrainShader();
 
     private java.util.Map entities = new HashMap<>();
+    private static List<RawEntity> rawEntities = new ArrayList<>();
     private List<Map> maps = new ArrayList<>();
 
     private SkyboxRenderer skyboxRenderer;
@@ -118,6 +119,10 @@ public class MasterRenderer {
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = (List<Entity>) entities.get(entityModel);
 
+        if (entity instanceof entities.units.Unit) {
+            ((entities.units.Unit) entity).refreshPosition();
+        }
+
         if (batch != null) {
             batch.add(entity);
         } else {
@@ -137,6 +142,11 @@ public class MasterRenderer {
     }
 
     public static void renderScene() {
+        // @TODO: make z position of entity positive everywhere (maybe by changing the map position)
+        // @TODO: build minimap into map
+        // @TODO: synchronize positions of raw and real objects
+        // @TODO: indicator blinks under Ubuntu
+        // @TODO: make game loader work for map, too
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 
@@ -170,7 +180,7 @@ public class MasterRenderer {
         entities.add(soldier2);
         rawEntities.add(rawSoldier2);
 
-        new MiniMap(rawEntities);
+        MiniMap.setEntities(rawEntities);
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();
@@ -230,5 +240,9 @@ public class MasterRenderer {
 
     public static void restart() {
         restart = true;
+    }
+
+    public static List<RawEntity> getRawEntities() {
+        return rawEntities;
     }
 }

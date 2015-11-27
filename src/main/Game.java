@@ -16,8 +16,6 @@ public class Game {
     public static void main(String[] args) {
         List entities = GameLoader.load("attack");
 
-        new MiniMap(entities);
-
         for (Object entity : entities) {
             System.out.println(entity.toString());
         }

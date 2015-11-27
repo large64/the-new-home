@@ -1,6 +1,7 @@
 package toolbox;
 
 import com.sun.glass.events.WindowEvent;
+import engine.MiniMap;
 import org.lwjgl.opengl.Display;
 import renderEngine.MasterRenderer;
 
@@ -52,8 +53,11 @@ public class Window {
         Indicator btnIndicator = (Indicator) elements.get("indicator");
         indicatorPanel.add(btnIndicator.getTextPane());
 
+        MiniMap miniMap = new MiniMap();
+
         menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
         menuWrapperPanel.add(indicatorPanel, BorderLayout.AFTER_LAST_LINE);
+        menuWrapperPanel.add(MiniMap.getFrame(), BorderLayout.AFTER_LAST_LINE);
 
         mainFrame.add(menuWrapperPanel, BorderLayout.WEST);
         mainFrame.add(canvas, BorderLayout.CENTER);

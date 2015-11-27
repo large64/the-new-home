@@ -13,7 +13,7 @@ import toolbox.Window;
 public class DisplayManager {
     private static final int WIDTH = Window.getWidth();
     private static final int FPS_CAP = 720;
-    private static final int HEIGHT = Window.getHeight();
+    private static final int HEIGHT = Window.getHeight() - 150;
 
     private static long lastFrameTime;
     private static float delta;

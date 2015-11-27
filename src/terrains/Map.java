@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by large64 on 9/22/15.
  */
 public class Map {
-    private static final float SIZE = 500;
+    private static final float SIZE = 200;
     private static final float MAX_HEIGHT = 0;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
@@ -172,5 +172,9 @@ public class Map {
 
     public static boolean isPointOnMap(float x, float z) {
         return (x < SIZE && z < SIZE);
+    }
+
+    public static float getSIZE() {
+        return SIZE;
     }
 }

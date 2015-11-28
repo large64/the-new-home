@@ -10,6 +10,9 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
+import java.awt.image.Raster;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,9 +42,31 @@ public class MiniMap {
         gridLayout.setVgap(2);
 
         drawingPanel.setLayout(gridLayout);
-        repaint(true);
+        //repaint(true);
         drawingPanel.setPreferredSize(new Dimension(150, 150));
-        frame.add(drawingPanel);
+        //frame.add(drawingPanel);
+
+        frame.setLayout(new BorderLayout());
+
+        int w = 150;
+        int h = 150;
+        int type = BufferedImage.TYPE_INT_ARGB;
+
+        BufferedImage image = new BufferedImage(w, h, type);
+        int color = 5; // RGBA value, each component in a byte
+
+        for(int x = 0; x < w; x++) {
+            for(int y = 0; y < h; y++) {
+                image.setRGB(x, y, color);
+            }
+        }
+        /*Graphics g = image.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();*/
+
+        frame.add(new JLabel(new ImageIcon(image)), BorderLayout.CENTER);
+        frame.repaint();
+
     }
 
     private static void repaint(boolean first) {
@@ -96,9 +121,9 @@ public class MiniMap {
     }
 
     public synchronized static void lookForChanges() {
-        repaint(false);
-        drawingPanel.setPreferredSize(new Dimension(150, 150));
-        drawingPanel.revalidate();
+        //repaint(false);
+        //drawingPanel.setPreferredSize(new Dimension(150, 150));
+        //drawingPanel.revalidate();
     }
 
     /**

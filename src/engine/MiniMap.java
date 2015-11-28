@@ -2,17 +2,11 @@ package engine;
 
 import engine.entities.RawEntity;
 import engine.toolbox.Position;
-import renderEngine.MasterRenderer;
 import terrains.Map;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
-import java.awt.image.Raster;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,100 +18,41 @@ public class MiniMap {
     private static final Color BEING_HEALED_COLOR = new Color(3, 132, 24);
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
+    private static final Color BASE_ENTITY_COLOR = new Color(0, 13, 255);
 
     private static int size = (int) Map.getSIZE();
     private static boolean[] places;
-    private static List entities = new ArrayList<>();
-    private static JPanel frame;
-    private static JPanel drawingPanel;
+    private static BufferedImage image;
+    private static List<RawEntity> entities = new ArrayList<>();
     private static List<Integer> markers = new ArrayList<>();
+    private static JLabel label = new JLabel();
 
     public MiniMap() {
-        places = new boolean[size * size];
-        drawingPanel = new JPanel();
-        frame = new JPanel();
-        GridLayout gridLayout = new GridLayout(size, size);
+        refresh();
+    }
 
-        gridLayout.setHgap(2);
-        gridLayout.setVgap(2);
-
-        drawingPanel.setLayout(gridLayout);
-        //repaint(true);
-        drawingPanel.setPreferredSize(new Dimension(150, 150));
-        //frame.add(drawingPanel);
-
-        frame.setLayout(new BorderLayout());
-
+    public static void refresh() {
         int w = 150;
         int h = 150;
-        int type = BufferedImage.TYPE_INT_ARGB;
+        int type = BufferedImage.TYPE_INT_RGB;
 
-        BufferedImage image = new BufferedImage(w, h, type);
-        int color = 5; // RGBA value, each component in a byte
+        MiniMap.image = new BufferedImage(w, h, type);
 
-        for(int x = 0; x < w; x++) {
-            for(int y = 0; y < h; y++) {
-                image.setRGB(x, y, color);
-            }
-        }
-        /*Graphics g = image.createGraphics();
-        g.drawImage(image, 0, 0, null);
-        g.dispose();*/
-
-        frame.add(new JLabel(new ImageIcon(image)), BorderLayout.CENTER);
-        frame.repaint();
-
-    }
-
-    private static void repaint(boolean first) {
-        for (int i = 0; i < getSize() / 20; i++) {
-            JTextPane toAdd;
-            places[i] = true;
-
-            if (first) {
-                toAdd = new JTextPane();
-            } else {
-                toAdd = (JTextPane) drawingPanel.getComponent(i);
-            }
-
-            toAdd.setEnabled(false);
-            toAdd.setDisabledTextColor(new Color(255, 255, 255));
-            toAdd.setText("");
-            toAdd.setBackground(BASE_TILE_COLOR);
-
-            for (Object object : entities) {
-                RawEntity rawEntity = (RawEntity) object;
-
-                if (rawEntity.isAlive() && (rawEntity.getPosition().convertToMatrixPosition() / 20) == i) {
-                    String text = rawEntity.toString();
-
-                    if (rawEntity.isBeingAttacked()) {
-                        toAdd.setBackground(BEING_ATTACKED_COLOR);
+        if (!entities.isEmpty()) {
+            for (int x = 0; x < w; x++) {
+                for (int y = 0; y < h; y++) {
+                    MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
+                    for (RawEntity entity : entities) {
+                        if (entity.getPosition().getRow() == x && entity.getPosition().getColumn() == y) {
+                            MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
+                        }
                     }
-
-                    if (rawEntity.isBeingHealed()) {
-                        toAdd.setBackground(BEING_HEALED_COLOR);
-                    }
-
-                    toAdd.setText(text);
-                    places[i] = false;
                 }
             }
-            if (markers.contains(i)) {
-                toAdd.setBackground(MARKED_COLOR);
-            }
-            if (first) {
-                drawingPanel.add(toAdd);
-            }
         }
-    }
 
-    public static int getSize() {
-        return (size * size);
-    }
-
-    public static void setSize(int size) {
-        MiniMap.size = size;
+        ImageIcon icon = new ImageIcon(MiniMap.image);
+        label.setIcon(icon);
     }
 
     public synchronized static void lookForChanges() {
@@ -130,30 +65,34 @@ public class MiniMap {
      * Returns the number of rows of the map matrix that equals to the number of columns
      */
     public static int getRowNumber() {
-        return size;
+        return MiniMap.size;
     }
 
     public static List getEntities() {
-        return entities;
+        return MiniMap.entities;
     }
 
     public static boolean isPositionFree(Position position) {
-        return places[position.convertToMatrixPosition()];
+        return MiniMap.places[position.convertToMatrixPosition()];
     }
 
     public static boolean isPositionFree(Position position, boolean isDestination) {
-        return isDestination || places[position.convertToMatrixPosition()];
+        return isDestination || MiniMap.places[position.convertToMatrixPosition()];
     }
 
     public static void mark(int position) {
-        markers.add(position);
+        MiniMap.markers.add(position);
     }
 
     public static void setEntities(List entities) {
         MiniMap.entities = entities;
     }
 
-    public static JPanel getFrame() {
-        return frame;
+    public static void setSize(int size) {
+        MiniMap.size = (size * size);
+    }
+
+    public static JLabel getLabel() {
+        return label;
     }
 }

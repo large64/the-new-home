@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +61,8 @@ public class Window {
         menuPanel.setOpaque(false);
 
         new MiniMap();
-        bottomPanel.add(MiniMap.getFrame());
+
+        bottomPanel.add(MiniMap.getLabel());
         bottomWrapperPanel = new JPanel();
         bottomWrapperPanel.setLayout(new BorderLayout());
         bottomWrapperPanel.setBackground(menuBgColor);

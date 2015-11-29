@@ -33,12 +33,12 @@ public class Unit extends RawEntity {
             case ATTACK:
                 if (this instanceof RawSoldier && this.getSide() != rawEntity.getSide()) {
                     while (!this.isNextToAnEntity(rawEntity)) {
-                        this.goTo(rawEntity);
+                        this.goTo(rawEntity.getPosition());
                     }
 
                     while (rawEntity.getHealth() > 0) {
                         rawEntity.changeHealth(-10);
-                        Game.makeTimePass();
+                        MiniMap.lookForChanges();
                     }
                     rawEntity.setBeingAttacked(false);
                 } else {
@@ -49,12 +49,12 @@ public class Unit extends RawEntity {
             case HEAL:
                 if (this instanceof RawHealer && this.getSide() == rawEntity.getSide()) {
                     while (!this.isNextToAnEntity(rawEntity)) {
-                        this.goTo(rawEntity);
+                        this.goTo(rawEntity.getPosition());
                     }
 
                     while (rawEntity.getHealth() < 100) {
                         rawEntity.changeHealth(10);
-                        Game.makeTimePass();
+                        MiniMap.lookForChanges();
                     }
                     rawEntity.setBeingHealed(false);
                 } else {
@@ -62,18 +62,18 @@ public class Unit extends RawEntity {
                 }
                 break;
         }
-        Game.makeTimePass();
+        MiniMap.lookForChanges();
     }
 
     /**
      * Finds a way to rawEntity (if there is) and approaches it. It is an implementation of A* algorithm.
      *
-     * @param rawEntity The rawEntity to be approached
+     * @param position The position to be approached
      */
-    public void goTo(RawEntity rawEntity) {
+    public void goTo(Position position) {
         List<Node> path = new ArrayList<>();
 
-        if (path.isEmpty() && !this.isNextToAnEntity(rawEntity)) {
+        if (path.isEmpty()) {
             List<Node> open = new ArrayList<>();
             Queue<Node> closed = new LinkedList<>();
 
@@ -91,7 +91,7 @@ public class Unit extends RawEntity {
                     }
                 }
 
-                if (current.equals(new Node(rawEntity.getPosition().getRow(), rawEntity.getPosition().getColumn()))) {
+                if (current.equals(new Node(position.getRow(), position.getColumn()))) {
                     while (current != null) {
                         path.add(current);
                         current = current.parent;
@@ -109,7 +109,7 @@ public class Unit extends RawEntity {
 
                 ArrayList<Node> neighbors = current.getNeighbors();
 
-                processNeighbors(neighbors, rawEntity, open, closed, current);
+                processNeighbors(neighbors, position, open, closed, current);
             }
         }
     }
@@ -128,7 +128,7 @@ public class Unit extends RawEntity {
 
             //MiniMap.mark(this.position);
             iterator.remove();
-            Game.makeTimePass();
+            MiniMap.lookForChanges();
         }
     }
 
@@ -136,18 +136,18 @@ public class Unit extends RawEntity {
      * Processes neighbors of a selected node in a graph. This is a part of A* algorithm.
      *
      * @param neighbors The neighbors of the selected node to be processed
-     * @param rawEntity The destination rawEntity, which we are heading to
+     * @param position The destination position, which we are heading to
      * @param open The list of currently open (not yet processed) nodes
      * @param closed The list of already processed nodes
      * @param current The current node which is being processed. Taken from the open list, and put into closed when
      *                processed.
      */
-    private void processNeighbors(List<Node> neighbors, RawEntity rawEntity, List open, Queue<Node> closed, Node current) {
+    private void processNeighbors(List<Node> neighbors, Position position, List open, Queue<Node> closed, Node current) {
         for (Node neighbor : neighbors) {
             Position neighborPosition = new Position(neighbor.row, neighbor.column);
             boolean isDestination = false;
 
-            if (neighborPosition.equals(rawEntity.getPosition())) {
+            if (neighborPosition.equals(position)) {
                 isDestination = true;
             }
 
@@ -160,7 +160,7 @@ public class Unit extends RawEntity {
 
             if (!open.contains(neighbor)) {
                 isgCostBest = true;
-                neighbor.hCost = Node.gethCost(neighborPosition, rawEntity.getPosition());
+                neighbor.hCost = Node.gethCost(neighborPosition, position);
                 open.add(neighbor);
             } else if (gCost < neighbor.gCost) {
                 isgCostBest = true;

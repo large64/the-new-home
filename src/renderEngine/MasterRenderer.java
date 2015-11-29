@@ -203,7 +203,7 @@ public class MasterRenderer {
                 player.move();
             }
             if (Mouse.isButtonDown(1)) {
-                ((Unit)entities.get(0).getRawEntity()).goTo(entities.get(1).getRawEntity());
+                ((Unit)entities.get(0).getRawEntity()).goTo(entities.get(1).getRawEntity().getPosition());
             }
             // Move the player per frame (and so the camera)
             picker.update();

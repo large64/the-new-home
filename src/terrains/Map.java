@@ -18,23 +18,23 @@ import java.io.IOException;
  */
 public class Map {
     private static final float SIZE = 200;
-    private static final float MAX_HEIGHT = 0;
+    private static final float MAX_HEIGHT = 5;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
-    private float x;
-    private float z;
-    private RawModel model;
-    private TerrainTexturePack texturePack;
-    private TerrainTexture blendMap;
-    private float[][] heights;
+    private static float x;
+    private static float z;
+    private static RawModel model;
+    private static TerrainTexturePack texturePack;
+    private static TerrainTexture blendMap;
+    private static float[][] heights;
 
     public Map(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
                TerrainTexture blendMap, String heightOfMap) {
-        this.texturePack = texturePack;
-        this.blendMap = blendMap;
-        this.x = gridX * SIZE;
-        this.z = gridZ;
-        this.model = generateMap(loader, heightOfMap);
+        Map.texturePack = texturePack;
+        Map.blendMap = blendMap;
+        Map.x = gridX * SIZE;
+        Map.z = gridZ;
+        Map.model = generateMap(loader, heightOfMap);
     }
 
     private RawModel generateMap(Loader loader, String heightMap) {
@@ -115,29 +115,29 @@ public class Map {
         return normal;
     }
 
-    public float getX() {
+    public static float getX() {
         return x;
     }
 
-    public float getZ() {
+    public static float getZ() {
         return z;
     }
 
-    public RawModel getModel() {
+    public static RawModel getModel() {
         return model;
     }
 
-    public TerrainTexturePack getTexturePack() {
+    public static TerrainTexturePack getTexturePack() {
         return texturePack;
     }
 
-    public TerrainTexture getBlendMap() {
+    public  static TerrainTexture getBlendMap() {
         return blendMap;
     }
 
-    public float getHeightOfMap(float worldX, float worldY) {
-        float terrainX = worldX - this.x;
-        float terrainY = worldY - this.z;
+    public static float getHeightOfMap(float worldX, float worldY) {
+        float terrainX = worldX - Map.x;
+        float terrainY = worldY - Map.z;
 
         float gridSquareSize = SIZE / ((float) heights.length - 1);
         int gridX = (int) Math.floor(terrainX / gridSquareSize);

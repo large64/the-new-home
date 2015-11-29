@@ -9,12 +9,12 @@ import toolbox.Window;
  * Created by large64 on 9/15/15.
  */
 public class Camera {
-    private static final int MAX_ZOOM = 5;
+    private static final int MAX_ZOOM = 8;
     private static final int MAX_BACK_ZOOM = 29;
     private static final float DEFAULT_PITCH = 36;
     // Create new final variable for default position to prevent it from changing in runtime
-    private static final float DEFAULT_X = 0f; //212.70139f;
-    private static final float DEFAULT_Z = 200f; //-275.4985f;
+    private static final float DEFAULT_X = 12f; //212.70139f;
+    private static final float DEFAULT_Z = 50f; //-275.4985f;
     // Set default position (y) to be the maximum back zoom level
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float CURSOR_MARGIN = 10;
@@ -47,28 +47,17 @@ public class Camera {
         }
 
         if (isMouseGrabbed) {
-            boolean move = false;
             float changePositionBy = (0.3f - calculateMoveDamping(newZoomDistance));
 
             if (Mouse.getX() >= displayWidth - CURSOR_MARGIN) {
                 this.position.x += changePositionBy;
-                move = true;
             } else if (Mouse.getX() <= CURSOR_MARGIN) {
                 this.position.x -= changePositionBy;
-                move = true;
             } else if (Mouse.getY() >= displayHeight - CURSOR_MARGIN) {
                 this.position.z -= changePositionBy;
-                move = true;
             } else if (Mouse.getY() <= CURSOR_MARGIN) {
                 this.position.z += changePositionBy;
-                move = true;
             }
-
-        /*if (move) {
-            System.out.println("Camera position: [" + this.position.x + ", " + this.position.y + ", " + this.position.z + "]");
-            System.out.println("Pitch: " + this.pitch + ", Yaw: " + this.yaw);
-            System.out.println("MouseX: " + Mouse.getX() + ", MouseY: " + Mouse.getY());
-        }*/
 
             calculateZoom();
         }

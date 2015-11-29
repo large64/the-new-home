@@ -4,6 +4,7 @@ import engine.entities.units.RawSoldier;
 import entities.Entity;
 import models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
+import terrains.Map;
 
 /**
  * Created by large64 on 10/10/15.
@@ -38,6 +39,7 @@ public class Unit extends Entity {
         this.scale = scale;
         this.setRawEntity(rawSoldier);
         this.position = rawSoldier.getPosition();
+        this.position.y = Map.getHeightOfMap(this.position.x, this.position.z);
     }
 
     public void increasePosition(float dx, float dy, float dz) {

@@ -14,7 +14,7 @@ public class Soldier extends Unit {
         super(model, position, rotX, rotY, rotZ, scale);
     }
 
-    public Soldier(TexturedModel model, RawSoldier rawSoldier, Map map, float rotX, float rotY, float rotZ, float scale) {
+    public Soldier(TexturedModel model, RawSoldier rawSoldier, float rotX, float rotY, float rotZ, float scale) {
         super(model, rawSoldier, rotX, rotY, rotZ, scale);
     }
 }

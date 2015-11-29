@@ -46,7 +46,6 @@ public class MasterRenderer {
 
     private java.util.Map entities = new HashMap<>();
     private static List<RawEntity> rawEntities = new ArrayList<>();
-    private List<Map> maps = new ArrayList<>();
 
     private SkyboxRenderer skyboxRenderer;
 
@@ -93,11 +92,10 @@ public class MasterRenderer {
         terrainShader.start();
         terrainShader.loadLights(lights);
         terrainShader.loadViewMatrix(camera);
-        mapRenderer.render(maps);
+        mapRenderer.render();
         terrainShader.stop();
         skyboxRenderer.render(camera);
 
-        maps.clear();
         entities.clear();
     }
 
@@ -105,10 +103,6 @@ public class MasterRenderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0, 0.2f, 0.3f, 1);
-    }
-
-    public void processTerrain(Map map) {
-        maps.add(map);
     }
 
     /**
@@ -142,8 +136,6 @@ public class MasterRenderer {
     }
 
     public static void renderScene() {
-        // @TODO: make z position of entity positive everywhere (maybe by changing the map position)
-        // @TODO: build minimap into map
         // @TODO: synchronize positions of raw and real objects
         // @TODO: indicator blinks under Ubuntu
         // @TODO: make game loader work for map, too
@@ -160,7 +152,7 @@ public class MasterRenderer {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
 
         Random random = new Random(676452);
-        Map map = new Map(0, 1, loader, texturePack, blendMap, "heightmap");
+        new Map(0, 1, loader, texturePack, blendMap, "heightmap");
 
         // Set features of entities
         List<RawEntity> rawEntities = new ArrayList<>();
@@ -170,13 +162,13 @@ public class MasterRenderer {
 
         // Generate random coordinates for entities
         RawSoldier rawSoldier = new RawSoldier(5, 5, 100, true);
-        Soldier soldier = new Soldier(soldierModel, rawSoldier, map, 0, 0, 0, 1);
+        Soldier soldier = new Soldier(soldierModel, rawSoldier, 0, 0, 0, 1);
         entities.add(soldier);
         rawEntities.add(rawSoldier);
 
 
         RawSoldier rawSoldier2 = new RawSoldier(20, 20, 100, false);
-        Soldier soldier2 = new Soldier(soldierModel, rawSoldier2, map, 0, 0, 0, 1);
+        Soldier soldier2 = new Soldier(soldierModel, rawSoldier2, 0, 0, 0, 1);
         entities.add(soldier2);
         rawEntities.add(rawSoldier2);
 
@@ -185,7 +177,7 @@ public class MasterRenderer {
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(-2000, 2000, -2000), new Vector3f(1f, 1f, 1f)));
+        lights.add(new Light(new Vector3f(-2000, 2000, 2000), new Vector3f(1f, 1f, 1f)));
 
         // Set features of GUIs
         /*List<GuiTexture> guis = new ArrayList<>();
@@ -198,7 +190,7 @@ public class MasterRenderer {
 
         // Set additional things like renderer, picker
         MasterRenderer renderer = new MasterRenderer(loader);
-        MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix(), map);
+        MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix());
 
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
@@ -228,7 +220,6 @@ public class MasterRenderer {
                 renderer.processEntity(entity);
             }
             renderer.render(lights, player.getCamera());
-            renderer.processTerrain(map);
             //guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }

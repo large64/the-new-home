@@ -20,14 +20,12 @@ public class MousePicker {
     private Matrix4f viewMatrix;
     private Camera camera;
 
-    private Map map;
     private Vector3f currentTerrainPoint;
 
-    public MousePicker(Camera cam, Matrix4f projection, Map map) {
+    public MousePicker(Camera cam, Matrix4f projection) {
         camera = cam;
         projectionMatrix = projection;
         viewMatrix = Maths.createViewMatrix(camera);
-        this.map = map;
     }
 
     public Vector3f getCurrentTerrainPoint() {
@@ -88,12 +86,7 @@ public class MousePicker {
         float half = start + ((finish - start) / 2f);
         if (count >= RECURSION_COUNT) {
             Vector3f endPoint = getPointOnRay(ray, half);
-            Map map = getMap(endPoint.getX(), endPoint.getZ());
-            if (map != null) {
-                return endPoint;
-            } else {
-                return null;
-            }
+            return endPoint;
         }
         if (intersectionInRange(start, half, ray)) {
             return binarySearch(count + 1, start, half, ray);
@@ -113,20 +106,13 @@ public class MousePicker {
     }
 
     private boolean isUnderGround(Vector3f testPoint) {
-        Map map = getMap(testPoint.getX(), testPoint.getZ());
         float height = 0;
-        if (map != null) {
-            height = map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
-        }
+        height = Map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
         if (testPoint.y < height) {
             return true;
         } else {
             return false;
         }
-    }
-
-    private Map getMap(float worldX, float worldZ) {
-        return map;
     }
 
 }

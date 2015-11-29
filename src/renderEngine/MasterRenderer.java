@@ -5,6 +5,7 @@ import engine.actions.Attack;
 import engine.entities.RawEntity;
 import engine.entities.units.RawSoldier;
 import engine.entities.units.Unit;
+import engine.toolbox.Position;
 import entities.Camera;
 import entities.Entity;
 import entities.Light;
@@ -197,13 +198,17 @@ public class MasterRenderer {
         while(!Display.isCloseRequested()) {
             if (restart) {
                 player.reset();
+                for (RawEntity entity : rawEntities) {
+                    entity.reset();
+                }
                 restart = false;
             }
             else {
                 player.move();
             }
             if (Mouse.isButtonDown(1)) {
-                ((Unit)entities.get(0).getRawEntity()).goTo(entities.get(1).getRawEntity().getPosition());
+                Position position = new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z);
+                ((Unit)entities.get(0).getRawEntity()).goTo(position);
             }
             // Move the player per frame (and so the camera)
             picker.update();

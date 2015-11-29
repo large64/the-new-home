@@ -11,6 +11,7 @@ public abstract class RawEntity {
 
     protected static int counter = 0;
     protected Position position;
+    private Position defaultPosition;
     private String id = ID + counter;
     private int health;
     private boolean isBeingAttacked = false;
@@ -22,6 +23,7 @@ public abstract class RawEntity {
         this.position = position;
         this.health = DEFAULT_HEALTH;
         this.side = Side.ENEMY;
+        this.defaultPosition = position;
     }
 
     @Override
@@ -31,6 +33,10 @@ public abstract class RawEntity {
 
     public Position getPosition() {
         return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 
     public boolean isNextToAnEntity(RawEntity rawEntity) {
@@ -106,5 +112,9 @@ public abstract class RawEntity {
 
     public void setSide(boolean side) {
         this.side = side ? Side.FRIEND : Side.ENEMY;
+    }
+
+    public void reset() {
+        this.position = defaultPosition;
     }
 }

@@ -22,9 +22,10 @@ public class MiniMap {
 
     private static final float MAPPING_RATIO = 1.6f;
 
-    private static int size = (int) (Map.getSIZE() / MAPPING_RATIO);
+    private static int size = (int) Map.getSIZE();
+    private static int mappedSize = (int) (size / MAPPING_RATIO);
     private static boolean[][] places = new boolean[size][size];
-    private static BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);;
+    private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);;
     private static List<RawEntity> entities = new ArrayList<>();
     private static List<Position> markers = new ArrayList<>();
     private static JLabel label = new JLabel();
@@ -35,14 +36,14 @@ public class MiniMap {
 
     public static void lookForChanges() {
         if (!entities.isEmpty()) {
-            for (int x = 0; x < size; x++) {
-                for (int y = 0; y < size; y++) {
+            for (int x = 0; x < mappedSize; x++) {
+                for (int y = 0; y < mappedSize; y++) {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
                     places[x][y] = true;
                     for (RawEntity entity : entities) {
                         if ((int) (entity.getPosition().getRow() / MAPPING_RATIO) == x && (int) (entity.getPosition().getColumn() / MAPPING_RATIO) == y) {
                             MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
-                            places[x][y] = false;
+                            places[entity.getPosition().getRow()][entity.getPosition().getColumn()] = false;
                         }
                     }
                     for (Position marker : markers) {

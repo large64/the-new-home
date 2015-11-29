@@ -20,62 +20,25 @@ public class MiniMap {
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
     private static final Color BASE_ENTITY_COLOR = new Color(0, 13, 255);
 
-    private static int size = (int) Map.getSIZE();
-    private static boolean[][] places;
-    private static BufferedImage image;
+    private static int size = (int) (Map.getSIZE() / 1.6f);
+    private static boolean[][] places = new boolean[size][size];
+    private static BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);;
     private static List<RawEntity> entities = new ArrayList<>();
     private static List<Integer> markers = new ArrayList<>();
     private static JLabel label = new JLabel();
 
     public MiniMap() {
-        refresh();
+        lookForChanges();
     }
 
-    public static void refresh() {
-        int w = 150;
-        int h = 150;
-        int type = BufferedImage.TYPE_INT_RGB;
-
-        MiniMap.image = new BufferedImage(w, h, type);
-        MiniMap.places = new boolean[w][h];
-
+    public static void lookForChanges() {
         if (!entities.isEmpty()) {
-            for (int x = 0; x < w; x++) {
-                for (int y = 0; y < h; y++) {
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
                     places[x][y] = true;
                     for (RawEntity entity : entities) {
-                        if (entity.getPosition().getRow() == x && entity.getPosition().getColumn() == y) {
-                            MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
-                            places[x][y] = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        ImageIcon icon = new ImageIcon(MiniMap.image);
-        label.setIcon(icon);
-    }
-
-    public synchronized static void lookForChanges() {
-        //repaint(false);
-        //drawingPanel.setPreferredSize(new Dimension(150, 150));
-        //drawingPanel.revalidate();
-        int w = 150;
-        int h = 150;
-        int type = BufferedImage.TYPE_INT_RGB;
-
-        MiniMap.image = new BufferedImage(w, h, type);
-        MiniMap.places = new boolean[w][h];
-
-        if (!entities.isEmpty()) {
-            for (int x = 0; x < w; x++) {
-                for (int y = 0; y < h; y++) {
-                    MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
-                    places[x][y] = true;
-                    for (RawEntity entity : entities) {
-                        if (entity.getPosition().getRow() == x && entity.getPosition().getColumn() == y) {
+                        if ((int) (entity.getPosition().getRow() / 1.6) == x && (int) (entity.getPosition().getColumn() / 1.6) == y) {
                             MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
                             places[x][y] = false;
                         }

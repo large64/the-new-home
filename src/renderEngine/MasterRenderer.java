@@ -181,7 +181,7 @@ public class MasterRenderer {
         rawEntities.add(rawSoldier2);
 
         MiniMap.setEntities(rawEntities);
-        MiniMap.refresh();
+        MiniMap.lookForChanges();
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();

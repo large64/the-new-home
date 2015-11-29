@@ -62,7 +62,8 @@ public class Window {
 
         new MiniMap();
 
-        bottomPanel.add(MiniMap.getLabel());
+        bottomPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
+        bottomPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
         bottomWrapperPanel = new JPanel();
         bottomWrapperPanel.setLayout(new BorderLayout());
         bottomWrapperPanel.setBackground(menuBgColor);

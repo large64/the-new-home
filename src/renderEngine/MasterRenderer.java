@@ -160,7 +160,7 @@ public class MasterRenderer {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
 
         Random random = new Random(676452);
-        Map map = new Map(0, -1, loader, texturePack, blendMap, "heightmap");
+        Map map = new Map(0, 1, loader, texturePack, blendMap, "heightmap");
 
         // Set features of entities
         List<RawEntity> rawEntities = new ArrayList<>();

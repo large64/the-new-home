@@ -33,7 +33,7 @@ public class Map {
         this.texturePack = texturePack;
         this.blendMap = blendMap;
         this.x = gridX * SIZE;
-        this.z = gridZ * SIZE;
+        this.z = gridZ;
         this.model = generateMap(loader, heightOfMap);
     }
 

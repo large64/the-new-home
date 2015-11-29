@@ -21,7 +21,7 @@ public class MiniMap {
     private static final Color BASE_ENTITY_COLOR = new Color(0, 13, 255);
 
     private static int size = (int) Map.getSIZE();
-    private static boolean[] places;
+    private static boolean[][] places;
     private static BufferedImage image;
     private static List<RawEntity> entities = new ArrayList<>();
     private static List<Integer> markers = new ArrayList<>();
@@ -37,14 +37,17 @@ public class MiniMap {
         int type = BufferedImage.TYPE_INT_RGB;
 
         MiniMap.image = new BufferedImage(w, h, type);
+        MiniMap.places = new boolean[w][h];
 
         if (!entities.isEmpty()) {
             for (int x = 0; x < w; x++) {
                 for (int y = 0; y < h; y++) {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
+                    places[x][y] = true;
                     for (RawEntity entity : entities) {
                         if (entity.getPosition().getRow() == x && entity.getPosition().getColumn() == y) {
                             MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
+                            places[x][y] = false;
                         }
                     }
                 }
@@ -59,6 +62,30 @@ public class MiniMap {
         //repaint(false);
         //drawingPanel.setPreferredSize(new Dimension(150, 150));
         //drawingPanel.revalidate();
+        int w = 150;
+        int h = 150;
+        int type = BufferedImage.TYPE_INT_RGB;
+
+        MiniMap.image = new BufferedImage(w, h, type);
+        MiniMap.places = new boolean[w][h];
+
+        if (!entities.isEmpty()) {
+            for (int x = 0; x < w; x++) {
+                for (int y = 0; y < h; y++) {
+                    MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
+                    places[x][y] = true;
+                    for (RawEntity entity : entities) {
+                        if (entity.getPosition().getRow() == x && entity.getPosition().getColumn() == y) {
+                            MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
+                            places[x][y] = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        ImageIcon icon = new ImageIcon(MiniMap.image);
+        label.setIcon(icon);
     }
 
     /**
@@ -73,11 +100,11 @@ public class MiniMap {
     }
 
     public static boolean isPositionFree(Position position) {
-        return MiniMap.places[position.convertToMatrixPosition()];
+        return MiniMap.places[position.getRow()][position.getColumn()];
     }
 
     public static boolean isPositionFree(Position position, boolean isDestination) {
-        return isDestination || MiniMap.places[position.convertToMatrixPosition()];
+        return isDestination || MiniMap.places[position.getRow()][position.getColumn()];
     }
 
     public static void mark(int position) {

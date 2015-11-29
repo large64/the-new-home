@@ -11,6 +11,7 @@ import entities.Light;
 import entities.Player;
 import entities.units.Soldier;
 import models.TexturedModel;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
@@ -195,22 +196,14 @@ public class MasterRenderer {
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
             if (restart) {
-                //player.reset();
-                for (Entity entity : entities) {
-                    entity.reset();
-                }
-
-                for (int i = 0; i < entities.size(); i++) {
-                    if (i == 0) {
-                        Attack attackRunnable = new Attack((Unit) (entities.get(i).getRawEntity()), entities.get(1).getRawEntity());
-                        Thread thread = new Thread(attackRunnable);
-                        thread.start();
-                    }
-                }
+                player.reset();
                 restart = false;
             }
             else {
                 player.move();
+            }
+            if (Mouse.isButtonDown(1)) {
+                ((Unit)entities.get(0).getRawEntity()).goTo(entities.get(1).getRawEntity());
             }
             // Move the player per frame (and so the camera)
             picker.update();

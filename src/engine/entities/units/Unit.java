@@ -73,7 +73,7 @@ public class Unit extends RawEntity {
     public void goTo(RawEntity rawEntity) {
         List<Node> path = new ArrayList<>();
 
-        if (path.isEmpty()) {
+        if (path.isEmpty() && !this.isNextToAnEntity(rawEntity)) {
             List<Node> open = new ArrayList<>();
             Queue<Node> closed = new LinkedList<>();
 
@@ -126,7 +126,7 @@ public class Unit extends RawEntity {
             Node node = (Node) iterator.next();
             this.position = new Position(node.row, node.column);
 
-            MiniMap.mark(position.convertToMatrixPosition());
+            //MiniMap.mark(this.position);
             iterator.remove();
             Game.makeTimePass();
         }

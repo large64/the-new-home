@@ -20,11 +20,13 @@ public class MiniMap {
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
     private static final Color BASE_ENTITY_COLOR = new Color(0, 13, 255);
 
-    private static int size = (int) (Map.getSIZE() / 1.6f);
+    private static final float MAPPING_RATIO = 1.6f;
+
+    private static int size = (int) (Map.getSIZE() / MAPPING_RATIO);
     private static boolean[][] places = new boolean[size][size];
     private static BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_RGB);;
     private static List<RawEntity> entities = new ArrayList<>();
-    private static List<Integer> markers = new ArrayList<>();
+    private static List<Position> markers = new ArrayList<>();
     private static JLabel label = new JLabel();
 
     public MiniMap() {
@@ -38,9 +40,14 @@ public class MiniMap {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
                     places[x][y] = true;
                     for (RawEntity entity : entities) {
-                        if ((int) (entity.getPosition().getRow() / 1.6) == x && (int) (entity.getPosition().getColumn() / 1.6) == y) {
+                        if ((int) (entity.getPosition().getRow() / MAPPING_RATIO) == x && (int) (entity.getPosition().getColumn() / MAPPING_RATIO) == y) {
                             MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
                             places[x][y] = false;
+                        }
+                    }
+                    for (Position marker : markers) {
+                        if ((int) (marker.getRow() / MAPPING_RATIO) == x && (int) (marker.getColumn() / MAPPING_RATIO) == y) {
+                            MiniMap.image.setRGB(x, y, MARKED_COLOR.getRGB());
                         }
                     }
                 }
@@ -70,7 +77,7 @@ public class MiniMap {
         return isDestination || MiniMap.places[position.getRow()][position.getColumn()];
     }
 
-    public static void mark(int position) {
+    public static void mark(Position position) {
         MiniMap.markers.add(position);
     }
 

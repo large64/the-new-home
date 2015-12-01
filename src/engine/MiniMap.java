@@ -63,7 +63,6 @@ public class MiniMap {
                         if ((int) (marker.getRow() / MAPPING_RATIO) == x && (int) (marker.getColumn() / MAPPING_RATIO) == y) {
                             MiniMap.image.setRGB(x, y, MARKED_COLOR.getRGB());
                         }
-                        // TODO: remove previous marked path
                     }
                 }
             }

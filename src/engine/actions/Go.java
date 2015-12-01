@@ -13,6 +13,6 @@ public class Go extends Action {
 
     @Override
     public void run() {
-        unit.goTo(rawEntity.getPosition());
+        unit.goTo(rawEntity.getTilePosition());
     }
 }

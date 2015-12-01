@@ -7,6 +7,7 @@ import engine.entities.RawMap;
 import engine.exceptions.ImproperActionException;
 import engine.toolbox.Node;
 import engine.toolbox.Position;
+import engine.toolbox.Tile;
 import main.Game;
 
 import java.util.*;
@@ -34,7 +35,7 @@ public class Unit extends RawEntity {
             case ATTACK:
                 if (this instanceof RawSoldier && this.getSide() != rawEntity.getSide()) {
                     while (!this.isNextToAnEntity(rawEntity)) {
-                        this.goTo(rawEntity.getPosition());
+                        this.goTo(rawEntity.getTilePosition());
                     }
 
                     while (rawEntity.getHealth() > 0) {
@@ -51,7 +52,7 @@ public class Unit extends RawEntity {
             case HEAL:
                 if (this instanceof RawHealer && this.getSide() == rawEntity.getSide()) {
                     while (!this.isNextToAnEntity(rawEntity)) {
-                        this.goTo(rawEntity.getPosition());
+                        this.goTo(rawEntity.getTilePosition());
                     }
 
                     while (rawEntity.getHealth() < 100) {
@@ -72,16 +73,16 @@ public class Unit extends RawEntity {
     /**
      * Finds a way to rawEntity (if there is) and approaches it. It is an implementation of A* algorithm.
      *
-     * @param position The position to be approached
+     * @param tile The tile on the raw map to be approached
      */
-    public void goTo(Position position) {
+    public void goTo(Tile tile) {
         List<Node> path = new ArrayList<>();
 
         if (path.isEmpty()) {
             List<Node> open = new ArrayList<>();
             Queue<Node> closed = new LinkedList<>();
 
-            Node startPosition = new Node(this.getPosition().getRow(), this.getPosition().getColumn());
+            Node startPosition = new Node(this.getTilePosition().getRow(), this.getTilePosition().getColumn());
             open.add(startPosition);
 
             while (!open.isEmpty()) {
@@ -95,7 +96,7 @@ public class Unit extends RawEntity {
                     }
                 }
 
-                if (current.equals(new Node(position.getRow(), position.getColumn()))) {
+                if (current.equals(new Node(tile.getRow(), tile.getColumn()))) {
                     while (current != null) {
                         path.add(current);
                         current = current.parent;
@@ -103,7 +104,7 @@ public class Unit extends RawEntity {
                     Collections.reverse(path);
                     path.remove(path.size() - 1);
                     System.out.println(path);
-                    walk(this, path);
+                    walk(path);
                     return;
                 }
 
@@ -112,7 +113,7 @@ public class Unit extends RawEntity {
 
                 ArrayList<Node> neighbors = current.getNeighbors();
 
-                processNeighbors(neighbors, position, open, closed, current);
+                processNeighbors(neighbors, tile, open, closed, current);
             }
         }
     }
@@ -122,12 +123,12 @@ public class Unit extends RawEntity {
      *
      * @param path The path to be taken
      */
-    public void walk(Unit unit, List path) {
+    public void walk(List path) {
         ListIterator iterator = path.listIterator();
 
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
-            unit.position = new Position(node.row, node.column);
+            this.position = new Tile(node.row, node.column).toPosition();
 
             MiniMap.mark(this.position);
             MiniMap.lookForChanges();
@@ -140,18 +141,18 @@ public class Unit extends RawEntity {
      * Processes neighbors of a selected node in a graph. This is a part of A* algorithm.
      *
      * @param neighbors The neighbors of the selected node to be processed
-     * @param position The destination position, which we are heading to
+     * @param tile The destination tile, which we are heading to
      * @param open The list of currently open (not yet processed) nodes
      * @param closed The list of already processed nodes
      * @param current The current node which is being processed. Taken from the open list, and put into closed when
      *                processed.
      */
-    private void processNeighbors(List<Node> neighbors, Position position, List open, Queue<Node> closed, Node current) {
+    private void processNeighbors(List<Node> neighbors, Tile tile, List open, Queue<Node> closed, Node current) {
         for (Node neighbor : neighbors) {
-            Position neighborPosition = new Position(neighbor.row, neighbor.column);
+            Tile neighborPosition = new Tile(neighbor.row, neighbor.column);
             boolean isDestination = false;
 
-            if (neighborPosition.equals(position)) {
+            if (neighborPosition.equals(tile)) {
                 isDestination = true;
             }
 
@@ -164,7 +165,7 @@ public class Unit extends RawEntity {
 
             if (!open.contains(neighbor)) {
                 isgCostBest = true;
-                neighbor.hCost = Node.gethCost(neighborPosition, position);
+                neighbor.hCost = Node.gethCost(neighborPosition, tile);
                 open.add(neighbor);
             } else if (gCost < neighbor.gCost) {
                 isgCostBest = true;

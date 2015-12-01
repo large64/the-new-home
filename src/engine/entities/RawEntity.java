@@ -1,6 +1,7 @@
 package engine.entities;
 
 import engine.toolbox.Position;
+import engine.toolbox.Tile;
 
 /**
  * Created by Dénes on 2015. 11. 06..
@@ -11,6 +12,7 @@ public abstract class RawEntity {
 
     protected static int counter = 0;
     protected Position position;
+    protected Tile tilePosition;
     private Position defaultPosition;
     private String id = ID + counter;
     private int health;
@@ -21,6 +23,7 @@ public abstract class RawEntity {
     public RawEntity(Position position) {
         counter++;
         this.position = position;
+        this.tilePosition = Tile.positionToTile(position);
         this.health = DEFAULT_HEALTH;
         this.side = Side.ENEMY;
         this.defaultPosition = position;
@@ -116,5 +119,9 @@ public abstract class RawEntity {
 
     public void reset() {
         this.position = defaultPosition;
+    }
+
+    public Tile getTilePosition() {
+        return tilePosition;
     }
 }

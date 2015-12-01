@@ -9,8 +9,8 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Position extends Vector3f {
     public Position(float x, float z) {
-        this.x = (int) x;
-        this.z = (int) z;
+        this.x = x;
+        this.z = z;
         this.y = 0;
     }
 
@@ -25,16 +25,6 @@ public class Position extends Vector3f {
 
     public int getColumn() {
         return (int) this.z;
-    }
-
-    public boolean isBlocked(boolean isDestination) {
-        return (
-                this.x >= RawMap.getSize()
-                        || this.x < 0
-                        || this.z >= RawMap.getSize()
-                        || this.z < 0
-                        || !RawMap.isPositionFree(new Position(x, z), isDestination)
-        );
     }
 
     @Override

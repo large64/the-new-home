@@ -23,9 +23,9 @@ public class Node {
         this.row = row;
     }
 
-    public static int gethCost(Position position1, Position position2) {
-        int distance1 = Math.abs(position1.getRow() - position2.getRow());
-        int distance2 = Math.abs(position1.getColumn() - position2.getColumn());
+    public static int gethCost(Tile tile1, Tile tile2) {
+        int distance1 = Math.abs(tile1.getRow() - tile2.getRow());
+        int distance2 = Math.abs(tile1.getColumn() - tile2.getColumn());
 
         return distance1 + distance2;
     }

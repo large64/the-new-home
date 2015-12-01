@@ -1,6 +1,7 @@
 package engine.entities;
 
 import engine.toolbox.Position;
+import engine.toolbox.Tile;
 import terrains.Map;
 
 import java.util.ArrayList;
@@ -10,7 +11,9 @@ import java.util.List;
  * Created by Dénes on 2015. 12. 01..
  */
 public class RawMap {
-    private static int size = (int) Map.getSIZE();
+    private static final int TILE_SIZE = 5;
+
+    private static int size = (int) (Map.getSIZE() / TILE_SIZE);
     private static List<RawEntity> entities = new ArrayList<>();
     private static boolean[][] places = new boolean[size][size];
 
@@ -35,8 +38,8 @@ public class RawMap {
         }
     }
 
-    public static boolean isPositionFree(Position position, boolean isDestination) {
-        return isDestination || RawMap.places[position.getRow()][position.getColumn()];
+    public static boolean isTileFree(Tile tile, boolean isDestination) {
+        return isDestination || RawMap.places[tile.getColumn()][tile.getRow()];
     }
 
     public static int getSize() {

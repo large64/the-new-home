@@ -1,5 +1,7 @@
 package toolbox;
 
+import engine.toolbox.Position;
+import engine.toolbox.Tile;
 import entities.Camera;
 
 import javax.swing.*;
@@ -37,10 +39,15 @@ public class Indicator {
 
     public static void lookForChanges(MousePicker picker) {
         try {
+            float x = picker.getCurrentTerrainPoint().getX();
+            float y = picker.getCurrentTerrainPoint().getY();
+            float z = picker.getCurrentTerrainPoint().getZ();
             textPane.setText(
-                    "x: " + picker.getCurrentTerrainPoint().getX() + "\n" +
-                    "y: " + picker.getCurrentTerrainPoint().getY() + "\n" +
-                    "z: " +  picker.getCurrentTerrainPoint().getZ()
+                    "x: " + x + "\n" +
+                    "y: " + y + "\n" +
+                    "z: " + z  + "\n" +
+                    "tX" + Tile.positionToTile(new Position(x, z)).getRow() + "\n" +
+                    "tZ" + Tile.positionToTile(new Position(x, z)).getColumn()
             );
         } catch (NullPointerException e) {
             System.err.println("Could not determine mouse position. MAX_ZOOM must be too small.");

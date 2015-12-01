@@ -2,6 +2,7 @@ package main;
 
 import engine.MiniMap;
 import engine.entities.RawEntity;
+import engine.entities.RawMap;
 import engine.entities.buildings.RawBuilding;
 import engine.entities.units.RawHealer;
 import engine.entities.units.RawSoldier;
@@ -64,7 +65,7 @@ public class GameLoader {
                         break;
                 }
             }
-            MiniMap.setSize(mapSize / 2);
+            // @TODO: set size of map according to json data
         }
 
         return entities;

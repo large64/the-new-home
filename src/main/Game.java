@@ -38,8 +38,4 @@ public class Game {
         }
         thread2.start();
     }
-
-    public static void makeTimePass() {
-            MiniMap.lookForChanges();
-    }
 }

@@ -3,6 +3,7 @@ package renderEngine;
 import engine.MiniMap;
 import engine.actions.Attack;
 import engine.entities.RawEntity;
+import engine.entities.RawMap;
 import engine.entities.units.RawSoldier;
 import engine.entities.units.Unit;
 import engine.toolbox.Position;
@@ -176,6 +177,7 @@ public class MasterRenderer {
 
         MiniMap.setEntities(rawEntities);
         MiniMap.lookForChanges();
+        new RawMap(rawEntities);
 
         // Set features of lights
         List<Light> lights = new ArrayList<>();
@@ -194,6 +196,8 @@ public class MasterRenderer {
         MasterRenderer renderer = new MasterRenderer(loader);
         MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix());
 
+        boolean click = false;
+
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
             if (restart) {
@@ -206,10 +210,13 @@ public class MasterRenderer {
             else {
                 player.move();
             }
-            if (Mouse.isButtonDown(1)) {
+            if (Mouse.isButtonDown(1) && !click) {
+                MiniMap.clearMarkers();
                 Position position = new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z);
                 ((Unit)entities.get(0).getRawEntity()).goTo(position);
             }
+
+            click = Mouse.isButtonDown(1);
             // Move the player per frame (and so the camera)
             picker.update();
             Indicator.lookForChanges(picker);

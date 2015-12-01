@@ -3,6 +3,7 @@ package engine.entities.units;
 import engine.MiniMap;
 import engine.actions.ActionType;
 import engine.entities.RawEntity;
+import engine.entities.RawMap;
 import engine.exceptions.ImproperActionException;
 import engine.toolbox.Node;
 import engine.toolbox.Position;
@@ -39,6 +40,7 @@ public class Unit extends RawEntity {
                     while (rawEntity.getHealth() > 0) {
                         rawEntity.changeHealth(-10);
                         MiniMap.lookForChanges();
+                        RawMap.lookForChanges();
                     }
                     rawEntity.setBeingAttacked(false);
                 } else {
@@ -55,6 +57,7 @@ public class Unit extends RawEntity {
                     while (rawEntity.getHealth() < 100) {
                         rawEntity.changeHealth(10);
                         MiniMap.lookForChanges();
+                        RawMap.lookForChanges();
                     }
                     rawEntity.setBeingHealed(false);
                 } else {
@@ -63,6 +66,7 @@ public class Unit extends RawEntity {
                 break;
         }
         MiniMap.lookForChanges();
+        RawMap.lookForChanges();
     }
 
     /**
@@ -99,8 +103,7 @@ public class Unit extends RawEntity {
                     Collections.reverse(path);
                     path.remove(path.size() - 1);
                     System.out.println(path);
-
-                    walk(path);
+                    walk(this, path);
                     return;
                 }
 
@@ -119,16 +122,17 @@ public class Unit extends RawEntity {
      *
      * @param path The path to be taken
      */
-    private void walk(List path) {
+    public void walk(Unit unit, List path) {
         ListIterator iterator = path.listIterator();
 
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
-            this.position = new Position(node.row, node.column);
+            unit.position = new Position(node.row, node.column);
 
-            //MiniMap.mark(this.position);
-            iterator.remove();
+            MiniMap.mark(this.position);
             MiniMap.lookForChanges();
+            RawMap.lookForChanges();
+            iterator.remove();
         }
     }
 

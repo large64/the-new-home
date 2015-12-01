@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by Dénes on 2015. 11. 06..
@@ -23,15 +24,16 @@ public class MiniMap {
     private static final float MAPPING_RATIO = 1.6f;
 
     private static int size = (int) Map.getSIZE();
-    private static int mappedSize = (int) (size / MAPPING_RATIO);
-    private static boolean[][] places = new boolean[size][size];
-    private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);;
     private static List<RawEntity> entities = new ArrayList<>();
+    private static boolean[][] places = new boolean[size][size];
+
+    private static int mappedSize = (int) (size / MAPPING_RATIO);
+    private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);;
     private static List<Position> markers = new ArrayList<>();
     private static JLabel label = new JLabel();
 
     public MiniMap() {
-        lookForChanges();
+        MiniMap.lookForChanges();
     }
 
     public static void lookForChanges() {
@@ -41,16 +43,27 @@ public class MiniMap {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
                     places[x][y] = true;
                     for (RawEntity entity : entities) {
-                        if ((int) (entity.getPosition().getRow() / MAPPING_RATIO) == x && (int) (entity.getPosition().getColumn() / MAPPING_RATIO) == y) {
-                            MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
-                            places[entity.getPosition().getRow()][entity.getPosition().getColumn()] = false;
+                        if (entity.isAlive()) {
+                            if ((int) (entity.getPosition().getRow() / MAPPING_RATIO) == x && (int) (entity.getPosition().getColumn() / MAPPING_RATIO) == y) {
+                                MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
+                                places[entity.getPosition().getRow()][entity.getPosition().getColumn()] = false;
+
+                                if (entity.isBeingAttacked()) {
+                                    MiniMap.image.setRGB(x, y, BEING_ATTACKED_COLOR.getRGB());
+                                }
+                                if (entity.isBeingHealed()) {
+                                    MiniMap.image.setRGB(x, y, BEING_HEALED_COLOR.getRGB());
+                                }
+                            }
                         }
                     }
-                    for (Position marker : markers) {
+
+                    for (ListIterator iterator = markers.listIterator(); iterator.hasNext();) {
+                        Position marker = (Position) iterator.next();
                         if ((int) (marker.getRow() / MAPPING_RATIO) == x && (int) (marker.getColumn() / MAPPING_RATIO) == y) {
                             MiniMap.image.setRGB(x, y, MARKED_COLOR.getRGB());
-                            markers.remove(marker);
                         }
+                        // TODO: remove previous marked path
                     }
                 }
             }
@@ -71,24 +84,16 @@ public class MiniMap {
         return MiniMap.entities;
     }
 
-    public static boolean isPositionFree(Position position) {
-        return MiniMap.places[position.getRow()][position.getColumn()];
-    }
-
-    public static boolean isPositionFree(Position position, boolean isDestination) {
-        return isDestination || MiniMap.places[position.getRow()][position.getColumn()];
-    }
-
     public static void mark(Position position) {
         MiniMap.markers.add(position);
     }
 
-    public static void setEntities(List entities) {
-        MiniMap.entities = entities;
+    public static void clearMarkers() {
+        MiniMap.markers.clear();
     }
 
-    public static void setSize(int size) {
-        MiniMap.size = (size * size);
+    public static void setEntities(List entities) {
+        MiniMap.entities = entities;
     }
 
     public static JLabel getLabel() {

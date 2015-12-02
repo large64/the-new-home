@@ -129,6 +129,7 @@ public class Unit extends RawEntity {
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
             this.position = new Tile(node.row, node.column).toPosition();
+            this.tilePosition = Tile.positionToTile(this.position);
 
             MiniMap.mark(this.position);
             MiniMap.lookForChanges();

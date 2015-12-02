@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class MapRenderer {
     private TerrainShader shader;
+    private static boolean showTiles = false;
 
     public MapRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
@@ -31,6 +32,12 @@ public class MapRenderer {
     public void render() {
         prepareTerrain();
         loadModelMatrix();
+        if(showTiles) {
+            shader.toggleTiles(true);
+        }
+        else {
+            shader.toggleTiles(false);
+        }
         GL11.glDrawElements(GL11.GL_TRIANGLES, Map.getModel().getVertexCount(),
                 GL11.GL_UNSIGNED_INT, 0);
         unbindTexturedModel();
@@ -77,5 +84,9 @@ public class MapRenderer {
                 0, 0, 0, 1);
 
         shader.loadTransformationMatrix(transformationMatrix);
+    }
+
+    public static void setShowTiles(boolean showTiles) {
+        MapRenderer.showTiles = showTiles;
     }
 }

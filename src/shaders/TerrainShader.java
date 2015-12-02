@@ -25,6 +25,7 @@ public class TerrainShader extends ShaderProgram {
     private int location_shineDamper;
     private int location_reflectivity;
     private int location_attenuation[];
+    private int location_showTiles;
 
     private int location_backgroundTexture;
     private int location_rTexture;
@@ -43,6 +44,7 @@ public class TerrainShader extends ShaderProgram {
         location_viewMatrix = super.getUniformLocation("viewMatrix");
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
+        location_showTiles = super.getUniformLocation("showTiles");
 
         location_backgroundTexture = super.getUniformLocation("backgroundTexture");
         location_rTexture = super.getUniformLocation("rTexture");
@@ -67,6 +69,15 @@ public class TerrainShader extends ShaderProgram {
         super.loadInt(location_gTexture, 2);
         super.loadInt(location_bTexture, 3);
         super.loadInt(location_blendMap, 4);
+    }
+
+    public void toggleTiles(boolean on) {
+        if (on) {
+            super.loadInt(location_showTiles, 1);
+        }
+        else {
+            super.loadInt(location_showTiles, 0);
+        }
     }
 
     @Override

@@ -3,6 +3,7 @@ package toolbox;
 import com.sun.glass.events.WindowEvent;
 import engine.MiniMap;
 import org.lwjgl.opengl.Display;
+import renderEngine.MapRenderer;
 import renderEngine.MasterRenderer;
 
 import javax.swing.*;
@@ -25,6 +26,7 @@ public class Window {
     private static JFrame mainFrame;
     private static JPanel menuWrapperPanel;
     private static JPanel bottomWrapperPanel;
+    private static boolean isTileShown = false;
 
     public Window(Canvas canvas) {
         Color menuBgColor = new Color(2, 120, 0);
@@ -41,9 +43,21 @@ public class Window {
             mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
         });
 
+        JButton button2 = new JButton("Toggle tiles");
+        button2.addActionListener(el ->{
+            if (!isTileShown) {
+                MapRenderer.setShowTiles(true);
+                isTileShown = true;
+            }
+            else {
+                MapRenderer.setShowTiles(false);
+                isTileShown = false;
+            }
+        });
+
         Indicator indicator = new Indicator("text");
 
-        JPanel menuPanel = new JPanel(new GridLayout(2, 1));
+        JPanel menuPanel = new JPanel(new GridLayout(3, 1));
         JPanel indicatorPanel = new JPanel(new GridLayout(1,1));
         JPanel bottomPanel = new JPanel(new BorderLayout());
 
@@ -75,11 +89,12 @@ public class Window {
 
         menuPanel.add(button);
         menuPanel.add(button1);
+        menuPanel.add(button2);
 
         indicatorPanel.add(indicator.getTextPane());
 
         menuWrapperPanel.add(menuPanel, BorderLayout.NORTH);
-        menuWrapperPanel.add(indicatorPanel, BorderLayout.AFTER_LAST_LINE);
+        menuWrapperPanel.add(indicatorPanel, BorderLayout.SOUTH);
 
         mainFrame.add(menuWrapperPanel, BorderLayout.WEST);
         mainFrame.add(bottomWrapperPanel, BorderLayout.SOUTH);

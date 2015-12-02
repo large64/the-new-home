@@ -46,8 +46,8 @@ public class Indicator {
                     "x: " + x + "\n" +
                     "y: " + y + "\n" +
                     "z: " + z  + "\n" +
-                    "tX" + Tile.positionToTile(new Position(x, z)).getRow() + "\n" +
-                    "tZ" + Tile.positionToTile(new Position(x, z)).getColumn()
+                    "tX: " + Tile.positionToTile(new Position(x, z)).getRow() + "\n" +
+                    "tZ: " + Tile.positionToTile(new Position(x, z)).getColumn()
             );
         } catch (NullPointerException e) {
             System.err.println("Could not determine mouse position. MAX_ZOOM must be too small.");

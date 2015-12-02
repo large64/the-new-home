@@ -17,17 +17,17 @@ public class Tile {
 
     public static Tile positionToTile(Position position) {
         // using formula (a + ((X - Xmin) * (b - a)/(Xmax - Xmin)))
-        int tileColumn = (0 + ((position.getColumn() - 0) * (20 - 0) / ((int) Map.getSIZE() - 0)));
-        int tileRow = (0 + ((position.getRow() - 0) * (20 - 0) / ((int) Map.getSIZE() - 0)));
+        int tileColumn = (0 + ((position.getColumn() - 0) * (RawMap.getNrOfTiles() - 0) / ((int) Map.getSIZE() - 0)));
+        int tileRow = (0 + ((position.getRow() - 0) * (RawMap.getNrOfTiles() - 0) / ((int) Map.getSIZE() - 0)));
 
         return new Tile(tileRow, tileColumn);
     }
 
     public Position toPosition() {
-        int column = (0 + ((this.getColumn() - 0) * ((int) Map.getSIZE() - 0) / (20 - 0)));
-        int row = (0 + ((this.getRow() - 0) * ((int) Map.getSIZE() - 0) / (20 - 0)));
+        int column = (0 + ((this.getColumn() - 0) * ((int) Map.getSIZE() - 0) / (RawMap.getNrOfTiles() - 0)));
+        int row = (0 + ((this.getRow() - 0) * ((int) Map.getSIZE() - 0) / (RawMap.getNrOfTiles() - 0)));
 
-        return new Position(row + 2.5f, column + 2.5f);
+        return new Position(row, column);
     }
 
     public boolean isBlocked(boolean isDestination) {

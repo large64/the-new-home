@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class RawMap {
     private static final int TILE_SIZE = 5;
+    private static final int NR_OF_TILES = (int) (Map.getSIZE() / TILE_SIZE);
 
     private static int size = (int) (Map.getSIZE() / TILE_SIZE);
     private static List<RawEntity> entities = new ArrayList<>();
@@ -44,5 +45,9 @@ public class RawMap {
 
     public static int getSize() {
         return RawMap.size;
+    }
+
+    public static int getNrOfTiles() {
+        return NR_OF_TILES;
     }
 }

@@ -17,7 +17,7 @@ public class Camera {
     private static final float DEFAULT_Z = 170f; //-275.4985f;
     // Set default position (y) to be the maximum back zoom level
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
-    private static final float CURSOR_MARGIN = 10;
+    private static final float CURSOR_MARGIN = 20;
 
     private Vector3f position;
     private float pitch = DEFAULT_PITCH;
@@ -29,7 +29,7 @@ public class Camera {
     private float displayHeight = Display.getHeight();
     private float displayWidth = Display.getWidth();
 
-    public static boolean isMouseGrabbed = false;
+    public static boolean isMouseGrabbed = true;
 
     public Camera() {
         this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
@@ -38,12 +38,10 @@ public class Camera {
     public void move() {
         if (Mouse.isButtonDown(0)) {
             isMouseGrabbed = true;
-            Window.getMenuWrapperPanel().setVisible(false);
         }
 
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             isMouseGrabbed = false;
-            Window.getMenuWrapperPanel().setVisible(true);
         }
 
         if (isMouseGrabbed) {

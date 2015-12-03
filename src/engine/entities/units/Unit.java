@@ -9,6 +9,7 @@ import engine.toolbox.Node;
 import engine.toolbox.Position;
 import engine.toolbox.Tile;
 import main.Game;
+import terrains.*;
 
 import java.util.*;
 
@@ -65,6 +66,11 @@ public class Unit extends RawEntity {
                     throw new ImproperActionException();
                 }
                 break;
+            case WALK:
+                while (!this.isNextToAnEntity(rawEntity)) {
+                    this.goTo(rawEntity.getTilePosition());
+                }
+                break;
         }
         MiniMap.lookForChanges();
         RawMap.lookForChanges();
@@ -102,7 +108,6 @@ public class Unit extends RawEntity {
                         current = current.parent;
                     }
                     Collections.reverse(path);
-                    path.remove(path.size() - 1);
                     System.out.println(path);
                     walk(path);
                     return;
@@ -128,7 +133,10 @@ public class Unit extends RawEntity {
 
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
-            this.position = new Tile(node.row, node.column).toPosition();
+            Tile tile = new Tile(node.row, node.column);
+            Position position = tile.toPosition();
+            this.position = position;
+            this.position.y = terrains.Map.getHeightOfMap(this.position.x, this.position.z);
             this.tilePosition = Tile.positionToTile(this.position);
             // @TODO: implement smooth walking
 

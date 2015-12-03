@@ -11,7 +11,7 @@ import toolbox.Window;
  * Created by large64 on 9/6/15.
  */
 public class DisplayManager {
-    private static final int WIDTH = Window.getWidth();
+    private static final int WIDTH = Window.getWidth() - 150;
     private static final int FPS_CAP = 60;
     private static final int HEIGHT = Window.getHeight() - 150;
 

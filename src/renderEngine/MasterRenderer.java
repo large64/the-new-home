@@ -2,6 +2,7 @@ package renderEngine;
 
 import engine.MiniMap;
 import engine.actions.Attack;
+import engine.actions.Go;
 import engine.entities.RawEntity;
 import engine.entities.RawMap;
 import engine.entities.units.RawSoldier;
@@ -214,7 +215,9 @@ public class MasterRenderer {
             if (Mouse.isButtonDown(1) && !click) {
                 MiniMap.clearMarkers();
                 Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                ((Unit)entities.get(0).getRawEntity()).goTo(tile);
+                Go go = new Go(((Unit)entities.get(0).getRawEntity()), tile);
+                new Thread(go).start();
+                System.out.println(Display.getWidth());
             }
 
             click = Mouse.isButtonDown(1);

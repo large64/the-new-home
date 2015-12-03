@@ -116,4 +116,8 @@ public class Window {
     public static JPanel getMenuWrapperPanel() {
         return menuWrapperPanel;
     }
+
+    public static JFrame getMainFrame() {
+        return mainFrame;
+    }
 }

@@ -217,7 +217,6 @@ public class MasterRenderer {
                 Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
                 Go go = new Go(((Unit)entities.get(0).getRawEntity()), tile);
                 new Thread(go).start();
-                System.out.println(Display.getWidth());
             }
 
             click = Mouse.isButtonDown(1);

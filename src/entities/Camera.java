@@ -5,6 +5,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
 import toolbox.Window;
 
+import javax.swing.*;
+
 /**
  * Created by large64 on 9/15/15.
  */
@@ -29,19 +31,20 @@ public class Camera {
     private float displayHeight = Display.getHeight();
     private float displayWidth = Display.getWidth();
 
-    public static boolean isMouseGrabbed = true;
+    private static boolean isMouseGrabbed = true;
 
     public Camera() {
         this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     }
 
     public void move() {
-        if (Mouse.isButtonDown(0)) {
-            isMouseGrabbed = true;
-        }
-
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             isMouseGrabbed = false;
+            Window.getMenuFrame().setVisible(true);
+            Window.getMenuFrame().setAlwaysOnTop(true);
+            Window.getMenuFrame().toFront();
+            Window.getMenuFrame().setFocusable(true);
+            Window.getMenuFrame().requestFocus();
         }
 
         if (isMouseGrabbed) {
@@ -92,5 +95,13 @@ public class Camera {
         // create number between 0 and 0.3 to subtract it from the default speed
         // using formula (a + ((X - Xmin) * (b - a)/(Xmax - Xmin)))
         return 0.2f + ((newZoomDistance - 5) * (0 - 0.2f) / (MAX_BACK_ZOOM - MAX_ZOOM));
+    }
+
+    public static boolean isMouseGrabbed() {
+        return isMouseGrabbed;
+    }
+
+    public static void setIsMouseGrabbed(boolean isMouseGrabbed) {
+        Camera.isMouseGrabbed = isMouseGrabbed;
     }
 }

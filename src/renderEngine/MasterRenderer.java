@@ -166,7 +166,7 @@ public class MasterRenderer {
                 new ModelTexture(loader.loadTexture("soldier")));
 
         // Generate random coordinates for entities
-        RawSoldier rawSoldier = new RawSoldier(12, 6, 100, true);
+        RawSoldier rawSoldier = new RawSoldier(2, 2, 100, true);
         Soldier soldier = new Soldier(soldierModel, rawSoldier, 0, 0, 0, 1);
         entities.add(soldier);
         rawEntities.add(rawSoldier);

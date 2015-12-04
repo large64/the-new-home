@@ -133,12 +133,24 @@ public class Unit extends RawEntity {
 
         while (!path.isEmpty()) {
             Node node = (Node) iterator.next();
-            Tile tile = new Tile(node.row, node.column);
-            Position position = tile.toPosition();
-            this.position = position;
-            this.position.y = terrains.Map.getHeightOfMap(this.position.x, this.position.z);
-            this.tilePosition = Tile.positionToTile(this.position);
-            // @TODO: implement smooth walking
+            Tile toTile = new Tile(node.row, node.column);
+            Tile fromTile = Tile.positionToTile(this.position);
+            System.out.println(toTile.toString());
+
+            Position fromPosition = this.position;
+            Position toPosition = toTile.toPosition();
+
+            if (fromTile.getRow() < toTile.getRow() && fromTile.getColumn() == toTile.getColumn()) {
+                while (fromPosition.x < toPosition.x) {
+                    this.position.x += 0.000001;
+                    this.position.y = terrains.Map.getHeightOfMap(this.position.x, this.position.z);
+                }
+            }
+
+
+
+            /*this.position = toPosition;*/
+            // @TODO: implement smooth walking by calculating inner positions between nodes, too
 
             MiniMap.mark(this.position);
             MiniMap.lookForChanges();

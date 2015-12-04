@@ -22,8 +22,8 @@ public abstract class RawEntity {
 
     public RawEntity(Position position) {
         counter++;
-        this.position = position;
         this.tilePosition = Tile.positionToTile(position);
+        this.position = (this.tilePosition).toPosition();
         this.health = DEFAULT_HEALTH;
         this.side = Side.ENEMY;
         this.defaultPosition = position;

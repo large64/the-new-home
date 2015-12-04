@@ -47,4 +47,9 @@ public class Tile {
     public int getRow() {
         return row;
     }
+
+    @Override
+    public String toString() {
+        return "[" + this.row + ", " + this.column + "]";
+    }
 }

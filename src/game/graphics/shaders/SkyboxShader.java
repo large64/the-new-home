@@ -12,8 +12,8 @@ import game.logic.toolbox.Maths;
 
 public class SkyboxShader extends ShaderProgram {
 
-    private static final String VERTEX_FILE = "src/skybox/skyboxVertexShader";
-    private static final String FRAGMENT_FILE = "src/skybox/skyboxFragmentShader";
+    private static final String VERTEX_FILE = "src/game/graphics/shaders/skyboxVertexShader";
+    private static final String FRAGMENT_FILE = "src/game/graphics/shaders/skyboxFragmentShader";
     private static final float ROTATION_SPEED = 1f;
 
     private int location_projectionMatrix;

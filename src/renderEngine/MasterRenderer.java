@@ -1,8 +1,6 @@
 package renderEngine;
 
 import engine.MiniMap;
-import engine.actions.Attack;
-import engine.actions.Go;
 import engine.entities.RawEntity;
 import engine.entities.RawMap;
 import engine.entities.units.RawSoldier;
@@ -166,7 +164,7 @@ public class MasterRenderer {
                 new ModelTexture(loader.loadTexture("soldier")));
 
         // Generate random coordinates for entities
-        RawSoldier rawSoldier = new RawSoldier(2, 2, 100, true);
+        RawSoldier rawSoldier = new RawSoldier(2, 40, 100, true);
         Soldier soldier = new Soldier(soldierModel, rawSoldier, 0, 0, 0, 1);
         entities.add(soldier);
         rawEntities.add(rawSoldier);
@@ -215,8 +213,7 @@ public class MasterRenderer {
             if (Mouse.isButtonDown(1) && !click) {
                 MiniMap.clearMarkers();
                 Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                Go go = new Go(((Unit)entities.get(0).getRawEntity()), tile);
-                new Thread(go).start();
+                ((Unit) (entities.get(0).getRawEntity())).goTo(tile);
             }
 
             click = Mouse.isButtonDown(1);

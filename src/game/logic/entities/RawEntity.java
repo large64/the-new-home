@@ -1,8 +1,8 @@
 package game.logic.entities;
 
-import engine.entities.Side;
-import engine.toolbox.Position;
-import engine.toolbox.Tile;
+import game.logic.toolbox.Side;
+import game.logic.toolbox.map.Position;
+import game.logic.toolbox.map.Tile;
 
 /**
  * Created by Dénes on 2015. 11. 06..

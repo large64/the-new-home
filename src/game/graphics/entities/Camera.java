@@ -3,7 +3,7 @@ package game.graphics.entities;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-import toolbox.Window;
+import game.graphics.windowparts.Window;
 
 /**
  * Created by large64 on 9/15/15.

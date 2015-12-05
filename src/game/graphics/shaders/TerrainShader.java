@@ -4,7 +4,7 @@ import game.graphics.entities.Camera;
 import game.graphics.entities.Light;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import toolbox.Maths;
+import game.logic.toolbox.Maths;
 
 import java.util.List;
 

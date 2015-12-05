@@ -1,8 +1,8 @@
 package game.graphics.windowparts;
 
-import engine.toolbox.Position;
-import engine.toolbox.Tile;
-import toolbox.MousePicker;
+import game.logic.toolbox.map.Position;
+import game.logic.toolbox.map.Tile;
+import game.graphics.toolbox.MousePicker;
 
 import javax.swing.*;
 import java.awt.*;

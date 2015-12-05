@@ -1,9 +1,9 @@
 package game.logic.entities.units;
 
 import game.logic.entities.RawEntity;
-import engine.toolbox.Node;
-import engine.toolbox.Position;
-import engine.toolbox.Tile;
+import game.logic.toolbox.map.Node;
+import game.logic.toolbox.map.Position;
+import game.logic.toolbox.map.Tile;
 
 import java.util.*;
 

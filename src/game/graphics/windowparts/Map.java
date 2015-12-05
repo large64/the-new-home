@@ -3,10 +3,10 @@ package game.graphics.windowparts;
 import game.graphics.models.RawModel;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.Loader;
+import game.graphics.toolbox.Loader;
 import game.graphics.textures.TerrainTexture;
 import game.graphics.textures.TerrainTexturePack;
-import toolbox.Maths;
+import game.logic.toolbox.Maths;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

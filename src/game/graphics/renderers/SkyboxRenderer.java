@@ -1,15 +1,15 @@
 package game.graphics.renderers;
 
 import game.graphics.entities.Camera;
-import models.RawModel;
+import game.graphics.models.RawModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
-import skybox.SkyboxShader;
+import game.graphics.toolbox.DisplayManager;
+import game.graphics.toolbox.Loader;
+import game.graphics.shaders.SkyboxShader;
 
 /**
  * Created by large64 on 2015.09.29..

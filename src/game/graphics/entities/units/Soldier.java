@@ -1,7 +1,7 @@
 package game.graphics.entities.units;
 
-import engine.entities.units.RawSoldier;
-import models.TexturedModel;
+import game.logic.entities.units.RawSoldier;
+import game.graphics.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 
 /**

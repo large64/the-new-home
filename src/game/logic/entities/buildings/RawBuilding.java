@@ -1,7 +1,7 @@
 package game.logic.entities.buildings;
 
 import game.logic.entities.RawEntity;
-import engine.toolbox.Position;
+import game.logic.toolbox.map.Position;
 
 /**
  * Created by Dénes on 2015. 11. 06..

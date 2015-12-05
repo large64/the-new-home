@@ -1,7 +1,7 @@
 package game.graphics.windowparts;
 
-import engine.entities.RawEntity;
-import engine.toolbox.Position;
+import game.logic.entities.RawEntity;
+import game.logic.toolbox.map.Position;
 
 import javax.swing.*;
 import java.awt.*;

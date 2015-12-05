@@ -8,7 +8,7 @@ import game.graphics.entities.Camera;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import game.graphics.toolbox.DisplayManager;
-import toolbox.Maths;
+import game.logic.toolbox.Maths;
 
 public class SkyboxShader extends ShaderProgram {
 

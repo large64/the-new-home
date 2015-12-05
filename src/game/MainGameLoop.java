@@ -5,8 +5,8 @@ package game;
 
 
 import org.lwjgl.opengl.Display;
-import renderEngine.MasterRenderer;
-import toolbox.Window;
+import game.graphics.renderers.MasterRenderer;
+import game.graphics.windowparts.Window;
 
 import java.awt.*;
 

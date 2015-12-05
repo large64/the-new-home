@@ -1,6 +1,6 @@
 package game.logic.entities;
 
-import engine.toolbox.Tile;
+import game.logic.toolbox.map.Tile;
 import game.graphics.windowparts.Map;
 
 import java.util.ArrayList;

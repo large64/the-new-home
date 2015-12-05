@@ -1,9 +1,12 @@
 package engine.entities.units;
 
+import engine.MiniMap;
 import engine.entities.RawEntity;
 import engine.toolbox.Node;
 import engine.toolbox.Position;
 import engine.toolbox.Tile;
+import renderEngine.DisplayManager;
+import terrains.*;
 
 import java.util.*;
 
@@ -13,6 +16,7 @@ import java.util.*;
 public class Unit extends RawEntity {
     private List<Node> path = new ArrayList<>();
     private boolean isMoving = false;
+    private Node currentNode;
 
     public Unit(int row, int column, int health, boolean side) {
         super(new Position(row, column));
@@ -22,12 +26,12 @@ public class Unit extends RawEntity {
     }
 
     /**
-     * Finds a way to rawEntity (if there is) and approaches it. It is an implementation of A* algorithm.
+     * Finds a way to tile (if there is). It is an implementation of A* algorithm.
      *
      * @param tile The tile on the raw map to be approached
      */
-    public void goTo(Tile tile) {
-        path.clear();
+    public void calculatePath(Tile tile) {
+        clearPath();
         List<Node> open = new ArrayList<>();
         Queue<Node> closed = new LinkedList<>();
 
@@ -47,11 +51,12 @@ public class Unit extends RawEntity {
 
             if (current.equals(new Node(tile.getRow(), tile.getColumn()))) {
                 while (current != null) {
-                    path.add(current);
+                    this.path.add(current);
                     current = current.parent;
                 }
-                Collections.reverse(path);
-                System.out.println(path);
+                Collections.reverse(this.path);
+                currentNode = path.get(0);
+                this.isMoving = true;
                 return;
             }
 
@@ -104,5 +109,33 @@ public class Unit extends RawEntity {
                 neighbor.fCost = neighbor.gCost + neighbor.hCost;
             }
         }
+    }
+
+    public void step() {
+        if (this.path != null) {
+            if (!currentNode.isProcessed) {
+                Tile tilePosition = new Tile(currentNode.row, currentNode.column);
+                this.position = tilePosition.toPosition();
+                this.tilePosition = tilePosition;
+                this.position.y = terrains.Map.getHeightOfMap(this.position.x, this.position.z);
+                currentNode.isProcessed = true;
+                path.remove(0);
+            }
+            else {
+                currentNode = path.get(0);
+            }
+        }
+    }
+
+    public boolean isMoving() {
+        return !this.path.isEmpty();
+    }
+
+    public void clearPath() {
+        this.path.clear();
+    }
+
+    public List<Node> getPath() {
+        return path;
     }
 }

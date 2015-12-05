@@ -15,6 +15,7 @@ public class Node {
     public int hCost;
     public int gCost;
     public Node parent = null;
+    public boolean isProcessed = false;
 
     private ArrayList<Node> neighbors = new ArrayList<>();
 

@@ -12,11 +12,11 @@ import javax.swing.*;
  */
 public class Camera {
     private static final int MAX_ZOOM = 8;
-    private static final int MAX_BACK_ZOOM = 100;//29;
+    private static final int MAX_BACK_ZOOM = 35;
     private static final float DEFAULT_PITCH = 36;
     // Create new final variable for default position to prevent it from changing in runtime
-    private static final float DEFAULT_X = 60f; //212.70139f;
-    private static final float DEFAULT_Z = 170f; //-275.4985f;
+    private static final float DEFAULT_X = 37; //212.70139f;
+    private static final float DEFAULT_Z = 80; //-275.4985f;
     // Set default position (y) to be the maximum back zoom level
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float CURSOR_MARGIN = 20;

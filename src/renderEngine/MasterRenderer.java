@@ -5,6 +5,7 @@ import engine.entities.RawEntity;
 import engine.entities.RawMap;
 import engine.entities.units.RawSoldier;
 import engine.entities.units.Unit;
+import engine.toolbox.Node;
 import engine.toolbox.Position;
 import engine.toolbox.Tile;
 import entities.Camera;
@@ -213,17 +214,28 @@ public class MasterRenderer {
             if (Mouse.isButtonDown(1) && !click) {
                 MiniMap.clearMarkers();
                 Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                ((Unit) (entities.get(0).getRawEntity())).goTo(tile);
+                ((Unit) (entities.get(0).getRawEntity())).calculatePath(tile);
+                entities.get(0);
             }
 
             click = Mouse.isButtonDown(1);
+
             // Move the player per frame (and so the camera)
             picker.update();
             Indicator.lookForChanges(picker);
 
             for (Entity entity : entities) {
+                RawEntity rawEntity = entity.getRawEntity();
+                if (rawEntity instanceof Unit) {
+                    Unit rawUnit = (Unit) rawEntity;
+                    if ((rawUnit).isMoving()) {
+                        rawUnit.step();
+                    }
+                }
+
                 renderer.processEntity(entity);
             }
+            MiniMap.lookForChanges();
             renderer.render(lights, player.getCamera());
             //guiRenderer.render(guis);
             DisplayManager.updateDisplay();

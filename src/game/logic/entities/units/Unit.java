@@ -27,27 +27,17 @@ public class Unit extends RawEntity {
     public void performAction(Tile tile) {
         if (!this.path.isEmpty()) {
             RawEntity entity = RawMap.whatIsOnTile(tile);
-            String type = "";
-            String id;
 
-            if (entity != null) {
-                id = ((RawSoldier) (entity)).getId();
-                type = id.substring(0, id.length() - 1);
-            }
-
-            switch (type) {
-                case "soldier":
-                    if (this.isNextToAnEntity(entity) && entity != null) {
-                        entity.changeHealth(-10);
-                        System.out.println(entity.getHealth());
-                    }
-                    else {
-                        this.step();
-                    }
-                    break;
-                default:
+            if (entity != null && !entity.getSide().equals(this.getSide())) {
+                if (this.isNextToAnEntity(entity)) {
+                    entity.changeHealth(-10);
+                }
+                else {
                     this.step();
-                    break;
+                }
+            }
+            else {
+                this.step();
             }
         }
     }

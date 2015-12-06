@@ -1,8 +1,10 @@
 package game.graphics.renderers;
 
+import game.graphics.entities.units.Healer;
 import game.graphics.windowparts.MiniMap;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
+import game.logic.entities.units.RawHealer;
 import game.logic.entities.units.RawSoldier;
 import game.logic.entities.units.Unit;
 import game.logic.toolbox.map.Position;
@@ -141,8 +143,6 @@ public class MasterRenderer {
     }
 
     public static void renderScene() {
-        // @TODO: synchronize positions of raw and real objects
-        // @TODO: indicator blinks under Ubuntu
         // @TODO: make game loader work for map, too
         DisplayManager.createDisplay();
         Loader loader = new Loader();
@@ -164,6 +164,8 @@ public class MasterRenderer {
         List<Entity> entities = new ArrayList<>();
         TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
                 new ModelTexture(loader.loadTexture("soldier")));
+        TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
+                new ModelTexture(loader.loadTexture("healer")));
 
         // Generate random coordinates for entities
         RawSoldier rawSoldier = new RawSoldier(2, 40, 100, true);
@@ -171,11 +173,15 @@ public class MasterRenderer {
         entities.add(soldier);
         rawEntities.add(rawSoldier);
 
-
         RawSoldier rawSoldier2 = new RawSoldier(20, 20, 100, false);
         Soldier soldier2 = new Soldier(soldierModel, rawSoldier2, 0, 0, 0, 1);
         entities.add(soldier2);
         rawEntities.add(rawSoldier2);
+
+        RawHealer rawHealer = new RawHealer(80, 100, 100, false);
+        Healer healer = new Healer(healerModel, rawHealer, 0, 0, 0, 1);
+        entities.add(healer);
+        rawEntities.add(rawHealer);
 
         MiniMap.setEntities(rawEntities);
         MiniMap.lookForChanges();
@@ -198,9 +204,11 @@ public class MasterRenderer {
         MasterRenderer renderer = new MasterRenderer(loader);
         MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix());
 
-        boolean click = false;
+        boolean rightClick = false;
+        boolean leftClick = false;
 
         Tile selectedTile = null;
+        List<RawEntity> selectedEntites = new ArrayList<>();
 
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
@@ -215,13 +223,33 @@ public class MasterRenderer {
                 player.move();
             }
 
-            if (Mouse.isButtonDown(1) && !click) {
+            if (Mouse.isButtonDown(1) && !rightClick && !selectedEntites.isEmpty()) {
                 MiniMap.clearMarkers();
-                selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                ((Unit) (entities.get(0).getRawEntity())).calculatePath(selectedTile);
+                for (RawEntity entity : selectedEntites) {
+                    if (entity instanceof Unit) {
+                        Unit unit = (Unit) entity;
+                        selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+                        unit.calculatePath(selectedTile);
+                    }
+                }
             }
 
-            click = Mouse.isButtonDown(1);
+            if (Mouse.isButtonDown(0) && !leftClick) {
+                Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+                boolean atLeastOne = false;
+                for (RawEntity entity : rawEntities) {
+                    if (entity.getTilePosition().equals(tile)) {
+                        selectedEntites.add(entity);
+                        atLeastOne = true;
+                    }
+                }
+                if (!atLeastOne) {
+                    selectedEntites.clear();
+                }
+            }
+
+            rightClick = Mouse.isButtonDown(1);
+            leftClick = Mouse.isButtonDown(0);
 
             // Move the player per frame (and so the camera)
             picker.update();

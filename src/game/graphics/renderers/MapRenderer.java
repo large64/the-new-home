@@ -30,7 +30,7 @@ public class MapRenderer {
     public void render() {
         prepareTerrain();
         loadModelMatrix();
-        if(showTiles) {
+        if (isShowTiles()) {
             shader.toggleTiles(true);
         }
         else {
@@ -86,5 +86,9 @@ public class MapRenderer {
 
     public static void setShowTiles(boolean showTiles) {
         MapRenderer.showTiles = showTiles;
+    }
+
+    public static boolean isShowTiles() {
+        return showTiles;
     }
 }

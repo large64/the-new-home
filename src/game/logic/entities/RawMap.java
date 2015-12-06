@@ -56,6 +56,6 @@ public class RawMap {
 
     @Nullable
     public static RawEntity whatIsOnTile(Tile tile) {
-        return ((RawSoldier) RawMap.places[tile.getColumn()][tile.getRow()]);
+        return (RawMap.places[tile.getColumn()][tile.getRow()]);
     }
 }

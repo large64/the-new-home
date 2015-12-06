@@ -15,7 +15,7 @@ public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static JPanel bottomWrapperPanel;
-    private static boolean isTileShown = false;
+    private static boolean aretilesShown = true;
 
     public Window(Canvas canvas) {
         Color menuBgColor = new Color(2, 120, 0);
@@ -34,13 +34,13 @@ public class Window {
 
         JButton button2 = new JButton("Toggle tiles");
         button2.addActionListener(el ->{
-            if (!isTileShown) {
+            if (!aretilesShown) {
                 MapRenderer.setShowTiles(true);
-                isTileShown = true;
+                aretilesShown = true;
             }
             else {
                 MapRenderer.setShowTiles(false);
-                isTileShown = false;
+                aretilesShown = false;
             }
         });
 

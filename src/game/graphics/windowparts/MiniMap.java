@@ -55,6 +55,9 @@ public class MiniMap {
                                 }
                             }
                         }
+                        else {
+                            MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
+                        }
                     }
 
                     for (ListIterator iterator = markers.listIterator(); iterator.hasNext();) {

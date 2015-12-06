@@ -200,6 +200,8 @@ public class MasterRenderer {
 
         boolean click = false;
 
+        Tile selectedTile = null;
+
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
             if (restart) {
@@ -212,8 +214,6 @@ public class MasterRenderer {
             else {
                 player.move();
             }
-
-            Tile selectedTile = null;
 
             if (Mouse.isButtonDown(1) && !click) {
                 MiniMap.clearMarkers();

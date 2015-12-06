@@ -37,12 +37,12 @@ public abstract class RawEntity {
     }
 
     public boolean isNextToAnEntity(RawEntity rawEntity) {
-        int entityRow = rawEntity.getPosition().getRow();
-        int entityColumn = rawEntity.getPosition().getColumn();
+        int entityTileRow = rawEntity.getTilePosition().getRow();
+        int entityTileColumn = rawEntity.getTilePosition().getColumn();
 
         // offsets of entities relative to each other
-        int rowOffset = entityRow - this.position.getRow();
-        int columnOffset = entityColumn - this.position.getColumn();
+        int rowOffset = entityTileRow - this.tilePosition.getRow();
+        int columnOffset = entityTileColumn - this.tilePosition.getColumn();
 
         return (rowOffset >= -1 && rowOffset <= 1 && columnOffset >= -1 && columnOffset <= 1);
     }

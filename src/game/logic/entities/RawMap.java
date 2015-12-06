@@ -1,5 +1,6 @@
 package game.logic.entities;
 
+import com.sun.istack.internal.Nullable;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.map.Tile;
 import game.graphics.windowparts.Map;
@@ -29,8 +30,8 @@ public class RawMap {
                 for (int y = 0; y < RawMap.size; y++) {
                     places[x][y] = null;
                     for (RawEntity entity : entities) {
-                        if ((Tile.positionToTile(entity.getPosition()).getRow() == x
-                                && Tile.positionToTile(entity.getPosition()).getColumn() == y)
+                        if ((Tile.positionToTile(entity.getPosition()).getColumn() == x
+                                && Tile.positionToTile(entity.getPosition()).getRow() == y)
                                 && entity.isAlive()) {
                             places[x][y] = entity;
                         }
@@ -53,10 +54,8 @@ public class RawMap {
         return NR_OF_TILES;
     }
 
-    public static String whatIsOnTile(Tile tile) {
-        if (RawMap.places[tile.getColumn()][tile.getRow()] != null) {
-            return ((RawSoldier) RawMap.places[tile.getColumn()][tile.getRow()]).getId();
-        }
-        return "empty";
+    @Nullable
+    public static RawEntity whatIsOnTile(Tile tile) {
+        return ((RawSoldier) RawMap.places[tile.getColumn()][tile.getRow()]);
     }
 }

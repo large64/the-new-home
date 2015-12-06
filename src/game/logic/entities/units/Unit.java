@@ -1,5 +1,6 @@
 package game.logic.entities.units;
 
+import game.graphics.windowparts.MiniMap;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.toolbox.map.Node;
@@ -25,10 +26,27 @@ public class Unit extends RawEntity {
 
     public void performAction(Tile tile) {
         if (!this.path.isEmpty()) {
-            String entityID = RawMap.whatIsOnTile(tile);
-            switch (entityID.substring(0, entityID.length()-1)) {
+            RawEntity entity = RawMap.whatIsOnTile(tile);
+            String type = "";
+            String id;
+
+            if (entity != null) {
+                id = ((RawSoldier) (entity)).getId();
+                type = id.substring(0, id.length() - 1);
+            }
+
+            switch (type) {
                 case "soldier":
-                    System.out.println("soldier");
+                    if (this.isNextToAnEntity(entity) && entity != null) {
+                        entity.changeHealth(-10);
+                        System.out.println(entity.getHealth());
+                    }
+                    else {
+                        this.step();
+                    }
+                    break;
+                default:
+                    this.step();
                     break;
             }
         }
@@ -129,8 +147,11 @@ public class Unit extends RawEntity {
                 this.position = tilePosition.toPosition();
                 this.tilePosition = tilePosition;
                 this.position.y = game.graphics.windowparts.Map.getHeightOfMap(this.position.x, this.position.z);
+                MiniMap.mark(this.position);
                 currentNode.isProcessed = true;
-                path.remove(0);
+                if (this.path.size() > 0) {
+                    this.path.remove(currentNode);
+                }
             }
             else {
                 currentNode = path.get(0);

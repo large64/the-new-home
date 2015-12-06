@@ -1,5 +1,6 @@
 package game.logic.entities;
 
+import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.map.Tile;
 import game.graphics.windowparts.Map;
 
@@ -15,7 +16,7 @@ public class RawMap {
 
     private static int size = (int) (Map.getSIZE() / TILE_SIZE);
     private static List<RawEntity> entities = new ArrayList<>();
-    private static boolean[][] places = new boolean[size][size];
+    private static RawEntity[][] places = new RawEntity[size][size];
 
     public RawMap(List<RawEntity> entities) {
         RawMap.entities = entities;
@@ -26,11 +27,12 @@ public class RawMap {
         if (!entities.isEmpty()) {
             for (int x = 0; x < RawMap.size; x++) {
                 for (int y = 0; y < RawMap.size; y++) {
-                    places[x][y] = true;
+                    places[x][y] = null;
                     for (RawEntity entity : entities) {
-                        if ((entity.getPosition().getRow() == x && entity.getPosition().getColumn() == y)
+                        if ((Tile.positionToTile(entity.getPosition()).getRow() == x
+                                && Tile.positionToTile(entity.getPosition()).getColumn() == y)
                                 && entity.isAlive()) {
-                            places[x][y] = false;
+                            places[x][y] = entity;
                         }
                     }
                 }
@@ -39,7 +41,8 @@ public class RawMap {
     }
 
     public static boolean isTileFree(Tile tile, boolean isDestination) {
-        return isDestination || RawMap.places[tile.getColumn()][tile.getRow()];
+        boolean isTrue = RawMap.places[tile.getColumn()][tile.getRow()] == null;
+        return isDestination || isTrue;
     }
 
     public static int getSize() {
@@ -48,5 +51,12 @@ public class RawMap {
 
     public static int getNrOfTiles() {
         return NR_OF_TILES;
+    }
+
+    public static String whatIsOnTile(Tile tile) {
+        if (RawMap.places[tile.getColumn()][tile.getRow()] != null) {
+            return ((RawSoldier) RawMap.places[tile.getColumn()][tile.getRow()]).getId();
+        }
+        return "empty";
     }
 }

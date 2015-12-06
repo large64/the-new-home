@@ -52,4 +52,17 @@ public class Tile {
     public String toString() {
         return "[" + this.row + ", " + this.column + "]";
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object != null) {
+            if (object instanceof Tile) {
+                Tile tile = (Tile) object;
+                if (tile.getRow() == this.getRow() && tile.getColumn() == this.getColumn()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -1,6 +1,7 @@
 package game.logic.entities.units;
 
 import game.logic.entities.RawEntity;
+import game.logic.entities.RawMap;
 import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -20,6 +21,17 @@ public class Unit extends RawEntity {
 
         this.setHealth(health);
         this.setSide(side);
+    }
+
+    public void performAction(Tile tile) {
+        if (!this.path.isEmpty()) {
+            String entityID = RawMap.whatIsOnTile(tile);
+            switch (entityID.substring(0, entityID.length()-1)) {
+                case "soldier":
+                    System.out.println("soldier");
+                    break;
+            }
+        }
     }
 
     /**
@@ -53,7 +65,9 @@ public class Unit extends RawEntity {
                 }
                 Collections.reverse(this.path);
                 currentNode = path.get(0);
+                path.remove(0);
                 this.isMoving = true;
+                System.out.println(path);
                 return;
             }
 

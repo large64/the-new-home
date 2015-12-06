@@ -212,10 +212,13 @@ public class MasterRenderer {
             else {
                 player.move();
             }
+
+            Tile selectedTile = null;
+
             if (Mouse.isButtonDown(1) && !click) {
                 MiniMap.clearMarkers();
-                Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                ((Unit) (entities.get(0).getRawEntity())).calculatePath(tile);
+                selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+                ((Unit) (entities.get(0).getRawEntity())).calculatePath(selectedTile);
             }
 
             click = Mouse.isButtonDown(1);
@@ -226,16 +229,19 @@ public class MasterRenderer {
 
             for (Entity entity : entities) {
                 RawEntity rawEntity = entity.getRawEntity();
-                if (rawEntity instanceof Unit) {
-                    Unit rawUnit = (Unit) rawEntity;
-                    if ((rawUnit).isMoving()) {
-                        rawUnit.step();
+                if (rawEntity.isAlive()) {
+                    if (rawEntity instanceof Unit) {
+                        Unit rawUnit = (Unit) rawEntity;
+                        if ((rawUnit).isMoving() && selectedTile != null) {
+                            rawUnit.performAction(selectedTile);
+                        }
                     }
-                }
 
-                renderer.processEntity(entity);
+                    renderer.processEntity(entity);
+                }
             }
             MiniMap.lookForChanges();
+            RawMap.lookForChanges();
             renderer.render(lights, player.getCamera());
             //guiRenderer.render(guis);
             DisplayManager.updateDisplay();

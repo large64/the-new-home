@@ -8,18 +8,16 @@ import game.logic.toolbox.map.Tile;
  * Created by Dénes on 2015. 11. 06..
  */
 public abstract class RawEntity {
-    private static final String ID = "entity";
     private static final int DEFAULT_HEALTH = 100;
 
     protected static int counter = 0;
     protected Position position;
     protected Tile tilePosition;
     private Position defaultPosition;
-    private String id = ID + counter;
-    private int health;
+    protected int health;
     private boolean isBeingAttacked = false;
     private boolean isBeingHealed = false;
-    private Side side;
+    protected Side side;
 
     public RawEntity(Position position) {
         counter++;
@@ -28,11 +26,6 @@ public abstract class RawEntity {
         this.health = DEFAULT_HEALTH;
         this.side = Side.ENEMY;
         this.defaultPosition = position;
-    }
-
-    @Override
-    public String toString() {
-        return (this.id + ": " + this.getPosition().toString() + " " + this.health + " " + side);
     }
 
     public Position getPosition() {
@@ -91,23 +84,6 @@ public abstract class RawEntity {
 
     public void setBeingHealed(boolean isBeingHealed) {
         this.isBeingHealed = isBeingHealed;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        if (object instanceof RawEntity) {
-            RawEntity rawEntity = (RawEntity) object;
-
-            if (rawEntity.getID().equals(this.getID())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public String getID() {
-        return id;
     }
 
     public Side getSide() {

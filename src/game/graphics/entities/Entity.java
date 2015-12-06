@@ -1,7 +1,10 @@
 package game.graphics.entities;
 
+import game.logic.entities.Neutral;
 import game.logic.entities.RawEntity;
 import game.graphics.models.TexturedModel;
+import game.logic.entities.units.RawHealer;
+import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -16,6 +19,18 @@ public class Entity {
     protected float health = 100;
     private RawEntity rawEntity;
 
+    public Entity() {}
+
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+        this.model = model;
+        this.position = position;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+        this.rawEntity = new Neutral(new Position(position.x, position.z));
+    }
+
     public float getTextureXOffset() {
         int column = textureIndex % model.getTexture().getNumberOfRows();
         return (float) column / (float) model.getTexture().getNumberOfRows();
@@ -24,10 +39,6 @@ public class Entity {
     public float getTextureYOffset() {
         int row = textureIndex / model.getTexture().getNumberOfRows();
         return (float) row / (float) model.getTexture().getNumberOfRows();
-    }
-
-    public void reset() {
-
     }
 
     public void setRawEntity(RawEntity rawEntity) {

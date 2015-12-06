@@ -7,8 +7,8 @@ public class RawHealer extends Unit{
     private static final String ID = "healer";
     private String id = ID + counter;
 
-    public RawHealer(int row, int column, int health, boolean side) {
-        super(row, column, health, side);
+    public RawHealer(int row, int column, boolean side) {
+        super(row, column, side);
     }
 
     /**

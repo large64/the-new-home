@@ -14,33 +14,7 @@ public class Unit extends Entity {
     public Unit() {}
 
     public Unit(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-        this.model = model;
-        this.position = position;
-        this.rotX = rotX;
-        this.rotY = rotY;
-        this.rotZ = rotZ;
-        this.scale = scale;
-    }
-
-    public Unit(TexturedModel model, int index, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-        this.textureIndex = index;
-        this.model = model;
-        this.position = position;
-        this.rotX = rotX;
-        this.rotY = rotY;
-        this.rotZ = rotZ;
-        this.scale = scale;
-    }
-
-    public Unit(TexturedModel model, RawEntity rawEntity, float rotX, float rotY, float rotZ, float scale) {
-        this.model = model;
-        this.rotX = rotX;
-        this.rotY = rotY;
-        this.rotZ = rotZ;
-        this.scale = scale;
-        this.setRawEntity(rawEntity);
-        this.position = rawEntity.getPosition();
-        this.position.y = Map.getHeightOfMap(this.position.x, this.position.z);
+        super(model, position, rotX, rotY, rotZ, scale);
     }
 
     public void increasePosition(float dx, float dy, float dz) {

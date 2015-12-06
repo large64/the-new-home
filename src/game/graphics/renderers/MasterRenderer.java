@@ -156,32 +156,29 @@ public class MasterRenderer {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
 
-        Random random = new Random(676452);
         new Map(0, 1, loader, texturePack, blendMap, "heightmap");
 
         // Set features of entities
-        List<RawEntity> rawEntities = new ArrayList<>();
         List<Entity> entities = new ArrayList<>();
         TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
                 new ModelTexture(loader.loadTexture("soldier")));
         TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
                 new ModelTexture(loader.loadTexture("healer")));
+        TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
+                new ModelTexture(loader.loadTexture("healer")));
 
         // Generate random coordinates for entities
-        RawSoldier rawSoldier = new RawSoldier(2, 40, 100, true);
-        Soldier soldier = new Soldier(soldierModel, rawSoldier, 0, 0, 0, 1);
+        Soldier soldier = new Soldier(soldierModel, new Vector3f(100, 0, 40), 0, 0, 0, 1);
         entities.add(soldier);
-        rawEntities.add(rawSoldier);
 
-        RawSoldier rawSoldier2 = new RawSoldier(20, 20, 100, false);
-        Soldier soldier2 = new Soldier(soldierModel, rawSoldier2, 0, 0, 0, 1);
+        Soldier soldier2 = new Soldier(soldierModel, new Vector3f(20, 0, 20), 0, 0, 0, 1);
         entities.add(soldier2);
-        rawEntities.add(rawSoldier2);
 
-        RawHealer rawHealer = new RawHealer(80, 100, 100, false);
-        Healer healer = new Healer(healerModel, rawHealer, 0, 0, 0, 1);
+        Healer healer = new Healer(healerModel, new Vector3f(100, 0, 100), 0, 0, 0, 1);
         entities.add(healer);
-        rawEntities.add(rawHealer);
+
+        Entity treeEntity = new Entity(treeModel, new Vector3f(100, 0, 100), 0, 0, 0, 1);
+        entities.add(treeEntity);
 
         MiniMap.setEntities(rawEntities);
         MiniMap.lookForChanges();
@@ -287,5 +284,9 @@ public class MasterRenderer {
 
     public static List<RawEntity> getRawEntities() {
         return rawEntities;
+    }
+
+    public static void addRawEntity(RawEntity entity) {
+        MasterRenderer.rawEntities.add(entity);
     }
 }

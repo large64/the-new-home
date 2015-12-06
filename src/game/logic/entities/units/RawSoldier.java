@@ -7,8 +7,8 @@ public class RawSoldier extends Unit{
     private static final String ID = "soldier";
     private String id = ID + counter;
 
-    public RawSoldier(int row, int column, int health, boolean side) {
-        super(row, column, health, side);
+    public RawSoldier(int row, int column, boolean side) {
+        super(row, column, side);
     }
 
     /**

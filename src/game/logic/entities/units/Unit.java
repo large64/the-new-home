@@ -1,8 +1,9 @@
 package game.logic.entities.units;
 
-import game.graphics.windowparts.MiniMap;
+import game.graphics.windowparts.*;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
+import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -17,10 +18,8 @@ public class Unit extends RawEntity {
     private boolean isMoving = false;
     private Node currentNode;
 
-    public Unit(int row, int column, int health, boolean side) {
+    public Unit(int row, int column, boolean side) {
         super(new Position(row, column));
-
-        this.setHealth(health);
         this.setSide(side);
     }
 
@@ -28,7 +27,7 @@ public class Unit extends RawEntity {
         if (!this.path.isEmpty()) {
             RawEntity entity = RawMap.whatIsOnTile(tile);
 
-            if (entity != null && !entity.getSide().equals(this.getSide())) {
+            if (entity != null && !entity.getSide().equals(this.getSide()) && entity.getSide() != Side.NEUTRAL) {
                 if (this.isNextToAnEntity(entity)) {
                     entity.changeHealth(-10);
                 }
@@ -155,9 +154,5 @@ public class Unit extends RawEntity {
 
     public void clearPath() {
         this.path.clear();
-    }
-
-    public List<Node> getPath() {
-        return path;
     }
 }

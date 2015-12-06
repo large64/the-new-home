@@ -53,13 +53,13 @@ public class GameLoader {
 
                 switch (type) {
                     case "soldier":
-                        entities.add(new RawSoldier(entityRow, entityColumn, health, side));
+                        //entities.add(new RawSoldier(entityRow, entityColumn, health, side));
                         break;
                     case "healer":
-                        entities.add(new RawHealer(entityRow, entityColumn, health, side));
+                        //entities.add(new RawHealer(entityRow, entityColumn, health, side));
                         break;
                     case "building":
-                        entities.add(new RawBuilding(entityRow, entityColumn, health, side));
+                        //entities.add(new RawBuilding(entityRow, entityColumn, health, side));
                         break;
                 }
             }

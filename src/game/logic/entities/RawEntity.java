@@ -1,5 +1,6 @@
 package game.logic.entities;
 
+import game.graphics.renderers.MasterRenderer;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -24,8 +25,8 @@ public abstract class RawEntity {
         this.tilePosition = Tile.positionToTile(position);
         this.position = (this.tilePosition).toPosition();
         this.health = DEFAULT_HEALTH;
-        this.side = Side.ENEMY;
-        this.defaultPosition = position;
+        this.defaultPosition = new Position(position.x, position.z);
+        MasterRenderer.addRawEntity(this);
     }
 
     public Position getPosition() {
@@ -76,14 +77,6 @@ public abstract class RawEntity {
 
     public boolean isBeingHealed() {
         return isBeingHealed;
-    }
-
-    public void setBeingAttacked(boolean beingAttacked) {
-        this.isBeingAttacked = beingAttacked;
-    }
-
-    public void setBeingHealed(boolean isBeingHealed) {
-        this.isBeingHealed = isBeingHealed;
     }
 
     public Side getSide() {

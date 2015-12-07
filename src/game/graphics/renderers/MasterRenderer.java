@@ -1,11 +1,11 @@
 package game.graphics.renderers;
 
 import game.graphics.entities.units.Healer;
+import game.graphics.windowparts.EntityInfo;
 import game.graphics.windowparts.MiniMap;
+import game.graphics.windowparts.PositionInfo;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
-import game.logic.entities.units.RawHealer;
-import game.logic.entities.units.RawSoldier;
 import game.logic.entities.units.Unit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
@@ -30,13 +30,11 @@ import game.graphics.windowparts.Map;
 import game.graphics.textures.ModelTexture;
 import game.graphics.textures.TerrainTexture;
 import game.graphics.textures.TerrainTexturePack;
-import game.graphics.windowparts.Indicator;
 import game.graphics.toolbox.MousePicker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Created by large64 on 2015.09.17..
@@ -54,6 +52,7 @@ public class MasterRenderer {
 
     private java.util.Map entities = new HashMap<>();
     private static List<RawEntity> rawEntities = new ArrayList<>();
+    private static List<RawEntity> selectedEntites = new ArrayList<>();
 
     private SkyboxRenderer skyboxRenderer;
 
@@ -145,6 +144,8 @@ public class MasterRenderer {
 
     public static void renderScene() {
         // @TODO: make game loader work for map, too
+        // @TODO: create edit mode and place entities
+        // @TODO: make map look like it is infinite
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 
@@ -169,17 +170,23 @@ public class MasterRenderer {
                 new ModelTexture(loader.loadTexture("palm_tree")));
 
         // Generate random coordinates for entities
-        Soldier soldier = new Soldier(soldierModel, new Vector3f(100, 0, 40), 0, 0, 0, 1);
-        entities.add(soldier);
+        for (int i = 0; i < 20; i++) {
+            float x = (float) (Math.random() * 200);
+            float z = (float) (Math.random() * 200);
 
-        Soldier soldier2 = new Soldier(soldierModel, new Vector3f(20, 0, 20), 0, 0, 0, 1);
-        entities.add(soldier2);
-
-        Healer healer = new Healer(healerModel, new Vector3f(100, 0, 100), 0, 0, 0, 1);
-        entities.add(healer);
-
-        Entity treeEntity = new Entity(treeModel, new Vector3f(100, 0, 100), 0, 0, 0, 1);
-        entities.add(treeEntity);
+            if (i % 2 == 0) {
+                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
+                entities.add(soldier);
+            }
+            else if ((i % 2) > 0 && (i % 2) < 3){
+                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
+                entities.add(healer);
+            }
+            else {
+                Entity treeEntity = new Entity(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
+                entities.add(treeEntity);
+            }
+        }
 
         MiniMap.setEntities(rawEntities);
         MiniMap.lookForChanges();
@@ -206,7 +213,7 @@ public class MasterRenderer {
         boolean leftClick = false;
 
         Tile selectedTile = null;
-        List<RawEntity> selectedEntites = new ArrayList<>();
+        EntityInfo.setEntities(selectedEntites);
 
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
@@ -238,9 +245,12 @@ public class MasterRenderer {
                 for (Entity entity : entities) {
                     RawEntity rawEntity = entity.getRawEntity();
 
-                    if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)) {
-                        selectedEntites.add(rawEntity);
-                        entity.setSelected(true);
+                    if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)
+                            && !selectedEntites.contains(rawEntity)) {
+                        if (selectedEntites.size() < EntityInfo.MULTI_SIZE) {
+                            selectedEntites.add(rawEntity);
+                            entity.setSelected(true);
+                        }
                         atLeastOne = true;
                     }
                 }
@@ -257,7 +267,7 @@ public class MasterRenderer {
 
             // Move the player per frame (and so the camera)
             picker.update();
-            Indicator.lookForChanges(picker);
+            PositionInfo.lookForChanges(picker);
 
             for (Entity entity : entities) {
                 RawEntity rawEntity = entity.getRawEntity();
@@ -272,6 +282,7 @@ public class MasterRenderer {
                     renderer.processEntity(entity);
                 }
             }
+            EntityInfo.refreshInfo();
             MiniMap.lookForChanges();
             RawMap.lookForChanges();
             renderer.render(lights, player.getCamera());
@@ -289,11 +300,11 @@ public class MasterRenderer {
         restart = true;
     }
 
-    public static List<RawEntity> getRawEntities() {
-        return rawEntities;
-    }
-
     public static void addRawEntity(RawEntity entity) {
         MasterRenderer.rawEntities.add(entity);
+    }
+
+    public static List<RawEntity> getSelectedEntites() {
+        return selectedEntites;
     }
 }

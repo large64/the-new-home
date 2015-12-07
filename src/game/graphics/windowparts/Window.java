@@ -15,7 +15,9 @@ public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static JPanel bottomWrapperPanel;
-    private static boolean aretilesShown = true;
+    private static boolean areTilesShown = true;
+
+    public static final int BOTTOM_COMPONENT_HEIGHT = 130;
 
     public Window(Canvas canvas) {
         Color menuBgColor = new Color(2, 120, 0);
@@ -34,13 +36,13 @@ public class Window {
 
         JButton button2 = new JButton("Toggle tiles");
         button2.addActionListener(el ->{
-            if (!aretilesShown) {
+            if (!areTilesShown) {
                 MapRenderer.setShowTiles(true);
-                aretilesShown = true;
+                areTilesShown = true;
             }
             else {
                 MapRenderer.setShowTiles(false);
-                aretilesShown = false;
+                areTilesShown = false;
             }
         });
 
@@ -50,7 +52,8 @@ public class Window {
             Camera.setIsMouseGrabbed(true);
         });
 
-        Indicator indicator = new Indicator("text");
+        PositionInfo positionInfo = new PositionInfo();
+        EntityInfo entityInfo = new EntityInfo();
 
         JPanel menuPanel = new JPanel(new GridLayout(4, 1));
         JPanel devMenuPanel = new JPanel(new GridLayout(2, 1));
@@ -91,14 +94,15 @@ public class Window {
         devMenuPanel.add(devMenuTitle);
         devMenuPanel.add(button2);
 
-        indicatorPanel.add(indicator.getTextPane());
-        indicatorPanel.setPreferredSize(new Dimension(120, 130));
+        indicatorPanel.add(positionInfo.getTextPane());
+        indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
 
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
         bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(menuBgColor);
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
+        bottomWrapperPanel.add(entityInfo.getWrapperPanel());
         bottomWrapperPanel.add(indicatorPanel);
         bottomWrapperPanel.add(miniMapPanel);
 

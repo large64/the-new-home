@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class EntityRenderer {
     private StaticShader shader;
+    private float shineDamper = 1;
+    private float reflectivity = 0;
 
     public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;
@@ -37,6 +39,9 @@ public class EntityRenderer {
                 prepareInstance(entity);
                 if (entity.isSelected()) {
                     shader.loadShineVariables(1, 1.5f);
+                }
+                else {
+                    shader.loadShineVariables(shineDamper, reflectivity);
                 }
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
                         GL11.GL_UNSIGNED_INT, 0);
@@ -60,7 +65,6 @@ public class EntityRenderer {
         }
 
         shader.loadFakeLightingVariable(texture.isUseFakeLighting());
-        shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getTexture().getID());
     }

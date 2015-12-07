@@ -50,9 +50,10 @@ public class MasterRenderer {
     private MapRenderer mapRenderer;
     private TerrainShader terrainShader = new TerrainShader();
 
-    private java.util.Map entities = new HashMap<>();
+    private java.util.Map entityMap = new HashMap<>();
     private static List<RawEntity> rawEntities = new ArrayList<>();
-    private static List<RawEntity> selectedEntites = new ArrayList<>();
+    private static List<RawEntity> selectedEntities = new ArrayList<>();
+    private static List<Entity> entities = new ArrayList<>();
 
     private SkyboxRenderer skyboxRenderer;
 
@@ -93,7 +94,7 @@ public class MasterRenderer {
         shader.start();
         shader.loadLights(lights);
         shader.loadViewMatrix(camera);
-        renderer.render(entities);
+        renderer.render(entityMap);
         shader.stop();
 
         terrainShader.start();
@@ -103,7 +104,7 @@ public class MasterRenderer {
         terrainShader.stop();
         skyboxRenderer.render(camera);
 
-        entities.clear();
+        entityMap.clear();
     }
 
     public void prepare() {
@@ -118,7 +119,7 @@ public class MasterRenderer {
      */
     public void processEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
-        List<Entity> batch = (List<Entity>) entities.get(entityModel);
+        List<Entity> batch = (List<Entity>) entityMap.get(entityModel);
 
         if (entity instanceof game.graphics.entities.units.Unit) {
             ((game.graphics.entities.units.Unit) entity).refreshPosition();
@@ -129,7 +130,7 @@ public class MasterRenderer {
         } else {
             List<Entity> newBatch = new ArrayList<>();
             newBatch.add(entity);
-            entities.put(entityModel, newBatch);
+            entityMap.put(entityModel, newBatch);
         }
     }
 
@@ -161,7 +162,6 @@ public class MasterRenderer {
         new Map(0, 1, loader, texturePack, blendMap, "heightmap");
 
         // Set features of entities
-        List<Entity> entities = new ArrayList<>();
         TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
                 new ModelTexture(loader.loadTexture("soldier")));
         TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
@@ -213,53 +213,27 @@ public class MasterRenderer {
         boolean leftClick = false;
 
         Tile selectedTile = null;
-        EntityInfo.setEntities(selectedEntites);
+        EntityInfo.setEntities(selectedEntities);
 
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
             if (restart) {
                 player.reset();
-                for (RawEntity entity : rawEntities) {
-                    entity.reset();
-                }
+                rawEntities.forEach(RawEntity::reset);
                 restart = false;
             }
             else {
                 player.move();
             }
 
-            if (Mouse.isButtonDown(1) && !rightClick && !selectedEntites.isEmpty()) {
+            if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
                 MiniMap.clearMarkers();
-                for (RawEntity entity : selectedEntites) {
-                    if (entity instanceof Unit) {
-                        Unit unit = (Unit) entity;
-                        selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                        unit.calculatePath(selectedTile);
-                    }
-                }
+                selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+                checkSelection(selectedTile);
             }
 
             if (Mouse.isButtonDown(0) && !leftClick) {
-                Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                boolean atLeastOne = false;
-                for (Entity entity : entities) {
-                    RawEntity rawEntity = entity.getRawEntity();
-
-                    if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)
-                            && !selectedEntites.contains(rawEntity)) {
-                        if (selectedEntites.size() < EntityInfo.MULTI_SIZE) {
-                            selectedEntites.add(rawEntity);
-                            entity.setSelected(true);
-                        }
-                        atLeastOne = true;
-                    }
-                }
-                if (!atLeastOne) {
-                    selectedEntites.clear();
-                    for (Entity entity : entities) {
-                        entity.setSelected(false);
-                    }
-                }
+                processSelectedEntities(picker);
             }
 
             rightClick = Mouse.isButtonDown(1);
@@ -269,19 +243,8 @@ public class MasterRenderer {
             picker.update();
             PositionInfo.lookForChanges(picker);
 
-            for (Entity entity : entities) {
-                RawEntity rawEntity = entity.getRawEntity();
-                if (rawEntity.isAlive()) {
-                    if (rawEntity instanceof Unit) {
-                        Unit rawUnit = (Unit) rawEntity;
-                        if ((rawUnit).isMoving() && selectedTile != null) {
-                            rawUnit.performAction(selectedTile);
-                        }
-                    }
+            processMovements(selectedTile, renderer);
 
-                    renderer.processEntity(entity);
-                }
-            }
             EntityInfo.refreshInfo();
             MiniMap.lookForChanges();
             RawMap.lookForChanges();
@@ -304,7 +267,55 @@ public class MasterRenderer {
         MasterRenderer.rawEntities.add(entity);
     }
 
-    public static List<RawEntity> getSelectedEntites() {
-        return selectedEntites;
+    public static List<RawEntity> getSelectedEntities() {
+        return selectedEntities;
+    }
+
+    public static void checkSelection(Tile selectedTile) {
+        for (RawEntity entity : selectedEntities) {
+            if (entity instanceof Unit) {
+                Unit unit = (Unit) entity;
+                unit.calculatePath(selectedTile);
+            }
+        }
+    }
+
+    public static void processSelectedEntities(MousePicker picker) {
+        Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+        boolean atLeastOne = false;
+        for (Entity entity : entities) {
+            RawEntity rawEntity = entity.getRawEntity();
+
+            if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)
+                    && !selectedEntities.contains(rawEntity)) {
+                if (selectedEntities.size() < EntityInfo.MULTI_SIZE) {
+                    selectedEntities.add(rawEntity);
+                    entity.setSelected(true);
+                }
+                atLeastOne = true;
+            }
+        }
+        if (!atLeastOne) {
+            selectedEntities.clear();
+            for (Entity entity : entities) {
+                entity.setSelected(false);
+            }
+        }
+    }
+
+    private static void processMovements(Tile selectedTile, MasterRenderer renderer) {
+        for (Entity entity : entities) {
+            RawEntity rawEntity = entity.getRawEntity();
+            if (rawEntity.isAlive()) {
+                if (rawEntity instanceof Unit) {
+                    Unit rawUnit = (Unit) rawEntity;
+                    if ((rawUnit).isMoving() && selectedTile != null) {
+                        rawUnit.performAction(selectedTile);
+                    }
+                }
+
+                renderer.processEntity(entity);
+            }
+        }
     }
 }

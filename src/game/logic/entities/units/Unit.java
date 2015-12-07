@@ -27,7 +27,7 @@ public class Unit extends RawEntity {
         if (!this.path.isEmpty()) {
             RawEntity entity = RawMap.whatIsOnTile(tile);
 
-            if (entity != null && !entity.getSide().equals(this.getSide()) && entity.getSide() != Side.NEUTRAL) {
+            if (entity != null && entity.getSide() != Side.FRIEND && entity.getSide() != Side.NEUTRAL) {
                 if (this.isNextToAnEntity(entity)) {
                     entity.changeHealth(-10);
                 }

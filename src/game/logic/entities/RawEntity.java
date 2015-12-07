@@ -1,6 +1,7 @@
 package game.logic.entities;
 
 import game.graphics.renderers.MasterRenderer;
+import game.graphics.windowparts.Map;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -24,6 +25,7 @@ public abstract class RawEntity {
         counter++;
         this.tilePosition = Tile.positionToTile(position);
         this.position = (this.tilePosition).toPosition();
+        this.position.y = Map.getHeightOfMap(this.position.x, this.position.z);
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
         MasterRenderer.addRawEntity(this);

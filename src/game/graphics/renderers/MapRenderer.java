@@ -17,7 +17,7 @@ import game.logic.toolbox.Maths;
  */
 public class MapRenderer {
     private TerrainShader shader;
-    private static boolean showTiles = true;
+    private static boolean showTiles = false;
 
     public MapRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;

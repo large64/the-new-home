@@ -15,7 +15,7 @@ public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static JPanel bottomWrapperPanel;
-    private static boolean areTilesShown = true;
+    private static boolean areTilesShown = false;
 
     public static final int BOTTOM_COMPONENT_HEIGHT = 130;
 

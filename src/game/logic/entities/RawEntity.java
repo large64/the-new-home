@@ -91,6 +91,8 @@ public abstract class RawEntity {
 
     public void reset() {
         this.position = defaultPosition;
+        this.tilePosition = Tile.positionToTile(defaultPosition);
+        this.setHealth(100);
     }
 
     public Tile getTilePosition() {

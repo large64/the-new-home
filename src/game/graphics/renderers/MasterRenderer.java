@@ -147,6 +147,8 @@ public class MasterRenderer {
         // @TODO: make game loader work for map, too
         // @TODO: create edit mode and place entities
         // @TODO: make map look like it is infinite
+        // @TODO: make entities move smoother
+        // @TODO: create selectable actions
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 

@@ -165,7 +165,7 @@ public class MasterRenderer {
         TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
                 new ModelTexture(loader.loadTexture("healer")));
         TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
-                new ModelTexture(loader.loadTexture("healer")));
+                new ModelTexture(loader.loadTexture("palm_tree")));
 
         // Generate random coordinates for entities
         Soldier soldier = new Soldier(soldierModel, new Vector3f(100, 0, 40), 0, 0, 0, 1);
@@ -234,14 +234,20 @@ public class MasterRenderer {
             if (Mouse.isButtonDown(0) && !leftClick) {
                 Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
                 boolean atLeastOne = false;
-                for (RawEntity entity : rawEntities) {
-                    if (entity.getTilePosition().equals(tile)) {
-                        selectedEntites.add(entity);
+                for (Entity entity : entities) {
+                    RawEntity rawEntity = entity.getRawEntity();
+
+                    if (rawEntity.getTilePosition().equals(tile)) {
+                        selectedEntites.add(rawEntity);
+                        entity.setSelected(true);
                         atLeastOne = true;
                     }
                 }
                 if (!atLeastOne) {
                     selectedEntites.clear();
+                    for (Entity entity : entities) {
+                        entity.setSelected(false);
+                    }
                 }
             }
 

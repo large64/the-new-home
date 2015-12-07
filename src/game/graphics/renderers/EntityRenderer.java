@@ -35,6 +35,9 @@ public class EntityRenderer {
 
             for (Entity entity : batch) {
                 prepareInstance(entity);
+                if (entity.isSelected()) {
+                    shader.loadShineVariables(1, 1.5f);
+                }
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
                         GL11.GL_UNSIGNED_INT, 0);
             }

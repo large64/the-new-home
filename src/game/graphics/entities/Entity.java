@@ -18,6 +18,7 @@ public class Entity {
     protected int textureIndex = 0;
     protected float health = 100;
     private RawEntity rawEntity;
+    private boolean isSelected = false;
 
     public Entity() {}
 
@@ -95,5 +96,13 @@ public class Entity {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

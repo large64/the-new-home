@@ -7,6 +7,7 @@ import game.logic.entities.RawMap;
 import game.logic.entities.units.RawHealer;
 import game.logic.entities.units.RawSoldier;
 import game.logic.entities.units.Unit;
+import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
 import game.graphics.entities.Camera;
@@ -237,7 +238,7 @@ public class MasterRenderer {
                 for (Entity entity : entities) {
                     RawEntity rawEntity = entity.getRawEntity();
 
-                    if (rawEntity.getTilePosition().equals(tile)) {
+                    if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)) {
                         selectedEntites.add(rawEntity);
                         entity.setSelected(true);
                         atLeastOne = true;

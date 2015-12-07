@@ -24,12 +24,12 @@ public class Entity {
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
-        this.position = position;
+        this.rawEntity = new Neutral(new Position(position.x, position.z));
+        this.position = this.rawEntity.getTilePosition().toPosition();
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
-        this.rawEntity = new Neutral(new Position(position.x, position.z));
     }
 
     public float getTextureXOffset() {

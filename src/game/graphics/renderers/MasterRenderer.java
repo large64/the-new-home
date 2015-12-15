@@ -149,6 +149,7 @@ public class MasterRenderer {
         // @TODO: make map look like it is infinite
         // @TODO: make entities move smoother
         // @TODO: create selectable actions
+        // @TODO: create new frames for actions
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 

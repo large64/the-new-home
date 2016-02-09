@@ -28,6 +28,7 @@ public abstract class RawEntity {
         this.position.y = Map.getHeightOfMap(this.position.x, this.position.z);
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
+
         MasterRenderer.addRawEntity(this);
     }
 

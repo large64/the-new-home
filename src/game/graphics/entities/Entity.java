@@ -11,13 +11,13 @@ import org.lwjgl.util.vector.Vector3f;
  * Created by large64 on 10/10/15.
  */
 public class Entity {
+    private RawEntity rawEntity;
+
     protected TexturedModel model;
     protected Vector3f position;
     protected float rotX, rotY, rotZ;
     protected float scale;
     protected int textureIndex = 0;
-    protected float health = 100;
-    private RawEntity rawEntity;
     private boolean isSelected = false;
 
     public Entity() {}

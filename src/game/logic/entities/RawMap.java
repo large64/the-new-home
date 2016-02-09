@@ -16,22 +16,22 @@ public class RawMap {
     private static final int NR_OF_TILES = (int) (Map.getSIZE() / TILE_SIZE);
 
     private static int size = (int) (Map.getSIZE() / TILE_SIZE);
-    private static List<RawEntity> entities = new ArrayList<>();
+    private static List<RawEntity> rawEntities = new ArrayList<>();
     private static RawEntity[][] places = new RawEntity[size][size];
 
-    public RawMap(List<RawEntity> entities) {
-        RawMap.entities = entities;
+    public RawMap(List<RawEntity> rawEntities) {
+        RawMap.rawEntities = rawEntities;
         RawMap.lookForChanges();
     }
 
     public static void lookForChanges() {
-        if (!entities.isEmpty()) {
+        if (!rawEntities.isEmpty()) {
             for (int x = 0; x < RawMap.size; x++) {
                 for (int y = 0; y < RawMap.size; y++) {
                     places[x][y] = null;
-                    for (RawEntity entity : entities) {
-                        if ((Tile.positionToTile(entity.getPosition()).getColumn() == x
-                                && Tile.positionToTile(entity.getPosition()).getRow() == y)
+                    for (RawEntity entity : rawEntities) {
+                        if (entity.getTilePosition().getColumn() == x
+                                && entity.getTilePosition().getRow() == y
                                 && entity.isAlive()) {
                             places[x][y] = entity;
                         }

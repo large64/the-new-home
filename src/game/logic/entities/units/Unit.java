@@ -132,11 +132,8 @@ public class Unit extends RawEntity {
     public void step() {
         if (this.path != null) {
             if (!currentNode.isProcessed) {
-                Tile tilePosition = new Tile(currentNode.row, currentNode.column);
-                this.position = tilePosition.toPosition();
-                this.tilePosition = tilePosition;
-                this.position.y = game.graphics.windowparts.Map.getHeightOfMap(this.position.x, this.position.z);
-                MiniMap.mark(this.position);
+                this.tilePosition = new Tile(currentNode.row, currentNode.column);
+                MiniMap.mark(this.getTilePosition().toPosition());
                 currentNode.isProcessed = true;
                 if (this.path.size() > 0) {
                     this.path.remove(currentNode);

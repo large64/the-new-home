@@ -2,6 +2,7 @@ package game.graphics.windowparts;
 
 import game.logic.entities.RawEntity;
 import game.logic.toolbox.map.Position;
+import game.logic.toolbox.map.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -43,9 +44,10 @@ public class MiniMap {
                     places[x][y] = true;
                     for (RawEntity entity : entities) {
                         if (entity.isAlive()) {
-                            if ((int) (entity.getPosition().getRow() / MAPPING_RATIO) == x && (int) (entity.getPosition().getColumn() / MAPPING_RATIO) == y) {
+                            Position entityPosition = entity.getTilePosition().toPosition();
+                            if ((int) (entityPosition.getRow() / MAPPING_RATIO) == x && (int) (entityPosition.getColumn() / MAPPING_RATIO) == y) {
                                 MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
-                                places[entity.getPosition().getRow()][entity.getPosition().getColumn()] = false;
+                                places[entity.getTilePosition().getRow()][entity.getTilePosition().getColumn()] = false;
 
                                 if (entity.isBeingAttacked()) {
                                     MiniMap.image.setRGB(x, y, BEING_ATTACKED_COLOR.getRGB());

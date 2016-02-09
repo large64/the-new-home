@@ -12,7 +12,7 @@ public class Neutral extends RawEntity {
 
     public Neutral(Position position) {
         super(position);
-        super.position.y = Map.getHeightOfMap(position.x, position.z);
+        //super.tilePosition.y = Map.getHeightOfMap(position.x, position.z);
         this.side = Side.NEUTRAL;
     }
 }

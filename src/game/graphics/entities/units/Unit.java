@@ -30,6 +30,7 @@ public class Unit extends Entity {
     }
 
     public void refreshPosition() {
-        this.position = getRawEntity().getPosition();
+        this.position = getRawEntity().getTilePosition().toPosition();
+        this.position.y = Map.getHeightOfMap(this.position.x, this.position.z);
     }
 }

@@ -13,7 +13,6 @@ public abstract class RawEntity {
     private static final int DEFAULT_HEALTH = 100;
 
     protected static int counter = 0;
-    protected Position position;
     protected Tile tilePosition;
     private Position defaultPosition;
     protected int health;
@@ -24,20 +23,10 @@ public abstract class RawEntity {
     public RawEntity(Position position) {
         counter++;
         this.tilePosition = Tile.positionToTile(position);
-        this.position = (this.tilePosition).toPosition();
-        this.position.y = Map.getHeightOfMap(this.position.x, this.position.z);
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
 
         MasterRenderer.addRawEntity(this);
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public boolean isNextToAnEntity(RawEntity rawEntity) {
@@ -91,7 +80,6 @@ public abstract class RawEntity {
     }
 
     public void reset() {
-        this.position = defaultPosition;
         this.tilePosition = Tile.positionToTile(defaultPosition);
         this.setHealth(100);
     }

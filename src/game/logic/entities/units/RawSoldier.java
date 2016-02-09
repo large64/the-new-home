@@ -18,7 +18,7 @@ public class RawSoldier extends Unit{
      */
     @Override
     public String toString() {
-        return (this.id + ": " + this.getPosition().toString() + " " + this.health + " " + this.side);
+        return (this.id + ": " + this.getTilePosition().toString() + " " + this.health + " " + this.side);
     }
 
     public String getId() {

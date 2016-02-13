@@ -21,6 +21,7 @@ public class Window {
 
     public Window(Canvas canvas) {
         Color menuBgColor = new Color(2, 120, 0);
+        Color menuItemBg = new Color(205, 221, 237);
 
         EmptyBorder menuPanelBorder = new EmptyBorder(10, 20, 20, 20);
 
@@ -34,8 +35,14 @@ public class Window {
             mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
         });
 
-        JButton button2 = new JButton("Toggle tiles");
-        button2.addActionListener(el ->{
+        JCheckBox tilesCheckbox = new JCheckBox("Show tiles");
+        JPanel checkboxPanel = new JPanel();
+
+        checkboxPanel.setBorder(BorderFactory.createLineBorder(new Color(122, 138, 153), 1, false));
+        checkboxPanel.setBackground(menuItemBg);
+        tilesCheckbox.setBackground(menuItemBg);
+        tilesCheckbox.setBorder(new EmptyBorder(0, 10, 0, 10));
+        tilesCheckbox.addActionListener(el ->{
             if (!areTilesShown) {
                 MapRenderer.setShowTiles(true);
                 areTilesShown = true;
@@ -45,6 +52,7 @@ public class Window {
                 areTilesShown = false;
             }
         });
+        checkboxPanel.add(tilesCheckbox);
 
         JButton button3 = new JButton("Resume");
         button3.addActionListener(el ->{
@@ -92,7 +100,7 @@ public class Window {
         menuPanel.add(button1);
 
         devMenuPanel.add(devMenuTitle);
-        devMenuPanel.add(button2);
+        devMenuPanel.add(checkboxPanel);
 
         indicatorPanel.add(positionInfo.getTextPane());
         indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));

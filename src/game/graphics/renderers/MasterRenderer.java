@@ -230,7 +230,6 @@ public class MasterRenderer {
             }
 
             if (Camera.isMouseGrabbed()) {
-
                 if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
                     MiniMap.clearMarkers();
                     selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
@@ -256,6 +255,7 @@ public class MasterRenderer {
                 renderer.render(lights, player.getCamera());
                 //guiRenderer.render(guis);
             }
+
             DisplayManager.updateDisplay();
         }
 

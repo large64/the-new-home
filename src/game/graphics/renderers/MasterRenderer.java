@@ -26,6 +26,7 @@ import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -44,6 +45,7 @@ public class MasterRenderer {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
     private static boolean restart = false;
+    private static Map mainMap;
     private StaticShader shader = new StaticShader();
     private EntityRenderer renderer;
     private Matrix4f projectionMatrix;
@@ -89,7 +91,7 @@ public class MasterRenderer {
         GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
-    public void render(List<Light> lights, Camera camera) {
+    public void render(List<Light> lights, Camera camera, ArrayList<Map> maps) {
         prepare();
         shader.start();
         shader.loadLights(lights);
@@ -100,7 +102,7 @@ public class MasterRenderer {
         terrainShader.start();
         terrainShader.loadLights(lights);
         terrainShader.loadViewMatrix(camera);
-        mapRenderer.render();
+        mapRenderer.render(maps);
         terrainShader.stop();
         skyboxRenderer.render(camera);
 
@@ -117,12 +119,12 @@ public class MasterRenderer {
      * Processes an entity
      * @param entity The entity that is to be processed
      */
-    public void processEntity(Entity entity) {
+    public void processEntity(Entity entity, Map map) {
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = (List<Entity>) entityMap.get(entityModel);
 
         if (entity instanceof game.graphics.entities.units.Unit) {
-            ((game.graphics.entities.units.Unit) entity).refreshPosition();
+            ((game.graphics.entities.units.Unit) entity).refreshPosition(map);
         }
 
         if (batch != null) {
@@ -162,7 +164,19 @@ public class MasterRenderer {
         TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
 
-        new Map(0, 1, loader, texturePack, blendMap, "heightmap");
+        ArrayList<Map> maps = new ArrayList<>();
+        mainMap = new Map(0, 1, loader, texturePack, blendMap, "heightmap");
+        maps.add(mainMap);
+
+        maps.add(new Map(1, 1, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(-1, 1, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(0, -199, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(0, 201, loader, texturePack, blendMap, "heightmap"));
+
+        maps.add(new Map(1, 199, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(-1, 199, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(1, -199, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(-1, -199, loader, texturePack, blendMap, "heightmap"));
 
         // Set features of entities
         TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
@@ -210,7 +224,7 @@ public class MasterRenderer {
 
         // Set additional things like renderer, picker
         MasterRenderer renderer = new MasterRenderer(loader);
-        MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix());
+        MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix(), mainMap);
 
         boolean rightClick = false;
         boolean leftClick = false;
@@ -252,7 +266,7 @@ public class MasterRenderer {
                 EntityInfo.refreshInfo();
                 MiniMap.lookForChanges();
                 RawMap.lookForChanges();
-                renderer.render(lights, player.getCamera());
+                renderer.render(lights, player.getCamera(), maps);
                 //guiRenderer.render(guis);
             }
 
@@ -320,7 +334,7 @@ public class MasterRenderer {
                     }
                 }
 
-                renderer.processEntity(entity);
+                renderer.processEntity(entity, mainMap);
             }
         }
     }

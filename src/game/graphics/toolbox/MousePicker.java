@@ -20,13 +20,15 @@ public class MousePicker {
     private Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
     private Camera camera;
+    private Map map;
 
     private Vector3f currentTerrainPoint;
 
-    public MousePicker(Camera cam, Matrix4f projection) {
+    public MousePicker(Camera cam, Matrix4f projection, Map map) {
         camera = cam;
         projectionMatrix = projection;
         viewMatrix = Maths.createViewMatrix(camera);
+        this.map = map;
     }
 
     public Vector3f getCurrentTerrainPoint() {
@@ -40,7 +42,7 @@ public class MousePicker {
     public void update() {
         viewMatrix = Maths.createViewMatrix(camera);
         currentRay = calculateMouseRay();
-        if (intersectionInRange(0, RAY_RANGE, currentRay)) {
+        if (intersectionInRange(0, RAY_RANGE, currentRay, this.map)) {
             currentTerrainPoint = binarySearch(0, 0, RAY_RANGE, currentRay);
         } else {
             currentTerrainPoint = null;
@@ -89,26 +91,26 @@ public class MousePicker {
             Vector3f endPoint = getPointOnRay(ray, half);
             return endPoint;
         }
-        if (intersectionInRange(start, half, ray)) {
+        if (intersectionInRange(start, half, ray, this.map)) {
             return binarySearch(count + 1, start, half, ray);
         } else {
             return binarySearch(count + 1, half, finish, ray);
         }
     }
 
-    private boolean intersectionInRange(float start, float finish, Vector3f ray) {
+    private boolean intersectionInRange(float start, float finish, Vector3f ray, Map map) {
         Vector3f startPoint = getPointOnRay(ray, start);
         Vector3f endPoint = getPointOnRay(ray, finish);
-        if (!isUnderGround(startPoint) && isUnderGround(endPoint)) {
+        if (!isUnderGround(startPoint, map) && isUnderGround(endPoint, map)) {
             return true;
         } else {
             return false;
         }
     }
 
-    private boolean isUnderGround(Vector3f testPoint) {
+    private boolean isUnderGround(Vector3f testPoint, Map map) {
         float height = 0;
-        height = Map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
+        height = map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
         if (testPoint.y < height) {
             return true;
         } else {

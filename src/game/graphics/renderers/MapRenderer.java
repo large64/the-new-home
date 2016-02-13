@@ -12,6 +12,8 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.util.ArrayList;
+
 /**
  * Created by large64 on 9/22/15.
  */
@@ -27,33 +29,36 @@ public class MapRenderer {
         shader.stop();
     }
 
-    public void render() {
-        prepareTerrain();
-        loadModelMatrix();
+    public void render(ArrayList<Map> maps) {
         if (isShowTiles()) {
             shader.toggleTiles(true);
         }
         else {
             shader.toggleTiles(false);
         }
-        GL11.glDrawElements(GL11.GL_TRIANGLES, Map.getModel().getVertexCount(),
-                GL11.GL_UNSIGNED_INT, 0);
+        for (Map map : maps) {
+            prepareTerrain(map);
+            loadModelMatrix(map);
+            GL11.glDrawElements(GL11.GL_TRIANGLES, map.getModel().getVertexCount(),
+                    GL11.GL_UNSIGNED_INT, 0);
+        }
+
         unbindTexturedModel();
     }
 
-    private void prepareTerrain() {
-        RawModel rawModel = Map.getModel();
+    private void prepareTerrain(Map map) {
+        RawModel rawModel = map.getModel();
         GL30.glBindVertexArray(rawModel.getVaoID());
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
 
-        bindTextures();
+        bindTextures(map);
         shader.loadShineVariables(1, 0);
     }
 
-    private void bindTextures() {
-        TerrainTexturePack texturePack = Map.getTexturePack();
+    private void bindTextures(Map map) {
+        TerrainTexturePack texturePack = map.getTexturePack();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, texturePack.getBackgroundTexture().getTextureID());
 
@@ -77,8 +82,8 @@ public class MapRenderer {
         GL30.glBindVertexArray(0);
     }
 
-    private void loadModelMatrix() {
-        Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(Map.getX(), 0, Map.getZ()),
+    private void loadModelMatrix(Map map) {
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(map.getX(), 0, map.getZ()),
                 0, 0, 0, 1);
 
         shader.loadTransformationMatrix(transformationMatrix);

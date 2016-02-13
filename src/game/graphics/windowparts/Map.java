@@ -21,9 +21,9 @@ public class Map {
     private static final float MAX_HEIGHT = 5;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
-    private static float x;
-    private static float z;
-    private static RawModel model;
+    private float x;
+    private float z;
+    private RawModel model;
     private static TerrainTexturePack texturePack;
     private static TerrainTexture blendMap;
     private static float[][] heights;
@@ -32,9 +32,9 @@ public class Map {
                TerrainTexture blendMap, String heightOfMap) {
         Map.texturePack = texturePack;
         Map.blendMap = blendMap;
-        Map.x = gridX * SIZE;
-        Map.z = gridZ;
-        Map.model = generateMap(loader, heightOfMap);
+        this.x = gridX * SIZE;
+        this.z = gridZ;
+        this.model = generateMap(loader, heightOfMap);
     }
 
     private RawModel generateMap(Loader loader, String heightMap) {
@@ -44,6 +44,7 @@ public class Map {
         } catch (IOException e) {
             System.err.println("Could not load height map.");
             e.printStackTrace();
+            System.exit(3);
         }
 
         int VERTEX_COUNT = image.getHeight();
@@ -115,15 +116,15 @@ public class Map {
         return normal;
     }
 
-    public static float getX() {
+    public float getX() {
         return x;
     }
 
-    public static float getZ() {
+    public float getZ() {
         return z;
     }
 
-    public static RawModel getModel() {
+    public RawModel getModel() {
         return model;
     }
 
@@ -135,9 +136,9 @@ public class Map {
         return blendMap;
     }
 
-    public static float getHeightOfMap(float worldX, float worldY) {
-        float terrainX = worldX - Map.x;
-        float terrainY = worldY - Map.z;
+    public float getHeightOfMap(float worldX, float worldY) {
+        float terrainX = worldX - this.x;
+        float terrainY = worldY - this.z;
 
         float gridSquareSize = SIZE / ((float) heights.length - 1);
         int gridX = (int) Math.floor(terrainX / gridSquareSize);
@@ -168,10 +169,6 @@ public class Map {
         }
 
         return result;
-    }
-
-    public static boolean isPointOnMap(float x, float z) {
-        return (x < SIZE && z < SIZE);
     }
 
     public static float getSIZE() {

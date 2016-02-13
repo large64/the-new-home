@@ -49,14 +49,27 @@ public class Camera {
         if (isMouseGrabbed) {
             float changePositionBy = (0.3f - calculateMoveDamping(newZoomDistance));
 
+            // @TODO: remove bug - when scrolling, able to cross the borders
             if (Mouse.getX() >= displayWidth - CURSOR_MARGIN) {
-                this.position.x += changePositionBy;
+                if (this.position.x < 186) {
+                    // move camera to the right
+                    this.position.x += changePositionBy;
+                }
             } else if (Mouse.getX() <= CURSOR_MARGIN) {
-                this.position.x -= changePositionBy;
+                if (this.position.x > 14) {
+                    // move camera to the left
+                    this.position.x -= changePositionBy;
+                }
             } else if (Mouse.getY() >= displayHeight - CURSOR_MARGIN) {
-                this.position.z -= changePositionBy;
+                if (this.position.z > 18) {
+                    // move camera to the top
+                    this.position.z -= changePositionBy;
+                }
             } else if (Mouse.getY() <= CURSOR_MARGIN) {
-                this.position.z += changePositionBy;
+                if (this.position.z < 230) {
+                    // move camera to the bottom
+                    this.position.z += changePositionBy;
+                }
             }
 
             calculateZoom();

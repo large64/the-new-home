@@ -229,30 +229,33 @@ public class MasterRenderer {
                 player.move();
             }
 
-            if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
-                MiniMap.clearMarkers();
-                selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                checkSelection(selectedTile);
+            if (Camera.isMouseGrabbed()) {
+
+                if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
+                    MiniMap.clearMarkers();
+                    selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+                    checkSelection(selectedTile);
+                }
+
+                if (Mouse.isButtonDown(0) && !leftClick) {
+                    processSelectedEntities(picker);
+                }
+
+                rightClick = Mouse.isButtonDown(1);
+                leftClick = Mouse.isButtonDown(0);
+
+                // Move the player per frame (and so the camera)
+                picker.update();
+                PositionInfo.lookForChanges(picker);
+
+                processMovements(selectedTile, renderer);
+
+                EntityInfo.refreshInfo();
+                MiniMap.lookForChanges();
+                RawMap.lookForChanges();
+                renderer.render(lights, player.getCamera());
+                //guiRenderer.render(guis);
             }
-
-            if (Mouse.isButtonDown(0) && !leftClick) {
-                processSelectedEntities(picker);
-            }
-
-            rightClick = Mouse.isButtonDown(1);
-            leftClick = Mouse.isButtonDown(0);
-
-            // Move the player per frame (and so the camera)
-            picker.update();
-            PositionInfo.lookForChanges(picker);
-
-            processMovements(selectedTile, renderer);
-
-            EntityInfo.refreshInfo();
-            MiniMap.lookForChanges();
-            RawMap.lookForChanges();
-            renderer.render(lights, player.getCamera());
-            //guiRenderer.render(guis);
             DisplayManager.updateDisplay();
         }
 

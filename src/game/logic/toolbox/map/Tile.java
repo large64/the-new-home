@@ -1,7 +1,7 @@
 package game.logic.toolbox.map;
 
-import game.logic.entities.RawMap;
 import game.graphics.windowparts.Map;
+import game.logic.entities.RawMap;
 
 /**
  * Created by large64 on 2015.12.01..

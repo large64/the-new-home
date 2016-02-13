@@ -1,9 +1,8 @@
 package game.logic.entities;
 
 import com.sun.istack.internal.Nullable;
-import game.logic.entities.units.RawSoldier;
-import game.logic.toolbox.map.Tile;
 import game.graphics.windowparts.Map;
+import game.logic.toolbox.map.Tile;
 
 import java.util.ArrayList;
 import java.util.List;

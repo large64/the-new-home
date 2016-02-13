@@ -1,7 +1,6 @@
 package game.logic.entities;
 
 import game.graphics.renderers.MasterRenderer;
-import game.graphics.windowparts.Map;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -14,6 +13,7 @@ public abstract class RawEntity {
 
     protected static int counter = 0;
     protected Tile tilePosition;
+    private Position position;
     private Position defaultPosition;
     protected int health;
     private boolean isBeingAttacked = false;

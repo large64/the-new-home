@@ -2,10 +2,9 @@ package game.graphics.shaders;
 
 import game.graphics.entities.Camera;
 import game.graphics.entities.Light;
-import game.graphics.renderers.MapRenderer;
+import game.logic.toolbox.Maths;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import game.logic.toolbox.Maths;
 
 import java.util.List;
 

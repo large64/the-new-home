@@ -2,7 +2,6 @@ package game.graphics.windowparts;
 
 import game.logic.entities.RawEntity;
 import game.logic.toolbox.map.Position;
-import game.logic.toolbox.map.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +14,7 @@ import java.util.ListIterator;
  * Created by Dénes on 2015. 11. 06..
  */
 public class MiniMap {
+    // @TODO: show which part of the map the user is currently on (viewport)
     private static final Color BASE_TILE_COLOR = new Color(183, 177, 42);
     private static final Color BEING_HEALED_COLOR = new Color(3, 132, 24);
     private static final Color BEING_ATTACKED_COLOR = new Color(255, 0, 0);

@@ -1,10 +1,9 @@
 package game.graphics.toolbox;
 
+import game.graphics.windowparts.Window;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
-import org.lwjgl.opengl.DisplayMode;
-import game.graphics.windowparts.Window;
 
 /**
  * Created by large64 on 9/6/15.

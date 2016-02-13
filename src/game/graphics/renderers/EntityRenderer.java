@@ -3,14 +3,14 @@ package game.graphics.renderers;
 import game.graphics.entities.Entity;
 import game.graphics.models.RawModel;
 import game.graphics.models.TexturedModel;
+import game.graphics.shaders.StaticShader;
+import game.graphics.textures.ModelTexture;
+import game.logic.toolbox.Maths;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
-import game.graphics.shaders.StaticShader;
-import game.graphics.textures.ModelTexture;
-import game.logic.toolbox.Maths;
 
 import java.util.List;
 import java.util.Map;

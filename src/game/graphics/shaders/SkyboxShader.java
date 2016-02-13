@@ -5,10 +5,10 @@ package game.graphics.shaders;
  */
 
 import game.graphics.entities.Camera;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 import game.graphics.toolbox.DisplayManager;
 import game.logic.toolbox.Maths;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public class SkyboxShader extends ShaderProgram {
 

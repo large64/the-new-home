@@ -1,9 +1,7 @@
 package game.logic.entities;
 
-import game.graphics.windowparts.Map;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
-import game.logic.toolbox.map.Tile;
 
 /**
  * Created by large64 on 2015.12.06..

@@ -1,6 +1,6 @@
 package game.logic.entities.units;
 
-import game.graphics.windowparts.*;
+import game.graphics.windowparts.MiniMap;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.toolbox.Side;
@@ -13,12 +13,12 @@ import java.util.*;
 /**
  * Created by Dénes on 2015. 11. 06..
  */
-public class Unit extends RawEntity {
+public class RawUnit extends RawEntity {
     private List<Node> path = new ArrayList<>();
-    private boolean isMoving = false;
+    private List<Position> movementCoordinates = new ArrayList<>();
     private Node currentNode;
 
-    public Unit(int row, int column, boolean side) {
+    public RawUnit(int row, int column, boolean side) {
         super(new Position(row, column));
         this.setSide(side);
     }
@@ -73,8 +73,6 @@ public class Unit extends RawEntity {
                 Collections.reverse(this.path);
                 currentNode = path.get(0);
                 path.remove(0);
-                this.isMoving = true;
-                System.out.println(path);
                 return;
             }
 
@@ -135,6 +133,7 @@ public class Unit extends RawEntity {
                 this.tilePosition = new Tile(currentNode.row, currentNode.column);
                 MiniMap.mark(this.getTilePosition().toPosition());
                 currentNode.isProcessed = true;
+
                 if (this.path.size() > 0) {
                     this.path.remove(currentNode);
                 }

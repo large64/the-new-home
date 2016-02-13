@@ -1,12 +1,12 @@
 package game.graphics.windowparts;
 
 import game.graphics.models.RawModel;
-import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import game.graphics.toolbox.Loader;
 import game.graphics.textures.TerrainTexture;
 import game.graphics.textures.TerrainTexturePack;
+import game.graphics.toolbox.Loader;
 import game.logic.toolbox.Maths;
+import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

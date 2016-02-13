@@ -2,11 +2,11 @@ package game.graphics.toolbox;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
 import game.graphics.models.RawModel;
+import game.graphics.textures.TextureData;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import game.graphics.textures.TextureData;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

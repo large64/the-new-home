@@ -1,9 +1,8 @@
 package game.graphics.entities;
 
+import game.graphics.models.TexturedModel;
 import game.logic.entities.Neutral;
 import game.logic.entities.RawEntity;
-import game.graphics.models.TexturedModel;
-import game.logic.entities.units.RawHealer;
 import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 

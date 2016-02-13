@@ -1,9 +1,10 @@
 package game.graphics.entities;
 
-import org.lwjgl.input.*;
+import game.graphics.windowparts.Window;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector3f;
-import game.graphics.windowparts.Window;
 
 /**
  * Created by large64 on 9/15/15.

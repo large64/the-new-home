@@ -1,9 +1,6 @@
 package game.logic.toolbox;
 
 import game.logic.entities.RawEntity;
-import game.logic.entities.buildings.RawBuilding;
-import game.logic.entities.units.RawHealer;
-import game.logic.entities.units.RawSoldier;
 import org.kopitubruk.util.json.JSONParser;
 
 import java.io.File;
@@ -63,7 +60,6 @@ public class GameLoader {
                         break;
                 }
             }
-            // @TODO: set size of map according to json data
         }
 
         return entities;

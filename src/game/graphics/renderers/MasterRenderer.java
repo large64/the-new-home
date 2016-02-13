@@ -1,36 +1,36 @@
 package game.graphics.renderers;
 
-import game.graphics.entities.units.Healer;
-import game.graphics.windowparts.EntityInfo;
-import game.graphics.windowparts.MiniMap;
-import game.graphics.windowparts.PositionInfo;
-import game.logic.entities.RawEntity;
-import game.logic.entities.RawMap;
-import game.logic.entities.units.Unit;
-import game.logic.toolbox.Side;
-import game.logic.toolbox.map.Position;
-import game.logic.toolbox.map.Tile;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
 import game.graphics.entities.Player;
+import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
+import game.graphics.shaders.StaticShader;
+import game.graphics.shaders.TerrainShader;
+import game.graphics.textures.ModelTexture;
+import game.graphics.textures.TerrainTexture;
+import game.graphics.textures.TerrainTexturePack;
+import game.graphics.toolbox.DisplayManager;
+import game.graphics.toolbox.Loader;
+import game.graphics.toolbox.MousePicker;
+import game.graphics.toolbox.OBJLoader;
+import game.graphics.windowparts.EntityInfo;
+import game.graphics.windowparts.Map;
+import game.graphics.windowparts.MiniMap;
+import game.graphics.windowparts.PositionInfo;
+import game.logic.entities.RawEntity;
+import game.logic.entities.RawMap;
+import game.logic.entities.units.RawUnit;
+import game.logic.toolbox.Side;
+import game.logic.toolbox.map.Position;
+import game.logic.toolbox.map.Tile;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import game.graphics.shaders.StaticShader;
-import game.graphics.shaders.TerrainShader;
-import game.graphics.toolbox.DisplayManager;
-import game.graphics.toolbox.Loader;
-import game.graphics.toolbox.OBJLoader;
-import game.graphics.windowparts.Map;
-import game.graphics.textures.ModelTexture;
-import game.graphics.textures.TerrainTexture;
-import game.graphics.textures.TerrainTexturePack;
-import game.graphics.toolbox.MousePicker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -276,9 +276,9 @@ public class MasterRenderer {
 
     public static void checkSelection(Tile selectedTile) {
         for (RawEntity entity : selectedEntities) {
-            if (entity instanceof Unit) {
-                Unit unit = (Unit) entity;
-                unit.calculatePath(selectedTile);
+            if (entity instanceof RawUnit) {
+                RawUnit rawUnit = (RawUnit) entity;
+                rawUnit.calculatePath(selectedTile);
             }
         }
     }
@@ -310,8 +310,8 @@ public class MasterRenderer {
         for (Entity entity : entities) {
             RawEntity rawEntity = entity.getRawEntity();
             if (rawEntity.isAlive()) {
-                if (rawEntity instanceof Unit) {
-                    Unit rawUnit = (Unit) rawEntity;
+                if (rawEntity instanceof RawUnit) {
+                    RawUnit rawUnit = (RawUnit) rawEntity;
                     if ((rawUnit).isMoving() && selectedTile != null) {
                         rawUnit.performAction(selectedTile);
                     }

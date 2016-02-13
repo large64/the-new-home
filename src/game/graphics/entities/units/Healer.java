@@ -1,9 +1,7 @@
 package game.graphics.entities.units;
 
 import game.graphics.models.TexturedModel;
-import game.graphics.windowparts.Map;
 import game.logic.entities.units.RawHealer;
-import game.logic.entities.units.RawSoldier;
 import org.lwjgl.util.vector.Vector3f;
 
 /**

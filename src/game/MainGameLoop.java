@@ -4,9 +4,9 @@
 package game;
 
 
-import org.lwjgl.opengl.Display;
 import game.graphics.renderers.MasterRenderer;
 import game.graphics.windowparts.Window;
+import org.lwjgl.opengl.Display;
 
 import java.awt.*;
 

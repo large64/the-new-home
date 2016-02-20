@@ -132,6 +132,7 @@ public class EntityInfo {
         for (int i = 0; i < MULTI_SIZE; i++) {
             JLabel label = ((JLabel) multiPanel.getComponent(i));
             label.setIcon(null);
+            label.setText(null);
         }
     }
 }

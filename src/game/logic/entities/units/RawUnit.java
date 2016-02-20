@@ -24,6 +24,8 @@ public class RawUnit extends RawEntity {
     }
 
     public void performAction(Tile tile) {
+        // @TODO: make units avoid being on the same title when their destinations are approached by them
+        // solution: compare last step of all paths and make units step around the dest title in order
         if (!this.path.isEmpty()) {
             RawEntity entity = RawMap.whatIsOnTile(tile);
 

@@ -19,7 +19,7 @@ public class Camera {
     private static final float DEFAULT_Z = 80; //-275.4985f;
     // Set default position (y) to be the maximum back zoom level
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
-    private static final float CURSOR_MARGIN = 20;
+    private static final float MIDDLE_CLICK_MARGIN = 30;
 
     private Vector3f position;
     private float pitch = DEFAULT_PITCH;
@@ -48,22 +48,22 @@ public class Camera {
         }
 
         if (isMouseGrabbed) {
-            float changePositionBy = (0.3f - calculateMoveDamping(newZoomDistance));
+            float changePositionBy = (0.4f - calculateMoveDamping(newZoomDistance));
 
             if (Mouse.isButtonDown(2) && firstMiddleClickPosition != null) {
-                if (Mouse.getX() > firstMiddleClickPosition.getX()) {
+                if (Mouse.getX() + MIDDLE_CLICK_MARGIN > firstMiddleClickPosition.getX()) {
                     this.position.x += changePositionBy;
                 }
 
-                if (Mouse.getX() < firstMiddleClickPosition.getX()) {
+                if (Mouse.getX() - MIDDLE_CLICK_MARGIN < firstMiddleClickPosition.getX()) {
                     this.position.x -= changePositionBy;
                 }
 
-                if (Mouse.getY() < firstMiddleClickPosition.getY()) {
+                if (Mouse.getY() + MIDDLE_CLICK_MARGIN < firstMiddleClickPosition.getY()) {
                     this.position.z += changePositionBy;
                 }
 
-                if (Mouse.getY() > firstMiddleClickPosition.getY()) {
+                if (Mouse.getY() - MIDDLE_CLICK_MARGIN > firstMiddleClickPosition.getY()) {
                     this.position.z -= changePositionBy;
                 }
             }

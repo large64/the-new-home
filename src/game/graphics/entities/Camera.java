@@ -4,6 +4,7 @@ import game.graphics.windowparts.Window;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -36,7 +37,7 @@ public class Camera {
         this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     }
 
-    public void move() {
+    public void move(Vector2f firstMiddleClickPosition) {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             isMouseGrabbed = false;
             Window.getMenuFrame().setVisible(true);
@@ -49,26 +50,21 @@ public class Camera {
         if (isMouseGrabbed) {
             float changePositionBy = (0.3f - calculateMoveDamping(newZoomDistance));
 
-            // @TODO: remove bug - when scrolling, able to cross the borders
-            if (Mouse.getX() >= displayWidth - CURSOR_MARGIN) {
-                if (this.position.x < 186) {
-                    // move camera to the right
+            if (Mouse.isButtonDown(2) && firstMiddleClickPosition != null) {
+                if (Mouse.getX() > firstMiddleClickPosition.getX()) {
                     this.position.x += changePositionBy;
                 }
-            } else if (Mouse.getX() <= CURSOR_MARGIN) {
-                if (this.position.x > 14) {
-                    // move camera to the left
+
+                if (Mouse.getX() < firstMiddleClickPosition.getX()) {
                     this.position.x -= changePositionBy;
                 }
-            } else if (Mouse.getY() >= displayHeight - CURSOR_MARGIN) {
-                if (this.position.z > 18) {
-                    // move camera to the top
-                    this.position.z -= changePositionBy;
-                }
-            } else if (Mouse.getY() <= CURSOR_MARGIN) {
-                if (this.position.z < 230) {
-                    // move camera to the bottom
+
+                if (Mouse.getY() < firstMiddleClickPosition.getY()) {
                     this.position.z += changePositionBy;
+                }
+
+                if (Mouse.getY() > firstMiddleClickPosition.getY()) {
+                    this.position.z -= changePositionBy;
                 }
             }
 

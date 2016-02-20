@@ -31,6 +31,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
@@ -227,6 +228,9 @@ public class MasterRenderer {
 
         boolean rightClick = false;
         boolean leftClick = false;
+        boolean middleClick = false;
+
+        Vector2f firstMiddleClickPosition = null;
 
         Tile selectedTile = null;
         EntityInfo.setEntities(selectedEntities);
@@ -239,7 +243,7 @@ public class MasterRenderer {
                 restart = false;
             }
             else {
-                player.move();
+                player.move(firstMiddleClickPosition);
             }
 
             if (Camera.isMouseGrabbed()) {
@@ -253,8 +257,13 @@ public class MasterRenderer {
                     processSelectedEntities(picker);
                 }
 
+                if (Mouse.isButtonDown(2) && !middleClick) {
+                    firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
+                }
+
                 rightClick = Mouse.isButtonDown(1);
                 leftClick = Mouse.isButtonDown(0);
+                middleClick = Mouse.isButtonDown(2);
 
                 // Move the player per frame (and so the camera)
                 picker.update();

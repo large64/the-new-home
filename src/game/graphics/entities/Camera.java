@@ -51,19 +51,19 @@ public class Camera {
             float changePositionBy = (0.4f - calculateMoveDamping(newZoomDistance));
 
             if (Mouse.isButtonDown(2) && firstMiddleClickPosition != null) {
-                if (Mouse.getX() + MIDDLE_CLICK_MARGIN > firstMiddleClickPosition.getX()) {
+                if (Mouse.getX() + MIDDLE_CLICK_MARGIN > firstMiddleClickPosition.getX() && this.position.x < 186) {
                     this.position.x += changePositionBy;
                 }
 
-                if (Mouse.getX() - MIDDLE_CLICK_MARGIN < firstMiddleClickPosition.getX()) {
+                if (Mouse.getX() - MIDDLE_CLICK_MARGIN < firstMiddleClickPosition.getX() && this.position.x > 14) {
                     this.position.x -= changePositionBy;
                 }
 
-                if (Mouse.getY() + MIDDLE_CLICK_MARGIN < firstMiddleClickPosition.getY()) {
+                if (Mouse.getY() + MIDDLE_CLICK_MARGIN < firstMiddleClickPosition.getY() && this.position.z < 230) {
                     this.position.z += changePositionBy;
                 }
 
-                if (Mouse.getY() - MIDDLE_CLICK_MARGIN > firstMiddleClickPosition.getY()) {
+                if (Mouse.getY() - MIDDLE_CLICK_MARGIN > firstMiddleClickPosition.getY() && this.position.z > 18) {
                     this.position.z -= changePositionBy;
                 }
             }

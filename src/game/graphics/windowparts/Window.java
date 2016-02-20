@@ -62,6 +62,7 @@ public class Window {
 
         PositionInfo positionInfo = new PositionInfo();
         EntityInfo entityInfo = new EntityInfo();
+        ActionInfo actionInfo = new ActionInfo();
 
         JPanel menuPanel = new JPanel(new GridLayout(4, 1));
         JPanel devMenuPanel = new JPanel(new GridLayout(2, 1));
@@ -110,6 +111,7 @@ public class Window {
         bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(menuBgColor);
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
+        bottomWrapperPanel.add(actionInfo.getWrapperPanel());
         bottomWrapperPanel.add(entityInfo.getWrapperPanel());
         bottomWrapperPanel.add(indicatorPanel);
         bottomWrapperPanel.add(miniMapPanel);

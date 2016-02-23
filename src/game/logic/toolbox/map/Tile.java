@@ -10,6 +10,8 @@ public class Tile {
     private int column;
     private int row;
 
+    public Tile() {}
+
     public Tile(int row, int column) {
         this.column = column;
         this.row = row;

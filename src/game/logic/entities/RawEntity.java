@@ -1,5 +1,6 @@
 package game.logic.entities;
 
+import game.graphics.entities.Entity;
 import game.graphics.renderers.MasterRenderer;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
@@ -19,6 +20,7 @@ public abstract class RawEntity {
     private boolean isBeingAttacked = false;
     private boolean isBeingHealed = false;
     protected Side side;
+    private Entity entity;
 
     public RawEntity(Position position) {
         counter++;
@@ -86,5 +88,13 @@ public abstract class RawEntity {
 
     public Tile getTilePosition() {
         return tilePosition;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 }

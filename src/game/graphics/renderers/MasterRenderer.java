@@ -1,5 +1,6 @@
 package game.graphics.renderers;
 
+import com.sun.javafx.geom.Vec2f;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
@@ -254,7 +255,7 @@ public class MasterRenderer {
                 }
 
                 if (Mouse.isButtonDown(0) && !leftClick) {
-                    processSelectedEntities(picker);
+                    processSelectedEntities(picker, null);
                 }
 
                 if (Mouse.isButtonDown(2) && !middleClick) {
@@ -308,8 +309,12 @@ public class MasterRenderer {
         }
     }
 
-    public static void processSelectedEntities(MousePicker picker) {
-        Tile tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+    public static void processSelectedEntities(MousePicker picker, Tile tilePosition) {
+        Tile tile = tilePosition;
+        if (picker != null) {
+            tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+        }
+
         boolean atLeastOne = false;
         for (Entity entity : entities) {
             RawEntity rawEntity = entity.getRawEntity();
@@ -324,10 +329,14 @@ public class MasterRenderer {
             }
         }
         if (!atLeastOne) {
-            selectedEntities.clear();
-            for (Entity entity : entities) {
-                entity.setSelected(false);
-            }
+          unSelectAllEntities();
+        }
+    }
+
+    public static void unSelectAllEntities() {
+        selectedEntities.clear();
+        for (Entity entity : entities) {
+            entity.setSelected(false);
         }
     }
 

@@ -1,11 +1,14 @@
 package game.graphics.windowparts;
 
 import com.sun.istack.internal.Nullable;
+import game.graphics.renderers.MasterRenderer;
 import game.logic.entities.RawEntity;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -92,6 +95,7 @@ public class EntityInfo {
             singlePanel.setVisible(false);
             for (int i = 0; i < entities.size(); i++) {
                 RawEntity entity = entities.get(i);
+                RawEntity selectableEntity = MasterRenderer.getSelectedEntities().get(i);
                 String[] typeAndImage = determineTypeAndImage(entity);
 
                 if (typeAndImage != null) {
@@ -102,6 +106,14 @@ public class EntityInfo {
                     label.setVerticalTextPosition(JLabel.BOTTOM);
                     label.setIconTextGap(-2);
                     label.setPreferredSize(new Dimension(50, 50));
+                    label.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            MasterRenderer.unSelectAllEntities();
+                            MasterRenderer.getSelectedEntities().add(selectableEntity);
+                            selectableEntity.getEntity().setSelected(true);
+                        }
+                    });
                 }
             }
             multiPanel.setVisible(true);

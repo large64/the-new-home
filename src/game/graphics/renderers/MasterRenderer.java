@@ -196,11 +196,14 @@ public class MasterRenderer {
                 Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(soldier);
             }
-            else if ((i % 2) > 0 && (i % 2) < 3){
+            else if (i % 3 == 0){
                 Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(healer);
             }
-            else {
+            if (i % 4 == 0) {
+                x = (float) (Math.random() * 200);
+                z = (float) (Math.random() * 200);
+
                 Entity treeEntity = new Entity(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(treeEntity);
             }

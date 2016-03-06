@@ -1,7 +1,6 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
-import game.graphics.renderers.MapRenderer;
 import game.graphics.renderers.MasterRenderer;
 
 import javax.swing.*;
@@ -15,7 +14,7 @@ public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static JPanel bottomWrapperPanel;
-    private static boolean areTilesShown = false;
+    private static boolean isTilesShown = false;
 
     public static final int BOTTOM_COMPONENT_HEIGHT = 130;
 
@@ -43,13 +42,13 @@ public class Window {
         tilesCheckbox.setBackground(menuItemBg);
         tilesCheckbox.setBorder(new EmptyBorder(0, 10, 0, 10));
         tilesCheckbox.addActionListener(el ->{
-            if (!areTilesShown) {
-                MapRenderer.setShowTiles(true);
-                areTilesShown = true;
+            if (!isTilesShown) {
+                MasterRenderer.getMainMap().setTilesShown(true);
+                isTilesShown = true;
             }
             else {
-                MapRenderer.setShowTiles(false);
-                areTilesShown = false;
+                MasterRenderer.getMainMap().setTilesShown(false);
+                isTilesShown = false;
             }
         });
         checkboxPanel.add(tilesCheckbox);

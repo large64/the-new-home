@@ -24,6 +24,7 @@ public class Map {
     private float x;
     private float z;
     private RawModel model;
+    private boolean isTilesShown = false;
     private static TerrainTexturePack texturePack;
     private static TerrainTexture blendMap;
     private static float[][] heights;
@@ -173,5 +174,13 @@ public class Map {
 
     public static float getSIZE() {
         return SIZE;
+    }
+
+    public void setTilesShown(boolean tilesShown) {
+        isTilesShown = tilesShown;
+    }
+
+    public boolean isTilesShown() {
+        return isTilesShown;
     }
 }

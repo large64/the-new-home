@@ -358,4 +358,8 @@ public class MasterRenderer {
             }
         }
     }
+
+    public static Map getMainMap() {
+        return mainMap;
+    }
 }

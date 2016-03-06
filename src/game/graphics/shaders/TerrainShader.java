@@ -71,7 +71,7 @@ public class TerrainShader extends ShaderProgram {
         super.loadInt(location_blendMap, 4);
     }
 
-    public void toggleTiles(boolean on) {
+    public void setShowTiles(boolean on) {
         if (on) {
             super.loadInt(location_showTiles, 1);
         }

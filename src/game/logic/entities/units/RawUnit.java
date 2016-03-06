@@ -133,7 +133,7 @@ public class RawUnit extends RawEntity {
         if (this.path != null) {
             if (!currentNode.isProcessed) {
                 this.tilePosition = new Tile(currentNode.row, currentNode.column);
-                MiniMap.mark(this.getTilePosition().toPosition());
+                //MiniMap.mark(this.getTilePosition().toPosition());
                 currentNode.isProcessed = true;
 
                 if (this.path.size() > 0) {

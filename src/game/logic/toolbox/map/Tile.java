@@ -7,6 +7,8 @@ import game.logic.entities.RawMap;
  * Created by large64 on 2015.12.01..
  */
 public class Tile {
+    public static final float[] OFFSETS = {2.5f, 3.25f};
+
     private int column;
     private int row;
 
@@ -29,7 +31,7 @@ public class Tile {
         int column = (0 + ((this.getColumn() - 0) * ((int) Map.getSIZE() - 0) / (RawMap.getNrOfTiles() - 0)));
         int row = (0 + ((this.getRow() - 0) * ((int) Map.getSIZE() - 0) / (RawMap.getNrOfTiles() - 0)));
 
-        return new Position(row + 2.5f, column + 3.25f);
+        return new Position(row + OFFSETS[0], column + OFFSETS[1]);
     }
 
     public boolean isBlocked(boolean isDestination) {

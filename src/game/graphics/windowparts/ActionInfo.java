@@ -37,7 +37,7 @@ public class ActionInfo {
                     if (entity instanceof RawUnit) {
                         RawUnit rawUnit = (RawUnit) entity;
                         if (rawUnit.isMoving()) {
-                            rawUnit.clearPath();
+                            rawUnit.getPath().clear();
                         }
                     }
                 }

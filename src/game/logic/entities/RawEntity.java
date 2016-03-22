@@ -14,7 +14,7 @@ public abstract class RawEntity {
 
     protected static int counter = 0;
     protected Tile tilePosition;
-    private Position position;
+    protected Position position;
     private Position defaultPosition;
     protected int health;
     private boolean isBeingAttacked = false;
@@ -24,6 +24,7 @@ public abstract class RawEntity {
 
     public RawEntity(Position position) {
         counter++;
+        this.position = position;
         this.tilePosition = Tile.positionToTile(position);
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
@@ -96,5 +97,9 @@ public abstract class RawEntity {
 
     public void setEntity(Entity entity) {
         this.entity = entity;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 }

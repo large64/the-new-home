@@ -1,8 +1,10 @@
 package game.logic.entities.units;
 
+import game.graphics.toolbox.DisplayManager;
 import game.graphics.windowparts.MiniMap;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
+import game.logic.toolbox.Direction;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Position;
@@ -14,18 +16,21 @@ import java.util.*;
  * Created by Dénes on 2015. 11. 06..
  */
 public class RawUnit extends RawEntity {
+    private static final float MOVEMENT_SPEED = 7;
+    private static final float TURN_SPEED = 100;
+    private static final float DIAGONAL_ATTENUATION = 0.04f;
+
     private List<Node> path = new ArrayList<>();
-    private List<Position> movementCoordinates = new ArrayList<>();
     private Node currentNode;
 
     public RawUnit(int row, int column, boolean side) {
         super(new Position(row, column));
+        this.position = this.getTilePosition().toPosition();
         this.setSide(side);
     }
 
     public void performAction(Tile tile) {
         // @TODO: make units avoid being on the same title when their destinations are approached by them
-        // solution: compare last step of all paths and make units step around the dest title in order
         if (!this.path.isEmpty()) {
             RawEntity entity = RawMap.whatIsOnTile(tile);
 
@@ -49,7 +54,7 @@ public class RawUnit extends RawEntity {
      * @param tile The tile on the raw map to be approached
      */
     public void calculatePath(Tile tile) {
-        clearPath();
+        this.path.clear();
         List<Node> open = new ArrayList<>();
         Queue<Node> closed = new LinkedList<>();
 
@@ -130,19 +135,70 @@ public class RawUnit extends RawEntity {
     }
 
     public void step() {
-        if (this.path != null) {
-            if (!currentNode.isProcessed) {
-                this.tilePosition = new Tile(currentNode.row, currentNode.column);
-                //MiniMap.mark(this.getTilePosition().toPosition());
-                currentNode.isProcessed = true;
+        if (this.path != null && !currentNode.isProcessed) {
+            Node toNode = path.get(0);
 
-                if (this.path.size() > 0) {
-                    this.path.remove(currentNode);
-                }
+            Position currentPosition = this.position;
+            float currentX = currentPosition.getX();
+            float currentZ = currentPosition.getZ();
+
+            Position toPosition = new Tile(toNode.row, toNode.column).toPosition();
+            float toX = toPosition.getX();
+            float toZ = toPosition.getZ();
+
+            float distance = MOVEMENT_SPEED * DisplayManager.getFrameTimeSeconds();
+
+            // Move diagonal right down
+            if (currentX < toX && currentZ < toZ &&
+                    (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.position.x += distance - DIAGONAL_ATTENUATION;
+                this.position.z += distance - DIAGONAL_ATTENUATION;
+            }
+            // Move diagonal right up
+            else if (currentX < toX && currentZ > toZ &&
+                    (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.position.x += distance - DIAGONAL_ATTENUATION;
+                this.position.z -= distance - DIAGONAL_ATTENUATION;
+            }
+            // Move diagonal left down
+            else if (currentX > toX && currentZ < toZ &&
+                    (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.position.x -= distance - DIAGONAL_ATTENUATION;
+                this.position.z += distance - DIAGONAL_ATTENUATION;
+            }
+            // Move diagonal left up
+            else if (currentX > toX && currentZ > toZ &&
+                    (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.position.x -= distance - DIAGONAL_ATTENUATION;
+                this.position.z -= distance - DIAGONAL_ATTENUATION;
+            }
+            // Move right
+            else if (currentX < toX && (distance(toX, currentX) > distance)) {
+                this.position.x += distance;
+            }
+            // Move down
+            else if (currentZ < toZ && (distance(toZ, currentZ) > distance)) {
+                this.position.z += distance;
+            }
+            // Move left
+            else if (currentX > toX && (distance(toX, currentX) > distance)) {
+                this.position.x -= distance;
+            }
+            // Move up
+            else if (currentZ > toZ && (distance(toZ, currentZ) > distance)) {
+                this.position.z -= distance;
             }
             else {
-                currentNode = path.get(0);
+                currentNode.isProcessed = true;
+                path.remove(currentNode);
+                if (!path.isEmpty()) {
+                    currentNode = path.get(0);
+                }
+                else {
+                    this.stopWalking();
+                }
             }
+            //MiniMap.mark(this.getTilePosition().toPosition());
         }
     }
 
@@ -150,7 +206,16 @@ public class RawUnit extends RawEntity {
         return !this.path.isEmpty();
     }
 
-    public void clearPath() {
-        this.path.clear();
+    public void stopWalking() {
+        this.tilePosition = Tile.positionToTile(this.position);
+        this.position = this.tilePosition.toPosition();
+    }
+
+    private float distance(float a, float b) {
+        return Math.abs(a - b);
+    }
+
+    public List getPath() {
+        return this.path;
     }
 }

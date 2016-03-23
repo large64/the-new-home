@@ -14,6 +14,7 @@ public class Entity {
 
     protected TexturedModel model;
     protected Vector3f position;
+    protected float rotation;
     protected float rotX, rotY, rotZ;
     protected float scale;
     protected int textureIndex = 0;
@@ -103,5 +104,13 @@ public class Entity {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
     }
 }

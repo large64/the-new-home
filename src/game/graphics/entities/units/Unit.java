@@ -15,20 +15,9 @@ public class Unit extends Entity {
         super(model, position, rotX, rotY, rotZ, scale);
     }
 
-    public void increasePosition(float dx, float dy, float dz) {
-        this.position.x += dx;
-        this.position.y += dy;
-        this.position.z += dz;
-    }
-
-    public void increaseRotation(float dx, float dy, float dz) {
-        this.rotX += dx;
-        this.rotY += dy;
-        this.rotZ += dz;
-    }
-
     public void refreshPosition(Map map) {
         this.position = getRawEntity().getPosition();
+        this.rotY = getRawEntity().getRotation();
         this.position.y = map.getHeightOfMap(this.position.x, this.position.z);
     }
 }

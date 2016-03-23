@@ -147,6 +147,7 @@ public class RawUnit extends RawEntity {
             float toZ = toPosition.getZ();
 
             float distance = MOVEMENT_SPEED * DisplayManager.getFrameTimeSeconds();
+            // @TODO: rotate before move to another tile
 
             // Move diagonal right down
             if (currentX < toX && currentZ < toZ &&

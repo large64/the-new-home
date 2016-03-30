@@ -15,7 +15,7 @@ public abstract class RawEntity {
     protected static int counter = 0;
     protected Tile tilePosition;
     protected Position position;
-    protected float rotation;
+    public float rotation;
     private Position defaultPosition;
     protected int health;
     private boolean isBeingAttacked = false;

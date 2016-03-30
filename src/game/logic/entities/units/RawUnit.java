@@ -1,10 +1,8 @@
 package game.logic.entities.units;
 
 import game.graphics.toolbox.DisplayManager;
-import game.graphics.windowparts.MiniMap;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
-import game.logic.toolbox.Direction;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Position;
@@ -17,7 +15,7 @@ import java.util.*;
  */
 public class RawUnit extends RawEntity {
     private static final float MOVEMENT_SPEED = 7;
-    private static final float TURN_SPEED = 100;
+    private static final float TURN_SPEED = 4;
     private static final float DIAGONAL_ATTENUATION = 0.04f;
 
     private List<Node> path = new ArrayList<>();
@@ -152,44 +150,53 @@ public class RawUnit extends RawEntity {
             // Move diagonal right down
             if (currentX < toX && currentZ < toZ &&
                     (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.turnToDirection(45);
                 this.position.x += distance - DIAGONAL_ATTENUATION;
                 this.position.z += distance - DIAGONAL_ATTENUATION;
             }
             // Move diagonal right up
             else if (currentX < toX && currentZ > toZ &&
                     (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.turnToDirection(145);
                 this.position.x += distance - DIAGONAL_ATTENUATION;
                 this.position.z -= distance - DIAGONAL_ATTENUATION;
             }
             // Move diagonal left down
             else if (currentX > toX && currentZ < toZ &&
                     (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.turnToDirection(315);
                 this.position.x -= distance - DIAGONAL_ATTENUATION;
                 this.position.z += distance - DIAGONAL_ATTENUATION;
             }
             // Move diagonal left up
             else if (currentX > toX && currentZ > toZ &&
                     (distance(currentX, toX) > distance) && (distance(currentZ, toZ) > distance)) {
+                this.turnToDirection(225);
                 this.position.x -= distance - DIAGONAL_ATTENUATION;
                 this.position.z -= distance - DIAGONAL_ATTENUATION;
             }
             // Move right
             else if (currentX < toX && (distance(toX, currentX) > distance)) {
+                this.turnToDirection(90);
                 this.position.x += distance;
             }
             // Move down
             else if (currentZ < toZ && (distance(toZ, currentZ) > distance)) {
+                this.turnToDirection(0);
                 this.position.z += distance;
             }
             // Move left
             else if (currentX > toX && (distance(toX, currentX) > distance)) {
+                this.turnToDirection(270);
                 this.position.x -= distance;
             }
             // Move up
             else if (currentZ > toZ && (distance(toZ, currentZ) > distance)) {
+                this.turnToDirection(180);
                 this.position.z -= distance;
             }
             else {
+                this.tilePosition = new Tile(currentNode.row, currentNode.column);
                 currentNode.isProcessed = true;
                 path.remove(currentNode);
                 if (!path.isEmpty()) {
@@ -218,5 +225,27 @@ public class RawUnit extends RawEntity {
 
     public List getPath() {
         return this.path;
+    }
+
+    private void turnToDirection(float to) {
+        /*if (this.rotation != to && this.rotation < to && (distance(to, this.rotation) > TURN_SPEED)) {
+            this.rotation += TURN_SPEED;
+        }
+        else if (this.rotation != to && this.rotation > to && (distance(to, this.rotation) > TURN_SPEED)) {
+            this.rotation -= TURN_SPEED;
+        }*/
+
+        float tempA = this.rotation - to;
+        float tempB = 360 - this.rotation + to;
+        System.out.println(tempA + "; " + tempB);
+
+        if (this.rotation != to && tempA < tempB && (distance(to, this.rotation) > TURN_SPEED)) {
+            this.rotation += TURN_SPEED;
+            //System.out.println("ccw");
+        }
+        else if (this.rotation != to && tempA >= tempB && (distance(to, this.rotation) > TURN_SPEED)) {
+            this.rotation -= TURN_SPEED;
+            //System.out.println("cw");
+        }
     }
 }

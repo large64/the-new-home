@@ -15,7 +15,7 @@ import java.util.*;
  */
 public class RawUnit extends RawEntity {
     private static final float MOVEMENT_SPEED = 7;
-    private static final float TURN_SPEED = 4;
+    private static final float TURN_SPEED = 40;
     private static final float DIAGONAL_ATTENUATION = 0.04f;
 
     private List<Node> path = new ArrayList<>();
@@ -132,7 +132,7 @@ public class RawUnit extends RawEntity {
         }
     }
 
-    public void step() {
+    private void step() {
         if (this.path != null && !currentNode.isProcessed) {
             Node toNode = path.get(0);
 
@@ -145,7 +145,6 @@ public class RawUnit extends RawEntity {
             float toZ = toPosition.getZ();
 
             float distance = MOVEMENT_SPEED * DisplayManager.getFrameTimeSeconds();
-            // @TODO: rotate before move to another tile
 
             // Move diagonal right down
             if (currentX < toX && currentZ < toZ &&
@@ -223,29 +222,13 @@ public class RawUnit extends RawEntity {
         return Math.abs(a - b);
     }
 
-    public List getPath() {
-        return this.path;
+    private void turnToDirection(float to) {
+        if (this.rotation != to) {
+            this.rotation = to;
+        }
     }
 
-    private void turnToDirection(float to) {
-        /*if (this.rotation != to && this.rotation < to && (distance(to, this.rotation) > TURN_SPEED)) {
-            this.rotation += TURN_SPEED;
-        }
-        else if (this.rotation != to && this.rotation > to && (distance(to, this.rotation) > TURN_SPEED)) {
-            this.rotation -= TURN_SPEED;
-        }*/
-
-        float tempA = this.rotation - to;
-        float tempB = 360 - this.rotation + to;
-        System.out.println(tempA + "; " + tempB);
-
-        if (this.rotation != to && tempA < tempB && (distance(to, this.rotation) > TURN_SPEED)) {
-            this.rotation += TURN_SPEED;
-            //System.out.println("ccw");
-        }
-        else if (this.rotation != to && tempA >= tempB && (distance(to, this.rotation) > TURN_SPEED)) {
-            this.rotation -= TURN_SPEED;
-            //System.out.println("cw");
-        }
+    public List getPath() {
+        return this.path;
     }
 }

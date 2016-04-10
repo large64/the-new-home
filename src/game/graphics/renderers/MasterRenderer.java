@@ -153,6 +153,7 @@ public class MasterRenderer {
         // @TODO: make entities move smoother
         // @TODO: create selectable actions
         // @TODO: create new frames for actions
+        // @TODO: fix neutral units (every time a rawunit is created, it is added to masterrenderer rawunits)
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 
@@ -273,15 +274,14 @@ public class MasterRenderer {
                 picker.update();
                 PositionInfo.lookForChanges(picker);
 
-                processMovements(selectedTile, renderer);
-
                 EntityInfo.refreshInfo();
                 MiniMap.lookForChanges();
                 RawMap.lookForChanges();
-                renderer.render(lights, player.getCamera(), maps);
                 //guiRenderer.render(guis);
             }
 
+            renderer.render(lights, player.getCamera(), maps);
+            processMovements(selectedTile, renderer);
             DisplayManager.updateDisplay();
         }
 

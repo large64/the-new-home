@@ -15,7 +15,6 @@ import java.util.*;
  */
 public class RawUnit extends RawEntity {
     private static final float MOVEMENT_SPEED = 7;
-    private static final float TURN_SPEED = 40;
     private static final float DIAGONAL_ATTENUATION = 0.04f;
 
     private List<Node> path = new ArrayList<>();

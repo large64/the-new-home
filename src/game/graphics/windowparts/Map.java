@@ -137,9 +137,9 @@ public class Map {
         return blendMap;
     }
 
-    public float getHeightOfMap(float worldX, float worldY) {
+    public float getHeightOfMap(float worldX, float worldZ) {
         float terrainX = worldX - this.x;
-        float terrainY = worldY - this.z;
+        float terrainY = worldZ - this.z;
 
         float gridSquareSize = SIZE / ((float) heights.length - 1);
         int gridX = (int) Math.floor(terrainX / gridSquareSize);

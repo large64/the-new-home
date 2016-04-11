@@ -1,13 +1,14 @@
 package game.logic.entities.buildings;
 
 import game.logic.entities.RawEntity;
+import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 
 /**
  * Created by Dénes on 2015. 11. 06..
  */
 public class RawBuilding extends RawEntity {
-    public RawBuilding(int row, int column, int health, boolean side) {
+    public RawBuilding(int row, int column, int health, Side side) {
         super(new Position(row, column));
         this.setHealth(health);
         this.setSide(side);

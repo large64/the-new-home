@@ -5,6 +5,7 @@ import game.graphics.renderers.MasterRenderer;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Created by Dénes on 2015. 11. 06..
@@ -15,7 +16,7 @@ public abstract class RawEntity {
     protected static int counter = 0;
     protected Tile tilePosition;
     protected Position position;
-    public float rotation;
+    protected float rotation;
     private Position defaultPosition;
     protected int health;
     private boolean isBeingAttacked = false;
@@ -80,8 +81,8 @@ public abstract class RawEntity {
         return side;
     }
 
-    public void setSide(boolean side) {
-        this.side = side ? Side.FRIEND : Side.ENEMY;
+    public void setSide(Side side) {
+        this.side = side;
     }
 
     public void reset() {

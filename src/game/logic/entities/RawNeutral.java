@@ -2,15 +2,15 @@ package game.logic.entities;
 
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
+import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Created by large64 on 2015.12.06..
  */
-public class Neutral extends RawEntity {
+public class RawNeutral extends RawEntity {
 
-    public Neutral(Position position) {
+    public RawNeutral(Position position) {
         super(position);
-        //super.tilePosition.y = Map.getHeightOfMap(position.x, position.z);
         this.side = Side.NEUTRAL;
     }
 }

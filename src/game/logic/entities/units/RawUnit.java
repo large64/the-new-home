@@ -20,7 +20,7 @@ public class RawUnit extends RawEntity {
     private List<Node> path = new ArrayList<>();
     private Node currentNode;
 
-    public RawUnit(int row, int column, boolean side) {
+    public RawUnit(int row, int column, Side side) {
         super(new Position(row, column));
         this.position = this.getTilePosition().toPosition();
         this.setSide(side);

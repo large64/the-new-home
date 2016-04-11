@@ -1,10 +1,6 @@
 package game.graphics.renderers;
 
-import com.sun.javafx.geom.Vec2f;
-import game.graphics.entities.Camera;
-import game.graphics.entities.Entity;
-import game.graphics.entities.Light;
-import game.graphics.entities.Player;
+import game.graphics.entities.*;
 import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
@@ -27,7 +23,6 @@ import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -150,7 +145,6 @@ public class MasterRenderer {
     public static void renderScene() {
         // @TODO: make game loader work for map, too
         // @TODO: create edit mode and place entities
-        // @TODO: make entities move smoother
         // @TODO: create selectable actions
         // @TODO: create new frames for actions
         // @TODO: fix neutral units (every time a rawunit is created, it is added to masterrenderer rawunits)
@@ -194,19 +188,19 @@ public class MasterRenderer {
             float z = (float) (Math.random() * 200);
 
             if (i % 2 == 0) {
-                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
+                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Type.SOLDIER, Side.FRIEND);
                 entities.add(soldier);
             }
             else if (i % 3 == 0){
-                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
+                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Type.HEALER, Side.FRIEND);
                 entities.add(healer);
             }
             if (i % 4 == 0) {
                 x = (float) (Math.random() * 200);
                 z = (float) (Math.random() * 200);
 
-                Entity treeEntity = new Entity(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
-                entities.add(treeEntity);
+                Neutral neutral = new Neutral(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Type.NEUTRAL);
+                entities.add(neutral);
             }
         }
 

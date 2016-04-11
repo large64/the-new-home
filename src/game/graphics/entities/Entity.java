@@ -1,8 +1,12 @@
 package game.graphics.entities;
 
 import game.graphics.models.TexturedModel;
-import game.logic.entities.Neutral;
+import game.graphics.renderers.MasterRenderer;
 import game.logic.entities.RawEntity;
+import game.logic.entities.RawNeutral;
+import game.logic.entities.units.RawHealer;
+import game.logic.entities.units.RawSoldier;
+import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -22,14 +26,49 @@ public class Entity {
 
     public Entity() {}
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type, Side side) {
         this.model = model;
-        this.rawEntity = new Neutral(new Position(position.x, position.z));
-        this.position = this.rawEntity.getTilePosition().toPosition();
         this.rotX = rotX;
         this.rotY = rotY;
         this.rotZ = rotZ;
         this.scale = scale;
+
+        RawEntity rawEntity = null;
+        int x = (int) position.getX();
+        int z = (int) position.getZ();
+
+        switch (type) {
+            case HEALER:
+                rawEntity = new RawHealer(x, z, side);
+                break;
+            case SOLDIER:
+                rawEntity = new RawSoldier(x, z, side);
+                break;
+            case SCIENTIST:
+                break;
+            case NEUTRAL:
+                rawEntity = new RawNeutral(new Position(x, z));
+                break;
+        }
+
+        this.rawEntity = rawEntity;
+        this.position = this.rawEntity.getTilePosition().toPosition();
+        this.position.y = MasterRenderer.getMainMap().getHeightOfMap(position.getX(), position.getZ());
+    }
+
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type) {
+        this.model = model;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+
+        int x = (int) position.getX();
+        int z = (int) position.getZ();
+
+        this.rawEntity = new RawNeutral(new Position(x, z));
+        this.position = this.rawEntity.getTilePosition().toPosition();
+        this.position.y = MasterRenderer.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
 
     public float getTextureXOffset() {

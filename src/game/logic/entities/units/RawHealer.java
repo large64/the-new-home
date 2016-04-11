@@ -1,5 +1,7 @@
 package game.logic.entities.units;
 
+import game.logic.toolbox.Side;
+
 /**
  * Created by large64 on 23/11/15.
  */
@@ -7,7 +9,7 @@ public class RawHealer extends RawUnit {
     private static final String ID = "healer";
     private String id = ID + counter;
 
-    public RawHealer(int row, int column, boolean side) {
+    public RawHealer(int row, int column, Side side) {
         super(row, column, side);
     }
 

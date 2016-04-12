@@ -188,18 +188,18 @@ public class MasterRenderer {
             float z = (float) (Math.random() * 200);
 
             if (i % 2 == 0) {
-                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Type.SOLDIER, Side.FRIEND);
+                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(soldier);
             }
             else if (i % 3 == 0){
-                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Type.HEALER, Side.FRIEND);
+                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(healer);
             }
             if (i % 4 == 0) {
                 x = (float) (Math.random() * 200);
                 z = (float) (Math.random() * 200);
 
-                Neutral neutral = new Neutral(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Type.NEUTRAL);
+                Neutral neutral = new Neutral(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(neutral);
             }
         }

@@ -2,7 +2,6 @@ package game.logic.entities;
 
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
-import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Created by large64 on 2015.12.06..

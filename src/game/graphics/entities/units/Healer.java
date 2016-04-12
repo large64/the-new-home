@@ -2,7 +2,6 @@ package game.graphics.entities.units;
 
 import game.graphics.entities.Type;
 import game.graphics.models.TexturedModel;
-import game.logic.entities.units.RawHealer;
 import game.logic.toolbox.Side;
 import org.lwjgl.util.vector.Vector3f;
 

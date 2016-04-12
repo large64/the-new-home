@@ -5,7 +5,6 @@ import game.graphics.renderers.MasterRenderer;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
-import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Created by Dénes on 2015. 11. 06..

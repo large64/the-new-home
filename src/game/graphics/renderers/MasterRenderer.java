@@ -116,12 +116,12 @@ public class MasterRenderer {
      * Processes an entity
      * @param entity The entity that is to be processed
      */
-    public void processEntity(Entity entity, Map map) {
+    public void processEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = (List<Entity>) entityMap.get(entityModel);
 
         if (entity instanceof game.graphics.entities.units.Unit) {
-            ((game.graphics.entities.units.Unit) entity).refreshPosition(map);
+            ((game.graphics.entities.units.Unit) entity).refreshPosition();
         }
 
         if (batch != null) {
@@ -160,13 +160,13 @@ public class MasterRenderer {
         TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
 
         ArrayList<Map> maps = new ArrayList<>();
-        mainMap = new Map(0, 1, loader, texturePack, blendMap, "heightmap");
+        mainMap = new Map(0, 1, loader, texturePack, blendMap, "heightmap2");
         maps.add(mainMap);
 
         maps.add(new Map(1, 1, loader, texturePack, blendMap, "heightmap"));
         maps.add(new Map(-1, 1, loader, texturePack, blendMap, "heightmap"));
         maps.add(new Map(0, -199, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(0, 201, loader, texturePack, blendMap, "heightmap"));
+        maps.add(new Map(0, 200, loader, texturePack, blendMap, "heightmap"));
 
         maps.add(new Map(1, 199, loader, texturePack, blendMap, "heightmap"));
         maps.add(new Map(-1, 199, loader, texturePack, blendMap, "heightmap"));
@@ -202,6 +202,9 @@ public class MasterRenderer {
                 entities.add(neutral);
             }
         }
+
+        Soldier soldier = new Soldier(soldierModel, new Vector3f(10, 0, 10), 0, 0, 0, 1, Side.ENEMY);
+        entities.add(soldier);
 
         MiniMap.setEntities(rawEntities);
         MiniMap.lookForChanges();
@@ -347,12 +350,16 @@ public class MasterRenderer {
                     }
                 }
 
-                renderer.processEntity(entity, mainMap);
+                renderer.processEntity(entity);
             }
         }
     }
 
     public static Map getMainMap() {
         return mainMap;
+    }
+
+    public static List getEntities() {
+        return MasterRenderer.entities;
     }
 }

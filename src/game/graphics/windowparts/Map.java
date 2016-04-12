@@ -27,7 +27,7 @@ public class Map {
     private boolean isTilesShown = false;
     private static TerrainTexturePack texturePack;
     private static TerrainTexture blendMap;
-    private static float[][] heights;
+    private float[][] heights;
 
     public Map(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
                TerrainTexture blendMap, String heightOfMap) {

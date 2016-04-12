@@ -3,7 +3,7 @@ package game.graphics.entities.units;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Type;
 import game.graphics.models.TexturedModel;
-import game.graphics.windowparts.Map;
+import game.graphics.renderers.MasterRenderer;
 import game.logic.toolbox.Side;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -17,9 +17,9 @@ public class Unit extends Entity {
         super(model, position, rotX, rotY, rotZ, scale, type, side);
     }
 
-    public void refreshPosition(Map map) {
+    public void refreshPosition() {
         this.position = getRawEntity().getPosition();
         this.rotY = getRawEntity().getRotation();
-        this.position.y = map.getHeightOfMap(this.position.x, this.position.z);
+        this.position.y = MasterRenderer.getMainMap().getHeightOfMap(this.position.x, this.position.z);
     }
 }

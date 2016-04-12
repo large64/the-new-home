@@ -33,7 +33,7 @@ public class RawUnit extends RawEntity {
 
             if (entity != null && entity.getSide() != Side.FRIEND && entity.getSide() != Side.NEUTRAL) {
                 if (this.isNextToAnEntity(entity)) {
-                    entity.changeHealth(-10);
+                    entity.changeHealth(-1);
                 }
                 else {
                     this.step();

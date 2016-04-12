@@ -147,7 +147,6 @@ public class MasterRenderer {
         // @TODO: create edit mode and place entities
         // @TODO: create selectable actions
         // @TODO: create new frames for actions
-        // @TODO: fix neutral units (every time a rawunit is created, it is added to masterrenderer rawunits)
         DisplayManager.createDisplay();
         Loader loader = new Loader();
 

@@ -2,6 +2,7 @@ package game.graphics.entities;
 
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
+import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawNeutral;
 import game.logic.entities.units.RawHealer;
@@ -53,7 +54,7 @@ public class Entity {
 
         this.rawEntity = rawEntity;
         this.position = this.rawEntity.getTilePosition().toPosition();
-        this.position.y = MasterRenderer.getMainMap().getHeightOfMap(position.getX(), position.getZ());
+        this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type) {
@@ -68,7 +69,7 @@ public class Entity {
 
         this.rawEntity = new RawNeutral(new Position(x, z));
         this.position = this.rawEntity.getTilePosition().toPosition();
-        this.position.y = MasterRenderer.getMainMap().getHeightOfMap(position.getX(), position.getZ());
+        this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
 
     public float getTextureXOffset() {

@@ -95,7 +95,7 @@ public class EntityInfo {
             singlePanel.setVisible(false);
             for (int i = 0; i < entities.size(); i++) {
                 RawEntity entity = entities.get(i);
-                RawEntity selectableEntity = MasterRenderer.getSelectedEntities().get(i);
+                RawEntity selectableEntity = Scene.getSelectedEntities().get(i);
                 String[] typeAndImage = determineTypeAndImage(entity);
 
                 if (typeAndImage != null) {
@@ -109,8 +109,8 @@ public class EntityInfo {
                     label.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            MasterRenderer.unSelectAllEntities();
-                            MasterRenderer.getSelectedEntities().add(selectableEntity);
+                            Scene.unSelectAllEntities();
+                            Scene.getSelectedEntities().add(selectableEntity);
                             selectableEntity.getEntity().setSelected(true);
                         }
                     });

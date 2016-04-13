@@ -13,10 +13,7 @@ import game.graphics.toolbox.DisplayManager;
 import game.graphics.toolbox.Loader;
 import game.graphics.toolbox.MousePicker;
 import game.graphics.toolbox.OBJLoader;
-import game.graphics.windowparts.EntityInfo;
-import game.graphics.windowparts.Map;
-import game.graphics.windowparts.MiniMap;
-import game.graphics.windowparts.PositionInfo;
+import game.graphics.windowparts.*;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.units.RawUnit;
@@ -41,18 +38,19 @@ public class MasterRenderer {
     private static final float FOV = 70; // Field of view
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
-    private static boolean restart = false;
-    private static Map mainMap;
+
+    private static Tile selectedTile;
+    private static MasterRenderer masterRenderer;
+    private static MousePicker picker;
+    private static Loader loader;
+    private static Scene scene;
+
     private StaticShader shader = new StaticShader();
+    private java.util.Map entityMap = new HashMap<>();
     private EntityRenderer renderer;
     private Matrix4f projectionMatrix;
     private MapRenderer mapRenderer;
     private TerrainShader terrainShader = new TerrainShader();
-
-    private java.util.Map entityMap = new HashMap<>();
-    private static List<RawEntity> rawEntities = new ArrayList<>();
-    private static List<RawEntity> selectedEntities = new ArrayList<>();
-    private static List<Entity> entities = new ArrayList<>();
 
     private SkyboxRenderer skyboxRenderer;
 
@@ -64,7 +62,7 @@ public class MasterRenderer {
         skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
     }
 
-    public static void enableCulling() {
+    static void enableCulling() {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
     }
@@ -84,11 +82,11 @@ public class MasterRenderer {
         projectionMatrix.m33 = 0;
     }
 
-    public static void disableCulling() {
+    static void disableCulling() {
         GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
-    public void render(List<Light> lights, Camera camera, ArrayList<Map> maps) {
+    private void render(List<Light> lights, Camera camera, ArrayList<Map> maps) {
         prepare();
         shader.start();
         shader.loadLights(lights);
@@ -106,7 +104,7 @@ public class MasterRenderer {
         entityMap.clear();
     }
 
-    public void prepare() {
+    private void prepare() {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0, 0.2f, 0.3f, 1);
@@ -133,7 +131,7 @@ public class MasterRenderer {
         }
     }
 
-    public void cleanUp() {
+    private void cleanUp() {
         shader.cleanUp();
         terrainShader.cleanUp();
     }
@@ -148,218 +146,42 @@ public class MasterRenderer {
         // @TODO: create selectable actions
         // @TODO: create new frames for actions
         DisplayManager.createDisplay();
-        Loader loader = new Loader();
-
-        // Set map features
-        TerrainTexture backgroundTexture = new TerrainTexture(loader.loadTexture("grass"));
-        TerrainTexture rTexture = new TerrainTexture(loader.loadTexture("dirt"));
-        TerrainTexture gTexture = new TerrainTexture(loader.loadTexture("pinkflowers"));
-        TerrainTexture bTexture = new TerrainTexture(loader.loadTexture("path"));
-
-        TerrainTexturePack texturePack = new TerrainTexturePack(backgroundTexture, rTexture, gTexture, bTexture);
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture("blendmap"));
-
-        ArrayList<Map> maps = new ArrayList<>();
-        mainMap = new Map(0, 1, loader, texturePack, blendMap, "heightmap2");
-        maps.add(mainMap);
-
-        maps.add(new Map(1, 1, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(-1, 1, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(0, -199, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(0, 200, loader, texturePack, blendMap, "heightmap"));
-
-        maps.add(new Map(1, 199, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(-1, 199, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(1, -199, loader, texturePack, blendMap, "heightmap"));
-        maps.add(new Map(-1, -199, loader, texturePack, blendMap, "heightmap"));
-
-        // Set features of entities
-        TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
-                new ModelTexture(loader.loadTexture("soldier")));
-        TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
-                new ModelTexture(loader.loadTexture("healer")));
-        TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
-                new ModelTexture(loader.loadTexture("palm_tree")));
-
-        // Generate random coordinates for entities
-        for (int i = 0; i < 20; i++) {
-            float x = (float) (Math.random() * 200);
-            float z = (float) (Math.random() * 200);
-
-            if (i % 2 == 0) {
-                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(soldier);
-            }
-            else if (i % 3 == 0){
-                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(healer);
-            }
-            if (i % 4 == 0) {
-                x = (float) (Math.random() * 200);
-                z = (float) (Math.random() * 200);
-
-                Neutral neutral = new Neutral(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
-                entities.add(neutral);
-            }
-        }
-
-        Soldier soldier = new Soldier(soldierModel, new Vector3f(10, 0, 10), 0, 0, 0, 1, Side.ENEMY);
-        entities.add(soldier);
-
-        MiniMap.setEntities(rawEntities);
-        MiniMap.lookForChanges();
-        new RawMap(rawEntities);
-
-        // Set features of lights
-        List<Light> lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(-2000, 2000, 2000), new Vector3f(1f, 1f, 1f)));
-
-        // Set features of GUIs
-        /*List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("julia_set"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-        guis.add(gui);
-        GuiRenderer guiRenderer = new GuiRenderer(loader);*/
-
-        // Set features of player
-        Player player = new Player();
+        loader = new Loader();
 
         // Set additional things like renderer, picker
-        MasterRenderer renderer = new MasterRenderer(loader);
-        MousePicker picker = new MousePicker(player.getCamera(), renderer.getProjectionMatrix(), mainMap);
+        masterRenderer = new MasterRenderer(loader);
 
-        boolean rightClick = false;
-        boolean leftClick = false;
-        boolean middleClick = false;
+        selectedTile = null;
+        EntityInfo.setEntities(Scene.getSelectedEntities());
 
-        Vector2f firstMiddleClickPosition = null;
-
-        Tile selectedTile = null;
-        EntityInfo.setEntities(selectedEntities);
+        new Scene();
 
         // Start an infinite loop for rendering
         while(!Display.isCloseRequested()) {
-            if (restart) {
-                player.reset();
-                rawEntities.forEach(RawEntity::reset);
-                restart = false;
-            }
-            else {
-                player.move(firstMiddleClickPosition);
-            }
-
-            if (Camera.isMouseGrabbed()) {
-                if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
-                    MiniMap.clearMarkers();
-                    selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-                    checkSelection(selectedTile);
-                }
-
-                if (Mouse.isButtonDown(0) && !leftClick) {
-                    processSelectedEntities(picker, null);
-                }
-
-                if (Mouse.isButtonDown(2) && !middleClick) {
-                    firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
-                }
-
-                rightClick = Mouse.isButtonDown(1);
-                leftClick = Mouse.isButtonDown(0);
-                middleClick = Mouse.isButtonDown(2);
-
-                // Move the player per frame (and so the camera)
-                picker.update();
-                PositionInfo.lookForChanges(picker);
-
-                EntityInfo.refreshInfo();
-                MiniMap.lookForChanges();
-                RawMap.lookForChanges();
-                //guiRenderer.render(guis);
-            }
-
-            renderer.render(lights, player.getCamera(), maps);
-            processMovements(selectedTile, renderer);
+            masterRenderer.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
+            Scene.render();
             DisplayManager.updateDisplay();
         }
 
         //guiRenderer.cleanUp();
-        renderer.cleanUp();
+        masterRenderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
     }
 
-    public static void restart() {
-        restart = true;
+    public static Tile getSelectedTile() {
+        return selectedTile;
     }
 
-    public static void addRawEntity(RawEntity entity) {
-        MasterRenderer.rawEntities.add(entity);
+    public static void setSelectedTile(Tile selectedTile) {
+        MasterRenderer.selectedTile = selectedTile;
     }
 
-    public static List<RawEntity> getSelectedEntities() {
-        return selectedEntities;
+    public static MasterRenderer getMasterRenderer() {
+        return masterRenderer;
     }
 
-    public static void checkSelection(Tile selectedTile) {
-        for (RawEntity entity : selectedEntities) {
-            if (entity instanceof RawUnit) {
-                RawUnit rawUnit = (RawUnit) entity;
-                rawUnit.calculatePath(selectedTile);
-            }
-        }
-    }
-
-    public static void processSelectedEntities(MousePicker picker, Tile tilePosition) {
-        Tile tile = tilePosition;
-        if (picker != null) {
-            tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
-        }
-
-        boolean atLeastOne = false;
-        for (Entity entity : entities) {
-            RawEntity rawEntity = entity.getRawEntity();
-
-            if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)
-                    && !selectedEntities.contains(rawEntity)) {
-                if (selectedEntities.size() < EntityInfo.MULTI_SIZE) {
-                    selectedEntities.add(rawEntity);
-                    entity.setSelected(true);
-                }
-                atLeastOne = true;
-            }
-        }
-        if (!atLeastOne) {
-          unSelectAllEntities();
-        }
-    }
-
-    public static void unSelectAllEntities() {
-        selectedEntities.clear();
-        for (Entity entity : entities) {
-            entity.setSelected(false);
-        }
-    }
-
-    private static void processMovements(Tile selectedTile, MasterRenderer renderer) {
-        for (Entity entity : entities) {
-            RawEntity rawEntity = entity.getRawEntity();
-            if (rawEntity.isAlive()) {
-                if (rawEntity instanceof RawUnit) {
-                    RawUnit rawUnit = (RawUnit) rawEntity;
-                    if ((rawUnit).isMoving() && selectedTile != null) {
-                        rawUnit.performAction(selectedTile);
-                    }
-                }
-
-                renderer.processEntity(entity);
-            }
-        }
-    }
-
-    public static Map getMainMap() {
-        return mainMap;
-    }
-
-    public static List getEntities() {
-        return MasterRenderer.entities;
+    public static Loader getLoader() {
+        return loader;
     }
 }

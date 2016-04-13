@@ -1,7 +1,6 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
-import game.graphics.renderers.MasterRenderer;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -26,7 +25,7 @@ public class Window {
 
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
-            MasterRenderer.restart();
+            Scene.restart();
         });
 
         JButton button1 = new JButton("Quit");
@@ -43,11 +42,11 @@ public class Window {
         tilesCheckbox.setBorder(new EmptyBorder(0, 10, 0, 10));
         tilesCheckbox.addActionListener(el ->{
             if (!isTilesShown) {
-                MasterRenderer.getMainMap().setTilesShown(true);
+                Scene.getMainMap().setTilesShown(true);
                 isTilesShown = true;
             }
             else {
-                MasterRenderer.getMainMap().setTilesShown(false);
+                Scene.getMainMap().setTilesShown(false);
                 isTilesShown = false;
             }
         });

@@ -1,21 +1,20 @@
 package game.graphics.windowparts;
 
-import game.graphics.renderers.MasterRenderer;
 import game.logic.entities.RawEntity;
 import game.logic.entities.units.RawUnit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Created by Dénes on 2016. 02. 20..
  */
-public class ActionInfo {
+class ActionInfo {
     private JPanel wrapperPanel;
     private static ArrayList<JButton> actionButtons = new ArrayList<>();
 
-    public ActionInfo() {
+    ActionInfo() {
         wrapperPanel = new JPanel(new GridLayout(3, 3));
         wrapperPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
         wrapperPanel.setOpaque(false);
@@ -32,8 +31,8 @@ public class ActionInfo {
     private void loadButtons() {
         JButton button0 = new JButton("X");
         button0.addActionListener(el ->{
-            if (!MasterRenderer.getSelectedEntities().isEmpty()) {
-                for (RawEntity entity : MasterRenderer.getSelectedEntities()) {
+            if (!Scene.getSelectedEntities().isEmpty()) {
+                for (RawEntity entity : Scene.getSelectedEntities()) {
                     if (entity instanceof RawUnit) {
                         RawUnit rawUnit = (RawUnit) entity;
                         if (rawUnit.isMoving()) {
@@ -83,7 +82,7 @@ public class ActionInfo {
         actionButtons.add(button8);
     }
 
-    public JPanel getWrapperPanel() {
+    JPanel getWrapperPanel() {
         return wrapperPanel;
     }
 }

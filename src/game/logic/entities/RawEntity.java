@@ -2,6 +2,7 @@ package game.logic.entities;
 
 import game.graphics.entities.Entity;
 import game.graphics.renderers.MasterRenderer;
+import game.graphics.windowparts.Scene;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -31,7 +32,7 @@ public abstract class RawEntity {
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
 
-        MasterRenderer.addRawEntity(this);
+        Scene.addRawEntity(this);
     }
 
     public boolean isNextToAnEntity(RawEntity rawEntity) {

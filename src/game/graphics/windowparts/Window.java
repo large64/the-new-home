@@ -6,6 +6,8 @@ import game.graphics.toolbox.GameMode;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by large64 on 31/10/15.
@@ -74,6 +76,7 @@ public class Window {
         JPanel menuPanel = new JPanel(new GridLayout(5, 1));
         JPanel devMenuPanel = new JPanel(new GridLayout(2, 1));
         JPanel indicatorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel gameModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel miniMapPanel = new JPanel(new BorderLayout());
 
         mainFrame = new JFrame();
@@ -114,6 +117,16 @@ public class Window {
         indicatorPanel.add(positionInfo.getTextPane());
         indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
 
+        String[] gameModes = GameMode.getGameModes();
+        JComboBox gameModeList = new JComboBox<>(gameModes);
+        gameModeList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+        gameModePanel.add(gameModeList);
+
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
         JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -122,6 +135,7 @@ public class Window {
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());
         bottomWrapperPanel.add(entityInfo.getWrapperPanel());
         bottomWrapperPanel.add(indicatorPanel);
+        bottomWrapperPanel.add(gameModePanel);
         bottomWrapperPanel.add(miniMapPanel);
 
         menuFrame.add(menuPanel, BorderLayout.NORTH);
@@ -147,9 +161,5 @@ public class Window {
 
     public static JFrame getMenuFrame() {
         return menuFrame;
-    }
-
-    public static JFrame getMainFrame() {
-        return mainFrame;
     }
 }

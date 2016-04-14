@@ -1,6 +1,7 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.toolbox.GameMode;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -12,10 +13,9 @@ import java.awt.*;
 public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
-    private static JPanel bottomWrapperPanel;
     private static boolean isTilesShown = false;
 
-    public static final int BOTTOM_COMPONENT_HEIGHT = 130;
+    static final int BOTTOM_COMPONENT_HEIGHT = 130;
 
     public Window(Canvas canvas) {
         Color menuBgColor = new Color(2, 120, 0);
@@ -26,11 +26,26 @@ public class Window {
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
             Scene.restart();
+            Scene.setGameMode(GameMode.ONGOING);
         });
 
-        JButton button1 = new JButton("Quit");
-        button1.addActionListener(e1 -> {
+        JButton button1 = new JButton("Build mode");
+        button1.addActionListener(e -> {
+            Scene.setGameMode(GameMode.BUILDING);
+            menuFrame.setVisible(false);
+            Camera.setIsMouseGrabbed(true);
+        });
+
+        JButton button2 = new JButton("Quit");
+        button2.addActionListener(e1 -> {
             mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
+        });
+
+        JButton button3 = new JButton("Resume");
+        button3.addActionListener(el ->{
+            menuFrame.setVisible(false);
+            Camera.setIsMouseGrabbed(true);
+            Scene.setGameMode(GameMode.ONGOING);
         });
 
         JCheckBox tilesCheckbox = new JCheckBox("Show tiles");
@@ -52,17 +67,11 @@ public class Window {
         });
         checkboxPanel.add(tilesCheckbox);
 
-        JButton button3 = new JButton("Resume");
-        button3.addActionListener(el ->{
-            menuFrame.setVisible(false);
-            Camera.setIsMouseGrabbed(true);
-        });
-
         PositionInfo positionInfo = new PositionInfo();
         EntityInfo entityInfo = new EntityInfo();
         ActionInfo actionInfo = new ActionInfo();
 
-        JPanel menuPanel = new JPanel(new GridLayout(4, 1));
+        JPanel menuPanel = new JPanel(new GridLayout(5, 1));
         JPanel devMenuPanel = new JPanel(new GridLayout(2, 1));
         JPanel indicatorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel miniMapPanel = new JPanel(new BorderLayout());
@@ -96,6 +105,7 @@ public class Window {
         menuPanel.add(menuTitle);
         menuPanel.add(button3);
         menuPanel.add(button);
+        menuPanel.add(button2);
         menuPanel.add(button1);
 
         devMenuPanel.add(devMenuTitle);
@@ -106,7 +116,7 @@ public class Window {
 
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
-        bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(menuBgColor);
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());

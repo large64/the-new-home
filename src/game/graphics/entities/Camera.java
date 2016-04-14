@@ -1,5 +1,7 @@
 package game.graphics.entities;
 
+import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.Scene;
 import game.graphics.windowparts.Window;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -39,7 +41,7 @@ public class Camera {
 
     public void move(Vector2f firstMiddleClickPosition) {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            isMouseGrabbed = false;
+            Scene.setGameMode(GameMode.PAUSED);
             Window.getMenuFrame().setVisible(true);
             Window.getMenuFrame().setAlwaysOnTop(true);
             Window.getMenuFrame().toFront();
@@ -47,7 +49,9 @@ public class Camera {
             Window.getMenuFrame().requestFocus();
         }
 
-        if (isMouseGrabbed) {
+        GameMode gameMode = Scene.getGameMode();
+
+        if (gameMode.equals(GameMode.BUILDING) || gameMode.equals(GameMode.ONGOING)) {
             float changePositionBy = (0.4f - calculateMoveDamping(newZoomDistance));
 
             if (Mouse.isButtonDown(2) && firstMiddleClickPosition != null) {

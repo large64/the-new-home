@@ -8,7 +8,6 @@ import game.graphics.shaders.StaticShader;
 import game.graphics.shaders.TerrainShader;
 import game.graphics.toolbox.DisplayManager;
 import game.graphics.toolbox.Loader;
-import game.graphics.toolbox.MousePicker;
 import game.graphics.windowparts.EntityInfo;
 import game.graphics.windowparts.Map;
 import game.graphics.windowparts.Scene;

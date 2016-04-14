@@ -8,6 +8,7 @@ import game.graphics.renderers.MasterRenderer;
 import game.graphics.textures.ModelTexture;
 import game.graphics.textures.TerrainTexture;
 import game.graphics.textures.TerrainTexturePack;
+import game.graphics.toolbox.GameMode;
 import game.graphics.toolbox.Loader;
 import game.graphics.toolbox.MousePicker;
 import game.graphics.toolbox.OBJLoader;
@@ -31,6 +32,7 @@ public class Scene {
     private static Map mainMap;
     private static boolean restart = false;
     private static Player player;
+    private static GameMode gameMode;
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
@@ -121,6 +123,7 @@ public class Scene {
         MiniMap.setEntities(rawEntities);
         MiniMap.lookForChanges();
         new RawMap(rawEntities);
+        setGameMode(GameMode.STOPPED);
 
         rightClick = false;
         leftClick = false;
@@ -130,48 +133,60 @@ public class Scene {
     }
 
     public static void render() {
-        if (restart) {
-            player.reset();
-            rawEntities.forEach(RawEntity::reset);
-            restart = false;
+        switch (gameMode) {
+            case STOPPED:
+                player.move(firstMiddleClickPosition);
+                Window.getMenuFrame().setVisible(true);
+                break;
+            case PAUSED:
+                processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
+                break;
+            case BUILDING:
+                player.move(firstMiddleClickPosition);
+                processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
+                break;
+            case ONGOING:
+                if (restart) {
+                    player.reset();
+                    rawEntities.forEach(RawEntity::reset);
+                    restart = false;
+                }
+                else {
+                    player.move(firstMiddleClickPosition);
+                }
+
+                if (Camera.isMouseGrabbed() && gameMode == GameMode.ONGOING) {
+                    if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
+                        MiniMap.clearMarkers();
+                        MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
+                                picker.getCurrentTerrainPoint().z)));
+                        checkSelection(MasterRenderer.getSelectedTile());
+                    }
+
+                    if (Mouse.isButtonDown(0) && !leftClick) {
+                        processSelectedEntities(picker, null);
+                    }
+
+                    if (Mouse.isButtonDown(2) && !middleClick) {
+                        firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
+                    }
+
+                    rightClick = Mouse.isButtonDown(1);
+                    leftClick = Mouse.isButtonDown(0);
+                    middleClick = Mouse.isButtonDown(2);
+
+                    // Move the player per frame (and so the camera)
+                    picker.update();
+                    PositionInfo.lookForChanges(picker);
+
+                    EntityInfo.refreshInfo();
+                    MiniMap.lookForChanges();
+                    RawMap.lookForChanges();
+                    //guiRenderer.render(guis);
+                    processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
+                }
+                break;
         }
-        else {
-            player.move(firstMiddleClickPosition);
-        }
-
-        if (Camera.isMouseGrabbed()) {
-            if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
-                MiniMap.clearMarkers();
-                MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
-                        picker.getCurrentTerrainPoint().z)));
-                checkSelection(MasterRenderer.getSelectedTile());
-            }
-
-            if (Mouse.isButtonDown(0) && !leftClick) {
-                processSelectedEntities(picker, null);
-            }
-
-            if (Mouse.isButtonDown(2) && !middleClick) {
-                firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
-            }
-
-            rightClick = Mouse.isButtonDown(1);
-            leftClick = Mouse.isButtonDown(0);
-            middleClick = Mouse.isButtonDown(2);
-
-            // Move the player per frame (and so the camera)
-            picker.update();
-            PositionInfo.lookForChanges(picker);
-
-            EntityInfo.refreshInfo();
-            MiniMap.lookForChanges();
-            RawMap.lookForChanges();
-            //guiRenderer.render(guis);
-        }
-
-
-        processMovements(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
-
     }
 
     public static Player getPlayer() {
@@ -217,11 +232,11 @@ public class Scene {
         }
     }
 
-    private static void processMovements(Tile selectedTile, MasterRenderer renderer) {
+    private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
         for (Entity entity : entities) {
             RawEntity rawEntity = entity.getRawEntity();
             if (rawEntity.isAlive()) {
-                if (rawEntity instanceof RawUnit) {
+                if (rawEntity instanceof RawUnit && gameMode == GameMode.ONGOING) {
                     RawUnit rawUnit = (RawUnit) rawEntity;
                     if ((rawUnit).isMoving() && selectedTile != null) {
                         rawUnit.performAction(selectedTile);
@@ -260,5 +275,13 @@ public class Scene {
 
     public static List getEntities() {
         return entities;
+    }
+
+    public static void setGameMode(GameMode gameMode) {
+        Scene.gameMode = gameMode;
+    }
+
+    public static GameMode getGameMode() {
+        return gameMode;
     }
 }

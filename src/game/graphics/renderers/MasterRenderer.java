@@ -31,9 +31,7 @@ public class MasterRenderer {
 
     private static Tile selectedTile;
     private static MasterRenderer masterRenderer;
-    private static MousePicker picker;
     private static Loader loader;
-    private static Scene scene;
 
     private StaticShader shader = new StaticShader();
     private java.util.Map entityMap = new HashMap<>();

@@ -5,7 +5,7 @@ import game.logic.entities.units.RawUnit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created by Dénes on 2016. 02. 20..

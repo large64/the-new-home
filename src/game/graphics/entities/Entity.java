@@ -1,7 +1,6 @@
 package game.graphics.entities;
 
 import game.graphics.models.TexturedModel;
-import game.graphics.renderers.MasterRenderer;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawNeutral;

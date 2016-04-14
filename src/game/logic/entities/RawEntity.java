@@ -1,7 +1,6 @@
 package game.logic.entities;
 
 import game.graphics.entities.Entity;
-import game.graphics.renderers.MasterRenderer;
 import game.graphics.windowparts.Scene;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;

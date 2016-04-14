@@ -3,7 +3,6 @@ package game.graphics.entities.units;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Type;
 import game.graphics.models.TexturedModel;
-import game.graphics.renderers.MasterRenderer;
 import game.graphics.windowparts.Scene;
 import game.logic.toolbox.Side;
 import org.lwjgl.util.vector.Vector3f;

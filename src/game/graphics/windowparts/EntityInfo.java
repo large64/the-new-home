@@ -1,7 +1,6 @@
 package game.graphics.windowparts;
 
 import com.sun.istack.internal.Nullable;
-import game.graphics.renderers.MasterRenderer;
 import game.logic.entities.RawEntity;
 
 import javax.swing.*;

@@ -3,6 +3,7 @@ package game.graphics.renderers;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
+import game.graphics.models.RawModel;
 import game.graphics.models.TexturedModel;
 import game.graphics.shaders.StaticShader;
 import game.graphics.shaders.TerrainShader;
@@ -33,7 +34,7 @@ public class MasterRenderer {
     private static Loader loader;
 
     private StaticShader shader = new StaticShader();
-    private java.util.Map entityMap = new HashMap<>();
+    private java.util.Map<TexturedModel, List<Entity>> entityMap = new HashMap<>();
     private EntityRenderer renderer;
     private Matrix4f projectionMatrix;
     private MapRenderer mapRenderer;

@@ -22,6 +22,7 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,8 +136,12 @@ public class Scene {
     public static void render() {
         switch (gameMode) {
             case STOPPED:
-                player.move(firstMiddleClickPosition);
-                Window.getMenuFrame().setVisible(true);
+                Component menu = Window.getMenuFrame();
+                if (!menu.isVisible()) {
+                    menu.setVisible(true);
+                    menu.setFocusable(true);
+                    menu.requestFocus();
+                }
                 break;
             case PAUSED:
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
@@ -155,7 +160,7 @@ public class Scene {
                     player.move(firstMiddleClickPosition);
                 }
 
-                if (Camera.isMouseGrabbed() && gameMode == GameMode.ONGOING) {
+                if (Camera.isMouseGrabbed() && gameMode.equals(GameMode.ONGOING)) {
                     if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
                         MiniMap.clearMarkers();
                         MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
@@ -278,6 +283,12 @@ public class Scene {
     }
 
     public static void setGameMode(GameMode gameMode) {
+        if (!gameMode.equals(GameMode.STOPPED)) {
+            Window.getGameModeList().setEnabled(true);
+        }
+        else {
+            Window.getGameModeList().setEnabled(false);
+        }
         Scene.gameMode = gameMode;
     }
 

@@ -5,9 +5,12 @@ import game.graphics.toolbox.GameMode;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 /**
  * Created by large64 on 31/10/15.
@@ -16,6 +19,7 @@ public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static boolean isTilesShown = false;
+    private static JComboBox gameModeList;
 
     static final int BOTTOM_COMPONENT_HEIGHT = 130;
 
@@ -25,17 +29,13 @@ public class Window {
 
         EmptyBorder menuPanelBorder = new EmptyBorder(10, 20, 20, 20);
 
+        String[] gameModes = GameMode.getGameModes();
+        gameModeList = new JComboBox<>(gameModes);
+
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
             Scene.restart();
             Scene.setGameMode(GameMode.ONGOING);
-        });
-
-        JButton button1 = new JButton("Build mode");
-        button1.addActionListener(e -> {
-            Scene.setGameMode(GameMode.BUILDING);
-            menuFrame.setVisible(false);
-            Camera.setIsMouseGrabbed(true);
         });
 
         JButton button2 = new JButton("Quit");
@@ -93,6 +93,7 @@ public class Window {
         menuFrame.setUndecorated(true);
         menuFrame.pack();
         menuFrame.setLocationRelativeTo(null);
+        menuFrame.setAlwaysOnTop(true);
 
         new MiniMap();
 
@@ -109,7 +110,6 @@ public class Window {
         menuPanel.add(button3);
         menuPanel.add(button);
         menuPanel.add(button2);
-        menuPanel.add(button1);
 
         devMenuPanel.add(devMenuTitle);
         devMenuPanel.add(checkboxPanel);
@@ -117,14 +117,25 @@ public class Window {
         indicatorPanel.add(positionInfo.getTextPane());
         indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
 
-        String[] gameModes = GameMode.getGameModes();
-        JComboBox gameModeList = new JComboBox<>(gameModes);
-        gameModeList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
+        gameModeList.setEnabled(false);
+        gameModeList.setPreferredSize(new Dimension(110, 20));
+        gameModeList.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                Object item = e.getItem();
+                switch (item.toString()) {
+                    case "Play":
+                        Scene.setGameMode(GameMode.ONGOING);
+                        break;
+                    case "Build":
+                        Scene.setGameMode(GameMode.BUILDING);
+                        break;
+                }
             }
         });
+        gameModePanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
+        gameModePanel.setOpaque(false);
+        gameModePanel.add(new JLabel("Switch game mode:"));
         gameModePanel.add(gameModeList);
 
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
@@ -161,5 +172,9 @@ public class Window {
 
     public static JFrame getMenuFrame() {
         return menuFrame;
+    }
+
+    public static JComboBox getGameModeList() {
+        return gameModeList;
     }
 }

@@ -108,4 +108,8 @@ public abstract class RawEntity {
     public float getRotation() {
         return rotation;
     }
+
+    public void setTilePosition(Tile tilePosition) {
+        this.tilePosition = tilePosition;
+    }
 }

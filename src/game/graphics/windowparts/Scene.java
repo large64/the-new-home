@@ -39,6 +39,7 @@ public class Scene {
     private static ArrayList<Map> maps;
     private static List<RawEntity> rawEntities = new ArrayList<>();
     private static List<RawEntity> selectedEntities = new ArrayList<>();
+    private static Entity levitatingEntity = null;
     private static List<Entity> entities = new ArrayList<>();
 
     private static MousePicker picker;
@@ -155,9 +156,17 @@ public class Scene {
                         firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
                     }
 
+                    if (Mouse.isButtonDown(0) && !leftClick) {
+                        MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
+                                picker.getCurrentTerrainPoint().z)));
+                        checkSelection(MasterRenderer.getSelectedTile());
+                    }
+
                     middleClick = Mouse.isButtonDown(2);
+                    leftClick = Mouse.isButtonDown(0);
                     player.move(firstMiddleClickPosition);
                 }
+                picker.update();
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 break;
             case ONGOING:
@@ -253,16 +262,23 @@ public class Scene {
     private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
         for (Entity entity : entities) {
             RawEntity rawEntity = entity.getRawEntity();
-            if (rawEntity.isAlive()) {
-                if (rawEntity instanceof RawUnit && gameMode == GameMode.ONGOING) {
-                    RawUnit rawUnit = (RawUnit) rawEntity;
-                    if ((rawUnit).isMoving() && selectedTile != null) {
-                        rawUnit.performAction(selectedTile);
+            if (gameMode.equals(GameMode.ONGOING)) {
+                if (rawEntity.isAlive()) {
+                    if (rawEntity instanceof RawUnit) {
+                        RawUnit rawUnit = (RawUnit) rawEntity;
+                        if ((rawUnit).isMoving() && selectedTile != null) {
+                            rawUnit.performAction(selectedTile);
+                        }
                     }
                 }
-
-                renderer.processEntity(entity);
             }
+            else if (gameMode.equals(GameMode.BUILDING) && levitatingEntity != null) {
+                // @TODO: clean code
+                levitatingEntity.setPosition(picker.getCurrentTerrainPoint());
+                levitatingEntity.getRawEntity().setTilePosition(selectedTile);
+            }
+
+            renderer.processEntity(entity);
         }
     }
 
@@ -279,10 +295,32 @@ public class Scene {
     }
 
     private static void checkSelection(Tile selectedTile) {
-        for (RawEntity entity : selectedEntities) {
-            if (entity instanceof RawUnit) {
-                RawUnit rawUnit = (RawUnit) entity;
-                rawUnit.calculatePath(selectedTile);
+        if (gameMode.equals(GameMode.ONGOING)) {
+            for (RawEntity entity : selectedEntities) {
+                if (entity instanceof RawUnit) {
+                    RawUnit rawUnit = (RawUnit) entity;
+                    rawUnit.calculatePath(selectedTile);
+                }
+            }
+        }
+        else if (gameMode.equals(GameMode.BUILDING)) {
+            if (levitatingEntity != null) {
+                levitatingEntity.getRawEntity().setTilePosition(selectedTile);
+                Position newPosition = selectedTile.toPosition();
+                newPosition.setY(mainMap.getHeightOfMap(newPosition.getX(), newPosition.getZ()));
+                levitatingEntity.setPosition(newPosition);
+                levitatingEntity = null;
+                MiniMap.lookForChanges();
+            }
+            else {
+                for (Entity entity : entities) {
+                    RawEntity rawEntity = entity.getRawEntity();
+                    if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Neutral &&
+                            rawEntity.getTilePosition().equals(selectedTile) && levitatingEntity == null) {
+                        levitatingEntity = entity;
+                        break;
+                    }
+                }
             }
         }
     }

@@ -147,10 +147,23 @@ public class Scene {
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 break;
             case BUILDING:
-                player.move(firstMiddleClickPosition);
+                Window.setBuilderPanelVisible();
+                if (!mainMap.isTilesShown()) mainMap.setTilesShown(true);
+
+                if (Camera.isMouseGrabbed()) {
+                    if (Mouse.isButtonDown(2) && !middleClick) {
+                        firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
+                    }
+
+                    middleClick = Mouse.isButtonDown(2);
+                    player.move(firstMiddleClickPosition);
+                }
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 break;
             case ONGOING:
+                Window.setBuilderPanelInvisible();
+                if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
+
                 if (restart) {
                     player.reset();
                     rawEntities.forEach(RawEntity::reset);
@@ -160,7 +173,7 @@ public class Scene {
                     player.move(firstMiddleClickPosition);
                 }
 
-                if (Camera.isMouseGrabbed() && gameMode.equals(GameMode.ONGOING)) {
+                if (Camera.isMouseGrabbed()) {
                     if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
                         MiniMap.clearMarkers();
                         MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,

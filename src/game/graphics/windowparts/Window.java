@@ -20,6 +20,7 @@ public class Window {
     private static JFrame menuFrame;
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
+    private static JPanel builderPanel;
 
     static final int BOTTOM_COMPONENT_HEIGHT = 130;
 
@@ -135,14 +136,28 @@ public class Window {
         });
         gameModePanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
         gameModePanel.setOpaque(false);
-        gameModePanel.add(new JLabel("Switch game mode:"));
+        JLabel gameModeTitleLabel = new JLabel("Switch game mode:");
+        gameModeTitleLabel.setForeground(Color.WHITE);
+        gameModePanel.add(gameModeTitleLabel);
         gameModePanel.add(gameModeList);
 
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
+
+        builderPanel = new JPanel(new GridLayout(2, 4));
+        builderPanel.setPreferredSize(new Dimension(400, BOTTOM_COMPONENT_HEIGHT));
+        builderPanel.setOpaque(false);
+        builderPanel.setVisible(false);
+        builderPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
+
+        for (int i = 0; i < 8; i++) {
+            builderPanel.add(new JButton(Integer.toString(i)));
+        }
+
         JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(menuBgColor);
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
+        bottomWrapperPanel.add(builderPanel);
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());
         bottomWrapperPanel.add(entityInfo.getWrapperPanel());
         bottomWrapperPanel.add(indicatorPanel);
@@ -174,7 +189,19 @@ public class Window {
         return menuFrame;
     }
 
-    public static JComboBox getGameModeList() {
+    static JComboBox getGameModeList() {
         return gameModeList;
+    }
+
+    public static void setBuilderPanelVisible() {
+        if (!builderPanel.isVisible()) {
+            builderPanel.setVisible(true);
+        }
+    }
+
+    public static void setBuilderPanelInvisible() {
+        if (builderPanel.isVisible()) {
+            builderPanel.setVisible(false);
+        }
     }
 }

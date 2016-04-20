@@ -41,7 +41,7 @@ void main(void) {
     float modZ = mod(z, tileSize);
 
     if (((modX >= 0 && modX <= 0.1) || (modZ >= 0 && modZ <= 0.1)) && (showTiles == 1)) {
-        totalColor = vec4(100.0, 0.0, 0.0, 1.0);
+        totalColor = vec4(0.0, 1.0, 0.0, 1.0);
     }
 
     vec3 unitNormal = normalize(surfaceNormal);

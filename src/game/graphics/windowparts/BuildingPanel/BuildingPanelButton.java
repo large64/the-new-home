@@ -1,8 +1,6 @@
 package game.graphics.windowparts.BuildingPanel;
 
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 /**
  * Created by Dénes on 2016. 04. 23..

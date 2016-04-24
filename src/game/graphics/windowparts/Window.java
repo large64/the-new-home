@@ -1,19 +1,14 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
-import game.graphics.entities.buildings.Building;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
 /**
  * Created by large64 on 31/10/15.

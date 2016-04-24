@@ -1,14 +1,8 @@
 package game.graphics.windowparts.BuildingPanel;
 
 import game.graphics.entities.buildings.Home;
-import game.graphics.models.TexturedModel;
-import game.graphics.renderers.MasterRenderer;
-import game.graphics.textures.ModelTexture;
-import game.graphics.toolbox.Loader;
-import game.graphics.toolbox.OBJLoader;
 import game.graphics.windowparts.Scene;
 import game.logic.toolbox.Side;
-import org.lwjgl.util.vector.Vector3f;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -22,7 +16,7 @@ import java.awt.event.MouseEvent;
 public class BuildingPanelButtonMouseListener extends MouseAdapter {
     private JLabel button;
 
-    public BuildingPanelButtonMouseListener(JLabel button) {
+    BuildingPanelButtonMouseListener(JLabel button) {
         this.button = button;
     }
 

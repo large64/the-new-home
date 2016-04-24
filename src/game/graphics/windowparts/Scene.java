@@ -3,7 +3,6 @@ package game.graphics.windowparts;
 import game.graphics.entities.*;
 import game.graphics.entities.buildings.Building;
 import game.graphics.entities.buildings.Home;
-import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;

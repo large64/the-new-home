@@ -1,7 +1,5 @@
 package game.graphics.windowparts.BuildingPanel;
 
-import game.graphics.windowparts.*;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;

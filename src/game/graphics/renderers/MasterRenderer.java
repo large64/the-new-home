@@ -3,7 +3,6 @@ package game.graphics.renderers;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
-import game.graphics.models.RawModel;
 import game.graphics.models.TexturedModel;
 import game.graphics.shaders.StaticShader;
 import game.graphics.shaders.TerrainShader;

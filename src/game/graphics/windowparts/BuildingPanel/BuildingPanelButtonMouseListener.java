@@ -33,7 +33,7 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
 
         switch (button.getName()) {
             case "home":
-                Home home = new Home(Scene.getHomeModel(), new Vector3f(0, 0, 0), 0, 0, 0, 1, Side.FRIEND);
+                Home home = new Home(Scene.getHomeModel(), 1, Side.FRIEND);
                 Scene.addRawEntity(home.getRawEntity());
                 Scene.addEntity(home);
                 Scene.setLevitatingEntity(home);

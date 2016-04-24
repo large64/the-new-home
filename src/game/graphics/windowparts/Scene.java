@@ -114,7 +114,7 @@ public class Scene {
                 entities.add(soldier);
             }
             else if (i % 3 == 0){
-                Home home = new Home(homeModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
+                Home home = new Home(homeModel, 1, Side.FRIEND);
                 // /Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(home);
             }

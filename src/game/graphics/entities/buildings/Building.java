@@ -14,7 +14,7 @@ import javax.swing.*;
 public class Building extends Entity {
     public Building() {}
 
-    public Building(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Side side) {
-        super(model, position, rotX, rotY, rotZ, scale, side);
+    public Building(TexturedModel model, float scale, Side side) {
+        super(model, scale, side);
     }
 }

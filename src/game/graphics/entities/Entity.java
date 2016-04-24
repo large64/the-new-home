@@ -18,10 +18,11 @@ public class Entity {
 
     protected TexturedModel model;
     protected Vector3f position;
-    protected float rotation;
-    protected float rotX, rotY, rotZ;
+    private float rotation;
+    private float rotX, rotZ;
+    protected float rotY;
     protected float scale;
-    protected int textureIndex = 0;
+    private int textureIndex = 0;
     private boolean isSelected = false;
 
     public Entity() {}
@@ -56,19 +57,14 @@ public class Entity {
         this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Side side) {
+    public Entity(TexturedModel model, float scale, Side side) {
         this.model = model;
-        this.rotX = rotX;
-        this.rotY = rotY;
-        this.rotZ = rotZ;
         this.scale = scale;
 
-        int x = (int) position.getX();
-        int z = (int) position.getZ();
-
-        this.rawEntity = new RawNeutral(new Position(x, z));
+        this.rawEntity = new RawNeutral(new Position(0, 0));
         this.position = this.rawEntity.getTilePosition().toPosition();
-        this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
+
+        this.getRawEntity().setSide(side);
     }
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type) {

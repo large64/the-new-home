@@ -1,7 +1,10 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.entities.buildings.Building;
 import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.BuildingPanel.BuildingPanel;
+import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -20,7 +23,6 @@ public class Window {
     private static JFrame menuFrame;
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
-    private static JPanel builderPanel;
 
     static final int BOTTOM_COMPONENT_HEIGHT = 130;
 
@@ -144,20 +146,20 @@ public class Window {
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
 
-        builderPanel = new JPanel(new GridLayout(2, 4));
-        builderPanel.setPreferredSize(new Dimension(400, BOTTOM_COMPONENT_HEIGHT));
-        builderPanel.setOpaque(false);
-        builderPanel.setVisible(false);
-        builderPanel.setBorder(new EmptyBorder(0, 0, 0, 10));
-
-        for (int i = 0; i < 8; i++) {
-            builderPanel.add(new JButton(Integer.toString(i)));
+        new BuildingPanel();
+        for (int i = 0; i < 10; i++) {
+            if (i == 0) {
+                BuildingPanel.addButton(new BuildingPanelButton("home"));
+            }
+            else {
+                BuildingPanel.addButton(new BuildingPanelButton("test"));
+            }
         }
 
         JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(menuBgColor);
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
-        bottomWrapperPanel.add(builderPanel);
+        bottomWrapperPanel.add(BuildingPanel.getPanel());
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());
         bottomWrapperPanel.add(entityInfo.getWrapperPanel());
         bottomWrapperPanel.add(indicatorPanel);
@@ -193,15 +195,7 @@ public class Window {
         return gameModeList;
     }
 
-    public static void setBuilderPanelVisible() {
-        if (!builderPanel.isVisible()) {
-            builderPanel.setVisible(true);
-        }
-    }
-
-    public static void setBuilderPanelInvisible() {
-        if (builderPanel.isVisible()) {
-            builderPanel.setVisible(false);
-        }
+    public static int getBottomComponentHeight() {
+        return BOTTOM_COMPONENT_HEIGHT;
     }
 }

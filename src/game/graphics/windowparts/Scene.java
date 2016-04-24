@@ -1,6 +1,8 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.*;
+import game.graphics.entities.buildings.Building;
+import game.graphics.entities.buildings.Home;
 import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
@@ -12,6 +14,7 @@ import game.graphics.toolbox.GameMode;
 import game.graphics.toolbox.Loader;
 import game.graphics.toolbox.MousePicker;
 import game.graphics.toolbox.OBJLoader;
+import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.units.RawUnit;
@@ -47,6 +50,8 @@ public class Scene {
     private static boolean rightClick;
     private static boolean leftClick;
     private static boolean middleClick;
+
+    private static TexturedModel homeModel;
 
     private static Vector2f firstMiddleClickPosition;
 
@@ -96,6 +101,8 @@ public class Scene {
                 new ModelTexture(loader.loadTexture("healer")));
         TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
                 new ModelTexture(loader.loadTexture("palm_tree")));
+        homeModel = new TexturedModel(OBJLoader.loadObjModel("home", loader),
+                new ModelTexture(loader.loadTexture("home_texture")));
 
         // Generate random coordinates for entities
         for (int i = 0; i < 20; i++) {
@@ -107,8 +114,9 @@ public class Scene {
                 entities.add(soldier);
             }
             else if (i % 3 == 0){
-                Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(healer);
+                Home home = new Home(homeModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
+                // /Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
+                entities.add(home);
             }
             if (i % 4 == 0) {
                 x = (float) (Math.random() * 200);
@@ -148,7 +156,7 @@ public class Scene {
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 break;
             case BUILDING:
-                Window.setBuilderPanelVisible();
+                BuildingPanel.setBuilderPanelVisible();
                 if (!mainMap.isTilesShown()) mainMap.setTilesShown(true);
 
                 if (Camera.isMouseGrabbed()) {
@@ -170,7 +178,7 @@ public class Scene {
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 break;
             case ONGOING:
-                Window.setBuilderPanelInvisible();
+                BuildingPanel.setBuilderPanelInvisible();
                 if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
 
                 if (restart) {
@@ -315,7 +323,7 @@ public class Scene {
             else {
                 for (Entity entity : entities) {
                     RawEntity rawEntity = entity.getRawEntity();
-                    if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Neutral &&
+                    if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Building &&
                             rawEntity.getTilePosition().equals(selectedTile) && levitatingEntity == null) {
                         levitatingEntity = entity;
                         break;
@@ -345,5 +353,17 @@ public class Scene {
 
     public static GameMode getGameMode() {
         return gameMode;
+    }
+
+    public static void setLevitatingEntity(Entity levitatingEntity) {
+        Scene.levitatingEntity = levitatingEntity;
+    }
+
+    public static TexturedModel getHomeModel() {
+        return homeModel;
+    }
+
+    public static void addEntity(Entity entity) {
+        entities.add(entity);
     }
 }

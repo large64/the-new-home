@@ -56,6 +56,21 @@ public class Entity {
         this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
 
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Side side) {
+        this.model = model;
+        this.rotX = rotX;
+        this.rotY = rotY;
+        this.rotZ = rotZ;
+        this.scale = scale;
+
+        int x = (int) position.getX();
+        int z = (int) position.getZ();
+
+        this.rawEntity = new RawNeutral(new Position(x, z));
+        this.position = this.rawEntity.getTilePosition().toPosition();
+        this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
+    }
+
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type) {
         this.model = model;
         this.rotX = rotX;

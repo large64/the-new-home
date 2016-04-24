@@ -2,7 +2,7 @@ package game.graphics.windowparts;
 
 import game.graphics.entities.*;
 import game.graphics.entities.buildings.Building;
-import game.graphics.entities.buildings.Home;
+import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
@@ -26,6 +26,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -43,14 +44,13 @@ public class Scene {
     private static List<RawEntity> selectedEntities = new ArrayList<>();
     private static Entity levitatingEntity = null;
     private static List<Entity> entities = new ArrayList<>();
+    private static java.util.Map<String, TexturedModel> modelsMap;
 
     private static MousePicker picker;
 
     private static boolean rightClick;
     private static boolean leftClick;
     private static boolean middleClick;
-
-    private static TexturedModel homeModel;
 
     private static Vector2f firstMiddleClickPosition;
 
@@ -94,14 +94,7 @@ public class Scene {
         picker = new MousePicker(Scene.getPlayer().getCamera(), MasterRenderer.getMasterRenderer().getProjectionMatrix(), Scene.getMainMap());
 
         // Set features of entities
-        TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
-                new ModelTexture(loader.loadTexture("soldier")));
-        TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
-                new ModelTexture(loader.loadTexture("healer")));
-        TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
-                new ModelTexture(loader.loadTexture("palm_tree")));
-        homeModel = new TexturedModel(OBJLoader.loadObjModel("home", loader),
-                new ModelTexture(loader.loadTexture("home_texture")));
+        loadModels();
 
         // Generate random coordinates for entities
         for (int i = 0; i < 20; i++) {
@@ -109,24 +102,23 @@ public class Scene {
             float z = (float) (Math.random() * 200);
 
             if (i % 2 == 0) {
-                Soldier soldier = new Soldier(soldierModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
+                Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(soldier);
             }
             else if (i % 3 == 0){
-                Home home = new Home(homeModel, 1, Side.FRIEND);
-                // /Healer healer = new Healer(healerModel, new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(home);
+                Healer healer = new Healer(modelsMap.get("healerUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
+                entities.add(healer);
             }
             if (i % 4 == 0) {
                 x = (float) (Math.random() * 200);
                 z = (float) (Math.random() * 200);
 
-                Neutral neutral = new Neutral(treeModel, new Vector3f(x, 0, z), 0, 0, 0, 1);
+                Neutral neutral = new Neutral(modelsMap.get("treeNeutral"), new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(neutral);
             }
         }
 
-        Soldier soldier = new Soldier(soldierModel, new Vector3f(10, 0, 10), 0, 0, 0, 1, Side.ENEMY);
+        Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(10, 0, 10), 0, 0, 0, 1, Side.ENEMY);
         entities.add(soldier);
 
         MiniMap.setEntities(rawEntities);
@@ -358,11 +350,32 @@ public class Scene {
         Scene.levitatingEntity = levitatingEntity;
     }
 
-    public static TexturedModel getHomeModel() {
-        return homeModel;
-    }
-
     public static void addEntity(Entity entity) {
         entities.add(entity);
+    }
+
+    public static java.util.Map<String, TexturedModel> getModelsMap() {
+        return modelsMap;
+    }
+
+    private static void loadModels() {
+        Loader loader = MasterRenderer.getLoader();
+        modelsMap = new HashMap<>();
+
+        TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
+                new ModelTexture(loader.loadTexture("soldier")));
+        modelsMap.put("soldierUnit", soldierModel);
+
+        TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
+                new ModelTexture(loader.loadTexture("healer")));
+        modelsMap.put("healerUnit", healerModel);
+
+        TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
+                new ModelTexture(loader.loadTexture("palm_tree")));
+        modelsMap.put("treeNeutral", treeModel);
+
+        TexturedModel homeModel = new TexturedModel(OBJLoader.loadObjModel("home", loader),
+                new ModelTexture(loader.loadTexture("home_texture")));
+        modelsMap.put("homeBuilding", homeModel);
     }
 }

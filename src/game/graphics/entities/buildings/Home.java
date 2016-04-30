@@ -1,6 +1,7 @@
 package game.graphics.entities.buildings;
 
 import game.graphics.models.TexturedModel;
+import game.logic.entities.buildings.RawHome;
 import game.logic.toolbox.Side;
 
 /**

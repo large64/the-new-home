@@ -1,6 +1,7 @@
 package game.graphics.windowparts;
 
 import game.logic.entities.RawEntity;
+import game.logic.entities.buildings.RawBuilding;
 import game.logic.toolbox.map.Position;
 
 import javax.swing.*;
@@ -25,7 +26,6 @@ public class MiniMap {
 
     private static int size = (int) Map.getSIZE();
     private static List<RawEntity> entities = new ArrayList<>();
-    private static boolean[][] places = new boolean[size][size];
 
     private static int mappedSize = (int) (size / MAPPING_RATIO);
     private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);;
@@ -36,18 +36,26 @@ public class MiniMap {
         MiniMap.lookForChanges();
     }
 
-    public static void lookForChanges() {
+    static void lookForChanges() {
         if (!entities.isEmpty()) {
             for (int x = 0; x < mappedSize; x++) {
                 for (int y = 0; y < mappedSize; y++) {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
-                    places[x][y] = true;
                     for (RawEntity entity : entities) {
                         if (entity.isAlive()) {
                             Position entityPosition = entity.getTilePosition().toPosition();
                             if ((int) (entityPosition.getRow() / MAPPING_RATIO) == x && (int) (entityPosition.getColumn() / MAPPING_RATIO) == y) {
                                 MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
-                                places[entity.getTilePosition().getRow()][entity.getTilePosition().getColumn()] = false;
+
+                                // Indicate buildings by using their extensions
+                                if (entity instanceof RawBuilding && ((RawBuilding) entity).hasExtent()) {
+                                    int extent = (int) (((RawBuilding) entity).getExtent() / MAPPING_RATIO);
+                                    for (int i = (x - extent); i < (x + extent); i++) {
+                                        for (int j = (y - extent); j < (y + extent); j++) {
+                                            MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
+                                        }
+                                    }
+                                }
 
                                 if (entity.isBeingAttacked()) {
                                     MiniMap.image.setRGB(x, y, BEING_ATTACKED_COLOR.getRGB());

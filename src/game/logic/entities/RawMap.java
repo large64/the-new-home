@@ -2,6 +2,7 @@ package game.logic.entities;
 
 import com.sun.istack.internal.Nullable;
 import game.graphics.windowparts.Map;
+import game.logic.entities.buildings.RawBuilding;
 import game.logic.toolbox.map.Tile;
 
 import java.util.ArrayList;
@@ -24,15 +25,24 @@ public class RawMap {
     }
 
     public static void lookForChanges() {
+        places = new RawEntity[size][size];
+
         if (!rawEntities.isEmpty()) {
-            for (int x = 0; x < RawMap.size; x++) {
-                for (int y = 0; y < RawMap.size; y++) {
-                    places[x][y] = null;
-                    for (RawEntity entity : rawEntities) {
-                        if (entity.getTilePosition().getColumn() == x
-                                && entity.getTilePosition().getRow() == y
-                                && entity.isAlive()) {
-                            places[x][y] = entity;
+            for (RawEntity entity : rawEntities) {
+                if (entity.isAlive()) {
+                    int x = entity.getTilePosition().getColumn();
+                    int y = entity.getTilePosition().getRow();
+
+                    // @TODO: should not store the whole entity
+                    places[x][y] = entity;
+
+                    if (entity instanceof RawBuilding && ((RawBuilding) entity).hasExtent()) {
+                        List<Tile> extentPositions = ((RawBuilding) entity).getExtentPositions();
+                        for (Tile tile : extentPositions) {
+                            int extentX = tile.getColumn();
+                            int extentY = tile.getRow();
+
+                            places[extentX][extentY] = entity;
                         }
                     }
                 }

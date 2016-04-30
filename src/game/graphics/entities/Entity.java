@@ -4,6 +4,7 @@ import game.graphics.models.TexturedModel;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawNeutral;
+import game.logic.entities.buildings.RawHome;
 import game.logic.entities.units.RawHealer;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.Side;
@@ -50,9 +51,13 @@ public class Entity {
             case NEUTRAL:
                 rawEntity = new RawNeutral(new Position(x, z));
                 break;
+            case HOME:
+                rawEntity = new RawHome(x, z, 100, side);
+                break;
         }
 
         this.rawEntity = rawEntity;
+        Scene.addRawEntity(rawEntity);
         this.position = this.rawEntity.getTilePosition().toPosition();
         this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
@@ -67,7 +72,7 @@ public class Entity {
         this.getRawEntity().setSide(side);
     }
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type) {
+    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         this.model = model;
         this.rotX = rotX;
         this.rotY = rotY;

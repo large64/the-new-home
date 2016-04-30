@@ -16,6 +16,7 @@ import game.graphics.toolbox.OBJLoader;
 import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
+import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
@@ -26,6 +27,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -118,7 +120,7 @@ public class Scene {
             }
         }
 
-        Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(10, 0, 10), 0, 0, 0, 1, Side.ENEMY);
+        Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(50, 0, 20), 0, 0, 0, 1, Side.ENEMY);
         entities.add(soldier);
 
         MiniMap.setEntities(rawEntities);
@@ -164,13 +166,14 @@ public class Scene {
                     middleClick = Mouse.isButtonDown(2);
                     leftClick = Mouse.isButtonDown(0);
                     player.move(firstMiddleClickPosition);
+                    PositionInfo.lookForChanges(picker);
                 }
                 picker.update();
                 processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 break;
             case ONGOING:
                 BuildingPanel.setBuilderPanelInvisible();
-                if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
+                //if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
 
                 if (restart) {
                     player.reset();
@@ -207,7 +210,6 @@ public class Scene {
 
                     EntityInfo.refreshInfo();
                     MiniMap.lookForChanges();
-                    RawMap.lookForChanges();
                     //guiRenderer.render(guis);
                     processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
                 }
@@ -294,7 +296,8 @@ public class Scene {
     }
 
     private static void checkSelection(Tile selectedTile) {
-        if (gameMode.equals(GameMode.ONGOING)) {
+        System.out.println(selectedTile + " -> " + RawMap.whatIsOnTile(selectedTile));
+        if (gameMode.equals(GameMode.ONGOING) && RawMap.isTileFree(selectedTile, false)) {
             for (RawEntity entity : selectedEntities) {
                 if (entity instanceof RawUnit) {
                     RawUnit rawUnit = (RawUnit) entity;
@@ -309,15 +312,20 @@ public class Scene {
                 newPosition.setY(mainMap.getHeightOfMap(newPosition.getX(), newPosition.getZ()));
                 levitatingEntity.setPosition(newPosition);
                 levitatingEntity = null;
+                RawMap.lookForChanges();
                 MiniMap.lookForChanges();
             }
             else {
                 for (Entity entity : entities) {
                     RawEntity rawEntity = entity.getRawEntity();
-                    if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Building &&
-                            rawEntity.getTilePosition().equals(selectedTile) && levitatingEntity == null) {
-                        levitatingEntity = entity;
-                        break;
+                    if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Building) {
+                        List<Tile> extentPositions = ((RawBuilding) rawEntity).getExtentPositions();
+                        boolean isEntityInSelection = rawEntity.getTilePosition().equals(selectedTile)
+                                || extentPositions.contains(selectedTile);
+                        if (isEntityInSelection) {
+                            levitatingEntity = entity;
+                            break;
+                        }
                     }
                 }
             }

@@ -99,7 +99,7 @@ public class RawUnit extends RawEntity {
      * @param current The current node which is being processed. Taken from the open list, and put into closed when
      *                processed.
      */
-    private void processNeighbors(List<Node> neighbors, Tile tile, List open, Queue<Node> closed, Node current) {
+    private void processNeighbors(List<Node> neighbors, Tile tile, List<Node> open, Queue<Node> closed, Node current) {
         for (Node neighbor : neighbors) {
             Tile neighborPosition = new Tile(neighbor.row, neighbor.column);
             boolean isDestination = false;
@@ -197,6 +197,7 @@ public class RawUnit extends RawEntity {
                 this.tilePosition = new Tile(currentNode.row, currentNode.column);
                 currentNode.isProcessed = true;
                 path.remove(currentNode);
+                RawMap.lookForChanges();
                 if (!path.isEmpty()) {
                     currentNode = path.get(0);
                 }

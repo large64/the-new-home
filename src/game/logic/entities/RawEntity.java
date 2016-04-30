@@ -23,6 +23,8 @@ public abstract class RawEntity {
     protected Side side;
     private Entity entity;
 
+    public RawEntity() {}
+
     public RawEntity(Position position) {
         counter++;
         this.position = position;
@@ -30,11 +32,11 @@ public abstract class RawEntity {
         this.tilePosition = Tile.positionToTile(position);
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
-
-        Scene.addRawEntity(this);
+        RawMap.lookForChanges();
+        //Scene.addRawEntity(this);
     }
 
-    public boolean isNextToAnEntity(RawEntity rawEntity) {
+    protected boolean isNextToAnEntity(RawEntity rawEntity) {
         int entityTileRow = rawEntity.getTilePosition().getRow();
         int entityTileColumn = rawEntity.getTilePosition().getColumn();
 

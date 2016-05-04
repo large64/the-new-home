@@ -1,5 +1,6 @@
 package game.graphics.entities.buildings;
 
+import game.graphics.entities.Type;
 import game.graphics.models.TexturedModel;
 import game.logic.entities.buildings.RawHome;
 import game.logic.toolbox.Side;
@@ -9,6 +10,6 @@ import game.logic.toolbox.Side;
  */
 public class Home extends Building {
     public Home(TexturedModel model, float scale, Side side) {
-        super(model, scale, side);
+        super(model, scale, side, Type.HOME);
     }
 }

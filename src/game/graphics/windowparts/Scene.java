@@ -103,7 +103,7 @@ public class Scene {
             float x = (float) (Math.random() * 200);
             float z = (float) (Math.random() * 200);
 
-            if (i % 2 == 0) {
+            /*if (i % 2 == 0) {
                 Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(soldier);
             }
@@ -117,7 +117,7 @@ public class Scene {
 
                 Neutral neutral = new Neutral(modelsMap.get("treeNeutral"), new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(neutral);
-            }
+            }*/
         }
 
         Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(50, 0, 20), 0, 0, 0, 1, Side.ENEMY);
@@ -173,7 +173,7 @@ public class Scene {
                 break;
             case ONGOING:
                 BuildingPanel.setBuilderPanelInvisible();
-                //if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
+                if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
 
                 if (restart) {
                     player.reset();
@@ -296,7 +296,6 @@ public class Scene {
     }
 
     private static void checkSelection(Tile selectedTile) {
-        System.out.println(selectedTile + " -> " + RawMap.whatIsOnTile(selectedTile));
         if (gameMode.equals(GameMode.ONGOING) && RawMap.isTileFree(selectedTile, false)) {
             for (RawEntity entity : selectedEntities) {
                 if (entity instanceof RawUnit) {
@@ -385,5 +384,13 @@ public class Scene {
         TexturedModel homeModel = new TexturedModel(OBJLoader.loadObjModel("home", loader),
                 new ModelTexture(loader.loadTexture("home_texture")));
         modelsMap.put("homeBuilding", homeModel);
+
+        TexturedModel hospitalModel = new TexturedModel(OBJLoader.loadObjModel("hospital", loader),
+                new ModelTexture(loader.loadTexture("hospital_texture")));
+        modelsMap.put("hospitalBuilding", hospitalModel);
+
+        TexturedModel barrackModel = new TexturedModel(OBJLoader.loadObjModel("barrack", loader),
+                new ModelTexture(loader.loadTexture("barrack_texture")));
+        modelsMap.put("barrackBuilding", barrackModel);
     }
 }

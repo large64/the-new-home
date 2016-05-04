@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector3f;
 public class Building extends Entity {
     public Building() {}
 
-    public Building(TexturedModel model, float scale, Side side) {
-        super(model, new Vector3f(0, 0, 0), 0, 0, 0, scale, Type.HOME, side);
+    public Building(TexturedModel model, float scale, Side side, Type type) {
+        super(model, new Vector3f(0, 0, 0), 0, 0, 0, scale, type, side);
     }
 }

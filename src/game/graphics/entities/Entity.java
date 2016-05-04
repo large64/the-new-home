@@ -4,7 +4,9 @@ import game.graphics.models.TexturedModel;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawNeutral;
+import game.logic.entities.buildings.RawBarrack;
 import game.logic.entities.buildings.RawHome;
+import game.logic.entities.buildings.RawHospital;
 import game.logic.entities.units.RawHealer;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.Side;
@@ -53,6 +55,12 @@ public class Entity {
                 break;
             case HOME:
                 rawEntity = new RawHome(x, z, 100, side);
+                break;
+            case HOSPITAL:
+                rawEntity = new RawHospital(x, z, 100, side);
+                break;
+            case BARRACK:
+                rawEntity = new RawBarrack(x, z, 100, side);
                 break;
         }
 

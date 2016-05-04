@@ -1,6 +1,7 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.entities.buildings.Building;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;
@@ -145,6 +146,12 @@ public class Window {
         for (int i = 0; i < 10; i++) {
             if (i == 0) {
                 BuildingPanel.addButton(new BuildingPanelButton("home"));
+            }
+            else if (i == 1) {
+                BuildingPanel.addButton(new BuildingPanelButton("hospital"));
+            }
+            else if (i == 2) {
+                BuildingPanel.addButton(new BuildingPanelButton("barrack"));
             }
             else {
                 BuildingPanel.addButton(new BuildingPanelButton("test"));

@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Dénes on 2015. 11. 06..
  */
 public class RawBuilding extends RawEntity {
-    private int extent;
+    private int[] extent = new int[2];
 
     public RawBuilding() {}
 
@@ -29,16 +29,24 @@ public class RawBuilding extends RawEntity {
         return toReturn.replaceAll("entity", "building");
     }
 
-    public int getExtent() {
+    public int[] getExtent() {
         return extent;
     }
 
-    void setExtent(int extent) {
+    public int getExtentX() {
+        return extent[0];
+    }
+
+    public int getExtentY() {
+        return extent[1];
+    }
+
+    void setExtent(int[] extent) {
         this.extent = extent;
     }
 
     public boolean hasExtent() {
-        return extent > 1;
+        return getExtentX() > 1 || getExtentY() > 1;
     }
 
     public List<Tile> getExtentPositions() {
@@ -47,10 +55,12 @@ public class RawBuilding extends RawEntity {
             int currentY = tilePosition.getRow();
 
             ArrayList<Tile> tiles = new ArrayList<>();
+            int extentX = getExtentX();
+            int extentY = getExtentY();
 
-            for (int i = (currentX - extent); i < (currentX + extent); i++) {
+            for (int i = (currentX - extentX); i < (currentX + extentX); i++) {
                 // Shift column by one
-                for (int j = (currentY - extent + 1); j < (currentY + extent + 1); j++) {
+                for (int j = (currentY - extentY + 1); j < (currentY + extentY + 1); j++) {
                     tiles.add(new Tile(j, i));
                 }
             }

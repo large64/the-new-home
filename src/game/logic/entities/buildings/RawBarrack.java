@@ -11,7 +11,7 @@ public class RawBarrack extends RawBuilding {
 
     public RawBarrack(int row, int column, int health, Side side) {
         super(row, column, health, side);
-        this.setExtent(3);
+        this.setExtent(new int[] {2, 1});
     }
 
     /**

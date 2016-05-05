@@ -11,7 +11,7 @@ public class RawHome extends RawBuilding {
 
     public RawHome(int row, int column, int health, Side side) {
         super(row, column, health, side);
-        this.setExtent(2);
+        this.setExtent(new int[] {2, 1});
     }
 
     /**

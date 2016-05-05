@@ -49,9 +49,10 @@ public class MiniMap {
 
                                 // Indicate buildings by using their extensions
                                 if (entity instanceof RawBuilding && ((RawBuilding) entity).hasExtent()) {
-                                    int extent = (int) (((RawBuilding) entity).getExtent() / MAPPING_RATIO);
-                                    for (int i = (x - extent); i < (x + extent); i++) {
-                                        for (int j = (y - extent); j < (y + extent); j++) {
+                                    int extentX = (int) (((RawBuilding) entity).getExtentX() / MAPPING_RATIO);
+                                    int extentY = (int) (((RawBuilding) entity).getExtentY() / MAPPING_RATIO);
+                                    for (int i = (x - extentX); i < (x + extentX); i++) {
+                                        for (int j = (y - extentY); j < (y + extentY); j++) {
                                             MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
                                         }
                                     }

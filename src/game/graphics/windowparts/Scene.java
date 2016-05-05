@@ -103,10 +103,10 @@ public class Scene {
             float x = (float) (Math.random() * 200);
             float z = (float) (Math.random() * 200);
 
-            /*if (i % 2 == 0) {
+            if (i % 2 == 0) {
                 Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(soldier);
-            }
+            }/*
             else if (i % 3 == 0){
                 Healer healer = new Healer(modelsMap.get("healerUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(healer);

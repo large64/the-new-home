@@ -11,8 +11,8 @@ public class BuildingPanel {
     private static JPanel buildingPanel;
 
     public BuildingPanel() {
-        buildingPanel = new JPanel(new GridLayout(2, 4, 0, 5));
-        buildingPanel.setPreferredSize(new Dimension(400, game.graphics.windowparts.Window.getBottomComponentHeight()));
+        buildingPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buildingPanel.setPreferredSize(new Dimension(450, game.graphics.windowparts.Window.getBottomComponentHeight()));
         buildingPanel.setOpaque(false);
         buildingPanel.setVisible(false);
         buildingPanel.setBorder(new EmptyBorder(0, 0, 0, 10));

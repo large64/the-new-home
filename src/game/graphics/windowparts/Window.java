@@ -143,20 +143,9 @@ public class Window {
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
 
         new BuildingPanel();
-        for (int i = 0; i < 10; i++) {
-            if (i == 0) {
-                BuildingPanel.addButton(new BuildingPanelButton("home"));
-            }
-            else if (i == 1) {
-                BuildingPanel.addButton(new BuildingPanelButton("hospital"));
-            }
-            else if (i == 2) {
-                BuildingPanel.addButton(new BuildingPanelButton("barrack"));
-            }
-            else {
-                BuildingPanel.addButton(new BuildingPanelButton("test"));
-            }
-        }
+        BuildingPanel.addButton(new BuildingPanelButton("home", "Home"));
+        BuildingPanel.addButton(new BuildingPanelButton("hospital", "Hospital"));
+        BuildingPanel.addButton(new BuildingPanelButton("barrack", "Barrack"));
 
         JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(menuBgColor);

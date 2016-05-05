@@ -370,7 +370,7 @@ public class Scene {
         modelsMap = new HashMap<>();
 
         TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
-                new ModelTexture(loader.loadTexture("soldier")));
+                new ModelTexture(loader.loadTexture("soldier_texture")));
         modelsMap.put("soldierUnit", soldierModel);
 
         TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),

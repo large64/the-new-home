@@ -60,7 +60,7 @@ public class RawBuilding extends RawEntity {
 
             for (int i = (currentX - extentX); i < (currentX + extentX); i++) {
                 // Shift column by one
-                for (int j = (currentY - extentY + 1); j < (currentY + extentY + 1); j++) {
+                for (int j = (currentY - extentY + 1); j < (currentY + extentY); j++) {
                     tiles.add(new Tile(j, i));
                 }
             }

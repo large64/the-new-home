@@ -13,7 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
  * Created by large64 on 9/15/15.
  */
 public class Camera {
-    private static final int MAX_ZOOM = 8;
+    private static final int MAX_ZOOM = 10;
     private static final int MAX_BACK_ZOOM = 35;
     private static final float DEFAULT_PITCH = 36;
     // Create new final variable for default position to prevent it from changing in runtime

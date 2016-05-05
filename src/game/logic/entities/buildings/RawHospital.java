@@ -11,7 +11,7 @@ public class RawHospital extends RawBuilding {
 
     public RawHospital(int row, int column, int health, Side side) {
         super(row, column, health, side);
-        this.setExtent(new int[] {2, 2});
+        this.setExtent(new int[] {2, 3});
     }
 
     /**

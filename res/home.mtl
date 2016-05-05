@@ -1,7 +1,7 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'untitled.blend'
 # Material Count: 1
 
-newmtl None.001
+newmtl None.002
 Ns 0.000000
 Ka 0.000000 0.000000 0.000000
 Kd 0.800000 0.800000 0.800000
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd home_texture.png
+map_Kd C:\Users\Dénes\the-new-home\res\home_texture.png

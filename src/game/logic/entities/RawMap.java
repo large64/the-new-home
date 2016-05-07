@@ -55,6 +55,18 @@ public class RawMap {
         return isDestination || isTrue;
     }
 
+    public static boolean areTilesFree(Tile selectedTile, int[] extent) {
+        List<Tile> extentPositions = RawBuilding.getExtentPositions(selectedTile, extent);
+
+        for (Tile tile : extentPositions) {
+            if (!RawMap.isTileFree(tile, false)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public static int getSize() {
         return RawMap.size;
     }
@@ -66,5 +78,11 @@ public class RawMap {
     @Nullable
     public static RawEntity whatIsOnTile(Tile tile) {
         return (RawMap.places[tile.getColumn()][tile.getRow()]);
+    }
+
+    public static void freeTiles(List<Tile> tiles) {
+        for (Tile tile : tiles) {
+            places[tile.getColumn()][tile.getRow()] = null;
+        }
     }
 }

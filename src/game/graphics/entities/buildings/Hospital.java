@@ -4,8 +4,6 @@ import game.graphics.entities.Type;
 import game.graphics.models.TexturedModel;
 import game.logic.toolbox.Side;
 
-import javax.swing.*;
-
 /**
  * Created by large64 on 10/10/15.
  */

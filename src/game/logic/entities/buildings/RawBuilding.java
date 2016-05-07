@@ -1,6 +1,5 @@
 package game.logic.entities.buildings;
 
-import game.graphics.windowparts.MiniMap;
 import game.logic.entities.RawEntity;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
@@ -68,5 +67,23 @@ public class RawBuilding extends RawEntity {
             return tiles;
         }
         return null;
+    }
+
+    public static List<Tile> getExtentPositions(Tile fromTile, int[] extent) {
+        int currentX = fromTile.getColumn();
+        int currentY = fromTile.getRow();
+
+        ArrayList<Tile> tiles = new ArrayList<>();
+        int extentX = extent[0];
+        int extentY = extent[1];
+
+        for (int i = (currentX - extentX); i < (currentX + extentX); i++) {
+            // Shift column by one
+            for (int j = (currentY - extentY + 1); j < (currentY + extentY); j++) {
+                tiles.add(new Tile(j, i));
+            }
+        }
+
+        return tiles;
     }
 }

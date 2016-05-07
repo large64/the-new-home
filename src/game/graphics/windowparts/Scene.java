@@ -242,25 +242,21 @@ public class Scene {
             tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
         }
 
-        boolean atLeastOne = false;
-        for (Entity entity : entities) {
-            RawEntity rawEntity = entity.getRawEntity();
+        RawEntity rawEntity = RawMap.whatIsOnTile(tile);
+        boolean entityAdded = false;
 
-            if (rawEntity.getTilePosition().equals(tile) && rawEntity.getSide().equals(Side.FRIEND)
-                    && !selectedEntities.contains(rawEntity)) {
-                if (selectedEntities.size() < EntityInfo.MULTI_SIZE) {
-                    selectedEntities.add(rawEntity);
-                    entity.getRawEntity().setSelected(true);
-                }
-                atLeastOne = true;
-            }
+        if (rawEntity != null && !rawEntity.isSelected() && selectedEntities.size() < EntityInfo.MULTI_SIZE
+                && rawEntity.getSide().equals(Side.FRIEND) && !selectedEntities.contains(rawEntity)) {
+            selectedEntities.add(rawEntity);
+            rawEntity.setSelected(true);
+            entityAdded = true;
         }
-        if (!atLeastOne) {
+        if (!entityAdded) {
             unSelectAllEntities();
         }
     }
 
-    static void unSelectAllEntities() {
+    private static void unSelectAllEntities() {
         selectedEntities.clear();
         for (RawEntity rawEntity : rawEntities) {
             rawEntity.setSelected(false);

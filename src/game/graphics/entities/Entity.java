@@ -27,7 +27,6 @@ public class Entity {
     protected float rotY;
     protected float scale;
     private int textureIndex = 0;
-    private boolean isSelected = false;
 
     public Entity() {}
 
@@ -161,14 +160,6 @@ public class Entity {
 
     public void setScale(float scale) {
         this.scale = scale;
-    }
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        isSelected = selected;
     }
 
     public float getRotation() {

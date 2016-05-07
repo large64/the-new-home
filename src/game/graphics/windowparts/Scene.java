@@ -250,7 +250,7 @@ public class Scene {
                     && !selectedEntities.contains(rawEntity)) {
                 if (selectedEntities.size() < EntityInfo.MULTI_SIZE) {
                     selectedEntities.add(rawEntity);
-                    entity.setSelected(true);
+                    entity.getRawEntity().setSelected(true);
                 }
                 atLeastOne = true;
             }
@@ -262,8 +262,8 @@ public class Scene {
 
     static void unSelectAllEntities() {
         selectedEntities.clear();
-        for (Entity entity : entities) {
-            entity.setSelected(false);
+        for (RawEntity rawEntity : rawEntities) {
+            rawEntity.setSelected(false);
         }
     }
 

@@ -37,7 +37,7 @@ public class EntityRenderer {
 
             for (Entity entity : batch) {
                 prepareInstance(entity);
-                if (entity.isSelected()) {
+                if (entity.getRawEntity().isSelected()) {
                     shader.loadShineVariables(1, 1.5f);
                 }
                 else {

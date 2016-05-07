@@ -108,9 +108,7 @@ public class EntityInfo {
                     label.addMouseListener(new MouseAdapter() {
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            Scene.unSelectAllEntities();
-                            Scene.getSelectedEntities().add(selectableEntity);
-                            selectableEntity.getEntity().setSelected(true);
+                            super.mouseClicked(e);
                         }
                     });
                 }

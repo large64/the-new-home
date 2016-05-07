@@ -21,6 +21,7 @@ public abstract class RawEntity {
     private boolean isBeingHealed = false;
     protected Side side;
     private Entity entity;
+    private boolean isSelected = false;
 
     public RawEntity() {}
 
@@ -112,5 +113,13 @@ public abstract class RawEntity {
 
     public void setTilePosition(Tile tilePosition) {
         this.tilePosition = tilePosition;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

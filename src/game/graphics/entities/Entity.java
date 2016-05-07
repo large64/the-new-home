@@ -8,6 +8,7 @@ import game.logic.entities.buildings.RawBarrack;
 import game.logic.entities.buildings.RawHome;
 import game.logic.entities.buildings.RawHospital;
 import game.logic.entities.units.RawHealer;
+import game.logic.entities.units.RawScientist;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
@@ -49,6 +50,7 @@ public class Entity {
                 rawEntity = new RawSoldier(x, z, side);
                 break;
             case SCIENTIST:
+                rawEntity = new RawScientist(x, z, side);
                 break;
             case NEUTRAL:
                 rawEntity = new RawNeutral(new Position(x, z));

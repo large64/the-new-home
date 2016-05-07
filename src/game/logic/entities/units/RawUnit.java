@@ -213,7 +213,7 @@ public class RawUnit extends RawEntity {
         return !this.path.isEmpty();
     }
 
-    public void stopWalking() {
+    private void stopWalking() {
         this.tilePosition = Tile.positionToTile(this.position);
         this.position = this.tilePosition.toPosition();
     }

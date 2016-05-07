@@ -130,6 +130,14 @@ public class EntityInfo {
                 return new String[] {"Soldier", "res/soldier_profile.png"};
             case "RawHealer":
                 return new String[] {"Healer", "res/healer_profile.png"};
+            case "RawScientist":
+                return new String[] {"Scientist", "res/scientist_profile.png"};
+            case "RawHome":
+                return new String[] {"Home", "res/home_profile.png"};
+            case "RawHospital":
+                return new String[] {"Hospital", "res/hospital_profile.png"};
+            case "RawBarrack":
+                return new String[] {"Barrack", "res/barrack_profile.png"};
             default:
                 return null;
         }

@@ -3,6 +3,7 @@ package game.graphics.windowparts;
 import game.graphics.entities.*;
 import game.graphics.entities.buildings.Building;
 import game.graphics.entities.units.Healer;
+import game.graphics.entities.units.Scientist;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
@@ -116,6 +117,13 @@ public class Scene {
 
                 Neutral neutral = new Neutral(modelsMap.get("treeNeutral"), new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(neutral);
+            }
+            if (i % 5 == 0) {
+                x = (float) (Math.random() * 200);
+                z = (float) (Math.random() * 200);
+
+                Scientist scientist = new Scientist(modelsMap.get("scientistUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
+                entities.add(scientist);
             }
         }
 
@@ -393,6 +401,10 @@ public class Scene {
         TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("unit", loader),
                 new ModelTexture(loader.loadTexture("healer_texture")));
         modelsMap.put("healerUnit", healerModel);
+
+        TexturedModel scientistModel = new TexturedModel(OBJLoader.loadObjModel("unit", loader),
+                new ModelTexture(loader.loadTexture("scientist_texture")));
+        modelsMap.put("scientistUnit", scientistModel);
 
         TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
                 new ModelTexture(loader.loadTexture("palm_tree")));

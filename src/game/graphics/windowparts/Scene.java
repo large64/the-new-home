@@ -1,10 +1,8 @@
 package game.graphics.windowparts;
 
-import game.graphics.entities.Camera;
-import game.graphics.entities.Entity;
-import game.graphics.entities.Light;
-import game.graphics.entities.Player;
+import game.graphics.entities.*;
 import game.graphics.entities.buildings.Building;
+import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
@@ -107,7 +105,7 @@ public class Scene {
             if (i % 2 == 0) {
                 Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(soldier);
-            }/*
+            }
             else if (i % 3 == 0){
                 Healer healer = new Healer(modelsMap.get("healerUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
                 entities.add(healer);
@@ -118,7 +116,7 @@ public class Scene {
 
                 Neutral neutral = new Neutral(modelsMap.get("treeNeutral"), new Vector3f(x, 0, z), 0, 0, 0, 1);
                 entities.add(neutral);
-            }*/
+            }
         }
 
         Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(50, 0, 20), 0, 0, 0, 1, Side.ENEMY);
@@ -388,12 +386,12 @@ public class Scene {
         Loader loader = MasterRenderer.getLoader();
         modelsMap = new HashMap<>();
 
-        TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("soldier", loader),
+        TexturedModel soldierModel = new TexturedModel(OBJLoader.loadObjModel("unit", loader),
                 new ModelTexture(loader.loadTexture("soldier_texture")));
         modelsMap.put("soldierUnit", soldierModel);
 
-        TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("healer", loader),
-                new ModelTexture(loader.loadTexture("healer")));
+        TexturedModel healerModel = new TexturedModel(OBJLoader.loadObjModel("unit", loader),
+                new ModelTexture(loader.loadTexture("healer_texture")));
         modelsMap.put("healerUnit", healerModel);
 
         TexturedModel treeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),

@@ -1,6 +1,8 @@
 package game.logic.entities;
 
 import game.graphics.entities.Entity;
+import game.logic.entities.units.RawSoldier;
+import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -129,5 +131,25 @@ public abstract class RawEntity {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public String toJSON() {
+        String JSON = "";
+        JSON += "{";
+        if (this instanceof RawSoldier) {
+            RawSoldier rawSoldier = (RawSoldier) this;
+            JSON += "\"id\":" + "\"" + rawSoldier.getId() + "\",";
+        }
+        if (this instanceof RawUnit) {
+            RawUnit rawUnit = (RawUnit) this;
+            JSON += "\"path\":" + rawUnit.getPath() + ",";
+        }
+        JSON += "\"tilePosition\":" + "\"" + getTilePosition() + "\",";
+        JSON += "\"rotation\":" + "\"" + getRotation() + "\",";
+        JSON += "\"health\":" + "\"" + getHealth() + "\",";
+        JSON += "\"side\":" + "\"" + getSide() + "\",";
+        JSON += "\"isSelected\":" + "\"" + isSelected() + "\"";
+        JSON += "}";
+        return JSON;
     }
 }

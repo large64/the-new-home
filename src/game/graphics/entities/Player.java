@@ -1,6 +1,5 @@
 package game.graphics.entities;
 
-import game.graphics.windowparts.Scene;
 import org.lwjgl.util.vector.Vector2f;
 
 /**

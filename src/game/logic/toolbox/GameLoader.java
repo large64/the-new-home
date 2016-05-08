@@ -2,7 +2,6 @@ package game.logic.toolbox;
 
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
-import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Barrack;
 import game.graphics.entities.buildings.Home;
 import game.graphics.entities.buildings.Hospital;

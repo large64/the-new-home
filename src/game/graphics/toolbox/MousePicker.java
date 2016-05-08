@@ -2,7 +2,6 @@ package game.graphics.toolbox;
 
 import game.graphics.entities.Camera;
 import game.graphics.windowparts.Map;
-import game.graphics.windowparts.Scene;
 import game.logic.toolbox.Maths;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;

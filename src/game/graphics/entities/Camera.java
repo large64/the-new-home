@@ -26,12 +26,8 @@ public class Camera {
     private Vector3f position;
     private float pitch = DEFAULT_PITCH;
     private float yaw = 0;
-    private float roll = 0;
 
     private float newZoomDistance;
-
-    private float displayHeight = Display.getHeight();
-    private float displayWidth = Display.getWidth();
 
     private static boolean isMouseGrabbed = true;
 
@@ -39,7 +35,7 @@ public class Camera {
         this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     }
 
-    public void move(Vector2f firstMiddleClickPosition) {
+    void move(Vector2f firstMiddleClickPosition) {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
             Scene.setGameMode(GameMode.PAUSED);
             Window.getMenuFrame().setVisible(true);
@@ -80,7 +76,7 @@ public class Camera {
         return position;
     }
 
-    public void reset() {
+    void reset() {
         this.position = new Vector3f(DEFAULT_POSITION);
     }
 
@@ -115,5 +111,9 @@ public class Camera {
 
     public static void setIsMouseGrabbed(boolean isMouseGrabbed) {
         Camera.isMouseGrabbed = isMouseGrabbed;
+    }
+
+    public void setPosition(Vector3f position) {
+        this.position = position;
     }
 }

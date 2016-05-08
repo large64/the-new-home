@@ -418,11 +418,15 @@ public class Scene {
         Scene.entities = entities;
     }
 
-    public static List<RawEntity> getRawEntities() {
+    private static List<RawEntity> getRawEntities() {
         List<RawEntity> rawEntities = new ArrayList<>();
         for (Entity entity : entities) {
             rawEntities.add(entity.getRawEntity());
         }
         return rawEntities;
+    }
+
+    public static MousePicker getPicker() {
+        return picker;
     }
 }

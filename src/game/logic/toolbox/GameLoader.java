@@ -1,6 +1,8 @@
 package game.logic.toolbox;
 
+import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
+import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Barrack;
 import game.graphics.entities.buildings.Home;
 import game.graphics.entities.buildings.Hospital;
@@ -19,6 +21,7 @@ import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Tile;
 import org.kopitubruk.util.json.JSONConfig;
 import org.kopitubruk.util.json.JSONParser;
+import org.lwjgl.util.vector.Vector3f;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,9 +35,11 @@ public class GameLoader {
     public static List<Entity> load(String filename) {
         File jsonFile = new File("res/saved_games/" + filename + ".json");
         String jsonFileContent = GameLoader.getFileContent(jsonFile);
-        LinkedHashMap jsonData = null;
+        LinkedHashMap jsonData;
 
-        ArrayList parsedEntities = new ArrayList<>();
+        ArrayList parsedEntities;
+        LinkedHashMap parsedPlayer;
+
         List<Entity> entities = new ArrayList<>();
         List<RawEntity> rawEntities = new ArrayList<>();
 
@@ -190,6 +195,26 @@ public class GameLoader {
                         break;
                 }
             }
+
+            parsedPlayer = (LinkedHashMap) jsonData.get("player");
+            Camera camera = new Camera();
+
+            LinkedHashMap positionHashMap = (LinkedHashMap) parsedPlayer.get("position");
+
+            String xString = (String) positionHashMap.get("x");
+            float x = Float.valueOf(xString);
+
+            String zString = (String) positionHashMap.get("z");
+            float z = Float.valueOf(zString);
+
+            String zoomString = (String) parsedPlayer.get("zoom");
+            float zoom = Float.valueOf(zoomString);
+
+            Vector3f position = new Vector3f(x, zoom, z);
+
+            camera.setPosition(position);
+            Scene.getPlayer().setCamera(camera);
+            Scene.getPicker().setCamera(camera);
         }
         MiniMap.setEntities(rawEntities);
         RawMap.setRawEntities(rawEntities);

@@ -1,5 +1,6 @@
 package game.graphics.entities;
 
+import game.graphics.windowparts.Scene;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -22,5 +23,9 @@ public class Player {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 }

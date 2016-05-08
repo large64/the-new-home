@@ -96,6 +96,12 @@ public class Entity {
         this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }
 
+    public void refreshPosition() {
+        this.position = getRawEntity().getPosition();
+        this.rotY = getRawEntity().getRotation();
+        this.position.y = Scene.getMainMap().getHeightOfMap(this.position.x, this.position.z);
+    }
+
     public float getTextureXOffset() {
         int column = textureIndex % model.getTexture().getNumberOfRows();
         return (float) column / (float) model.getTexture().getNumberOfRows();

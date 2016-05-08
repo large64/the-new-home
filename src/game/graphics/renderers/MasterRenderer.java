@@ -3,6 +3,7 @@ package game.graphics.renderers;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
+import game.graphics.entities.units.Unit;
 import game.graphics.models.TexturedModel;
 import game.graphics.shaders.StaticShader;
 import game.graphics.shaders.TerrainShader;
@@ -105,8 +106,8 @@ public class MasterRenderer {
         TexturedModel entityModel = entity.getModel();
         List<Entity> batch = entityMap.get(entityModel);
 
-        if (entity instanceof game.graphics.entities.units.Unit) {
-            ((game.graphics.entities.units.Unit) entity).refreshPosition();
+        if (entity instanceof Unit) {
+            entity.refreshPosition();
         }
 
         if (batch != null) {

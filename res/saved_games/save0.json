@@ -41,6 +41,14 @@
       "health": "100",
       "side": "FRIEND",
       "isSelected": false
+    },
+    {
+      "id": "home0",
+      "tilePosition": "15, 15",
+      "rotation": "0.0",
+      "health": "100",
+      "side": "FRIEND",
+      "isSelected": true
     }
   ]
 }

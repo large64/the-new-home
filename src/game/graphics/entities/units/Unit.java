@@ -18,12 +18,4 @@ public class Unit extends Entity {
     public Unit(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type, Side side) {
         super(model, position, rotX, rotY, rotZ, scale, type, side);
     }
-
-    public void refreshPosition() {
-        if (getRawEntity().getPosition() != null) {
-            this.position = getRawEntity().getPosition();
-        }
-        this.rotY = getRawEntity().getRotation();
-        this.position.y = Scene.getMainMap().getHeightOfMap(this.position.x, this.position.z);
-    }
 }

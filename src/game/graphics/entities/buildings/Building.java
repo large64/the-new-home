@@ -10,7 +10,9 @@ import org.lwjgl.util.vector.Vector3f;
  * Created by large64 on 10/10/15.
  */
 public class Building extends Entity {
-    public Building() {}
+    public Building() {
+        this.setScale(1);
+    }
 
     public Building(TexturedModel model, float scale, Side side, Type type) {
         super(model, new Vector3f(0, 0, 0), 0, 0, 0, scale, type, side);

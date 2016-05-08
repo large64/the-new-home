@@ -16,7 +16,7 @@
       "rotation": "90",
       "health": "100",
       "side": "FRIEND",
-      "isSelected": true
+      "isSelected": false
     },
     {
       "id": "soldier1",
@@ -48,7 +48,15 @@
       "rotation": "0.0",
       "health": "100",
       "side": "FRIEND",
-      "isSelected": true
+      "isSelected": false
+    },
+    {
+      "id": "hospital0",
+      "tilePosition": "25, 8",
+      "rotation": "0.0",
+      "health": "100",
+      "side": "FRIEND",
+      "isSelected": false
     }
   ]
 }

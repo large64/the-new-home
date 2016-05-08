@@ -2,6 +2,7 @@ package game.logic.toolbox;
 
 import game.graphics.entities.Entity;
 import game.graphics.entities.buildings.Home;
+import game.graphics.entities.buildings.Hospital;
 import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.windowparts.MiniMap;
@@ -9,6 +10,7 @@ import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.buildings.RawHome;
+import game.logic.entities.buildings.RawHospital;
 import game.logic.entities.units.RawHealer;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.map.Node;
@@ -145,6 +147,25 @@ public class GameLoader {
                         home.setRawEntity(rawHome);
                         home.refreshPosition();
                         entities.add(home);
+                        break;
+                    case "hospital":
+                        RawHospital rawHospital = new RawHospital();
+                        rawHospital.setId(ID);
+                        rawHospital.setTilePosition(tilePosition);
+                        rawHospital.setPosition(tilePosition.toPosition());
+                        rawHospital.setRotation(rotation);
+                        rawHospital.setHealth(health);
+                        rawHospital.setSide(side);
+                        rawHospital.setSelected(isSelected);
+                        if (isSelected) {
+                            Scene.getSelectedEntities().add(rawHospital);
+                        }
+                        rawEntities.add(rawHospital);
+
+                        Hospital hospital = new Hospital();
+                        hospital.setRawEntity(rawHospital);
+                        hospital.refreshPosition();
+                        entities.add(hospital);
                         break;
                 }
             }

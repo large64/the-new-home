@@ -9,7 +9,9 @@ public class RawHome extends RawBuilding {
     private static final String ID = "home";
     private String id = ID + counter;
 
-    public RawHome() {}
+    public RawHome() {
+        this.setExtent(new int[] {2, 2});
+    }
 
     public RawHome(int row, int column, int health, Side side) {
         super(row, column, health, side);

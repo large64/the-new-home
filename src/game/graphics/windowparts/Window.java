@@ -1,7 +1,6 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
-import game.graphics.renderers.MasterRenderer;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;

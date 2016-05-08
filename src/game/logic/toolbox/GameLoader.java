@@ -1,12 +1,13 @@
 package game.logic.toolbox;
 
 import game.graphics.entities.Entity;
+import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
-import game.graphics.models.TexturedModel;
 import game.graphics.windowparts.MiniMap;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
+import game.logic.entities.units.RawHealer;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Tile;
@@ -15,8 +16,6 @@ import org.kopitubruk.util.json.JSONParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -101,6 +100,28 @@ public class GameLoader {
                         Soldier soldier = new Soldier();
                         soldier.setRawEntity(rawSoldier);
                         entities.add(soldier);
+                        break;
+                    case "healer":
+                        RawHealer rawHealer = new RawHealer();
+                        rawHealer.setId(ID);
+                        rawHealer.setPath(path);
+                        if (!path.isEmpty()) {
+                            rawHealer.setCurrentNode(path.get(0));
+                        }
+                        rawHealer.setTilePosition(tilePosition);
+                        rawHealer.setPosition(tilePosition.toPosition());
+                        rawHealer.setRotation(rotation);
+                        rawHealer.setHealth(health);
+                        rawHealer.setSide(side);
+                        rawHealer.setSelected(isSelected);
+                        if (isSelected) {
+                            Scene.getSelectedEntities().add(rawHealer);
+                        }
+                        rawEntities.add(rawHealer);
+
+                        Healer healer = new Healer();
+                        healer.setRawEntity(rawHealer);
+                        entities.add(healer);
                         break;
                 }
             }

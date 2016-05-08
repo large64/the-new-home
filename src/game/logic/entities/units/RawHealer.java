@@ -9,6 +9,8 @@ public class RawHealer extends RawUnit {
     private static final String ID = "healer";
     private String id = ID + counter;
 
+    public RawHealer() {}
+
     public RawHealer(int row, int column, Side side) {
         super(row, column, side);
     }
@@ -25,5 +27,9 @@ public class RawHealer extends RawUnit {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

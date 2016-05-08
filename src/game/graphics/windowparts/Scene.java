@@ -1,10 +1,10 @@
 package game.graphics.windowparts;
 
-import game.graphics.entities.*;
+import game.graphics.entities.Camera;
+import game.graphics.entities.Entity;
+import game.graphics.entities.Light;
+import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Building;
-import game.graphics.entities.units.Healer;
-import game.graphics.entities.units.Scientist;
-import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
 import game.graphics.textures.ModelTexture;

@@ -11,8 +11,8 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Soldier extends Unit {
     public Soldier() {
+        super();
         this.setModel(Scene.getModelsMap().get("soldierUnit"));
-        this.setScale(1);
     }
 
     public Soldier(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Side side) {

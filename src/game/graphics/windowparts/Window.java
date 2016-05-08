@@ -1,9 +1,11 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.renderers.MasterRenderer;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;
+import game.logic.toolbox.GameLoader;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,7 +34,8 @@ public class Window {
 
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
-            Scene.restart();
+            Scene.setEntities(GameLoader.load("save0"));
+            //Scene.restart();
             Scene.setGameMode(GameMode.ONGOING);
         });
 

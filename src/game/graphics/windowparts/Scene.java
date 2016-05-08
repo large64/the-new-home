@@ -42,7 +42,6 @@ public class Scene {
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
-    private static List<RawEntity> rawEntities = new ArrayList<>();
     private static List<RawEntity> selectedEntities = new ArrayList<>();
     private static Entity levitatingEntity = null;
     private static List<Entity> entities = new ArrayList<>();
@@ -99,7 +98,7 @@ public class Scene {
         loadModels();
 
         // Generate random coordinates for entities
-        for (int i = 0; i < 20; i++) {
+        /*for (int i = 0; i < 20; i++) {
             float x = (float) (Math.random() * 200);
             float z = (float) (Math.random() * 200);
 
@@ -128,11 +127,8 @@ public class Scene {
         }
 
         Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(50, 0, 20), 0, 0, 0, 1, Side.ENEMY);
-        entities.add(soldier);
-
-        MiniMap.setEntities(rawEntities);
-        MiniMap.lookForChanges();
-        new RawMap(rawEntities);
+        entities.add(soldier);*/
+        new RawMap();
         setGameMode(GameMode.STOPPED);
 
         rightClick = false;
@@ -184,7 +180,9 @@ public class Scene {
 
                 if (restart) {
                     player.reset();
-                    rawEntities.forEach(RawEntity::reset);
+                    for (Object rawEntity : getRawEntities()) {
+                        ((RawEntity) rawEntity).reset();
+                    }
                     restart = false;
                 }
                 else {
@@ -258,8 +256,8 @@ public class Scene {
 
     private static void unSelectAllEntities() {
         selectedEntities.clear();
-        for (RawEntity rawEntity : rawEntities) {
-            rawEntity.setSelected(false);
+        for (Object rawEntity : getRawEntities()) {
+            ((RawEntity) rawEntity).setSelected(false);
         }
     }
 
@@ -270,8 +268,8 @@ public class Scene {
                 if (rawEntity.isAlive()) {
                     if (rawEntity instanceof RawUnit) {
                         RawUnit rawUnit = (RawUnit) rawEntity;
-                        if ((rawUnit).isMoving() && selectedTile != null) {
-                            rawUnit.performAction(selectedTile);
+                        if ((rawUnit).isMoving()) {
+                            rawUnit.performAction();
                         }
                     }
                 }
@@ -295,10 +293,6 @@ public class Scene {
 
     static void restart() {
         restart = true;
-    }
-
-    public static void addRawEntity(RawEntity entity) {
-        rawEntities.add(entity);
     }
 
     public static List<RawEntity> getSelectedEntities() {
@@ -327,6 +321,7 @@ public class Scene {
                     levitatingEntity.setPosition(newPosition);
                     levitatingEntity = null;
 
+                    RawMap.addEntity(levitatingRawEntity);
                     RawMap.lookForChanges();
                     MiniMap.lookForChanges();
                 }
@@ -417,5 +412,17 @@ public class Scene {
         TexturedModel barrackModel = new TexturedModel(OBJLoader.loadObjModel("barrack", loader),
                 new ModelTexture(loader.loadTexture("barrack_texture")));
         modelsMap.put("barrackBuilding", barrackModel);
+    }
+
+    public static void setEntities(List<Entity> entities) {
+        Scene.entities = entities;
+    }
+
+    public static List<RawEntity> getRawEntities() {
+        List<RawEntity> rawEntities = new ArrayList<>();
+        for (Entity entity : entities) {
+            rawEntities.add(entity.getRawEntity());
+        }
+        return rawEntities;
     }
 }

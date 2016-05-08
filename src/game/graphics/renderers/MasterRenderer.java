@@ -103,7 +103,7 @@ public class MasterRenderer {
      */
     public void processEntity(Entity entity) {
         TexturedModel entityModel = entity.getModel();
-        List<Entity> batch = (List<Entity>) entityMap.get(entityModel);
+        List<Entity> batch = entityMap.get(entityModel);
 
         if (entity instanceof game.graphics.entities.units.Unit) {
             ((game.graphics.entities.units.Unit) entity).refreshPosition();

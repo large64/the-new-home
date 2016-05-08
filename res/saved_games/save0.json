@@ -1,0 +1,36 @@
+{
+  "player": {
+    "position": {
+      "x": 37.0,
+      "y": 35.0,
+      "z": 80.0
+    },
+    "zoom": 35
+  },
+  "entities": [
+    {
+      "id": "soldier0",
+      "path": [
+      ],
+      "tilePosition": "0, 4",
+      "rotation": "90",
+      "health": "100",
+      "side": "FRIEND",
+      "isSelected": true
+    },
+    {
+      "id": "soldier1",
+      "path": [
+        "0, 1",
+        "0, 2",
+        "1, 2",
+        "1, 3"
+      ],
+      "tilePosition": "0, 1",
+      "rotation": "0.0",
+      "health": "100",
+      "side": "FRIEND",
+      "isSelected": false
+    }
+  ]
+}

@@ -18,7 +18,9 @@ public class Unit extends Entity {
     }
 
     public void refreshPosition() {
-        this.position = getRawEntity().getPosition();
+        if (getRawEntity().getPosition() != null) {
+            this.position = getRawEntity().getPosition();
+        }
         this.rotY = getRawEntity().getRotation();
         this.position.y = Scene.getMainMap().getHeightOfMap(this.position.x, this.position.z);
     }

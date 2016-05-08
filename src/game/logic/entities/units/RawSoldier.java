@@ -9,6 +9,8 @@ public class RawSoldier extends RawUnit {
     private static final String ID = "soldier";
     private String id = ID + counter;
 
+    public RawSoldier() {};
+
     public RawSoldier(int row, int column, Side side) {
         super(row, column, side);
     }
@@ -25,5 +27,9 @@ public class RawSoldier extends RawUnit {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

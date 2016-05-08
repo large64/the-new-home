@@ -122,4 +122,12 @@ public abstract class RawEntity {
     public void setSelected(boolean selected) {
         isSelected = selected;
     }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
 }

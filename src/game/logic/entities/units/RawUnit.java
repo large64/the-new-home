@@ -20,6 +20,8 @@ public class RawUnit extends RawEntity {
     private List<Node> path = new ArrayList<>();
     private Node currentNode;
 
+    public RawUnit() {}
+
     public RawUnit(int row, int column, Side side) {
         super(new Position(row, column));
         this.position = this.getTilePosition().toPosition();
@@ -43,6 +45,10 @@ public class RawUnit extends RawEntity {
                 this.step();
             }
         }
+    }
+
+    public void performAction() {
+        this.step();
     }
 
     /**
@@ -230,5 +236,13 @@ public class RawUnit extends RawEntity {
 
     public List getPath() {
         return this.path;
+    }
+
+    public void setPath(List<Node> path) {
+        this.path = path;
+    }
+
+    public void setCurrentNode(Node currentNode) {
+        this.currentNode = currentNode;
     }
 }

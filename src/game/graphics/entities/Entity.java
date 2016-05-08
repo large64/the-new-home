@@ -66,7 +66,7 @@ public class Entity {
         }
 
         this.rawEntity = rawEntity;
-        Scene.addRawEntity(rawEntity);
+        Scene.addEntity(this);
         this.position = this.rawEntity.getTilePosition().toPosition();
         this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
     }

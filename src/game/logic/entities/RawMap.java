@@ -19,10 +19,7 @@ public class RawMap {
     private static List<RawEntity> rawEntities = new ArrayList<>();
     private static RawEntity[][] places = new RawEntity[size][size];
 
-    public RawMap(List<RawEntity> rawEntities) {
-        RawMap.rawEntities = rawEntities;
-        RawMap.lookForChanges();
-    }
+    public RawMap() {}
 
     public static void lookForChanges() {
         places = new RawEntity[size][size];
@@ -51,8 +48,11 @@ public class RawMap {
     }
 
     public static boolean isTileFree(Tile tile, boolean isDestination) {
-        boolean isTrue = RawMap.places[tile.getColumn()][tile.getRow()] == null;
-        return isDestination || isTrue;
+        if (tile.getRow() <= size && tile.getRow() >= 0 && tile.getColumn() <= size && tile.getColumn() >= 0) {
+            boolean isTrue = RawMap.places[tile.getColumn()][tile.getRow()] == null;
+            return isDestination || isTrue;
+        }
+        return false;
     }
 
     public static boolean areTilesFree(Tile selectedTile, int[] extent) {
@@ -83,6 +83,16 @@ public class RawMap {
     public static void freeTiles(List<Tile> tiles) {
         for (Tile tile : tiles) {
             places[tile.getColumn()][tile.getRow()] = null;
+        }
+    }
+
+    public static void setRawEntities(List<RawEntity> rawEntities) {
+        RawMap.rawEntities = rawEntities;
+    }
+
+    public static void addEntity(RawEntity rawEntity) {
+        if (!rawEntities.contains(rawEntity)) {
+            rawEntities.add(rawEntity);
         }
     }
 }

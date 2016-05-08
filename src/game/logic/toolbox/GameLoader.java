@@ -1,10 +1,21 @@
 package game.logic.toolbox;
 
+import game.graphics.entities.Entity;
+import game.graphics.entities.units.Soldier;
+import game.graphics.models.TexturedModel;
+import game.graphics.windowparts.MiniMap;
+import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
+import game.logic.entities.RawMap;
+import game.logic.entities.units.RawSoldier;
+import game.logic.toolbox.map.Node;
+import game.logic.toolbox.map.Tile;
+import org.kopitubruk.util.json.JSONConfig;
 import org.kopitubruk.util.json.JSONParser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
 
@@ -13,54 +24,89 @@ import java.util.*;
  */
 public class GameLoader {
 
-    public static List load(String filename) {
-        File jsonFile = new File("resources/saved_games/" + filename + ".json");
+    public static List<Entity> load(String filename) {
+        File jsonFile = new File("res/saved_games/" + filename + ".json");
         String jsonFileContent = GameLoader.getFileContent(jsonFile);
         LinkedHashMap jsonData = null;
 
-        List<RawEntity> entities = new ArrayList<>();
-        int mapSize;
+        ArrayList parsedEntities = new ArrayList<>();
+        List<Entity> entities = new ArrayList<>();
+        List<RawEntity> rawEntities = new ArrayList<>();
 
-        try {
-            jsonData = (LinkedHashMap) JSONParser.parseJSON(jsonFileContent);
-        } catch (ParseException e) {
-            System.err.println("Could not get JSON data from file " + filename + ".");
-            e.printStackTrace();
-        }
+
+        JSONConfig config = new JSONConfig();
+        config.setEncodeNumericStringsAsNumbers(true);
+        jsonData = (LinkedHashMap) JSONParser.parseJSON(jsonFileContent, config);
+
 
         if (jsonData != null) {
-            mapSize = Math.toIntExact((long) jsonData.get("mapSize"));
-            Map jsonDataMap = (Map) jsonData.get("entities");
+            parsedEntities = (ArrayList) jsonData.get("entities");
 
-            for (int i = 0; i < (jsonDataMap).size(); i++) {
-                Map entityDataMap = (Map) jsonDataMap.get("entity" + i);
-                String type = (String) entityDataMap.get("type");
-                int health = Math.toIntExact((long) entityDataMap.get("health"));
-                int intSide = Math.toIntExact((long) entityDataMap.get("side"));
-                boolean side = true;
+            for (Object entity : parsedEntities) {
+                Map entityDataMap = (Map) entity;
 
-                if (intSide == 0) {
-                    side = false;
+                String ID = (String) entityDataMap.get("id");
+                List stringPath = (List) entityDataMap.get("path");
+                List<Node> path = new ArrayList<>();
+
+                Node previousNode = null;
+                for (Object nodeString : stringPath) {
+                    if (nodeString instanceof String) {
+                        int[] values = GameLoader.splitAndTrim((String) nodeString);
+                        Node node = new Node(values[0], values[1]);
+                        if (previousNode != null) {
+                            node.parent = previousNode;
+                        }
+                        path.add(node);
+                        previousNode = node;
+                    }
                 }
 
-                Map entityPositionMap = (Map) entityDataMap.get("position");
+                String tilePositionString = (String) entityDataMap.get("tilePosition");
+                int[] values = GameLoader.splitAndTrim(tilePositionString);
+                Tile tilePosition = new Tile(values[0], values[1]);
 
-                int entityRow = Math.toIntExact((long) entityPositionMap.get("row"));
-                int entityColumn = Math.toIntExact((long) entityPositionMap.get("column"));
+                String rotationString = ((String) entityDataMap.get("rotation"));
+                float rotation = Float.valueOf(rotationString);
+
+                String healthString = (String) entityDataMap.get("health");
+                int health = Integer.valueOf(healthString);
+
+                Side side = Side.valueOf((String) entityDataMap.get("side"));
+
+                boolean isSelected = (boolean) entityDataMap.get("isSelected");
+
+                // Get string from ID
+                String type = ID.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[0];
 
                 switch (type) {
                     case "soldier":
-                        //entities.add(new RawSoldier(entityRow, entityColumn, health, side));
-                        break;
-                    case "healer":
-                        //entities.add(new RawHealer(entityRow, entityColumn, health, side));
-                        break;
-                    case "building":
-                        //entities.add(new RawBuilding(entityRow, entityColumn, health, side));
+                        RawSoldier rawSoldier = new RawSoldier();
+                        rawSoldier.setId(ID);
+                        rawSoldier.setPath(path);
+                        if (!path.isEmpty()) {
+                            rawSoldier.setCurrentNode(path.get(0));
+                        }
+                        rawSoldier.setTilePosition(tilePosition);
+                        rawSoldier.setPosition(tilePosition.toPosition());
+                        rawSoldier.setRotation(rotation);
+                        rawSoldier.setHealth(health);
+                        rawSoldier.setSide(side);
+                        rawSoldier.setSelected(isSelected);
+                        if (isSelected) {
+                            Scene.getSelectedEntities().add(rawSoldier);
+                        }
+                        rawEntities.add(rawSoldier);
+
+                        Soldier soldier = new Soldier();
+                        soldier.setRawEntity(rawSoldier);
+                        entities.add(soldier);
                         break;
                 }
             }
         }
+        MiniMap.setEntities(rawEntities);
+        RawMap.setRawEntities(rawEntities);
 
         return entities;
     }
@@ -79,5 +125,15 @@ public class GameLoader {
             e.printStackTrace();
         }
         return content;
+    }
+
+    private static int[] splitAndTrim(String string) {
+        int[] values = new int[2];
+        if (!string.equals("")) {
+            String[] stringPieces = string.split(",");
+            values[0] = Integer.valueOf(stringPieces[0].trim());
+            values[1] = Integer.valueOf(stringPieces[1].trim());
+        }
+        return values;
     }
 }

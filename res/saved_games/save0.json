@@ -57,6 +57,14 @@
       "health": "100",
       "side": "FRIEND",
       "isSelected": false
+    },
+    {
+      "id": "barrack0",
+      "tilePosition": "6, 25",
+      "rotation": "0.0",
+      "health": "100",
+      "side": "FRIEND",
+      "isSelected": false
     }
   ]
 }

@@ -9,6 +9,10 @@ public class RawBarrack extends RawBuilding {
     private static final String ID = "barrack";
     private String id = ID + counter;
 
+    public RawBarrack() {
+        this.setExtent(new int[] {2, 2});
+    }
+
     public RawBarrack(int row, int column, int health, Side side) {
         super(row, column, health, side);
         this.setExtent(new int[] {2, 2});
@@ -22,5 +26,9 @@ public class RawBarrack extends RawBuilding {
     @Override
     public String toString() {
         return (this.id + ": " + this.getTilePosition().toString() + " " + this.health + " " + this.side);
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

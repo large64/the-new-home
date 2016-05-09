@@ -23,10 +23,10 @@ public class Window {
     private static JComboBox gameModeList;
 
     static final int BOTTOM_COMPONENT_HEIGHT = 130;
+    private static final Color MENU_BG_COLOR = new Color(2, 120, 0);
+    private static final Color MENU_ITEM_BG_COLOR = new Color(205, 221, 237);
 
     public Window(Canvas canvas) {
-        Color menuBgColor = new Color(2, 120, 0);
-        Color menuItemBg = new Color(205, 221, 237);
 
         EmptyBorder menuPanelBorder = new EmptyBorder(10, 20, 20, 20);
         menuPanel = new JPanel(new GridLayout(6, 1, 0, 5));
@@ -40,8 +40,8 @@ public class Window {
         JPanel checkboxPanel = new JPanel();
 
         checkboxPanel.setBorder(BorderFactory.createLineBorder(new Color(122, 138, 153), 1, false));
-        checkboxPanel.setBackground(menuItemBg);
-        tilesCheckbox.setBackground(menuItemBg);
+        checkboxPanel.setBackground(MENU_ITEM_BG_COLOR);
+        tilesCheckbox.setBackground(MENU_ITEM_BG_COLOR);
         tilesCheckbox.setBorder(new EmptyBorder(0, 10, 0, 10));
         tilesCheckbox.addActionListener(el ->{
             if (!isTilesShown) {
@@ -55,14 +55,7 @@ public class Window {
         });
         checkboxPanel.add(tilesCheckbox);
 
-        PositionInfo positionInfo = new PositionInfo();
-        EntityInfo entityInfo = new EntityInfo();
-        ActionInfo actionInfo = new ActionInfo();
-
         JPanel devMenuPanel = new JPanel(new GridLayout(2, 1));
-        JPanel indicatorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel gameModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JPanel miniMapPanel = new JPanel(new BorderLayout());
 
         mainFrame = new JFrame();
         mainFrame.setLayout(new BorderLayout());
@@ -70,12 +63,8 @@ public class Window {
         mainFrame.setUndecorated(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        initializeMenuFrame(menuBgColor);
-
+        initializeMenuFrame();
         new MiniMap();
-
-        indicatorPanel.setOpaque(false);
-        indicatorPanel.setBorder(BorderFactory.createLineBorder(new Color(186, 186, 186), 1, true));
 
         JLabel devMenuTitle = new JLabel("Developers' menu");
         devMenuTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -83,54 +72,12 @@ public class Window {
         devMenuPanel.add(devMenuTitle);
         devMenuPanel.add(checkboxPanel);
 
-        indicatorPanel.add(positionInfo.getTextPane());
-        indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
-
-
-        gameModeList.setEnabled(false);
-        gameModeList.setPreferredSize(new Dimension(110, 20));
-        gameModeList.addItemListener(e -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                Object item = e.getItem();
-                switch (item.toString()) {
-                    case "Play":
-                        Scene.setGameMode(GameMode.ONGOING);
-                        break;
-                    case "Build":
-                        Scene.setGameMode(GameMode.BUILDING);
-                        break;
-                }
-            }
-        });
-        gameModePanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
-        gameModePanel.setOpaque(false);
-        JLabel gameModeTitleLabel = new JLabel("Switch game mode:");
-        gameModeTitleLabel.setForeground(Color.WHITE);
-        gameModePanel.add(gameModeTitleLabel);
-        gameModePanel.add(gameModeList);
-
-        miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
-        miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
-
-        new BuildingPanel();
-        BuildingPanel.addButton(new BuildingPanelButton("home", "Home"));
-        BuildingPanel.addButton(new BuildingPanelButton("hospital", "Hospital"));
-        BuildingPanel.addButton(new BuildingPanelButton("barrack", "Barrack"));
-
-        JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        bottomWrapperPanel.setBackground(menuBgColor);
-        bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
-        bottomWrapperPanel.add(BuildingPanel.getPanel());
-        bottomWrapperPanel.add(actionInfo.getWrapperPanel());
-        bottomWrapperPanel.add(entityInfo.getWrapperPanel());
-        bottomWrapperPanel.add(indicatorPanel);
-        bottomWrapperPanel.add(gameModePanel);
-        bottomWrapperPanel.add(miniMapPanel);
+        initializeBuildingPanel();
 
         menuFrame.add(menuPanel, BorderLayout.NORTH);
         menuFrame.add(devMenuPanel, BorderLayout.SOUTH);
 
-        mainFrame.add(bottomWrapperPanel, BorderLayout.SOUTH);
+        mainFrame.add(initializeBottomWrapper(), BorderLayout.SOUTH);
         mainFrame.add(canvas, BorderLayout.CENTER);
         mainFrame.pack();
 
@@ -160,10 +107,10 @@ public class Window {
         return BOTTOM_COMPONENT_HEIGHT;
     }
 
-    private static void initializeMenuFrame(Color menuBgColor) {
+    private static void initializeMenuFrame() {
         menuFrame = new JFrame();
         menuFrame.setLayout(new BorderLayout());
-        menuFrame.setBackground(menuBgColor);
+        menuFrame.setBackground(MENU_BG_COLOR);
         // Set menu panel size
         menuFrame.setPreferredSize(new Dimension(190, 400));
         menuFrame.setUndecorated(true);
@@ -227,5 +174,63 @@ public class Window {
 
         menuPanel.revalidate();
         menuPanel.repaint();
+    }
+
+    private static JPanel initializeBottomWrapper() {
+        PositionInfo positionInfo = new PositionInfo();
+        EntityInfo entityInfo = new EntityInfo();
+        ActionInfo actionInfo = new ActionInfo();
+
+        JPanel indicatorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        indicatorPanel.setOpaque(false);
+        indicatorPanel.setBorder(BorderFactory.createLineBorder(new Color(186, 186, 186), 1, true));
+        indicatorPanel.add(positionInfo.getTextPane());
+        indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
+
+        JPanel gameModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        gameModeList.setEnabled(false);
+        gameModeList.setPreferredSize(new Dimension(110, 20));
+        gameModeList.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                Object item = e.getItem();
+                switch (item.toString()) {
+                    case "Play":
+                        Scene.setGameMode(GameMode.ONGOING);
+                        break;
+                    case "Build":
+                        Scene.setGameMode(GameMode.BUILDING);
+                        break;
+                }
+            }
+        });
+        gameModePanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
+        gameModePanel.setOpaque(false);
+        JLabel gameModeTitleLabel = new JLabel("Switch game mode:");
+        gameModeTitleLabel.setForeground(Color.WHITE);
+        gameModePanel.add(gameModeTitleLabel);
+        gameModePanel.add(gameModeList);
+
+        JPanel miniMapPanel = new JPanel(new BorderLayout());
+        miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
+        miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
+
+        JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        bottomWrapperPanel.setBackground(MENU_BG_COLOR);
+        bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
+        bottomWrapperPanel.add(BuildingPanel.getPanel());
+        bottomWrapperPanel.add(actionInfo.getWrapperPanel());
+        bottomWrapperPanel.add(entityInfo.getWrapperPanel());
+        bottomWrapperPanel.add(indicatorPanel);
+        bottomWrapperPanel.add(gameModePanel);
+        bottomWrapperPanel.add(miniMapPanel);
+
+        return bottomWrapperPanel;
+    }
+
+    private static void initializeBuildingPanel() {
+        new BuildingPanel();
+        BuildingPanel.addButton(new BuildingPanelButton("home", "Home"));
+        BuildingPanel.addButton(new BuildingPanelButton("hospital", "Hospital"));
+        BuildingPanel.addButton(new BuildingPanelButton("barrack", "Barrack"));
     }
 }

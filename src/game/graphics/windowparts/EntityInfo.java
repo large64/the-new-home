@@ -14,7 +14,7 @@ import java.util.List;
  * Created by Dénes on 2015. 12. 07..
  */
 public class EntityInfo {
-    public static final int MULTI_SIZE = 8;
+    static final int MULTI_SIZE = 8;
 
     private static JPanel wrapperPanel;
     private static JPanel singlePanel;
@@ -27,7 +27,7 @@ public class EntityInfo {
     private static JLabel tileLabel;
     private static JLabel imageLabel;
 
-    public EntityInfo() {
+    EntityInfo() {
         wrapperPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         wrapperPanel.setOpaque(false);
 
@@ -69,11 +69,11 @@ public class EntityInfo {
         wrapperPanel.add(multiPanel);
     }
 
-    public JPanel getWrapperPanel() {
+    JPanel getWrapperPanel() {
         return wrapperPanel;
     }
 
-    public static void refreshInfo() {
+    static void refreshInfo() {
         if (entities.size() == 1) {
             multiPanel.setVisible(false);
             removeMultiPanelIcons();

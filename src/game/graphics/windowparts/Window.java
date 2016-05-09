@@ -22,6 +22,8 @@ public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static JPanel menuPanel;
+    private static JPanel entityInfoPanel;
+
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
 
@@ -136,8 +138,7 @@ public class Window {
 
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
-            /*Scene.setEntities(GameLoader.load("save0"));
-            Scene.setGameMode(GameMode.ONGOING);*/
+            Scene.setGameMode(GameMode.ONGOING);
         });
 
         JButton button2 = new JButton("Quit");
@@ -221,7 +222,9 @@ public class Window {
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
         bottomWrapperPanel.add(BuildingPanel.getPanel());
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());
-        bottomWrapperPanel.add(entityInfo.getWrapperPanel());
+
+        entityInfoPanel = entityInfo.getWrapperPanel();
+        bottomWrapperPanel.add(entityInfoPanel);
         bottomWrapperPanel.add(indicatorPanel);
         bottomWrapperPanel.add(gameModePanel);
         bottomWrapperPanel.add(miniMapPanel);
@@ -234,5 +237,9 @@ public class Window {
         BuildingPanel.addButton(new BuildingPanelButton("home", "Home"));
         BuildingPanel.addButton(new BuildingPanelButton("hospital", "Hospital"));
         BuildingPanel.addButton(new BuildingPanelButton("barrack", "Barrack"));
+    }
+
+    public static JPanel getEntityInfoPanel() {
+        return entityInfoPanel;
     }
 }

@@ -101,8 +101,8 @@ public class MiniMap {
         MiniMap.markers.clear();
     }
 
-    public static void setEntities(List entities) {
-        MiniMap.entities = entities;
+    public static void setEntities() {
+        MiniMap.entities = Scene.getRawEntities();
     }
 
     public static JLabel getLabel() {

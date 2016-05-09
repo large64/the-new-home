@@ -40,7 +40,7 @@ public class GameLoader {
     private static List<Entity> entities = new ArrayList<>();
     private static List<RawEntity> rawEntities = new ArrayList<>();
 
-    public static List<Entity> load(String filename) {
+    public static void load(String filename) {
         File jsonFile = new File("res/saved_games/" + filename + ".json");
         String jsonFileContent = GameLoader.getFileContent(jsonFile);
         LinkedHashMap jsonData;
@@ -120,13 +120,12 @@ public class GameLoader {
             Scene.getPicker().setCamera(camera);
         }
         MiniMap.getEntities().clear();
-        MiniMap.setEntities(rawEntities);
-
         RawMap.getRawEntities().clear();
-        RawMap.setRawEntities(rawEntities);
-        RawMap.lookForChanges();
 
-        return entities;
+        Scene.setEntities(entities);
+        MiniMap.setEntities();
+        RawMap.setRawEntities();
+        RawMap.lookForChanges();
     }
 
     private static String getFileContent(File file) {
@@ -289,7 +288,7 @@ public class GameLoader {
             String toLoad = ((String) fileListComboBox.getSelectedItem()).substring(0, 5);
             Scene.getEntities().clear();
             Scene.getSelectedEntities().clear();
-            Scene.setEntities(GameLoader.load(toLoad));
+            GameLoader.load(toLoad);
             Window.switchMenuFrameContent(null);
             Scene.setGameMode(GameMode.PAUSED);
         });

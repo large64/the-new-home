@@ -1,7 +1,6 @@
 package game.graphics.windowparts.infopanels;
 
 import com.sun.istack.internal.Nullable;
-import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 
 import javax.swing.*;

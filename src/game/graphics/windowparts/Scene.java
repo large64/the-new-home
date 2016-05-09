@@ -32,6 +32,7 @@ import org.lwjgl.util.vector.Vector3f;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -269,7 +270,8 @@ public class Scene {
     }
 
     private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
-        for (Entity entity : entities) {
+        for (Iterator<Entity> it = entities.iterator(); it.hasNext(); ) {
+            Entity entity = it.next();
             RawEntity rawEntity = entity.getRawEntity();
             if (gameMode.equals(GameMode.ONGOING)) {
                 if (rawEntity.isAlive()) {
@@ -282,16 +284,29 @@ public class Scene {
                 }
             }
             else if (gameMode.equals(GameMode.BUILDING) && levitatingEntity != null) {
-                // @TODO: clean code
-                levitatingEntity.setPosition(picker.getCurrentTerrainPoint());
-                RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
-                Vector3f currentTerrainPoint = picker.getCurrentTerrainPoint();
-                Position currentMousePosition = new Position(currentTerrainPoint.getX(), currentTerrainPoint.getZ());
-                Tile currentTile = Tile.positionToTile(currentMousePosition);
+                if (Keyboard.isKeyDown(Keyboard.KEY_R)  && entity.equals(levitatingEntity)) {
+                    if (entities.contains(levitatingEntity)) {
+                        it.remove();
+                        MiniMap.setEntities();
+                        RawMap.setRawEntities();
+                    }
 
-                levitatingRawEntity.setTilePosition(currentTile);
+                    RawMap.lookForChanges();
+                    MiniMap.lookForChanges();
+                    levitatingEntity = null;
+                }
+                else {
+                    // @TODO: clean code
+                    levitatingEntity.setPosition(picker.getCurrentTerrainPoint());
+                    RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
+                    Vector3f currentTerrainPoint = picker.getCurrentTerrainPoint();
+                    Position currentMousePosition = new Position(currentTerrainPoint.getX(), currentTerrainPoint.getZ());
+                    Tile currentTile = Tile.positionToTile(currentMousePosition);
 
-                levitatingEntity.setRawEntity(levitatingRawEntity);
+                    levitatingRawEntity.setTilePosition(currentTile);
+
+                    levitatingEntity.setRawEntity(levitatingRawEntity);
+                }
             }
 
             renderer.processEntity(entity);
@@ -425,7 +440,7 @@ public class Scene {
         Scene.entities = entities;
     }
 
-    private static List<RawEntity> getRawEntities() {
+    public static List<RawEntity> getRawEntities() {
         List<RawEntity> rawEntities = new ArrayList<>();
         for (Entity entity : entities) {
             rawEntities.add(entity.getRawEntity());

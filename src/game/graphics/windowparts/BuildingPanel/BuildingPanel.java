@@ -1,5 +1,7 @@
 package game.graphics.windowparts.buildingpanel;
 
+import game.graphics.windowparts.Window;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -21,12 +23,14 @@ public class BuildingPanel {
     public static void setBuilderPanelVisible() {
         if (!buildingPanel.isVisible()) {
             buildingPanel.setVisible(true);
+            Window.getEntityInfoPanel().setVisible(false);
         }
     }
 
     public static void setBuilderPanelInvisible() {
         if (buildingPanel.isVisible()) {
             buildingPanel.setVisible(false);
+            Window.getEntityInfoPanel().setVisible(true);
         }
     }
 
@@ -34,7 +38,7 @@ public class BuildingPanel {
         return buildingPanel;
     }
 
-    public static void addButton(BuildingPanelButton button) {
+    public static void addButton(Component button) {
         buildingPanel.add(button);
     }
 }

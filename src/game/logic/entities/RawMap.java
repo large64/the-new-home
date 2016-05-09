@@ -2,6 +2,7 @@ package game.logic.entities;
 
 import com.sun.istack.internal.Nullable;
 import game.graphics.windowparts.Map;
+import game.graphics.windowparts.Scene;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.toolbox.map.Tile;
 
@@ -86,8 +87,8 @@ public class RawMap {
         }
     }
 
-    public static void setRawEntities(List<RawEntity> rawEntities) {
-        RawMap.rawEntities = rawEntities;
+    public static void setRawEntities() {
+        RawMap.rawEntities = Scene.getRawEntities();
     }
 
     public static void addEntity(RawEntity rawEntity) {

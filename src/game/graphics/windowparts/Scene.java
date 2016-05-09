@@ -22,6 +22,7 @@ import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -245,6 +246,10 @@ public class Scene {
 
         if (rawEntity != null && !rawEntity.isSelected() && selectedEntities.size() < EntityInfo.MULTI_SIZE
                 && rawEntity.getSide().equals(Side.FRIEND) && !selectedEntities.contains(rawEntity)) {
+            if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                selectedEntities.clear();
+                unSelectAllEntities();
+            }
             selectedEntities.add(rawEntity);
             rawEntity.setSelected(true);
             entityAdded = true;

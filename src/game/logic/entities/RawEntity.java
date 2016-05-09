@@ -153,7 +153,7 @@ public abstract class RawEntity {
         JSON += "\"rotation\":" + "\"" + getRotation() + "\",";
         JSON += "\"health\":" + "\"" + getHealth() + "\",";
         JSON += "\"side\":" + "\"" + getSide() + "\",";
-        JSON += "\"isSelected\":" + "\"" + isSelected() + "\"";
+        JSON += "\"isSelected\":" + isSelected();
         JSON += "}";
         return JSON;
     }

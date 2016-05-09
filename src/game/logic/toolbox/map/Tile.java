@@ -54,7 +54,7 @@ public class Tile {
 
     @Override
     public String toString() {
-        return "[" + this.row + ", " + this.column + "]";
+        return this.row + ", " + this.column;
     }
 
     @Override

@@ -18,6 +18,7 @@ import java.awt.event.ItemEvent;
 public class Window {
     private static JFrame mainFrame;
     private static JFrame menuFrame;
+    private static JPanel menuPanel;
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
 
@@ -28,34 +29,12 @@ public class Window {
         Color menuItemBg = new Color(205, 221, 237);
 
         EmptyBorder menuPanelBorder = new EmptyBorder(10, 20, 20, 20);
+        menuPanel = new JPanel(new GridLayout(6, 1, 0, 5));
+
+        loadDefaultMenu();
 
         String[] gameModes = GameMode.getGameModes();
         gameModeList = new JComboBox<>(gameModes);
-
-        JButton button = new JButton("New Game");
-        button.addActionListener(e -> {
-            Scene.setEntities(GameLoader.load("save0"));
-            //Scene.restart();
-            Scene.setGameMode(GameMode.ONGOING);
-        });
-
-        JButton button2 = new JButton("Quit");
-        button2.addActionListener(e1 -> {
-            mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
-        });
-
-        JButton button3 = new JButton("Resume");
-        button3.addActionListener(el ->{
-            menuFrame.setVisible(false);
-            Camera.setIsMouseGrabbed(true);
-            Scene.setGameMode(GameMode.ONGOING);
-        });
-
-        JButton button4 = new JButton("Save Game");
-        button4.addActionListener(e -> {
-            GameSaver.save();
-            //Scene.restart();
-        });
 
         JCheckBox tilesCheckbox = new JCheckBox("Show tiles");
         JPanel checkboxPanel = new JPanel();
@@ -80,7 +59,6 @@ public class Window {
         EntityInfo entityInfo = new EntityInfo();
         ActionInfo actionInfo = new ActionInfo();
 
-        JPanel menuPanel = new JPanel(new GridLayout(5, 1));
         JPanel devMenuPanel = new JPanel(new GridLayout(2, 1));
         JPanel indicatorPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JPanel gameModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -92,32 +70,15 @@ public class Window {
         mainFrame.setUndecorated(true);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        menuFrame = new JFrame();
-        menuFrame.setLayout(new BorderLayout());
-        menuFrame.setBackground(menuBgColor);
-        // Set menu panel size
-        menuFrame.setPreferredSize(new Dimension(190, 400));
-        menuFrame.setUndecorated(true);
-        menuFrame.pack();
-        menuFrame.setLocationRelativeTo(null);
-        menuFrame.setAlwaysOnTop(true);
+        initializeMenuFrame(menuBgColor);
 
         new MiniMap();
 
         indicatorPanel.setOpaque(false);
         indicatorPanel.setBorder(BorderFactory.createLineBorder(new Color(186, 186, 186), 1, true));
 
-        JLabel menuTitle = new JLabel("Menu");
-        menuTitle.setHorizontalAlignment(JLabel.CENTER);
-
         JLabel devMenuTitle = new JLabel("Developers' menu");
         devMenuTitle.setHorizontalAlignment(JLabel.CENTER);
-
-        menuPanel.add(menuTitle);
-        menuPanel.add(button3);
-        menuPanel.add(button);
-        menuPanel.add(button4);
-        menuPanel.add(button2);
 
         devMenuPanel.add(devMenuTitle);
         devMenuPanel.add(checkboxPanel);
@@ -197,5 +158,74 @@ public class Window {
 
     public static int getBottomComponentHeight() {
         return BOTTOM_COMPONENT_HEIGHT;
+    }
+
+    private static void initializeMenuFrame(Color menuBgColor) {
+        menuFrame = new JFrame();
+        menuFrame.setLayout(new BorderLayout());
+        menuFrame.setBackground(menuBgColor);
+        // Set menu panel size
+        menuFrame.setPreferredSize(new Dimension(190, 400));
+        menuFrame.setUndecorated(true);
+        menuFrame.pack();
+        menuFrame.setLocationRelativeTo(null);
+        menuFrame.setAlwaysOnTop(true);
+    }
+
+    public static void switchMenuFrameContent(Component component) {
+        if (component != null) {
+            menuPanel.removeAll();
+            menuPanel.add(component);
+            menuPanel.revalidate();
+            menuPanel.repaint();
+        }
+        else {
+            loadDefaultMenu();
+        }
+    }
+
+    public static void loadDefaultMenu() {
+        menuPanel.removeAll();
+
+        JButton button = new JButton("New Game");
+        button.addActionListener(e -> {
+            /*Scene.setEntities(GameLoader.load("save0"));
+            Scene.setGameMode(GameMode.ONGOING);*/
+        });
+
+        JButton button2 = new JButton("Quit");
+        button2.addActionListener(e1 -> {
+            mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
+        });
+
+        JButton button3 = new JButton("Resume");
+        button3.addActionListener(el ->{
+            menuFrame.setVisible(false);
+            Camera.setIsMouseGrabbed(true);
+            Scene.setGameMode(GameMode.ONGOING);
+        });
+
+        JButton button4 = new JButton("Save Game");
+        button4.addActionListener(e -> {
+            GameSaver.save();
+        });
+
+        JButton button5 = new JButton("Load Game");
+        button5.addActionListener(e -> {
+            switchMenuFrameContent(GameLoader.getLoaderPanel());
+        });
+
+        JLabel menuTitle = new JLabel("Main Menu");
+        menuTitle.setHorizontalAlignment(JLabel.CENTER);
+
+        menuPanel.add(menuTitle);
+        menuPanel.add(button3);
+        menuPanel.add(button);
+        menuPanel.add(button4);
+        menuPanel.add(button5);
+        menuPanel.add(button2);
+
+        menuPanel.revalidate();
+        menuPanel.repaint();
     }
 }

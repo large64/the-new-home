@@ -95,4 +95,8 @@ public class RawMap {
             rawEntities.add(rawEntity);
         }
     }
+
+    public static List<RawEntity> getRawEntities() {
+        return rawEntities;
+    }
 }

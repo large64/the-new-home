@@ -7,8 +7,9 @@ import game.graphics.entities.buildings.Home;
 import game.graphics.entities.buildings.Hospital;
 import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
-import game.graphics.windowparts.MiniMap;
-import game.graphics.windowparts.Scene;
+import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.*;
+import game.graphics.windowparts.Window;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.buildings.RawBarrack;
@@ -22,9 +23,17 @@ import org.kopitubruk.util.json.JSONConfig;
 import org.kopitubruk.util.json.JSONParser;
 import org.lwjgl.util.vector.Vector3f;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Dénes on 2015. 11. 21..
@@ -112,7 +121,10 @@ public class GameLoader {
             Scene.getPlayer().setCamera(camera);
             Scene.getPicker().setCamera(camera);
         }
+        MiniMap.getEntities().clear();
         MiniMap.setEntities(rawEntities);
+
+        RawMap.getRawEntities().clear();
         RawMap.setRawEntities(rawEntities);
 
         return entities;
@@ -252,5 +264,66 @@ public class GameLoader {
                 entities.add(barrack);
                 break;
         }
+    }
+
+    public static JPanel getLoaderPanel() {
+        JPanel loaderPanel = new JPanel();
+        GridLayout gridLayout = new GridLayout(5, 1, 0, 10);
+        loaderPanel.setLayout(gridLayout);
+
+        JLabel title = new JLabel("Load Game");
+        title.setHorizontalAlignment(JLabel.CENTER);
+        loaderPanel.add(title);
+
+        List<String> files = getSavedFiles();
+
+        JLabel loadLabel = new JLabel("Choose a game to load");
+        loadLabel.setHorizontalAlignment(JLabel.CENTER);
+        loaderPanel.add(loadLabel);
+
+        JComboBox fileListComboBox = new JComboBox<>(files.toArray());
+        loaderPanel.add(fileListComboBox);
+
+        JButton loadButton = new JButton("Load selected");
+        loadButton.setHorizontalAlignment(JButton.CENTER);
+        loadButton.addActionListener(e -> {
+            String toLoad = ((String) fileListComboBox.getSelectedItem()).substring(0, 5);
+            Scene.getEntities().clear();
+            Scene.getSelectedEntities().clear();
+            Scene.setEntities(GameLoader.load(toLoad));
+            Window.switchMenuFrameContent(null);
+            Scene.setGameMode(GameMode.PAUSED);
+        });
+        loaderPanel.add(loadButton);
+
+        JButton button = new JButton("Cancel");
+        button.setHorizontalAlignment(JButton.CENTER);
+        button.addActionListener(e -> {
+            Window.loadDefaultMenu();
+        });
+        loaderPanel.add(button);
+
+        return loaderPanel;
+    }
+
+    private static List<String> getSavedFiles() {
+        List<String> filesList = new ArrayList<>();
+
+        File folder = new File("res/saved_games");
+        File[] listOfFiles = folder.listFiles();
+
+        if (listOfFiles != null) {
+            for (File file : Arrays.asList(listOfFiles)) {
+                Long created = file.lastModified();
+
+                Timestamp timestamp = new Timestamp(created);
+                LocalDateTime dateTime = timestamp.toLocalDateTime();
+                String dateString = dateTime.toString().replace('T', ' ').replaceAll("\\.\\d*", "");
+
+                filesList.add(file.getName().replaceAll("\\.json", "") + " - " + dateString);
+            }
+        }
+
+        return filesList;
     }
 }

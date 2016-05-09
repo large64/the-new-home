@@ -1,7 +1,6 @@
 package game.logic.entities;
 
 import game.graphics.entities.Entity;
-import game.logic.entities.units.RawSoldier;
 import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;

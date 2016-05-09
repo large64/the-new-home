@@ -30,6 +30,8 @@ import java.util.*;
  * Created by Dénes on 2015. 11. 21..
  */
 public class GameLoader {
+    private static List<Entity> entities = new ArrayList<>();
+    private static List<RawEntity> rawEntities = new ArrayList<>();
 
     public static List<Entity> load(String filename) {
         File jsonFile = new File("res/saved_games/" + filename + ".json");
@@ -38,9 +40,6 @@ public class GameLoader {
 
         ArrayList parsedEntities;
         LinkedHashMap parsedPlayer;
-
-        List<Entity> entities = new ArrayList<>();
-        List<RawEntity> rawEntities = new ArrayList<>();
 
 
         JSONConfig config = new JSONConfig();
@@ -87,112 +86,8 @@ public class GameLoader {
 
                 boolean isSelected = (boolean) entityDataMap.get("isSelected");
 
-                // Get string from ID
-                String type = ID.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[0];
+                createEntity(ID, path, tilePosition, rotation, health, side, isSelected);
 
-                switch (type) {
-                    case "soldier":
-                        RawSoldier rawSoldier = new RawSoldier();
-                        rawSoldier.setId(ID);
-                        rawSoldier.setPath(path);
-                        if (!path.isEmpty()) {
-                            rawSoldier.setCurrentNode(path.get(0));
-                        }
-                        rawSoldier.setTilePosition(tilePosition);
-                        rawSoldier.setPosition(tilePosition.toPosition());
-                        rawSoldier.setRotation(rotation);
-                        rawSoldier.setHealth(health);
-                        rawSoldier.setSide(side);
-                        rawSoldier.setSelected(isSelected);
-                        if (isSelected) {
-                            Scene.getSelectedEntities().add(rawSoldier);
-                        }
-                        rawEntities.add(rawSoldier);
-
-                        Soldier soldier = new Soldier();
-                        soldier.setRawEntity(rawSoldier);
-                        entities.add(soldier);
-                        break;
-                    case "healer":
-                        RawHealer rawHealer = new RawHealer();
-                        rawHealer.setId(ID);
-                        rawHealer.setPath(path);
-                        if (!path.isEmpty()) {
-                            rawHealer.setCurrentNode(path.get(0));
-                        }
-                        rawHealer.setTilePosition(tilePosition);
-                        rawHealer.setPosition(tilePosition.toPosition());
-                        rawHealer.setRotation(rotation);
-                        rawHealer.setHealth(health);
-                        rawHealer.setSide(side);
-                        rawHealer.setSelected(isSelected);
-                        if (isSelected) {
-                            Scene.getSelectedEntities().add(rawHealer);
-                        }
-                        rawEntities.add(rawHealer);
-
-                        Healer healer = new Healer();
-                        healer.setRawEntity(rawHealer);
-                        entities.add(healer);
-                        break;
-                    case "home":
-                        RawHome rawHome = new RawHome();
-                        rawHome.setId(ID);
-                        rawHome.setTilePosition(tilePosition);
-                        rawHome.setPosition(tilePosition.toPosition());
-                        rawHome.setRotation(rotation);
-                        rawHome.setHealth(health);
-                        rawHome.setSide(side);
-                        rawHome.setSelected(isSelected);
-                        if (isSelected) {
-                            Scene.getSelectedEntities().add(rawHome);
-                        }
-                        rawEntities.add(rawHome);
-
-                        Home home = new Home();
-                        home.setRawEntity(rawHome);
-                        home.refreshPosition();
-                        entities.add(home);
-                        break;
-                    case "hospital":
-                        RawHospital rawHospital = new RawHospital();
-                        rawHospital.setId(ID);
-                        rawHospital.setTilePosition(tilePosition);
-                        rawHospital.setPosition(tilePosition.toPosition());
-                        rawHospital.setRotation(rotation);
-                        rawHospital.setHealth(health);
-                        rawHospital.setSide(side);
-                        rawHospital.setSelected(isSelected);
-                        if (isSelected) {
-                            Scene.getSelectedEntities().add(rawHospital);
-                        }
-                        rawEntities.add(rawHospital);
-
-                        Hospital hospital = new Hospital();
-                        hospital.setRawEntity(rawHospital);
-                        hospital.refreshPosition();
-                        entities.add(hospital);
-                        break;
-                    case "barrack":
-                        RawBarrack rawBarrack = new RawBarrack();
-                        rawBarrack.setId(ID);
-                        rawBarrack.setTilePosition(tilePosition);
-                        rawBarrack.setPosition(tilePosition.toPosition());
-                        rawBarrack.setRotation(rotation);
-                        rawBarrack.setHealth(health);
-                        rawBarrack.setSide(side);
-                        rawBarrack.setSelected(isSelected);
-                        if (isSelected) {
-                            Scene.getSelectedEntities().add(rawBarrack);
-                        }
-                        rawEntities.add(rawBarrack);
-
-                        Barrack barrack = new Barrack();
-                        barrack.setRawEntity(rawBarrack);
-                        barrack.refreshPosition();
-                        entities.add(barrack);
-                        break;
-                }
             }
 
             parsedPlayer = (LinkedHashMap) jsonData.get("player");
@@ -212,6 +107,8 @@ public class GameLoader {
             Vector3f position = new Vector3f(x, zoom, z);
 
             camera.setPosition(position);
+
+            // Refresh player and picker of the scene
             Scene.getPlayer().setCamera(camera);
             Scene.getPicker().setCamera(camera);
         }
@@ -245,5 +142,115 @@ public class GameLoader {
             values[1] = Integer.valueOf(stringPieces[1].trim());
         }
         return values;
+    }
+
+    private static void createEntity(String ID, List<Node> path, Tile tilePosition,float rotation, int health,
+                                     Side side, boolean isSelected) {
+        // Get string from ID
+        String type = ID.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[0];
+
+        switch (type) {
+            case "soldier":
+                RawSoldier rawSoldier = new RawSoldier();
+                rawSoldier.setId(ID);
+                rawSoldier.setPath(path);
+                if (!path.isEmpty()) {
+                    rawSoldier.setCurrentNode(path.get(0));
+                }
+                rawSoldier.setTilePosition(tilePosition);
+                rawSoldier.setPosition(tilePosition.toPosition());
+                rawSoldier.setRotation(rotation);
+                rawSoldier.setHealth(health);
+                rawSoldier.setSide(side);
+                rawSoldier.setSelected(isSelected);
+                if (isSelected) {
+                    Scene.getSelectedEntities().add(rawSoldier);
+                }
+                rawEntities.add(rawSoldier);
+
+                Soldier soldier = new Soldier();
+                soldier.setRawEntity(rawSoldier);
+                entities.add(soldier);
+                break;
+            case "healer":
+                RawHealer rawHealer = new RawHealer();
+                rawHealer.setId(ID);
+                rawHealer.setPath(path);
+                if (!path.isEmpty()) {
+                    rawHealer.setCurrentNode(path.get(0));
+                }
+                rawHealer.setTilePosition(tilePosition);
+                rawHealer.setPosition(tilePosition.toPosition());
+                rawHealer.setRotation(rotation);
+                rawHealer.setHealth(health);
+                rawHealer.setSide(side);
+                rawHealer.setSelected(isSelected);
+                if (isSelected) {
+                    Scene.getSelectedEntities().add(rawHealer);
+                }
+                rawEntities.add(rawHealer);
+
+                Healer healer = new Healer();
+                healer.setRawEntity(rawHealer);
+                entities.add(healer);
+                break;
+            case "home":
+                RawHome rawHome = new RawHome();
+                rawHome.setId(ID);
+                rawHome.setTilePosition(tilePosition);
+                rawHome.setPosition(tilePosition.toPosition());
+                rawHome.setRotation(rotation);
+                rawHome.setHealth(health);
+                rawHome.setSide(side);
+                rawHome.setSelected(isSelected);
+                if (isSelected) {
+                    Scene.getSelectedEntities().add(rawHome);
+                }
+                rawEntities.add(rawHome);
+
+                Home home = new Home();
+                home.setRawEntity(rawHome);
+                home.refreshPosition();
+                entities.add(home);
+                break;
+            case "hospital":
+                RawHospital rawHospital = new RawHospital();
+                rawHospital.setId(ID);
+                rawHospital.setTilePosition(tilePosition);
+                rawHospital.setPosition(tilePosition.toPosition());
+                rawHospital.setRotation(rotation);
+                rawHospital.setHealth(health);
+                rawHospital.setSide(side);
+                rawHospital.setSelected(isSelected);
+                if (isSelected) {
+                    Scene.getSelectedEntities().add(rawHospital);
+                }
+                rawEntities.add(rawHospital);
+
+                Hospital hospital = new Hospital();
+                hospital.setRawEntity(rawHospital);
+                hospital.refreshPosition();
+                entities.add(hospital);
+                break;
+            case "barrack":
+                RawBarrack rawBarrack = new RawBarrack();
+                rawBarrack.setId(ID);
+                rawBarrack.setTilePosition(tilePosition);
+                rawBarrack.setPosition(tilePosition.toPosition());
+                rawBarrack.setRotation(rotation);
+                rawBarrack.setHealth(health);
+                rawBarrack.setSide(side);
+                rawBarrack.setSelected(isSelected);
+                if (isSelected) {
+                    Scene.getSelectedEntities().add(rawBarrack);
+                }
+                rawEntities.add(rawBarrack);
+
+                Barrack barrack = new Barrack();
+                barrack.setRawEntity(rawBarrack);
+                barrack.refreshPosition();
+                entities.add(barrack);
+                break;
+        }
     }
 }

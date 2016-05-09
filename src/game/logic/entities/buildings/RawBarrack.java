@@ -31,4 +31,8 @@ public class RawBarrack extends RawBuilding {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getId() {
+        return id;
+    }
 }

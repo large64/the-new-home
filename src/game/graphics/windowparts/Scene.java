@@ -351,7 +351,7 @@ public class Scene {
         return mainMap;
     }
 
-    public static List getEntities() {
+    public static List<Entity> getEntities() {
         return entities;
     }
 

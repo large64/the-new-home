@@ -31,4 +31,8 @@ public class RawHospital extends RawBuilding {
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getId() {
+        return id;
+    }
 }

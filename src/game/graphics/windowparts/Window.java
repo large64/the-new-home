@@ -5,6 +5,7 @@ import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.BuildingPanel.BuildingPanel;
 import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;
 import game.logic.toolbox.GameLoader;
+import game.logic.toolbox.GameSaver;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -48,6 +49,12 @@ public class Window {
             menuFrame.setVisible(false);
             Camera.setIsMouseGrabbed(true);
             Scene.setGameMode(GameMode.ONGOING);
+        });
+
+        JButton button4 = new JButton("Save Game");
+        button4.addActionListener(e -> {
+            GameSaver.save();
+            //Scene.restart();
         });
 
         JCheckBox tilesCheckbox = new JCheckBox("Show tiles");
@@ -109,6 +116,7 @@ public class Window {
         menuPanel.add(menuTitle);
         menuPanel.add(button3);
         menuPanel.add(button);
+        menuPanel.add(button4);
         menuPanel.add(button2);
 
         devMenuPanel.add(devMenuTitle);

@@ -115,4 +115,16 @@ public class Camera {
     public void setPosition(Vector3f position) {
         this.position = position;
     }
+
+    public String toJSON() {
+        String JSON = "";
+        JSON += "{";
+        JSON += "\"position\":{";
+        JSON += "\"x\":\"" + position.getX() + "\",";
+        JSON += "\"z\":\"" + position.getZ() + "\"";
+        JSON += "},";
+        JSON += "\"zoom\":\"" + position.getY() + "\"";
+        JSON += "},";
+        return JSON;
+    }
 }

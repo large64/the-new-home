@@ -24,6 +24,7 @@ public abstract class RawEntity {
     protected Side side;
     private Entity entity;
     private boolean isSelected = false;
+    private String id;
 
     public RawEntity() {}
 
@@ -133,13 +134,18 @@ public abstract class RawEntity {
         this.position = position;
     }
 
+    public String getId() {
+        if (this.id != null) {
+            return this.id;
+        }
+
+        return "";
+    }
+
     public String toJSON() {
         String JSON = "";
         JSON += "{";
-        if (this instanceof RawSoldier) {
-            RawSoldier rawSoldier = (RawSoldier) this;
-            JSON += "\"id\":" + "\"" + rawSoldier.getId() + "\",";
-        }
+        JSON += "\"id\":" + "\"" + getId() + "\",";
         if (this instanceof RawUnit) {
             RawUnit rawUnit = (RawUnit) this;
             JSON += "\"path\":" + rawUnit.getPath() + ",";

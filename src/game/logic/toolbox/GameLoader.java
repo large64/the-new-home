@@ -126,6 +126,7 @@ public class GameLoader {
 
         RawMap.getRawEntities().clear();
         RawMap.setRawEntities(rawEntities);
+        RawMap.lookForChanges();
 
         return entities;
     }

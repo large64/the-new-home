@@ -8,7 +8,8 @@ import game.graphics.entities.buildings.Hospital;
 import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.toolbox.GameMode;
-import game.graphics.windowparts.*;
+import game.graphics.windowparts.MiniMap;
+import game.graphics.windowparts.Scene;
 import game.graphics.windowparts.Window;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
@@ -25,15 +26,12 @@ import org.lwjgl.util.vector.Vector3f;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Dénes on 2015. 11. 21..

@@ -1,4 +1,4 @@
-package game.graphics.windowparts;
+package game.graphics.windowparts.infopanels;
 
 import game.graphics.toolbox.MousePicker;
 import game.logic.toolbox.map.Position;

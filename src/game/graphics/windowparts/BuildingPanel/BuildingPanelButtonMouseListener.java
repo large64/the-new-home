@@ -1,4 +1,4 @@
-package game.graphics.windowparts.BuildingPanel;
+package game.graphics.windowparts.buildingpanel;
 
 import game.graphics.entities.buildings.Barrack;
 import game.graphics.entities.buildings.Home;

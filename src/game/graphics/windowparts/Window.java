@@ -2,8 +2,11 @@ package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
 import game.graphics.toolbox.GameMode;
-import game.graphics.windowparts.BuildingPanel.BuildingPanel;
-import game.graphics.windowparts.BuildingPanel.BuildingPanelButton;
+import game.graphics.windowparts.buildingpanel.BuildingPanel;
+import game.graphics.windowparts.buildingpanel.BuildingPanelButton;
+import game.graphics.windowparts.infopanels.ActionInfo;
+import game.graphics.windowparts.infopanels.EntityInfo;
+import game.graphics.windowparts.infopanels.PositionInfo;
 import game.logic.toolbox.GameLoader;
 import game.logic.toolbox.GameSaver;
 
@@ -22,7 +25,7 @@ public class Window {
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
 
-    static final int BOTTOM_COMPONENT_HEIGHT = 130;
+    public static final int BOTTOM_COMPONENT_HEIGHT = 130;
     private static final Color MENU_BG_COLOR = new Color(2, 120, 0);
     private static final Color MENU_ITEM_BG_COLOR = new Color(205, 221, 237);
 
@@ -32,9 +35,6 @@ public class Window {
         menuPanel = new JPanel(new GridLayout(6, 1, 0, 5));
 
         loadDefaultMenu();
-
-        String[] gameModes = GameMode.getGameModes();
-        gameModeList = new JComboBox<>(gameModes);
 
         JCheckBox tilesCheckbox = new JCheckBox("Show tiles");
         JPanel checkboxPanel = new JPanel();
@@ -187,6 +187,8 @@ public class Window {
         indicatorPanel.add(positionInfo.getTextPane());
         indicatorPanel.setPreferredSize(new Dimension(120, BOTTOM_COMPONENT_HEIGHT));
 
+        String[] gameModes = GameMode.getGameModes();
+        gameModeList = new JComboBox<>(gameModes);
         JPanel gameModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         gameModeList.setEnabled(false);
         gameModeList.setPreferredSize(new Dimension(110, 20));

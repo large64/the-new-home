@@ -1,4 +1,4 @@
-package game.graphics.windowparts.BuildingPanel;
+package game.graphics.windowparts.buildingpanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

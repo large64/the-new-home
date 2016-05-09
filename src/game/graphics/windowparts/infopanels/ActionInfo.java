@@ -1,5 +1,6 @@
-package game.graphics.windowparts;
+package game.graphics.windowparts.infopanels;
 
+import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.units.RawUnit;
 
@@ -10,11 +11,11 @@ import java.util.ArrayList;
 /**
  * Created by Dénes on 2016. 02. 20..
  */
-class ActionInfo {
+public class ActionInfo {
     private JPanel wrapperPanel;
     private static ArrayList<JButton> actionButtons = new ArrayList<>();
 
-    ActionInfo() {
+    public ActionInfo() {
         wrapperPanel = new JPanel(new GridLayout(3, 3));
         wrapperPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
         wrapperPanel.setOpaque(false);
@@ -24,8 +25,7 @@ class ActionInfo {
             wrapperPanel.add(button);
         }
 
-        wrapperPanel.setPreferredSize(new Dimension(150, Window.BOTTOM_COMPONENT_HEIGHT));
-        wrapperPanel.setMaximumSize(new Dimension(150, Window.BOTTOM_COMPONENT_HEIGHT));
+        wrapperPanel.setPreferredSize(new Dimension(180, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
     }
 
     private void loadButtons() {
@@ -82,7 +82,7 @@ class ActionInfo {
         actionButtons.add(button8);
     }
 
-    JPanel getWrapperPanel() {
+    public JPanel getWrapperPanel() {
         return wrapperPanel;
     }
 }

@@ -1,10 +1,12 @@
-package game.graphics.windowparts;
+package game.graphics.windowparts.infopanels;
 
 import com.sun.istack.internal.Nullable;
+import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,7 +16,7 @@ import java.util.List;
  * Created by Dénes on 2015. 12. 07..
  */
 public class EntityInfo {
-    static final int MULTI_SIZE = 8;
+    public static final int MULTI_SIZE = 8;
 
     private static JPanel wrapperPanel;
     private static JPanel singlePanel;
@@ -27,15 +29,15 @@ public class EntityInfo {
     private static JLabel tileLabel;
     private static JLabel imageLabel;
 
-    EntityInfo() {
+    public EntityInfo() {
         wrapperPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         wrapperPanel.setOpaque(false);
 
         singlePanel = new JPanel(new BorderLayout(2, 2));
         multiPanel = new JPanel(new GridLayout(MULTI_SIZE / 4, MULTI_SIZE / 2, 2, 2));
 
-        singlePanel.setPreferredSize(new Dimension(150, Window.BOTTOM_COMPONENT_HEIGHT));
-        multiPanel.setPreferredSize(new Dimension(220, Window.BOTTOM_COMPONENT_HEIGHT));
+        singlePanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
+        multiPanel.setPreferredSize(new Dimension(220, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
 
         singlePanel.setVisible(false);
         multiPanel.setVisible(false);
@@ -69,11 +71,11 @@ public class EntityInfo {
         wrapperPanel.add(multiPanel);
     }
 
-    JPanel getWrapperPanel() {
+    public JPanel getWrapperPanel() {
         return wrapperPanel;
     }
 
-    static void refreshInfo() {
+    public static void refreshInfo() {
         if (entities.size() == 1) {
             multiPanel.setVisible(false);
             removeMultiPanelIcons();
@@ -89,6 +91,7 @@ public class EntityInfo {
             tileLabel.setText(entity.getTilePosition().toString());
 
             singlePanel.setVisible(true);
+            wrapperPanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
         }
         else if (entities.size() > 1) {
             singlePanel.setVisible(false);
@@ -114,10 +117,12 @@ public class EntityInfo {
                 }
             }
             multiPanel.setVisible(true);
+            wrapperPanel.setPreferredSize(new Dimension(220, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
         }
         else {
             singlePanel.setVisible(false);
             multiPanel.setVisible(false);
+            wrapperPanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
         }
     }
 

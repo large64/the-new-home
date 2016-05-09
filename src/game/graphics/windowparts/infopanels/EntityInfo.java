@@ -30,10 +30,12 @@ public class EntityInfo {
     private static JLabel imageLabel;
 
     public EntityInfo() {
-        wrapperPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        FlowLayout layout = new FlowLayout(FlowLayout.CENTER);
+        layout.setVgap(0);
+        wrapperPanel = new JPanel(layout);
         wrapperPanel.setOpaque(false);
 
-        singlePanel = new JPanel(new BorderLayout(2, 2));
+        singlePanel = new JPanel(new BorderLayout());
         multiPanel = new JPanel(new GridLayout(MULTI_SIZE / 4, MULTI_SIZE / 2, 2, 2));
 
         singlePanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
@@ -69,6 +71,12 @@ public class EntityInfo {
 
         wrapperPanel.add(singlePanel);
         wrapperPanel.add(multiPanel);
+        wrapperPanel.setBorder(new LineBorder(Color.WHITE));
+        wrapperPanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
+        JLabel placeholderLabel = new JLabel("Select an entity");
+        placeholderLabel.setForeground(Color.WHITE);
+        placeholderLabel.setBorder(new EmptyBorder(50, 0, 0, 0));
+        wrapperPanel.add(placeholderLabel);
     }
 
     public JPanel getWrapperPanel() {
@@ -97,7 +105,6 @@ public class EntityInfo {
             singlePanel.setVisible(false);
             for (int i = 0; i < entities.size(); i++) {
                 RawEntity entity = entities.get(i);
-                RawEntity selectableEntity = Scene.getSelectedEntities().get(i);
                 String[] typeAndImage = determineTypeAndImage(entity);
 
                 if (typeAndImage != null) {

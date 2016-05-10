@@ -49,6 +49,7 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
                 break;
         }
     }
+
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);

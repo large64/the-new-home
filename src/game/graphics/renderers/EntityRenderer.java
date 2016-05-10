@@ -39,8 +39,7 @@ public class EntityRenderer {
                 prepareInstance(entity);
                 if (entity.getRawEntity().isSelected()) {
                     shader.loadShineVariables(1, 1.5f);
-                }
-                else {
+                } else {
                     shader.loadShineVariables(shineDamper, reflectivity);
                 }
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),

@@ -21,6 +21,6 @@ public enum GameMode {
     }
 
     public static String[] getGameModes() {
-        return new String[] {"Play", "Build"};
+        return new String[]{"Play", "Build"};
     }
 }

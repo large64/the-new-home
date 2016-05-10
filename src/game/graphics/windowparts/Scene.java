@@ -188,8 +188,7 @@ public class Scene {
                         ((RawEntity) rawEntity).reset();
                     }
                     restart = false;
-                }
-                else {
+                } else {
                     player.move(firstMiddleClickPosition);
                 }
 
@@ -275,36 +274,36 @@ public class Scene {
     }
 
     private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
-            switch (gameMode) {
-                case ONGOING:
-                    for (Entity entity : entities) {
-                        RawEntity rawEntity = entity.getRawEntity();
+        switch (gameMode) {
+            case ONGOING:
+                for (Entity entity : entities) {
+                    RawEntity rawEntity = entity.getRawEntity();
 
-                        if (rawEntity.isAlive()) {
-                            if (rawEntity instanceof RawUnit) {
-                                RawUnit rawUnit = (RawUnit) rawEntity;
-                                if ((rawUnit).isMoving()) {
-                                    rawUnit.performAction();
-                                }
+                    if (rawEntity.isAlive()) {
+                        if (rawEntity instanceof RawUnit) {
+                            RawUnit rawUnit = (RawUnit) rawEntity;
+                            if ((rawUnit).isMoving()) {
+                                rawUnit.performAction();
                             }
                         }
-                        renderer.processEntity(entity);
                     }
-                    if (levitatingEntity != null) {
-                        handleLevitatingEntity();
-                    }
-                    break;
-                case BUILDING:
-                    entities.forEach(renderer::processEntity);
+                    renderer.processEntity(entity);
+                }
+                if (levitatingEntity != null) {
+                    handleLevitatingEntity();
+                }
+                break;
+            case BUILDING:
+                entities.forEach(renderer::processEntity);
 
-                    if (levitatingEntity != null) {
-                        handleLevitatingEntity();
-                    }
-                    break;
-                case PAUSED:
-                    entities.forEach(renderer::processEntity);
-                    break;
-            }
+                if (levitatingEntity != null) {
+                    handleLevitatingEntity();
+                }
+                break;
+            case PAUSED:
+                entities.forEach(renderer::processEntity);
+                break;
+        }
     }
 
     static void restart() {
@@ -323,8 +322,7 @@ public class Scene {
                     rawUnit.calculatePath(selectedTile);
                 }
             }
-        }
-        else if (gameMode.equals(GameMode.BUILDING)) {
+        } else if (gameMode.equals(GameMode.BUILDING)) {
             if (levitatingEntity != null && levitatingEntity instanceof Building) {
                 RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
                 int[] extentOfLevitatingEntity = ((RawBuilding) levitatingRawEntity).getExtent();
@@ -332,8 +330,7 @@ public class Scene {
                 if (RawMap.areTilesFree(selectedTile, extentOfLevitatingEntity)) {
                     placeLevitatingEntity(selectedTile);
                 }
-            }
-            else {
+            } else {
                 // Pick up building
                 for (Entity entity : entities) {
                     RawEntity rawEntity = entity.getRawEntity();
@@ -364,18 +361,21 @@ public class Scene {
         return entities;
     }
 
-    public static void setGameMode(GameMode gameMode) {
-        if (!gameMode.equals(GameMode.STOPPED)) {
-            Window.getGameModeList().setEnabled(true);
-        }
-        else {
-            Window.getGameModeList().setEnabled(false);
-        }
-        Scene.gameMode = gameMode;
+    public static void setEntities(List<Entity> entities) {
+        Scene.entities = entities;
     }
 
     public static GameMode getGameMode() {
         return gameMode;
+    }
+
+    public static void setGameMode(GameMode gameMode) {
+        if (!gameMode.equals(GameMode.STOPPED)) {
+            Window.getGameModeList().setEnabled(true);
+        } else {
+            Window.getGameModeList().setEnabled(false);
+        }
+        Scene.gameMode = gameMode;
     }
 
     public static void setLevitatingEntity(Entity levitatingEntity) {
@@ -421,10 +421,6 @@ public class Scene {
         TexturedModel barrackModel = new TexturedModel(OBJLoader.loadObjModel("barrack", loader),
                 new ModelTexture(loader.loadTexture("barrack_texture")));
         modelsMap.put("barrackBuilding", barrackModel);
-    }
-
-    public static void setEntities(List<Entity> entities) {
-        Scene.entities = entities;
     }
 
     public static List<RawEntity> getRawEntities() {

@@ -74,8 +74,7 @@ public class TerrainShader extends ShaderProgram {
     public void setShowTiles(boolean on) {
         if (on) {
             super.loadInt(location_showTiles, 1);
-        }
-        else {
+        } else {
             super.loadInt(location_showTiles, 0);
         }
     }

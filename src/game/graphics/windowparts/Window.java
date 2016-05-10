@@ -19,17 +19,15 @@ import java.awt.event.ItemEvent;
  * Created by large64 on 31/10/15.
  */
 public class Window {
+    public static final int BOTTOM_COMPONENT_HEIGHT = 130;
+    private static final Color MENU_BG_COLOR = new Color(2, 120, 0);
+    private static final Color MENU_ITEM_BG_COLOR = new Color(205, 221, 237);
     private static JFrame mainFrame;
     private static JFrame menuFrame;
     private static JPanel menuPanel;
     private static JPanel entityInfoPanel;
-
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
-
-    public static final int BOTTOM_COMPONENT_HEIGHT = 130;
-    private static final Color MENU_BG_COLOR = new Color(2, 120, 0);
-    private static final Color MENU_ITEM_BG_COLOR = new Color(205, 221, 237);
 
     public Window(Canvas canvas) {
 
@@ -45,12 +43,11 @@ public class Window {
         checkboxPanel.setBackground(MENU_ITEM_BG_COLOR);
         tilesCheckbox.setBackground(MENU_ITEM_BG_COLOR);
         tilesCheckbox.setBorder(new EmptyBorder(0, 10, 0, 10));
-        tilesCheckbox.addActionListener(el ->{
+        tilesCheckbox.addActionListener(el -> {
             if (!isTilesShown) {
                 Scene.getMainMap().setTilesShown(true);
                 isTilesShown = true;
-            }
-            else {
+            } else {
                 Scene.getMainMap().setTilesShown(false);
                 isTilesShown = false;
             }
@@ -127,8 +124,7 @@ public class Window {
             menuPanel.add(component);
             menuPanel.revalidate();
             menuPanel.repaint();
-        }
-        else {
+        } else {
             loadDefaultMenu();
         }
     }
@@ -147,7 +143,7 @@ public class Window {
         });
 
         JButton button3 = new JButton("Resume");
-        button3.addActionListener(el ->{
+        button3.addActionListener(el -> {
             menuFrame.setVisible(false);
             Camera.setIsMouseGrabbed(true);
             Scene.setGameMode(GameMode.ONGOING);

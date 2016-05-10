@@ -20,13 +20,12 @@ public class Map {
     private static final float SIZE = 200;
     private static final float MAX_HEIGHT = 5;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
-
+    private static TerrainTexturePack texturePack;
+    private static TerrainTexture blendMap;
     private float x;
     private float z;
     private RawModel model;
     private boolean isTilesShown = false;
-    private static TerrainTexturePack texturePack;
-    private static TerrainTexture blendMap;
     private float[][] heights;
 
     public Map(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack,
@@ -36,6 +35,18 @@ public class Map {
         this.x = gridX * SIZE;
         this.z = gridZ;
         this.model = generateMap(loader, heightOfMap);
+    }
+
+    public static TerrainTexturePack getTexturePack() {
+        return texturePack;
+    }
+
+    public static TerrainTexture getBlendMap() {
+        return blendMap;
+    }
+
+    public static float getSIZE() {
+        return SIZE;
     }
 
     private RawModel generateMap(Loader loader, String heightMap) {
@@ -129,14 +140,6 @@ public class Map {
         return model;
     }
 
-    public static TerrainTexturePack getTexturePack() {
-        return texturePack;
-    }
-
-    public  static TerrainTexture getBlendMap() {
-        return blendMap;
-    }
-
     public float getHeightOfMap(float worldX, float worldZ) {
         float terrainX = worldX - this.x;
         float terrainY = worldZ - this.z;
@@ -172,15 +175,11 @@ public class Map {
         return result;
     }
 
-    public static float getSIZE() {
-        return SIZE;
+    public boolean isTilesShown() {
+        return isTilesShown;
     }
 
     public void setTilesShown(boolean tilesShown) {
         isTilesShown = tilesShown;
-    }
-
-    public boolean isTilesShown() {
-        return isTilesShown;
     }
 }

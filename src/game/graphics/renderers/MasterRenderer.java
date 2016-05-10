@@ -55,6 +55,55 @@ public class MasterRenderer {
         GL11.glCullFace(GL11.GL_BACK);
     }
 
+    static void disableCulling() {
+        GL11.glDisable(GL11.GL_CULL_FACE);
+    }
+
+    public static void renderScene() {
+        // @TODO: make game loader work for map, too
+        // @TODO: create edit mode and place entities
+        // @TODO: create selectable actions
+        // @TODO: create new frames for actions
+        DisplayManager.createDisplay();
+        loader = new Loader();
+
+        // Set additional things like renderer, picker
+        masterRenderer = new MasterRenderer(loader);
+
+        selectedTile = null;
+        EntityInfo.setEntities(Scene.getSelectedEntities());
+
+        new Scene();
+
+        // Start an infinite loop for rendering
+        while (!Display.isCloseRequested()) {
+            masterRenderer.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
+            Scene.render();
+            DisplayManager.updateDisplay();
+        }
+
+        //guiRenderer.cleanUp();
+        masterRenderer.cleanUp();
+        loader.cleanUp();
+        DisplayManager.closeDisplay();
+    }
+
+    public static Tile getSelectedTile() {
+        return selectedTile;
+    }
+
+    public static void setSelectedTile(Tile selectedTile) {
+        MasterRenderer.selectedTile = selectedTile;
+    }
+
+    public static MasterRenderer getMasterRenderer() {
+        return masterRenderer;
+    }
+
+    public static Loader getLoader() {
+        return loader;
+    }
+
     private void createProjectionMatrix() {
         float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
         float yScale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio;
@@ -68,10 +117,6 @@ public class MasterRenderer {
         projectionMatrix.m23 = -1;
         projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustumLength);
         projectionMatrix.m33 = 0;
-    }
-
-    static void disableCulling() {
-        GL11.glDisable(GL11.GL_CULL_FACE);
     }
 
     private void render(List<Light> lights, Camera camera, ArrayList<Map> maps) {
@@ -100,6 +145,7 @@ public class MasterRenderer {
 
     /**
      * Processes an entity
+     *
      * @param entity The entity that is to be processed
      */
     public void processEntity(Entity entity) {
@@ -126,50 +172,5 @@ public class MasterRenderer {
 
     public Matrix4f getProjectionMatrix() {
         return projectionMatrix;
-    }
-
-    public static void renderScene() {
-        // @TODO: make game loader work for map, too
-        // @TODO: create edit mode and place entities
-        // @TODO: create selectable actions
-        // @TODO: create new frames for actions
-        DisplayManager.createDisplay();
-        loader = new Loader();
-
-        // Set additional things like renderer, picker
-        masterRenderer = new MasterRenderer(loader);
-
-        selectedTile = null;
-        EntityInfo.setEntities(Scene.getSelectedEntities());
-
-        new Scene();
-
-        // Start an infinite loop for rendering
-        while(!Display.isCloseRequested()) {
-            masterRenderer.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
-            Scene.render();
-            DisplayManager.updateDisplay();
-        }
-
-        //guiRenderer.cleanUp();
-        masterRenderer.cleanUp();
-        loader.cleanUp();
-        DisplayManager.closeDisplay();
-    }
-
-    public static Tile getSelectedTile() {
-        return selectedTile;
-    }
-
-    public static void setSelectedTile(Tile selectedTile) {
-        MasterRenderer.selectedTile = selectedTile;
-    }
-
-    public static MasterRenderer getMasterRenderer() {
-        return masterRenderer;
-    }
-
-    public static Loader getLoader() {
-        return loader;
     }
 }

@@ -20,7 +20,8 @@ public class RawUnit extends RawEntity {
     private List<Node> path = new ArrayList<>();
     private Node currentNode;
 
-    public RawUnit() {}
+    public RawUnit() {
+    }
 
     public RawUnit(int row, int column, Side side) {
         super(new Position(row, column));
@@ -36,12 +37,10 @@ public class RawUnit extends RawEntity {
             if (entity != null && entity.getSide() != Side.FRIEND && entity.getSide() != Side.NEUTRAL) {
                 if (this.isNextToAnEntity(entity)) {
                     entity.changeHealth(-1);
-                }
-                else {
+                } else {
                     this.step();
                 }
-            }
-            else {
+            } else {
                 this.step();
             }
         }
@@ -99,11 +98,11 @@ public class RawUnit extends RawEntity {
      * Processes neighbors of a selected node in a graph. This is a part of A* algorithm.
      *
      * @param neighbors The neighbors of the selected node to be processed
-     * @param tile The destination tile, which we are heading to
-     * @param open The list of currently open (not yet processed) nodes
-     * @param closed The list of already processed nodes
-     * @param current The current node which is being processed. Taken from the open list, and put into closed when
-     *                processed.
+     * @param tile      The destination tile, which we are heading to
+     * @param open      The list of currently open (not yet processed) nodes
+     * @param closed    The list of already processed nodes
+     * @param current   The current node which is being processed. Taken from the open list, and put into closed when
+     *                  processed.
      */
     private void processNeighbors(List<Node> neighbors, Tile tile, List<Node> open, Queue<Node> closed, Node current) {
         for (Node neighbor : neighbors) {
@@ -198,16 +197,14 @@ public class RawUnit extends RawEntity {
             else if (currentZ > toZ && (distance(toZ, currentZ) > distance)) {
                 this.turnToDirection(180);
                 this.position.z -= distance;
-            }
-            else {
+            } else {
                 this.tilePosition = new Tile(currentNode.row, currentNode.column);
                 currentNode.isProcessed = true;
                 path.remove(currentNode);
                 RawMap.lookForChanges();
                 if (!path.isEmpty()) {
                     currentNode = path.get(0);
-                }
-                else {
+                } else {
                     this.stopWalking();
                 }
             }

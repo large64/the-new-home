@@ -32,8 +32,7 @@ public class MapRenderer {
         for (Map map : maps) {
             if (map.isTilesShown()) {
                 shader.setShowTiles(true);
-            }
-            else {
+            } else {
                 shader.setShowTiles(false);
             }
             prepareTerrain(map);

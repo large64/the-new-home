@@ -78,10 +78,6 @@ public class EntityInfo {
         wrapperPanel.add(placeholderLabel);
     }
 
-    public JPanel getWrapperPanel() {
-        return wrapperPanel;
-    }
-
     public static void refreshInfo() {
         if (entities.size() == 1) {
             multiPanel.setVisible(false);
@@ -99,8 +95,7 @@ public class EntityInfo {
 
             singlePanel.setVisible(true);
             wrapperPanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
-        }
-        else if (entities.size() > 1) {
+        } else if (entities.size() > 1) {
             singlePanel.setVisible(false);
             for (int i = 0; i < entities.size(); i++) {
                 RawEntity entity = entities.get(i);
@@ -124,8 +119,7 @@ public class EntityInfo {
             }
             multiPanel.setVisible(true);
             wrapperPanel.setPreferredSize(new Dimension(220, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
-        }
-        else {
+        } else {
             singlePanel.setVisible(false);
             multiPanel.setVisible(false);
             wrapperPanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
@@ -136,17 +130,17 @@ public class EntityInfo {
     private static String[] determineTypeAndImage(RawEntity entity) {
         switch (entity.getClass().getSimpleName()) {
             case "RawSoldier":
-                return new String[] {"Soldier", "res/soldier_profile.png"};
+                return new String[]{"Soldier", "res/soldier_profile.png"};
             case "RawHealer":
-                return new String[] {"Healer", "res/healer_profile.png"};
+                return new String[]{"Healer", "res/healer_profile.png"};
             case "RawScientist":
-                return new String[] {"Scientist", "res/scientist_profile.png"};
+                return new String[]{"Scientist", "res/scientist_profile.png"};
             case "RawHome":
-                return new String[] {"Home", "res/home_profile.png"};
+                return new String[]{"Home", "res/home_profile.png"};
             case "RawHospital":
-                return new String[] {"Hospital", "res/hospital_profile.png"};
+                return new String[]{"Hospital", "res/hospital_profile.png"};
             case "RawBarrack":
-                return new String[] {"Barrack", "res/barrack_profile.png"};
+                return new String[]{"Barrack", "res/barrack_profile.png"};
             default:
                 return null;
         }
@@ -162,5 +156,9 @@ public class EntityInfo {
             label.setIcon(null);
             label.setText(null);
         }
+    }
+
+    public JPanel getWrapperPanel() {
+        return wrapperPanel;
     }
 }

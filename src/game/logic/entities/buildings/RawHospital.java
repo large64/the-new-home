@@ -10,12 +10,12 @@ public class RawHospital extends RawBuilding {
     private String id = ID + counter;
 
     public RawHospital() {
-        this.setExtent(new int[] {2, 3});
+        this.setExtent(new int[]{2, 3});
     }
 
     public RawHospital(int row, int column, int health, Side side) {
         super(row, column, health, side);
-        this.setExtent(new int[] {2, 3});
+        this.setExtent(new int[]{2, 3});
     }
 
     /**
@@ -28,11 +28,11 @@ public class RawHospital extends RawBuilding {
         return (this.id + ": " + this.getTilePosition().toString() + " " + this.health + " " + this.side);
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

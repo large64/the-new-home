@@ -12,7 +12,6 @@ import game.logic.toolbox.Side;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -100,13 +99,11 @@ public class UnitCreator {
                 barrackLabel.setVisible(true);
                 changeButtonListener(createHealerListener, createSoldierListener);
                 wrapperPanel.setVisible(true);
-            }
-            else {
+            } else {
                 wrapperPanel.setVisible(false);
                 bottomLabel.setText(null);
             }
-        }
-        else {
+        } else {
             wrapperPanel.setVisible(false);
             bottomLabel.setText(null);
         }

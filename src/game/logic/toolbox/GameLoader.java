@@ -154,7 +154,7 @@ public class GameLoader {
         return values;
     }
 
-    private static void createEntity(String ID, List<Node> path, Tile tilePosition,float rotation, int health,
+    private static void createEntity(String ID, List<Node> path, Tile tilePosition, float rotation, int health,
                                      Side side, boolean isSelected) {
         // Get string from ID
         String type = ID.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[0];

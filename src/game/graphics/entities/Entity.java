@@ -18,17 +18,17 @@ import org.lwjgl.util.vector.Vector3f;
  * Created by large64 on 10/10/15.
  */
 public class Entity {
-    private RawEntity rawEntity;
-
     protected TexturedModel model;
     protected Vector3f position;
-    private float rotation;
-    private float rotX, rotZ;
     protected float rotY;
     protected float scale;
+    private RawEntity rawEntity;
+    private float rotation;
+    private float rotX, rotZ;
     private int textureIndex = 0;
 
-    public Entity() {}
+    public Entity() {
+    }
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type, Side side) {
         this.model = model;
@@ -112,12 +112,12 @@ public class Entity {
         return (float) row / (float) model.getTexture().getNumberOfRows();
     }
 
-    public void setRawEntity(RawEntity rawEntity) {
-        this.rawEntity = rawEntity;
-    }
-
     public RawEntity getRawEntity() {
         return rawEntity;
+    }
+
+    public void setRawEntity(RawEntity rawEntity) {
+        this.rawEntity = rawEntity;
     }
 
     public TexturedModel getModel() {

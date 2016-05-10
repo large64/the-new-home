@@ -20,7 +20,8 @@ public class RawMap {
     private static List<RawEntity> rawEntities = new ArrayList<>();
     private static RawEntity[][] places = new RawEntity[size][size];
 
-    public RawMap() {}
+    public RawMap() {
+    }
 
     public static void lookForChanges() {
         places = new RawEntity[size][size];

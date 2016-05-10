@@ -12,8 +12,8 @@ import java.util.ArrayList;
  * Created by Dénes on 2016. 02. 20..
  */
 public class ActionInfo {
-    private JPanel wrapperPanel;
     private static ArrayList<JButton> actionButtons = new ArrayList<>();
+    private JPanel wrapperPanel;
 
     public ActionInfo() {
         wrapperPanel = new JPanel(new GridLayout(3, 3));
@@ -30,7 +30,7 @@ public class ActionInfo {
 
     private void loadButtons() {
         JButton button0 = new JButton("X");
-        button0.addActionListener(el ->{
+        button0.addActionListener(el -> {
             if (!Scene.getSelectedEntities().isEmpty()) {
                 for (RawEntity entity : Scene.getSelectedEntities()) {
                     if (entity instanceof RawUnit) {

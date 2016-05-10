@@ -20,10 +20,6 @@ public class PositionInfo {
         textPane.setDisabledTextColor(new Color(0, 0, 0));
     }
 
-    public JTextPane getTextPane() {
-        return textPane;
-    }
-
     public static void lookForChanges(MousePicker picker) {
         try {
             float x = picker.getCurrentTerrainPoint().getX();
@@ -31,13 +27,17 @@ public class PositionInfo {
             float z = picker.getCurrentTerrainPoint().getZ();
             textPane.setText(
                     "x: " + x + "\n" +
-                    "y: " + y + "\n" +
-                    "z: " + z  + "\n" +
-                    "tX: " + Tile.positionToTile(new Position(x, z)).getRow() + "\n" +
-                    "tZ: " + Tile.positionToTile(new Position(x, z)).getColumn()
+                            "y: " + y + "\n" +
+                            "z: " + z + "\n" +
+                            "tX: " + Tile.positionToTile(new Position(x, z)).getRow() + "\n" +
+                            "tZ: " + Tile.positionToTile(new Position(x, z)).getColumn()
             );
         } catch (NullPointerException e) {
             System.err.println("Could not determine mouse position. MAX_ZOOM must be too small.");
         }
+    }
+
+    public JTextPane getTextPane() {
+        return textPane;
     }
 }

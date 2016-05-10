@@ -28,7 +28,8 @@ public class MiniMap {
     private static List<RawEntity> entities = new ArrayList<>();
 
     private static int mappedSize = (int) (size / MAPPING_RATIO);
-    private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);;
+    private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);
+    ;
     private static List<Position> markers = new ArrayList<>();
     private static JLabel label = new JLabel();
 
@@ -68,7 +69,7 @@ public class MiniMap {
                         }
                     }
 
-                    for (ListIterator iterator = markers.listIterator(); iterator.hasNext();) {
+                    for (ListIterator iterator = markers.listIterator(); iterator.hasNext(); ) {
                         Position marker = (Position) iterator.next();
                         if ((int) (marker.getRow() / MAPPING_RATIO) == x && (int) (marker.getColumn() / MAPPING_RATIO) == y) {
                             MiniMap.image.setRGB(x, y, MARKED_COLOR.getRGB());

@@ -16,16 +16,17 @@ public abstract class RawEntity {
     protected Tile tilePosition;
     protected Position position;
     protected float rotation;
-    private Position defaultPosition;
     protected int health;
+    protected Side side;
+    private Position defaultPosition;
     private boolean isBeingAttacked = false;
     private boolean isBeingHealed = false;
-    protected Side side;
     private Entity entity;
     private boolean isSelected = false;
     private String id;
 
-    public RawEntity() {}
+    public RawEntity() {
+    }
 
     public RawEntity(Position position) {
         counter++;
@@ -62,8 +63,7 @@ public abstract class RawEntity {
 
         if (by < 0) {
             this.isBeingAttacked = true;
-        }
-        else if (by > 0) {
+        } else if (by > 0) {
             this.isBeingHealed = true;
         }
     }
@@ -97,6 +97,10 @@ public abstract class RawEntity {
         return tilePosition;
     }
 
+    public void setTilePosition(Tile tilePosition) {
+        this.tilePosition = tilePosition;
+    }
+
     public Entity getEntity() {
         return entity;
     }
@@ -109,12 +113,16 @@ public abstract class RawEntity {
         return position;
     }
 
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
     public float getRotation() {
         return rotation;
     }
 
-    public void setTilePosition(Tile tilePosition) {
-        this.tilePosition = tilePosition;
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
     }
 
     public boolean isSelected() {
@@ -123,14 +131,6 @@ public abstract class RawEntity {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public String getId() {

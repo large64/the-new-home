@@ -21,17 +21,22 @@ public class Camera {
     // Set default position (y) to be the maximum back zoom level
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float MIDDLE_CLICK_MARGIN = 30;
-
+    private static boolean isMouseGrabbed = true;
     private Vector3f position;
     private float pitch = DEFAULT_PITCH;
     private float yaw = 0;
-
     private float newZoomDistance;
-
-    private static boolean isMouseGrabbed = true;
 
     public Camera() {
         this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
+    }
+
+    public static boolean isMouseGrabbed() {
+        return isMouseGrabbed;
+    }
+
+    public static void setIsMouseGrabbed(boolean isMouseGrabbed) {
+        Camera.isMouseGrabbed = isMouseGrabbed;
     }
 
     void move(Vector2f firstMiddleClickPosition) {
@@ -75,6 +80,10 @@ public class Camera {
         return position;
     }
 
+    public void setPosition(Vector3f position) {
+        this.position = position;
+    }
+
     void reset() {
         this.position = new Vector3f(DEFAULT_POSITION);
     }
@@ -102,18 +111,6 @@ public class Camera {
         // create number between 0 and 0.3 to subtract it from the default speed
         // using formula (a + ((X - Xmin) * (b - a)/(Xmax - Xmin)))
         return 0.2f + ((newZoomDistance - 5) * (0 - 0.2f) / (MAX_BACK_ZOOM - MAX_ZOOM));
-    }
-
-    public static boolean isMouseGrabbed() {
-        return isMouseGrabbed;
-    }
-
-    public static void setIsMouseGrabbed(boolean isMouseGrabbed) {
-        Camera.isMouseGrabbed = isMouseGrabbed;
-    }
-
-    public void setPosition(Vector3f position) {
-        this.position = position;
     }
 
     public String toJSON() {

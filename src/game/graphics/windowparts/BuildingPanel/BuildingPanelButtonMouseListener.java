@@ -35,19 +35,16 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
             case "home":
                 TexturedModel homeModel = modelsMap.get("homeBuilding");
                 Home home = new Home(homeModel, 1, Side.FRIEND);
-                Scene.addEntity(home);
                 Scene.setLevitatingEntity(home);
                 break;
             case "hospital":
                 TexturedModel hospitalModel = modelsMap.get("hospitalBuilding");
                 Hospital hospital = new Hospital(hospitalModel, 1, Side.FRIEND);
-                Scene.addEntity(hospital);
                 Scene.setLevitatingEntity(hospital);
                 break;
             case "barrack":
                 TexturedModel barrackModel = modelsMap.get("barrackBuilding");
                 Barrack barrack = new Barrack(barrackModel, 1, Side.FRIEND);
-                Scene.addEntity(barrack);
                 Scene.setLevitatingEntity(barrack);
                 break;
         }

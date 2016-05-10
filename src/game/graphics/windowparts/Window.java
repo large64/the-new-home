@@ -220,10 +220,13 @@ public class Window {
         JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomWrapperPanel.setBackground(MENU_BG_COLOR);
         bottomWrapperPanel.setPreferredSize(new Dimension(mainFrame.getWidth(), 150));
+        entityInfoPanel = entityInfo.getWrapperPanel();
+
+        new UnitCreator();
+
         bottomWrapperPanel.add(BuildingPanel.getPanel());
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());
-
-        entityInfoPanel = entityInfo.getWrapperPanel();
+        bottomWrapperPanel.add(UnitCreator.getWrapperPanel());
         bottomWrapperPanel.add(entityInfoPanel);
         bottomWrapperPanel.add(indicatorPanel);
         bottomWrapperPanel.add(gameModePanel);

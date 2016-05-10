@@ -15,7 +15,7 @@ public class Healer extends Unit {
         this.setModel(Scene.getModelsMap().get("healerUnit"));
     }
 
-    public Healer(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Side side) {
-        super(model, position, rotX, rotY, rotZ, scale, Type.HEALER, side);
+    public Healer(TexturedModel model, float scale, Side side) {
+        super(model, scale, side, Type.HEALER);
     }
 }

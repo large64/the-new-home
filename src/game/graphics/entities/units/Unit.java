@@ -14,7 +14,7 @@ public class Unit extends Entity {
         this.setScale(1);
     }
 
-    public Unit(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type, Side side) {
-        super(model, position, rotX, rotY, rotZ, scale, type, side);
+    public Unit(TexturedModel model, float scale, Side side, Type type) {
+        super(model, new Vector3f(0, 0, 0), 0, 0, 0, scale, type, side);
     }
 }

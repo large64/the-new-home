@@ -5,6 +5,7 @@ import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
 import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Building;
+import game.graphics.entities.units.Unit;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
 import game.graphics.textures.ModelTexture;
@@ -32,7 +33,6 @@ import org.lwjgl.util.vector.Vector3f;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -167,7 +167,7 @@ public class Scene {
                     if (Mouse.isButtonDown(0) && !leftClick) {
                         MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
                                 picker.getCurrentTerrainPoint().z)));
-                        checkSelection(MasterRenderer.getSelectedTile());
+                        checkClick(MasterRenderer.getSelectedTile());
                     }
 
                     middleClick = Mouse.isButtonDown(2);
@@ -198,10 +198,14 @@ public class Scene {
                         MiniMap.clearMarkers();
                         MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
                                 picker.getCurrentTerrainPoint().z)));
-                        checkSelection(MasterRenderer.getSelectedTile());
+                        checkClick(MasterRenderer.getSelectedTile());
                     }
 
                     if (Mouse.isButtonDown(0) && !leftClick) {
+                        if (levitatingEntity != null && levitatingEntity instanceof Unit) {
+                            placeLevitatingEntity(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
+                                    picker.getCurrentTerrainPoint().z)));
+                        }
                         processSelectedEntities(picker, null);
                     }
 
@@ -260,6 +264,7 @@ public class Scene {
         if (!entityAdded) {
             unSelectAllEntities();
         }
+        UnitCreator.lookForChanges();
     }
 
     private static void unSelectAllEntities() {
@@ -270,47 +275,36 @@ public class Scene {
     }
 
     private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
-        for (Iterator<Entity> it = entities.iterator(); it.hasNext(); ) {
-            Entity entity = it.next();
-            RawEntity rawEntity = entity.getRawEntity();
-            if (gameMode.equals(GameMode.ONGOING)) {
-                if (rawEntity.isAlive()) {
-                    if (rawEntity instanceof RawUnit) {
-                        RawUnit rawUnit = (RawUnit) rawEntity;
-                        if ((rawUnit).isMoving()) {
-                            rawUnit.performAction();
+            switch (gameMode) {
+                case ONGOING:
+                    for (Entity entity : entities) {
+                        RawEntity rawEntity = entity.getRawEntity();
+
+                        if (rawEntity.isAlive()) {
+                            if (rawEntity instanceof RawUnit) {
+                                RawUnit rawUnit = (RawUnit) rawEntity;
+                                if ((rawUnit).isMoving()) {
+                                    rawUnit.performAction();
+                                }
+                            }
                         }
+                        renderer.processEntity(entity);
                     }
-                }
-            }
-            else if (gameMode.equals(GameMode.BUILDING) && levitatingEntity != null) {
-                if (Keyboard.isKeyDown(Keyboard.KEY_R)  && entity.equals(levitatingEntity)) {
-                    if (entities.contains(levitatingEntity)) {
-                        it.remove();
-                        MiniMap.setEntities();
-                        RawMap.setRawEntities();
+                    if (levitatingEntity != null) {
+                        handleLevitatingEntity();
                     }
+                    break;
+                case BUILDING:
+                    entities.forEach(renderer::processEntity);
 
-                    RawMap.lookForChanges();
-                    MiniMap.lookForChanges();
-                    levitatingEntity = null;
-                }
-                else {
-                    // @TODO: clean code
-                    levitatingEntity.setPosition(picker.getCurrentTerrainPoint());
-                    RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
-                    Vector3f currentTerrainPoint = picker.getCurrentTerrainPoint();
-                    Position currentMousePosition = new Position(currentTerrainPoint.getX(), currentTerrainPoint.getZ());
-                    Tile currentTile = Tile.positionToTile(currentMousePosition);
-
-                    levitatingRawEntity.setTilePosition(currentTile);
-
-                    levitatingEntity.setRawEntity(levitatingRawEntity);
-                }
+                    if (levitatingEntity != null) {
+                        handleLevitatingEntity();
+                    }
+                    break;
+                case PAUSED:
+                    entities.forEach(renderer::processEntity);
+                    break;
             }
-
-            renderer.processEntity(entity);
-        }
     }
 
     static void restart() {
@@ -321,7 +315,7 @@ public class Scene {
         return selectedEntities;
     }
 
-    private static void checkSelection(Tile selectedTile) {
+    private static void checkClick(Tile selectedTile) {
         if (gameMode.equals(GameMode.ONGOING) && RawMap.isTileFree(selectedTile, false)) {
             for (RawEntity entity : selectedEntities) {
                 if (entity instanceof RawUnit) {
@@ -336,19 +330,11 @@ public class Scene {
                 int[] extentOfLevitatingEntity = ((RawBuilding) levitatingRawEntity).getExtent();
 
                 if (RawMap.areTilesFree(selectedTile, extentOfLevitatingEntity)) {
-                    levitatingRawEntity.setTilePosition(selectedTile);
-                    Position newPosition = selectedTile.toPosition();
-
-                    newPosition.setY(mainMap.getHeightOfMap(newPosition.getX(), newPosition.getZ()));
-                    levitatingEntity.setPosition(newPosition);
-                    levitatingEntity = null;
-
-                    RawMap.addEntity(levitatingRawEntity);
-                    RawMap.lookForChanges();
-                    MiniMap.lookForChanges();
+                    placeLevitatingEntity(selectedTile);
                 }
             }
             else {
+                // Pick up building
                 for (Entity entity : entities) {
                     RawEntity rawEntity = entity.getRawEntity();
                     if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Building) {
@@ -366,6 +352,7 @@ public class Scene {
                     }
                 }
             }
+            MiniMap.lookForChanges();
         }
     }
 
@@ -450,5 +437,35 @@ public class Scene {
 
     public static MousePicker getPicker() {
         return picker;
+    }
+
+    private static void handleLevitatingEntity() {
+        if (Keyboard.isKeyDown(Keyboard.KEY_R) && entities.contains(levitatingEntity)) {
+            entities.remove(levitatingEntity);
+            levitatingEntity = null;
+            MiniMap.setEntities();
+            RawMap.setRawEntities();
+        } else {
+            levitatingEntity.setPosition(picker.getCurrentTerrainPoint());
+            RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
+            Vector3f currentTerrainPoint = picker.getCurrentTerrainPoint();
+            Position currentMousePosition = new Position(currentTerrainPoint.getX(), currentTerrainPoint.getZ());
+            Tile currentTile = Tile.positionToTile(currentMousePosition);
+
+            levitatingRawEntity.setTilePosition(currentTile);
+
+            levitatingEntity.setRawEntity(levitatingRawEntity);
+        }
+        MiniMap.lookForChanges();
+    }
+
+    private static void placeLevitatingEntity(Tile selectedTile) {
+        levitatingEntity.getRawEntity().setTilePosition(selectedTile);
+        levitatingEntity.getRawEntity().setPosition(selectedTile.toPosition());
+        levitatingEntity.refreshPosition();
+        MiniMap.setEntities();
+        RawMap.setRawEntities();
+        RawMap.lookForChanges();
+        levitatingEntity = null;
     }
 }

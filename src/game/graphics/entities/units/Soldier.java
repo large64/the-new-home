@@ -15,7 +15,7 @@ public class Soldier extends Unit {
         this.setModel(Scene.getModelsMap().get("soldierUnit"));
     }
 
-    public Soldier(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Side side) {
-        super(model, position, rotX, rotY, rotZ, scale, Type.SOLDIER, side);
+    public Soldier(TexturedModel model, float scale, Side side) {
+        super(model, scale, side, Type.SOLDIER);
     }
 }

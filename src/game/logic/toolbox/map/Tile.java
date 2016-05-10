@@ -7,7 +7,7 @@ import game.logic.entities.RawMap;
  * Created by large64 on 2015.12.01..
  */
 public class Tile {
-    public static final float[] OFFSETS = {2.5f, 3.25f};
+    private static final float[] OFFSETS = {2.5f, 3.25f};
 
     private int column;
     private int row;

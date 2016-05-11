@@ -41,12 +41,7 @@ public class Camera {
 
     void move(Vector2f firstMiddleClickPosition) {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            Scene.setGameMode(GameMode.PAUSED);
-            Window.getMenuFrame().setVisible(true);
-            Window.getMenuFrame().setAlwaysOnTop(true);
-            Window.getMenuFrame().toFront();
-            Window.getMenuFrame().setFocusable(true);
-            Window.getMenuFrame().requestFocus();
+            Window.showMenu();
         }
 
         GameMode gameMode = Scene.getGameMode();

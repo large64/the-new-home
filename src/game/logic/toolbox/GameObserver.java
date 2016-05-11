@@ -92,4 +92,48 @@ public class GameObserver {
         numberOfHealers = 0;
         numberOfScientists = 0;
     }
+
+    public static int getNumberOfEntities() {
+        return numberOfEntities;
+    }
+
+    public static int getNumberOfFriendlyEntities() {
+        return numberOfFriendlyEntities;
+    }
+
+    public static int getNumberOfEnemyEntities() {
+        return numberOfEnemyEntities;
+    }
+
+    public static int getNumberOfBuildings() {
+        return numberOfBuildings;
+    }
+
+    public static int getNumberOfUnits() {
+        return numberOfUnits;
+    }
+
+    public static int getNumberOfHomes() {
+        return numberOfHomes;
+    }
+
+    public static int getNumberOfHospitals() {
+        return numberOfHospitals;
+    }
+
+    public static int getNumberOfBarracks() {
+        return numberOfBarracks;
+    }
+
+    public static int getNumberOfSoldiers() {
+        return numberOfSoldiers;
+    }
+
+    public static int getNumberOfHealers() {
+        return numberOfHealers;
+    }
+
+    public static int getNumberOfScientists() {
+        return numberOfScientists;
+    }
 }

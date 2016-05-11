@@ -8,11 +8,15 @@ import game.graphics.windowparts.infopanels.ActionInfo;
 import game.graphics.windowparts.infopanels.EntityInfo;
 import game.graphics.windowparts.infopanels.PositionInfo;
 import game.logic.toolbox.GameLoader;
+import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.GameSaver;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 
 /**
@@ -102,10 +106,6 @@ public class Window {
         return gameModeList;
     }
 
-    public static int getBottomComponentHeight() {
-        return BOTTOM_COMPONENT_HEIGHT;
-    }
-
     private static void initializeMenuFrame() {
         menuFrame = new JFrame();
         menuFrame.setLayout(new BorderLayout());
@@ -190,12 +190,13 @@ public class Window {
 
         String[] gameModes = GameMode.getGameModes();
         gameModeList = new JComboBox<>(gameModes);
-        JPanel gameModePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel gameModePanel = new JPanel(new FlowLayout());
         gameModeList.setEnabled(false);
         gameModeList.setPreferredSize(new Dimension(110, 20));
         gameModeList.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 Object item = e.getItem();
+                GameObserver.lookForChanges();
                 switch (item.toString()) {
                     case "Play":
                         Scene.setGameMode(GameMode.ONGOING);
@@ -212,6 +213,14 @@ public class Window {
         gameModeTitleLabel.setForeground(Color.WHITE);
         gameModePanel.add(gameModeTitleLabel);
         gameModePanel.add(gameModeList);
+        JLabel placeholderLabel = new JLabel("Menu");
+        placeholderLabel.setForeground(Color.WHITE);
+        gameModePanel.add(placeholderLabel);
+        JButton menuButton = new JButton("Main menu");
+        menuButton.addActionListener(e -> {
+            showMenu();
+        });
+        gameModePanel.add(menuButton);
 
         JPanel miniMapPanel = new JPanel(new BorderLayout());
         miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
@@ -223,7 +232,9 @@ public class Window {
         entityInfoPanel = entityInfo.getWrapperPanel();
 
         new UnitCreator();
+        new InfoProvider();
 
+        bottomWrapperPanel.add(InfoProvider.getWrapperPanel());
         bottomWrapperPanel.add(BuildingPanel.getPanel());
         bottomWrapperPanel.add(actionInfo.getWrapperPanel());
         bottomWrapperPanel.add(UnitCreator.getWrapperPanel());
@@ -244,5 +255,14 @@ public class Window {
 
     public static JPanel getEntityInfoPanel() {
         return entityInfoPanel;
+    }
+
+    public static void showMenu() {
+        Scene.setGameMode(GameMode.PAUSED);
+        menuFrame.setVisible(true);
+        menuFrame.setAlwaysOnTop(true);
+        menuFrame.toFront();
+        menuFrame.setFocusable(true);
+        menuFrame.requestFocus();
     }
 }

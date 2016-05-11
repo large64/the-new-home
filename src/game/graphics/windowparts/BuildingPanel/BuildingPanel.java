@@ -14,7 +14,7 @@ public class BuildingPanel {
 
     public BuildingPanel() {
         buildingPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buildingPanel.setPreferredSize(new Dimension(450, game.graphics.windowparts.Window.getBottomComponentHeight()));
+        buildingPanel.setPreferredSize(new Dimension(450, Window.BOTTOM_COMPONENT_HEIGHT));
         buildingPanel.setOpaque(false);
         buildingPanel.setVisible(false);
         buildingPanel.setBorder(new EmptyBorder(0, 0, 0, 10));

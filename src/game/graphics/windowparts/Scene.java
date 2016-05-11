@@ -22,6 +22,7 @@ import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
+import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
@@ -106,6 +107,8 @@ public class Scene {
         middleClick = false;
 
         firstMiddleClickPosition = null;
+
+        new GameObserver();
     }
 
     public static void render() {
@@ -208,6 +211,7 @@ public class Scene {
     }
 
     private static void processSelectedEntities(MousePicker picker, Tile tilePosition) {
+        GameObserver.lookForChanges();
         Tile tile = tilePosition;
         if (picker != null) {
             tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
@@ -281,6 +285,7 @@ public class Scene {
     }
 
     private static void checkClick(Tile selectedTile) {
+        GameObserver.lookForChanges();
         if (gameMode.equals(GameMode.ONGOING) && RawMap.isTileFree(selectedTile, false)) {
             for (RawEntity entity : selectedEntities) {
                 if (entity instanceof RawUnit) {

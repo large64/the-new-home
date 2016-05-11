@@ -5,6 +5,7 @@ package game;
 
 
 import game.graphics.renderers.MasterRenderer;
+import game.graphics.toolbox.Loader;
 import game.graphics.windowparts.Window;
 import org.lwjgl.opengl.Display;
 
@@ -17,13 +18,12 @@ public class MainGameLoop {
     public static void main(String[] args) {
         Canvas canvas = new Canvas();
         Window window = new Window(canvas);
-        canvas.setSize(window.getWidth(), window.getHeight());
+        canvas.setSize(Window.getWidth(), Window.getHeight());
         try {
             Display.setParent(canvas);
         } catch (Exception e) {
             System.err.println("Could not set canvas for Display.");
         }
-
         MasterRenderer.renderScene();
     }
 }

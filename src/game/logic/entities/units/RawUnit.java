@@ -21,6 +21,7 @@ public class RawUnit extends RawEntity {
 
     private List<Node> path = new ArrayList<>();
     private Node currentNode;
+    private Tile destinationTile;
 
     public RawUnit() {
     }
@@ -33,12 +34,18 @@ public class RawUnit extends RawEntity {
 
     public void performAction(Tile tile) {
         // @TODO: make units avoid being on the same title when their destinations are approached by them
-        if (!this.path.isEmpty()) {
+        if (!this.path.isEmpty() && destinationTile != null) {
             try {
                 RawEntity enemy = RawMap.whatIsOnTile(tile);
 
                 if (enemy != null && !enemy.getSide().equals(Side.FRIEND) && this.isNextToAnEntity(enemy)) {
-                    enemy.changeHealth(-0.5f);
+                    if (enemy.isAlive()) {
+                        enemy.changeHealth(-0.5f);
+                    }
+                    else {
+                        enemy.isMarkedForDeletion = true;
+                        this.step();
+                    }
                 } else {
                     this.step();
                 }
@@ -50,45 +57,45 @@ public class RawUnit extends RawEntity {
 
     /**
      * Finds a way to tile (if there is). It is an implementation of A* algorithm.
-     *
-     * @param tile The tile on the raw map to be approached
      */
-    public void calculatePath(Tile tile) {
-        this.path.clear();
-        List<Node> open = new ArrayList<>();
-        Queue<Node> closed = new LinkedList<>();
+    public void calculatePath() {
+        if (destinationTile != null) {
+            this.path.clear();
+            List<Node> open = new ArrayList<>();
+            Queue<Node> closed = new LinkedList<>();
 
-        Node startPosition = new Node(this.getTilePosition().getRow(), this.getTilePosition().getColumn());
-        open.add(startPosition);
+            Node startPosition = new Node(this.getTilePosition().getRow(), this.getTilePosition().getColumn());
+            open.add(startPosition);
 
-        while (!open.isEmpty()) {
-            Node current = open.get(0);
-            int min = current.fCost;
+            while (!open.isEmpty()) {
+                Node current = open.get(0);
+                int min = current.fCost;
 
-            for (Node innerCurrent : open) {
-                if (innerCurrent.fCost < min) {
-                    min = innerCurrent.fCost;
-                    current = innerCurrent;
+                for (Node innerCurrent : open) {
+                    if (innerCurrent.fCost < min) {
+                        min = innerCurrent.fCost;
+                        current = innerCurrent;
+                    }
                 }
-            }
 
-            if (current.equals(new Node(tile.getRow(), tile.getColumn()))) {
-                while (current != null) {
-                    this.path.add(current);
-                    current = current.parent;
+                if (current.equals(new Node(destinationTile.getRow(), destinationTile.getColumn()))) {
+                    while (current != null) {
+                        this.path.add(current);
+                        current = current.parent;
+                    }
+                    Collections.reverse(this.path);
+                    currentNode = path.get(0);
+                    path.remove(0);
+                    return;
                 }
-                Collections.reverse(this.path);
-                currentNode = path.get(0);
-                path.remove(0);
-                return;
+
+                open.remove(current);
+                closed.add(current);
+
+                ArrayList<Node> neighbors = current.getNeighbors();
+
+                processNeighbors(neighbors, destinationTile, open, closed, current);
             }
-
-            open.remove(current);
-            closed.add(current);
-
-            ArrayList<Node> neighbors = current.getNeighbors();
-
-            processNeighbors(neighbors, tile, open, closed, current);
         }
     }
 
@@ -134,7 +141,7 @@ public class RawUnit extends RawEntity {
         }
     }
 
-    private void step() {
+    public void step() {
         if (this.path != null && !currentNode.isProcessed) {
             Node toNode = path.get(0);
 
@@ -239,5 +246,13 @@ public class RawUnit extends RawEntity {
 
     public void setCurrentNode(Node currentNode) {
         this.currentNode = currentNode;
+    }
+
+    public Tile getDestinationTile() {
+        return destinationTile;
+    }
+
+    public void setDestinationTile(Tile destinationTile) {
+        this.destinationTile = destinationTile;
     }
 }

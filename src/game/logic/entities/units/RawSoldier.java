@@ -1,5 +1,6 @@
 package game.logic.entities.units;
 
+import game.logic.entities.RawEntity;
 import game.logic.toolbox.Side;
 
 /**
@@ -32,5 +33,9 @@ public class RawSoldier extends RawUnit {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void attack(RawEntity selectedEntity) {
+        selectedEntity.changeHealth(-0.5f);
     }
 }

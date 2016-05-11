@@ -1,5 +1,6 @@
 package game.graphics.renderers;
 
+import game.MainGameLoop;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
@@ -29,7 +30,6 @@ public class MasterRenderer {
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
 
-    private static Tile selectedTile;
     private static MasterRenderer masterRenderer;
     private static Loader loader;
 
@@ -40,14 +40,12 @@ public class MasterRenderer {
     private MapRenderer mapRenderer;
     private TerrainShader terrainShader = new TerrainShader();
 
-    private SkyboxRenderer skyboxRenderer;
 
     public MasterRenderer(Loader loader) {
         enableCulling();
         createProjectionMatrix();
         this.renderer = new EntityRenderer(shader, projectionMatrix);
         this.mapRenderer = new MapRenderer(terrainShader, projectionMatrix);
-        skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
     }
 
     static void enableCulling() {
@@ -70,7 +68,6 @@ public class MasterRenderer {
         // Set additional things like renderer, picker
         masterRenderer = new MasterRenderer(loader);
 
-        selectedTile = null;
         EntityInfo.setEntities(Scene.getSelectedEntities());
 
         new Scene();
@@ -86,18 +83,6 @@ public class MasterRenderer {
         masterRenderer.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
-    }
-
-    public static Tile getSelectedTile() {
-        return selectedTile;
-    }
-
-    public static void setSelectedTile(Tile selectedTile) {
-        MasterRenderer.selectedTile = selectedTile;
-    }
-
-    public static MasterRenderer getMasterRenderer() {
-        return masterRenderer;
     }
 
     public static Loader getLoader() {
@@ -132,7 +117,6 @@ public class MasterRenderer {
         terrainShader.loadViewMatrix(camera);
         mapRenderer.render(maps);
         terrainShader.stop();
-        skyboxRenderer.render(camera);
 
         entityMap.clear();
     }
@@ -172,5 +156,9 @@ public class MasterRenderer {
 
     public Matrix4f getProjectionMatrix() {
         return projectionMatrix;
+    }
+
+    public static MasterRenderer getMasterRenderer() {
+        return masterRenderer;
     }
 }

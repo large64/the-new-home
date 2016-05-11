@@ -24,6 +24,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.util.Random;
 
 /**
  * Created by large64 on 31/10/15.
@@ -140,6 +141,8 @@ public class Window {
 
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
+            Scene.getEntities().clear();
+
             float xInitial = 90;
             float zInitial = 100;
             TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
@@ -150,9 +153,15 @@ public class Window {
                 xInitial += 5;
             }
 
-            new Soldier(soldierModel, new Vector3f(30, Scene.getMainMap().getHeightOfMap(30, 30), 30), 1, Side.ENEMY);
+            Random random = new Random();
 
-            menuFrame.setVisible(false);
+            for (int i = 0; i < 4; i++) {
+                xInitial = (float) random.nextInt((199 - 0) + 1) + 0;
+                zInitial = (float) random.nextInt((199 - 0) + 1) + 0;
+                new Soldier(soldierModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.ENEMY);
+            }
+
+            //menuFrame.setVisible(false);
             Camera.setIsMouseGrabbed(true);
 
             MiniMap.setEntities();
@@ -244,7 +253,10 @@ public class Window {
         gameModePanel.add(menuButton);
 
         JPanel miniMapPanel = new JPanel(new BorderLayout());
-        miniMapPanel.add(new JLabel("Mini map"), BorderLayout.NORTH);
+        JLabel title = new JLabel("Mini map");
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setVerticalAlignment(JLabel.CENTER);
+        miniMapPanel.add(title, BorderLayout.NORTH);
         miniMapPanel.add(MiniMap.getLabel(), BorderLayout.CENTER);
 
         JPanel bottomWrapperPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

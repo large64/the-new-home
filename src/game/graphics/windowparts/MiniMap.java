@@ -48,24 +48,23 @@ public class MiniMap {
                             Position entityPosition = entity.getTilePosition().toPosition();
                             if ((int) (entityPosition.getRow() / MAPPING_RATIO) == x && (int) (entityPosition.getColumn() / MAPPING_RATIO) == y) {
                                 MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
-                                int extentX = 2;
-                                int extentY = 2;
 
-                                if (entity instanceof RawBuilding) {
-                                    extentX += (int) (((RawBuilding) entity).getExtentX() / MAPPING_RATIO);
-                                    extentY += (int) (((RawBuilding) entity).getExtentY() / MAPPING_RATIO);
-                                }
-                                for (int i = (x - extentX); i < (x + extentX); i++) {
-                                    for (int j = (y - extentY); j < (y + extentY); j++) {
-                                        MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
-
-                                        if (entity.isBeingAttacked()) {
-                                            MiniMap.image.setRGB(i, j, BEING_ATTACKED_COLOR.getRGB());
-                                        }
-                                        if (entity.isBeingHealed()) {
-                                            MiniMap.image.setRGB(i, j, BEING_HEALED_COLOR.getRGB());
+                                // Indicate buildings by using their extensions
+                                if (entity instanceof RawBuilding && ((RawBuilding) entity).hasExtent()) {
+                                    int extentX = (int) (((RawBuilding) entity).getExtentX() / MAPPING_RATIO);
+                                    int extentY = (int) (((RawBuilding) entity).getExtentY() / MAPPING_RATIO);
+                                    for (int i = (x - extentX); i < (x + extentX); i++) {
+                                        for (int j = (y - extentY); j < (y + extentY); j++) {
+                                            MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
                                         }
                                     }
+                                }
+
+                                if (entity.isBeingAttacked()) {
+                                    MiniMap.image.setRGB(x, y, BEING_ATTACKED_COLOR.getRGB());
+                                }
+                                if (entity.isBeingHealed()) {
+                                    MiniMap.image.setRGB(x, y, BEING_HEALED_COLOR.getRGB());
                                 }
                             }
                         }

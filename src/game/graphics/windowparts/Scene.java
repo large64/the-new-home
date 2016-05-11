@@ -52,6 +52,7 @@ public class Scene {
     private static Entity levitatingEntity = null;
     private static List<Entity> entities = new ArrayList<>();
     private static java.util.Map<String, TexturedModel> modelsMap;
+    private static MasterRenderer masterRenderer = MasterRenderer.getMasterRenderer();
 
     private static MousePicker picker;
 
@@ -90,12 +91,12 @@ public class Scene {
 
         // Set features of lights
         lights = new ArrayList<>();
-        sun = new Light(new Vector3f(105, 200, 105), new Vector3f(1f, 1f, 1f));
+        sun = new Light(new Vector3f(105, 500, 400), new Vector3f(1f, 1f, 1f));
         lights.add(sun);
 
         // Set features of player
         player = new Player();
-        picker = new MousePicker(Scene.getPlayer().getCamera(), MasterRenderer.getMasterRenderer().getProjectionMatrix(), Scene.getMainMap());
+        picker = new MousePicker(Scene.getPlayer().getCamera(), masterRenderer.getProjectionMatrix(), Scene.getMainMap());
 
         // Set features of entities
         loadModels();
@@ -123,7 +124,7 @@ public class Scene {
                 }
                 break;
             case PAUSED:
-                processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
+                processEntities(masterRenderer);
                 break;
             case BUILDING:
                 BuildingPanel.setBuilderPanelVisible();
@@ -135,9 +136,7 @@ public class Scene {
                     }
 
                     if (Mouse.isButtonDown(0) && !leftClick) {
-                        MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
-                                picker.getCurrentTerrainPoint().z)));
-                        checkClick(MasterRenderer.getSelectedTile());
+                        checkClick();
                     }
 
                     middleClick = Mouse.isButtonDown(2);
@@ -146,36 +145,20 @@ public class Scene {
                     PositionInfo.lookForChanges(picker);
                 }
                 picker.update();
-                processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
+                processEntities(masterRenderer);
                 break;
             case ONGOING:
                 BuildingPanel.setBuilderPanelInvisible();
                 if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
-
-                if (restart) {
-                    player.reset();
-                    for (Object rawEntity : getRawEntities()) {
-                        ((RawEntity) rawEntity).reset();
-                    }
-                    restart = false;
-                } else {
-                    player.move(firstMiddleClickPosition);
-                }
+                player.move(firstMiddleClickPosition);
 
                 if (Camera.isMouseGrabbed()) {
-                    if (Mouse.isButtonDown(1) && !rightClick && !selectedEntities.isEmpty()) {
-                        MiniMap.clearMarkers();
-                        MasterRenderer.setSelectedTile(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
-                                picker.getCurrentTerrainPoint().z)));
-                        checkClick(MasterRenderer.getSelectedTile());
+                    if (Mouse.isButtonDown(1) && !rightClick) {
+                        checkClick();
                     }
-
                     if (Mouse.isButtonDown(0) && !leftClick) {
-                        if (levitatingEntity != null && levitatingEntity instanceof Unit) {
-                            placeLevitatingEntity(Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
-                                    picker.getCurrentTerrainPoint().z)));
-                        }
-                        processSelectedEntities(picker, null);
+                        placeLevitatingEntity();
+                        selectEntities(picker, null);
                     }
 
                     if (Mouse.isButtonDown(2) && !middleClick) {
@@ -193,7 +176,7 @@ public class Scene {
                     EntityInfo.refreshInfo();
                     MiniMap.lookForChanges();
                     //guiRenderer.render(guis);
-                    processEntities(MasterRenderer.getSelectedTile(), MasterRenderer.getMasterRenderer());
+                    processEntities(MasterRenderer.getMasterRenderer());
                 }
                 break;
         }
@@ -211,7 +194,7 @@ public class Scene {
         return maps;
     }
 
-    private static void processSelectedEntities(MousePicker picker, Tile tilePosition) {
+    private static void selectEntities(MousePicker picker, Tile tilePosition) {
         GameObserver.lookForChanges();
         Tile tile = tilePosition;
         if (picker != null) {
@@ -244,7 +227,7 @@ public class Scene {
         }
     }
 
-    private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
+    private static void processEntities(MasterRenderer renderer) {
         switch (gameMode) {
             case ONGOING:
                 for (Iterator<Entity> it = entities.iterator(); it.hasNext();) {
@@ -254,11 +237,12 @@ public class Scene {
                     if (rawEntity.isAlive()) {
                         if (rawEntity instanceof RawUnit) {
                             RawUnit rawUnit = (RawUnit) rawEntity;
-                            rawUnit.performAction(selectedTile);
+                            rawUnit.performAction(rawUnit.getDestinationTile());
                         }
                     }
                     if (rawEntity.isMarkedForDeletion) {
                         it.remove();
+                        RawMap.setRawEntities();
                     }
                     renderer.processEntity(entity);
                 }
@@ -283,59 +267,50 @@ public class Scene {
         return selectedEntities;
     }
 
-    private static void checkClick(Tile selectedTile) {
+    private static void checkClick() {
         GameObserver.lookForChanges();
-        if (gameMode.equals(GameMode.ONGOING)) {
-            try {
-                RawEntity destinationEntity = RawMap.whatIsOnTile(selectedTile);
+        Tile selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
+        switch (gameMode) {
+            case ONGOING:
+                try {
+                    RawEntity destinationEntity = RawMap.whatIsOnTile(selectedTile);
 
-                if (destinationEntity != null && destinationEntity instanceof RawUnit) {
-                    for (RawEntity entity : selectedEntities) {
-                        if (entity instanceof RawUnit) {
+                    if (destinationEntity instanceof RawUnit || destinationEntity == null) {
+                        for (RawEntity entity : selectedEntities) {
                             RawUnit rawUnit = (RawUnit) entity;
-                            rawUnit.calculatePath(selectedTile);
+                            rawUnit.setDestinationTile(selectedTile);
+                            rawUnit.calculatePath();
+
                         }
                     }
-                } else if (destinationEntity == null) {
-                    for (RawEntity entity : selectedEntities) {
-                        if (entity instanceof RawUnit) {
-                            RawUnit rawUnit = (RawUnit) entity;
-                            rawUnit.calculatePath(selectedTile);
-                        }
-                    }
+                } catch (ArrayIndexOutOfBoundsException ex) {
+                    InfoProvider.writeMessage("Out of map.");
+
                 }
-            } catch (ArrayIndexOutOfBoundsException ex) {
-                InfoProvider.writeMessage("Out of map.");
+                break;
+            case BUILDING:
+                if (levitatingEntity != null) {
+                    placeLevitatingEntity();
+                } else {
+                    // Pick up building
+                    for (Entity entity : entities) {
+                        RawEntity rawEntity = entity.getRawEntity();
+                        if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Building) {
+                            List<Tile> extentPositions = ((RawBuilding) rawEntity).getExtentPositions();
+                            boolean isEntityInSelection = rawEntity.getTilePosition().equals(selectedTile)
+                                    || extentPositions.contains(selectedTile);
 
-            }
-        } else if (gameMode.equals(GameMode.BUILDING)) {
-            if (levitatingEntity != null && levitatingEntity instanceof Building) {
-                RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
-                int[] extentOfLevitatingEntity = ((RawBuilding) levitatingRawEntity).getExtent();
+                            if (isEntityInSelection) {
+                                levitatingEntity = entity;
+                                RawBuilding levitatingRawBuilding = (RawBuilding) entity.getRawEntity();
 
-                if (RawMap.areTilesFree(selectedTile, extentOfLevitatingEntity)) {
-                    placeLevitatingEntity(selectedTile);
-                    MiniMap.lookForChanges();
-                }
-            } else {
-                // Pick up building
-                for (Entity entity : entities) {
-                    RawEntity rawEntity = entity.getRawEntity();
-                    if (!rawEntity.getSide().equals(Side.ENEMY) && entity instanceof Building) {
-                        List<Tile> extentPositions = ((RawBuilding) rawEntity).getExtentPositions();
-                        boolean isEntityInSelection = rawEntity.getTilePosition().equals(selectedTile)
-                                || extentPositions.contains(selectedTile);
-
-                        if (isEntityInSelection) {
-                            levitatingEntity = entity;
-                            RawBuilding levitatingRawBuilding = (RawBuilding) entity.getRawEntity();
-
-                            RawMap.freeTiles(levitatingRawBuilding.getExtentPositions());
-                            break;
+                                RawMap.freeTiles(levitatingRawBuilding.getExtentPositions());
+                                break;
+                            }
                         }
                     }
                 }
-            }
+                break;
         }
     }
 
@@ -440,13 +415,35 @@ public class Scene {
         }
     }
 
-    private static void placeLevitatingEntity(Tile selectedTile) {
-        levitatingEntity.getRawEntity().setTilePosition(selectedTile);
-        levitatingEntity.getRawEntity().setPosition(selectedTile.toPosition());
-        levitatingEntity.refreshPosition();
-        MiniMap.setEntities();
-        RawMap.setRawEntities();
-        RawMap.lookForChanges();
-        levitatingEntity = null;
+    private static void placeLevitatingEntity() {
+        boolean place = false;
+
+        if (levitatingEntity != null) {
+            Tile selectedTile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x,
+                    picker.getCurrentTerrainPoint().z));
+
+            if (levitatingEntity instanceof Building) {
+                RawEntity levitatingRawEntity = levitatingEntity.getRawEntity();
+                int[] extentOfLevitatingEntity = ((RawBuilding) levitatingRawEntity).getExtent();
+
+                if (RawMap.areTilesFree(selectedTile, extentOfLevitatingEntity)) {
+                    place = true;
+                }
+            }
+            else if (levitatingEntity instanceof Unit && RawMap.isTileFree(selectedTile, false)) {
+                place = true;
+            }
+
+            if (place) {
+                levitatingEntity.getRawEntity().setTilePosition(selectedTile);
+                levitatingEntity.getRawEntity().setPosition(selectedTile.toPosition());
+                levitatingEntity.refreshPosition();
+                MiniMap.setEntities();
+                RawMap.setRawEntities();
+                RawMap.lookForChanges();
+                levitatingEntity = null;
+                MiniMap.lookForChanges();
+            }
+        }
     }
 }

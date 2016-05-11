@@ -68,8 +68,9 @@ public abstract class RawEntity {
         } else if (by > 0) {
             this.isBeingHealed = true;
         }
-        if (!isAlive()) {
-            this.isMarkedForDeletion = true;
+        else {
+            this.isBeingAttacked = false;
+            this.isBeingHealed = false;
         }
     }
 

@@ -57,6 +57,8 @@ public class Scene {
     private static boolean leftClick;
     private static boolean middleClick;
 
+    private static Light sun;
+
     private static Vector2f firstMiddleClickPosition;
 
     public Scene() {
@@ -86,13 +88,8 @@ public class Scene {
 
         // Set features of lights
         lights = new ArrayList<>();
-        lights.add(new Light(new Vector3f(-2000, 2000, 2000), new Vector3f(1f, 1f, 1f)));
-
-        // Set features of GUIs
-        /*List<GuiTexture> guis = new ArrayList<>();
-        GuiTexture gui = new GuiTexture(loader.loadTexture("julia_set"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-        guis.add(gui);
-        GuiRenderer guiRenderer = new GuiRenderer(loader);*/
+        sun = new Light(new Vector3f(105, 200, 105), new Vector3f(1f, 1f, 1f));
+        lights.add(sun);
 
         // Set features of player
         player = new Player();
@@ -101,37 +98,6 @@ public class Scene {
         // Set features of entities
         loadModels();
 
-        // Generate random coordinates for entities
-        /*for (int i = 0; i < 20; i++) {
-            float x = (float) (Math.random() * 200);
-            float z = (float) (Math.random() * 200);
-
-            if (i % 2 == 0) {
-                Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(soldier);
-            }
-            else if (i % 3 == 0){
-                Healer healer = new Healer(modelsMap.get("healerUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(healer);
-            }
-            if (i % 4 == 0) {
-                x = (float) (Math.random() * 200);
-                z = (float) (Math.random() * 200);
-
-                Neutral neutral = new Neutral(modelsMap.get("treeNeutral"), new Vector3f(x, 0, z), 0, 0, 0, 1);
-                entities.add(neutral);
-            }
-            if (i % 5 == 0) {
-                x = (float) (Math.random() * 200);
-                z = (float) (Math.random() * 200);
-
-                Scientist scientist = new Scientist(modelsMap.get("scientistUnit"), new Vector3f(x, 0, z), 0, 0, 0, 1, Side.FRIEND);
-                entities.add(scientist);
-            }
-        }
-
-        Soldier soldier = new Soldier(modelsMap.get("soldierUnit"), new Vector3f(50, 0, 20), 0, 0, 0, 1, Side.ENEMY);
-        entities.add(soldier);*/
         new RawMap();
         setGameMode(GameMode.STOPPED);
 

@@ -134,6 +134,10 @@ public class Window {
 
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
+
+
+            menuFrame.setVisible(false);
+            Camera.setIsMouseGrabbed(true);
             Scene.setGameMode(GameMode.ONGOING);
         });
 

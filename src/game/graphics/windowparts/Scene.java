@@ -34,6 +34,7 @@ import org.lwjgl.util.vector.Vector3f;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -246,16 +247,18 @@ public class Scene {
     private static void processEntities(Tile selectedTile, MasterRenderer renderer) {
         switch (gameMode) {
             case ONGOING:
-                for (Entity entity : entities) {
+                for (Iterator<Entity> it = entities.iterator(); it.hasNext();) {
+                    Entity entity = it.next();
                     RawEntity rawEntity = entity.getRawEntity();
 
                     if (rawEntity.isAlive()) {
                         if (rawEntity instanceof RawUnit) {
                             RawUnit rawUnit = (RawUnit) rawEntity;
-                            if ((rawUnit).isMoving()) {
-                                rawUnit.performAction();
-                            }
+                            rawUnit.performAction(selectedTile);
                         }
+                    }
+                    if (rawEntity.isMarkedForDeletion) {
+                        it.remove();
                     }
                     renderer.processEntity(entity);
                 }
@@ -276,22 +279,34 @@ public class Scene {
         }
     }
 
-    static void restart() {
-        restart = true;
-    }
-
     public static List<RawEntity> getSelectedEntities() {
         return selectedEntities;
     }
 
     private static void checkClick(Tile selectedTile) {
         GameObserver.lookForChanges();
-        if (gameMode.equals(GameMode.ONGOING) && RawMap.isTileFree(selectedTile, false)) {
-            for (RawEntity entity : selectedEntities) {
-                if (entity instanceof RawUnit) {
-                    RawUnit rawUnit = (RawUnit) entity;
-                    rawUnit.calculatePath(selectedTile);
+        if (gameMode.equals(GameMode.ONGOING)) {
+            try {
+                RawEntity destinationEntity = RawMap.whatIsOnTile(selectedTile);
+
+                if (destinationEntity != null && destinationEntity instanceof RawUnit) {
+                    for (RawEntity entity : selectedEntities) {
+                        if (entity instanceof RawUnit) {
+                            RawUnit rawUnit = (RawUnit) entity;
+                            rawUnit.calculatePath(selectedTile);
+                        }
+                    }
+                } else if (destinationEntity == null) {
+                    for (RawEntity entity : selectedEntities) {
+                        if (entity instanceof RawUnit) {
+                            RawUnit rawUnit = (RawUnit) entity;
+                            rawUnit.calculatePath(selectedTile);
+                        }
+                    }
                 }
+            } catch (ArrayIndexOutOfBoundsException ex) {
+                InfoProvider.writeMessage("Out of map.");
+
             }
         } else if (gameMode.equals(GameMode.BUILDING)) {
             if (levitatingEntity != null && levitatingEntity instanceof Building) {
@@ -300,6 +315,7 @@ public class Scene {
 
                 if (RawMap.areTilesFree(selectedTile, extentOfLevitatingEntity)) {
                     placeLevitatingEntity(selectedTile);
+                    MiniMap.lookForChanges();
                 }
             } else {
                 // Pick up building
@@ -320,7 +336,6 @@ public class Scene {
                     }
                 }
             }
-            MiniMap.lookForChanges();
         }
     }
 
@@ -423,7 +438,6 @@ public class Scene {
 
             levitatingEntity.setRawEntity(levitatingRawEntity);
         }
-        MiniMap.lookForChanges();
     }
 
     private static void placeLevitatingEntity(Tile selectedTile) {

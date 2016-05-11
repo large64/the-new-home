@@ -1,6 +1,7 @@
 package game.logic.entities;
 
 import com.sun.istack.internal.Nullable;
+import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Map;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.buildings.RawBuilding;
@@ -78,8 +79,8 @@ public class RawMap {
     }
 
     @Nullable
-    public static RawEntity whatIsOnTile(Tile tile) {
-        return (RawMap.places[tile.getColumn()][tile.getRow()]);
+    public static RawEntity whatIsOnTile(Tile tile) throws ArrayIndexOutOfBoundsException {
+        return RawMap.places[tile.getColumn()][tile.getRow()];
     }
 
     public static void freeTiles(List<Tile> tiles) {

@@ -1,15 +1,21 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.entities.Entity;
+import game.graphics.entities.units.Soldier;
+import game.graphics.models.TexturedModel;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.buildingpanel.BuildingPanel;
 import game.graphics.windowparts.buildingpanel.BuildingPanelButton;
 import game.graphics.windowparts.infopanels.ActionInfo;
 import game.graphics.windowparts.infopanels.EntityInfo;
 import game.graphics.windowparts.infopanels.PositionInfo;
+import game.logic.entities.RawMap;
 import game.logic.toolbox.GameLoader;
 import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.GameSaver;
+import game.logic.toolbox.Side;
+import org.lwjgl.util.vector.Vector3f;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -134,10 +140,25 @@ public class Window {
 
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
+            float xInitial = 90;
+            float zInitial = 100;
+            TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
 
+            for (int i = 0; i < 5; i++) {
+                float y = Scene.getMainMap().getHeightOfMap(xInitial, zInitial);
+                new Soldier(soldierModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
+                xInitial += 5;
+            }
+
+            new Soldier(soldierModel, new Vector3f(30, Scene.getMainMap().getHeightOfMap(30, 30), 30), 1, Side.ENEMY);
 
             menuFrame.setVisible(false);
             Camera.setIsMouseGrabbed(true);
+
+            MiniMap.setEntities();
+            RawMap.setRawEntities();
+            RawMap.lookForChanges();
+
             Scene.setGameMode(GameMode.ONGOING);
         });
 

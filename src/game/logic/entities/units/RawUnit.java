@@ -1,6 +1,8 @@
 package game.logic.entities.units;
 
 import game.graphics.toolbox.DisplayManager;
+import game.graphics.windowparts.InfoProvider;
+import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.toolbox.Side;
@@ -32,22 +34,18 @@ public class RawUnit extends RawEntity {
     public void performAction(Tile tile) {
         // @TODO: make units avoid being on the same title when their destinations are approached by them
         if (!this.path.isEmpty()) {
-            RawEntity entity = RawMap.whatIsOnTile(tile);
+            try {
+                RawEntity enemy = RawMap.whatIsOnTile(tile);
 
-            if (entity != null && entity.getSide() != Side.FRIEND && entity.getSide() != Side.NEUTRAL) {
-                if (this.isNextToAnEntity(entity)) {
-                    entity.changeHealth(-1);
+                if (enemy != null && !enemy.getSide().equals(Side.FRIEND) && this.isNextToAnEntity(enemy)) {
+                    enemy.changeHealth(-0.5f);
                 } else {
                     this.step();
                 }
-            } else {
-                this.step();
+            } catch (IndexOutOfBoundsException ex) {
+                this.getPath().clear();
             }
         }
-    }
-
-    public void performAction() {
-        this.step();
     }
 
     /**

@@ -3,6 +3,7 @@ package game.graphics.windowparts;
 import game.logic.entities.RawEntity;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.toolbox.map.Position;
+import org.lwjgl.input.Keyboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +23,7 @@ public class MiniMap {
     private static final Color MARKED_COLOR = new Color(0, 0, 150);
     private static final Color BASE_ENTITY_COLOR = new Color(0, 13, 255);
 
-    private static final float MAPPING_RATIO = 1.6f;
+    private static float MAPPING_RATIO = 1.6f;
 
     private static int size = (int) Map.getSIZE();
     private static List<RawEntity> entities = new ArrayList<>();
@@ -47,23 +48,24 @@ public class MiniMap {
                             Position entityPosition = entity.getTilePosition().toPosition();
                             if ((int) (entityPosition.getRow() / MAPPING_RATIO) == x && (int) (entityPosition.getColumn() / MAPPING_RATIO) == y) {
                                 MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
+                                int extentX = 2;
+                                int extentY = 2;
 
-                                // Indicate buildings by using their extensions
-                                if (entity instanceof RawBuilding && ((RawBuilding) entity).hasExtent()) {
-                                    int extentX = (int) (((RawBuilding) entity).getExtentX() / MAPPING_RATIO);
-                                    int extentY = (int) (((RawBuilding) entity).getExtentY() / MAPPING_RATIO);
-                                    for (int i = (x - extentX); i < (x + extentX); i++) {
-                                        for (int j = (y - extentY); j < (y + extentY); j++) {
-                                            MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
+                                if (entity instanceof RawBuilding) {
+                                    extentX += (int) (((RawBuilding) entity).getExtentX() / MAPPING_RATIO);
+                                    extentY += (int) (((RawBuilding) entity).getExtentY() / MAPPING_RATIO);
+                                }
+                                for (int i = (x - extentX); i < (x + extentX); i++) {
+                                    for (int j = (y - extentY); j < (y + extentY); j++) {
+                                        MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
+
+                                        if (entity.isBeingAttacked()) {
+                                            MiniMap.image.setRGB(i, j, BEING_ATTACKED_COLOR.getRGB());
+                                        }
+                                        if (entity.isBeingHealed()) {
+                                            MiniMap.image.setRGB(i, j, BEING_HEALED_COLOR.getRGB());
                                         }
                                     }
-                                }
-
-                                if (entity.isBeingAttacked()) {
-                                    MiniMap.image.setRGB(x, y, BEING_ATTACKED_COLOR.getRGB());
-                                }
-                                if (entity.isBeingHealed()) {
-                                    MiniMap.image.setRGB(x, y, BEING_HEALED_COLOR.getRGB());
                                 }
                             }
                         }

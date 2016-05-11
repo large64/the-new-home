@@ -16,7 +16,7 @@ public abstract class RawEntity {
     protected Tile tilePosition;
     protected Position position;
     protected float rotation;
-    protected int health;
+    protected float health;
     protected Side side;
     private Position defaultPosition;
     private boolean isBeingAttacked = false;
@@ -24,6 +24,8 @@ public abstract class RawEntity {
     private Entity entity;
     private boolean isSelected = false;
     private String id;
+
+    public boolean isMarkedForDeletion = false;
 
     public RawEntity() {
     }
@@ -51,20 +53,23 @@ public abstract class RawEntity {
     }
 
     public int getHealth() {
-        return health;
+        return (int) health;
     }
 
     public void setHealth(int health) {
         this.health = health;
     }
 
-    public void changeHealth(int by) {
+    public void changeHealth(float by) {
         this.health += by;
 
         if (by < 0) {
             this.isBeingAttacked = true;
         } else if (by > 0) {
             this.isBeingHealed = true;
+        }
+        if (!isAlive()) {
+            this.isMarkedForDeletion = true;
         }
     }
 

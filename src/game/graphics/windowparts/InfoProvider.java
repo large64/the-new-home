@@ -1,9 +1,13 @@
 package game.graphics.windowparts;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,12 +31,13 @@ public class InfoProvider {
         textArea.setWrapStyleWord(true);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
+        textArea.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         // Always scroll to bottom
         DefaultCaret caret = (DefaultCaret)textArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
-        textArea.setText("Welcome to The New Home. Tips and messages will be shown here." + '\n');
+        textArea.setText("Welcome to The New Home! Tips and messages will be shown here." + '\n');
 
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.getViewport().setOpaque(false);
@@ -42,13 +47,15 @@ public class InfoProvider {
         wrapperPanel.add(scrollPane);
     }
 
-    public static JPanel getWrapperPanel() {
+    static JPanel getWrapperPanel() {
         return wrapperPanel;
     }
 
     public static void writeMessage(String message) {
-        String toAppend = "--------------------------------------------" + '\n';
+        String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+        String toAppend = "-------------------------------------------" + '\n';
         messages.add(message);
-        textArea.append(toAppend + message + '\n');
+        textArea.append(toAppend + timeStamp + ": " + message + '\n');
     }
 }

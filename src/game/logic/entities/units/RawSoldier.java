@@ -36,6 +36,6 @@ public class RawSoldier extends RawUnit {
     }
 
     public void attack(RawEntity selectedEntity) {
-        selectedEntity.changeHealth(-0.5f);
+        selectedEntity.changeHealth(-0.05f);
     }
 }

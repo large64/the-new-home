@@ -42,7 +42,9 @@ public class RawUnit extends RawEntity {
                 else if (!toBeApproached.getSide().equals(side)) {
                     if (this.isNextToAnEntity(toBeApproached)) {
                         if (toBeApproached.isAlive()) {
-                            toBeApproached.changeHealth(-0.05f);
+                            if (this instanceof RawSoldier) {
+                                ((RawSoldier) this).attack(toBeApproached);
+                            }
                         } else {
                             toBeApproached.isMarkedForDeletion = true;
                         }

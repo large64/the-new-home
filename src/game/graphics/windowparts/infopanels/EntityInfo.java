@@ -109,12 +109,6 @@ public class EntityInfo {
                     label.setVerticalTextPosition(JLabel.BOTTOM);
                     label.setIconTextGap(-2);
                     label.setPreferredSize(new Dimension(50, 50));
-                    label.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            super.mouseClicked(e);
-                        }
-                    });
                 }
             }
             multiPanel.setVisible(true);

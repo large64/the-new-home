@@ -1,7 +1,6 @@
 package game.logic.entities;
 
 import com.sun.istack.internal.Nullable;
-import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Map;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.buildings.RawBuilding;

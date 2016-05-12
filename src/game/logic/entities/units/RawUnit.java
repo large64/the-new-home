@@ -1,8 +1,6 @@
 package game.logic.entities.units;
 
 import game.graphics.toolbox.DisplayManager;
-import game.graphics.windowparts.InfoProvider;
-import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.toolbox.Side;
@@ -41,8 +39,7 @@ public class RawUnit extends RawEntity {
                 if (enemy != null && !enemy.getSide().equals(Side.FRIEND) && this.isNextToAnEntity(enemy)) {
                     if (enemy.isAlive()) {
                         enemy.changeHealth(-0.5f);
-                    }
-                    else {
+                    } else {
                         enemy.isMarkedForDeletion = true;
                         this.step();
                     }
@@ -141,7 +138,7 @@ public class RawUnit extends RawEntity {
         }
     }
 
-    public void step() {
+    private void step() {
         if (this.path != null && !currentNode.isProcessed) {
             Node toNode = path.get(0);
 

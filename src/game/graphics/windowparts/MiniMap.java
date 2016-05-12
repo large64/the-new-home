@@ -3,14 +3,12 @@ package game.graphics.windowparts;
 import game.logic.entities.RawEntity;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.toolbox.map.Position;
-import org.lwjgl.input.Keyboard;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Dénes on 2015. 11. 06..
@@ -30,7 +28,6 @@ public class MiniMap {
 
     private static int mappedSize = (int) (size / MAPPING_RATIO);
     private static BufferedImage image = new BufferedImage(mappedSize, mappedSize, BufferedImage.TYPE_INT_RGB);
-    ;
     private static List<Position> markers = new ArrayList<>();
     private static JLabel label = new JLabel();
 
@@ -70,8 +67,7 @@ public class MiniMap {
                         }
                     }
 
-                    for (ListIterator iterator = markers.listIterator(); iterator.hasNext(); ) {
-                        Position marker = (Position) iterator.next();
+                    for (Position marker : markers) {
                         if ((int) (marker.getRow() / MAPPING_RATIO) == x && (int) (marker.getColumn() / MAPPING_RATIO) == y) {
                             MiniMap.image.setRGB(x, y, MARKED_COLOR.getRGB());
                         }
@@ -107,7 +103,7 @@ public class MiniMap {
         MiniMap.entities = Scene.getRawEntities();
     }
 
-    public static JLabel getLabel() {
+    static JLabel getLabel() {
         return label;
     }
 }

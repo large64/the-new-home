@@ -42,7 +42,6 @@ import java.util.List;
  */
 public class Scene {
     private static Map mainMap;
-    private static boolean restart = false;
     private static Player player;
     private static GameMode gameMode;
 
@@ -230,7 +229,7 @@ public class Scene {
     private static void processEntities(MasterRenderer renderer) {
         switch (gameMode) {
             case ONGOING:
-                for (Iterator<Entity> it = entities.iterator(); it.hasNext();) {
+                for (Iterator<Entity> it = entities.iterator(); it.hasNext(); ) {
                     Entity entity = it.next();
                     RawEntity rawEntity = entity.getRawEntity();
 
@@ -429,8 +428,7 @@ public class Scene {
                 if (RawMap.areTilesFree(selectedTile, extentOfLevitatingEntity)) {
                     place = true;
                 }
-            }
-            else if (levitatingEntity instanceof Unit && RawMap.isTileFree(selectedTile, false)) {
+            } else if (levitatingEntity instanceof Unit && RawMap.isTileFree(selectedTile, false)) {
                 place = true;
             }
 

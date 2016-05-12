@@ -5,7 +5,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,12 +12,12 @@ import java.util.List;
 /**
  * Created by Dénes on 2016. 05. 11..
  */
-public class InfoProvider {
+class InfoProvider {
     private static List<String> messages;
     private static JTextArea textArea;
     private static JPanel wrapperPanel;
 
-    public InfoProvider() {
+    InfoProvider() {
         messages = new ArrayList<>();
         FlowLayout layout = new FlowLayout(FlowLayout.LEFT, 0, 0);
         wrapperPanel = new JPanel(layout);
@@ -34,7 +33,7 @@ public class InfoProvider {
         textArea.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         // Always scroll to bottom
-        DefaultCaret caret = (DefaultCaret)textArea.getCaret();
+        DefaultCaret caret = (DefaultCaret) textArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         textArea.setText("Welcome to The New Home! Tips and messages will be shown here." + '\n');
@@ -51,7 +50,7 @@ public class InfoProvider {
         return wrapperPanel;
     }
 
-    public static void writeMessage(String message) {
+    static void writeMessage(String message) {
         String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
 
         String toAppend = "-------------------------------------------" + '\n';

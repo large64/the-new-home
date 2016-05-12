@@ -13,6 +13,7 @@ public abstract class RawEntity {
     private static final int DEFAULT_HEALTH = 100;
 
     protected static int counter = 0;
+    public boolean isMarkedForDeletion = false;
     protected Tile tilePosition;
     protected Position position;
     protected float rotation;
@@ -24,8 +25,6 @@ public abstract class RawEntity {
     private Entity entity;
     private boolean isSelected = false;
     private String id;
-
-    public boolean isMarkedForDeletion = false;
 
     public RawEntity() {
     }
@@ -67,8 +66,7 @@ public abstract class RawEntity {
             this.isBeingAttacked = true;
         } else if (by > 0) {
             this.isBeingHealed = true;
-        }
-        else {
+        } else {
             this.isBeingAttacked = false;
             this.isBeingHealed = false;
         }

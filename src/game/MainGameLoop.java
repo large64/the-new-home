@@ -5,7 +5,6 @@ package game;
 
 
 import game.graphics.renderers.MasterRenderer;
-import game.graphics.toolbox.Loader;
 import game.graphics.windowparts.Window;
 import org.lwjgl.opengl.Display;
 

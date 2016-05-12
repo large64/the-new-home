@@ -1,7 +1,6 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
-import game.graphics.entities.Entity;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.toolbox.GameMode;
@@ -19,10 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.util.Random;
 
@@ -71,7 +67,7 @@ public class Window {
         mainFrame.setLayout(new BorderLayout());
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setUndecorated(true);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         initializeMenuFrame();
         new MiniMap();
@@ -105,7 +101,7 @@ public class Window {
         return mainFrame.getHeight();
     }
 
-    public static JFrame getMenuFrame() {
+    static JFrame getMenuFrame() {
         return menuFrame;
     }
 
@@ -172,9 +168,7 @@ public class Window {
         });
 
         JButton button2 = new JButton("Quit");
-        button2.addActionListener(e1 -> {
-            mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING));
-        });
+        button2.addActionListener(e1 -> mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING)));
 
         JButton button3 = new JButton("Resume");
         button3.addActionListener(el -> {
@@ -184,14 +178,10 @@ public class Window {
         });
 
         JButton button4 = new JButton("Save Game");
-        button4.addActionListener(e -> {
-            GameSaver.save();
-        });
+        button4.addActionListener(e -> GameSaver.save());
 
         JButton button5 = new JButton("Load Game");
-        button5.addActionListener(e -> {
-            switchMenuFrameContent(GameLoader.getLoaderPanel());
-        });
+        button5.addActionListener(e -> switchMenuFrameContent(GameLoader.getLoaderPanel()));
 
         JLabel menuTitle = new JLabel("Main Menu");
         menuTitle.setHorizontalAlignment(JLabel.CENTER);
@@ -247,9 +237,7 @@ public class Window {
         placeholderLabel.setForeground(Color.WHITE);
         gameModePanel.add(placeholderLabel);
         JButton menuButton = new JButton("Main menu");
-        menuButton.addActionListener(e -> {
-            showMenu();
-        });
+        menuButton.addActionListener(e -> showMenu());
         gameModePanel.add(menuButton);
 
         JPanel miniMapPanel = new JPanel(new BorderLayout());

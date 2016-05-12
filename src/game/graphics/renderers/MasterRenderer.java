@@ -1,6 +1,5 @@
 package game.graphics.renderers;
 
-import game.MainGameLoop;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
@@ -13,7 +12,6 @@ import game.graphics.toolbox.Loader;
 import game.graphics.windowparts.Map;
 import game.graphics.windowparts.Scene;
 import game.graphics.windowparts.infopanels.EntityInfo;
-import game.logic.toolbox.map.Tile;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
@@ -41,7 +39,7 @@ public class MasterRenderer {
     private TerrainShader terrainShader = new TerrainShader();
 
 
-    public MasterRenderer(Loader loader) {
+    public MasterRenderer() {
         enableCulling();
         createProjectionMatrix();
         this.renderer = new EntityRenderer(shader, projectionMatrix);
@@ -58,15 +56,12 @@ public class MasterRenderer {
     }
 
     public static void renderScene() {
-        // @TODO: make game loader work for map, too
-        // @TODO: create edit mode and place entities
         // @TODO: create selectable actions
-        // @TODO: create new frames for actions
         DisplayManager.createDisplay();
         loader = new Loader();
 
         // Set additional things like renderer, picker
-        masterRenderer = new MasterRenderer(loader);
+        masterRenderer = new MasterRenderer();
 
         EntityInfo.setEntities(Scene.getSelectedEntities());
 
@@ -87,6 +82,10 @@ public class MasterRenderer {
 
     public static Loader getLoader() {
         return loader;
+    }
+
+    public static MasterRenderer getMasterRenderer() {
+        return masterRenderer;
     }
 
     private void createProjectionMatrix() {
@@ -156,9 +155,5 @@ public class MasterRenderer {
 
     public Matrix4f getProjectionMatrix() {
         return projectionMatrix;
-    }
-
-    public static MasterRenderer getMasterRenderer() {
-        return masterRenderer;
     }
 }

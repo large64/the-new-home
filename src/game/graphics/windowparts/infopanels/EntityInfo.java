@@ -2,6 +2,7 @@ package game.graphics.windowparts.infopanels;
 
 import com.sun.istack.internal.Nullable;
 import game.logic.entities.RawEntity;
+import game.logic.toolbox.Side;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -46,8 +47,14 @@ public class EntityInfo {
         multiPanel.setBorder(border);
 
         nameLabel = new JLabel();
+        nameLabel.setOpaque(false);
+
         sideLabel = new JLabel();
+        sideLabel.setOpaque(false);
+
         healthLabel = new JLabel();
+        healthLabel.setOpaque(false);
+
         tileLabel = new JLabel();
         imageLabel = new JLabel();
         nameLabel.setHorizontalAlignment(JLabel.CENTER);
@@ -90,6 +97,13 @@ public class EntityInfo {
             sideLabel.setText(entity.getSide().toString());
             healthLabel.setText(String.valueOf(entity.getHealth()));
             tileLabel.setText(entity.getTilePosition().toString());
+
+            if (entity.getSide().equals(Side.ENEMY)) {
+                singlePanel.setBackground(Color.RED);
+            }
+            else {
+                singlePanel.setBackground(null);
+            }
 
             singlePanel.setVisible(true);
             wrapperPanel.setPreferredSize(new Dimension(150, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));

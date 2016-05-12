@@ -1,10 +1,15 @@
 package game.logic.entities;
 
 import game.graphics.entities.Entity;
+import game.graphics.entities.buildings.Building;
+import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Dénes on 2015. 11. 06..
@@ -41,14 +46,38 @@ public abstract class RawEntity {
     }
 
     protected boolean isNextToAnEntity(RawEntity rawEntity) {
-        int entityTileRow = rawEntity.getTilePosition().getRow();
-        int entityTileColumn = rawEntity.getTilePosition().getColumn();
+        int currentTileX = getTilePosition().getColumn();
+        int currentTileY = getTilePosition().getRow();
 
-        // offsets of entities relative to each other
-        int rowOffset = entityTileRow - this.tilePosition.getRow();
-        int columnOffset = entityTileColumn - this.tilePosition.getColumn();
+        if (rawEntity instanceof RawBuilding) {
+            List<Tile> tiles = ((RawBuilding) rawEntity).getExtentPositions();
+            for (Tile tile : tiles) {
+                int entityTileX = tile.getColumn();
+                int entityTileY = tile.getRow();
 
-        return (rowOffset >= -1 && rowOffset <= 1 && columnOffset >= -1 && columnOffset <= 1);
+                int xOffset = Math.abs(currentTileX - entityTileX);
+                int yOffset = Math.abs(currentTileY - entityTileY);
+
+                if (xOffset == 1 && yOffset == 1) {
+                    return true;
+                }
+            }
+        }
+        else {
+            Tile rawEntityTile = rawEntity.getTilePosition();
+
+            int rowOffset = Math.abs(rawEntityTile.getRow() - this.tilePosition.getRow());
+            int columnOffset = Math.abs(rawEntityTile.getColumn() - this.tilePosition.getColumn());
+
+            List<Integer> validOffsets = new ArrayList<>();
+            validOffsets.add(0);
+            validOffsets.add(-1);
+            validOffsets.add(1);
+
+            return (validOffsets.contains(rowOffset) && validOffsets.contains(columnOffset));
+        }
+
+        return false;
     }
 
     public int getHealth() {
@@ -90,11 +119,6 @@ public abstract class RawEntity {
 
     public void setSide(Side side) {
         this.side = side;
-    }
-
-    public void reset() {
-        this.tilePosition = Tile.positionToTile(defaultPosition);
-        this.setHealth(100);
     }
 
     public Tile getTilePosition() {

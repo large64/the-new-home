@@ -151,9 +151,9 @@ public class Window {
             }
 
             TexturedModel homeModel = Scene.getModelsMap().get("homeBuilding");
-            zInitial = 90;
-            float y = Scene.getMainMap().getHeightOfMap(100, zInitial);
-            new Home(homeModel, new Vector3f(100, y, zInitial), 1, Side.FRIEND);
+            zInitial = 10;
+            float y = Scene.getMainMap().getHeightOfMap(5, zInitial);
+            new Home(homeModel, new Vector3f(10, y, zInitial), 1, Side.FRIEND);
 
             Random random = new Random();
 

@@ -34,16 +34,22 @@ public class RawUnit extends RawEntity {
         // @TODO: make units avoid being on the same title when their destinations are approached by them
         if (!this.path.isEmpty() && destinationTile != null) {
             try {
-                RawEntity enemy = RawMap.whatIsOnTile(tile);
+                RawEntity toBeApproached = RawMap.whatIsOnTile(tile);
 
-                if (enemy != null && !enemy.getSide().equals(side) && this.isNextToAnEntity(enemy)) {
-                    if (enemy.isAlive()) {
-                        enemy.changeHealth(-0.5f);
-                    } else {
-                        enemy.isMarkedForDeletion = true;
+                if (toBeApproached == null) {
+                    step();
+                }
+                else if (!toBeApproached.getSide().equals(side)) {
+                    if (this.isNextToAnEntity(toBeApproached)) {
+                        if (toBeApproached.isAlive()) {
+                            toBeApproached.changeHealth(-0.05f);
+                        } else {
+                            toBeApproached.isMarkedForDeletion = true;
+                        }
                     }
-                } else {
-                    this.step();
+                    else {
+                        step();
+                    }
                 }
             } catch (IndexOutOfBoundsException ex) {
                 this.getPath().clear();

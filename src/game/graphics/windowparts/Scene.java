@@ -147,7 +147,7 @@ public class Scene {
                 break;
             case ONGOING:
                 BuildingPanel.setBuilderPanelInvisible();
-                if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
+                //if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
                 player.move(firstMiddleClickPosition);
 
                 if (Camera.isMouseGrabbed()) {
@@ -160,12 +160,12 @@ public class Scene {
                                 RawUnit rawUnit = (RawUnit) rawEntity;
 
                                 if (rawEntity.getSide().equals(Side.ENEMY) && rawUnit.getPath().isEmpty()) {
-                                    RawEntity randomRawEntity = getRandomFriendlyBuilding().getRawEntity();
+                                    RawEntity randomRawEntity = getRandomFriendlyEntity().getRawEntity();
                                     int[] extent = new int[]{0, 0};
                                     if (randomRawEntity instanceof RawBuilding) {
                                         extent = ((RawBuilding) randomRawEntity).getExtent();
                                     }
-                                    Tile destinationTile = new Tile(randomRawEntity.getTilePosition().getRow() - extent[0], randomRawEntity.getTilePosition().getColumn() - extent[1]);
+                                    Tile destinationTile = new Tile(randomRawEntity.getTilePosition().getRow() + 1, randomRawEntity.getTilePosition().getColumn());
 
                                     rawUnit.setDestinationTile(destinationTile);
                                     rawUnit.calculatePath();
@@ -223,23 +223,30 @@ public class Scene {
             tile = Tile.positionToTile(new Position(picker.getCurrentTerrainPoint().x, picker.getCurrentTerrainPoint().z));
         }
 
-        RawEntity rawEntity = RawMap.whatIsOnTile(tile);
-        boolean entityAdded = false;
+        try {
+            RawEntity rawEntity = RawMap.whatIsOnTile(tile);
+            boolean entityAdded = false;
 
-        if (rawEntity != null && !rawEntity.isSelected() && selectedEntities.size() < EntityInfo.MULTI_SIZE
-                && rawEntity.getSide().equals(Side.FRIEND) && !selectedEntities.contains(rawEntity)) {
-            if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                selectedEntities.clear();
+            if (rawEntity != null && !rawEntity.isSelected() && selectedEntities.size() < EntityInfo.MULTI_SIZE
+                    && !selectedEntities.contains(rawEntity)) {
+                if (!Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                    selectedEntities.clear();
+                    unSelectAllEntities();
+                }
+                selectedEntities.add(rawEntity);
+                rawEntity.setSelected(true);
+                entityAdded = true;
+            }
+
+            if (!entityAdded) {
                 unSelectAllEntities();
             }
-            selectedEntities.add(rawEntity);
-            rawEntity.setSelected(true);
-            entityAdded = true;
+
+            UnitCreator.lookForChanges();
         }
-        if (!entityAdded) {
-            unSelectAllEntities();
+        catch (IndexOutOfBoundsException ex) {
+            InfoProvider.writeMessage("Out of map.");
         }
-        UnitCreator.lookForChanges();
     }
 
     private static void unSelectAllEntities() {
@@ -264,7 +271,11 @@ public class Scene {
                     }
                     if (rawEntity.isMarkedForDeletion) {
                         it.remove();
+                        if (selectedEntities.contains(entity)) {
+                            selectedEntities.remove(entity);
+                        }
                         RawMap.setRawEntities();
+                        RawMap.lookForChanges();
                     }
                     renderer.processEntity(entity);
                 }
@@ -296,6 +307,7 @@ public class Scene {
             case ONGOING:
                 try {
                     RawEntity destinationEntity = RawMap.whatIsOnTile(selectedTile);
+                    System.out.println(destinationEntity);
 
                     if (destinationEntity instanceof RawUnit || destinationEntity == null) {
                         for (RawEntity entity : selectedEntities) {
@@ -472,15 +484,15 @@ public class Scene {
         return timer;
     }
 
-    private static Entity getRandomFriendlyBuilding() {
-        List<Entity> buildings = new ArrayList<>();
+    private static Entity getRandomFriendlyEntity() {
+        List<Entity> friends = new ArrayList<>();
 
         for (Entity entity : entities) {
-            if (entity instanceof Building) {
-                buildings.add(entity);
+            if (entity.getRawEntity().getSide().equals(Side.FRIEND)) {
+                friends.add(entity);
             }
         }
 
-        return buildings.get(new Random().nextInt(buildings.size()));
+        return friends.get(new Random().nextInt(friends.size()));
     }
 }

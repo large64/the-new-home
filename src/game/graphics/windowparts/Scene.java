@@ -59,8 +59,6 @@ public class Scene {
     private static boolean leftClick;
     private static boolean middleClick;
 
-    private static Light sun;
-
     private static Vector2f firstMiddleClickPosition;
 
     public Scene() {
@@ -90,7 +88,7 @@ public class Scene {
 
         // Set features of lights
         lights = new ArrayList<>();
-        sun = new Light(new Vector3f(105, 500, 400), new Vector3f(1f, 1f, 1f));
+        Light sun = new Light(new Vector3f(105, 500, 400), new Vector3f(1f, 1f, 1f));
         lights.add(sun);
 
         // Set features of player

@@ -1,7 +1,6 @@
 package game.logic.entities;
 
 import game.graphics.entities.Entity;
-import game.graphics.entities.buildings.Building;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
@@ -62,8 +61,7 @@ public abstract class RawEntity {
                     return true;
                 }
             }
-        }
-        else {
+        } else {
             Tile rawEntityTile = rawEntity.getTilePosition();
 
             int rowOffset = Math.abs(rawEntityTile.getRow() - this.tilePosition.getRow());

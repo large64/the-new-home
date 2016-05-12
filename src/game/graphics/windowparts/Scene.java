@@ -43,7 +43,7 @@ public class Scene {
     private static Map mainMap;
     private static Player player;
     private static GameMode gameMode;
-    private static Timer timer;
+    private static Runnable attackRunnable;
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
@@ -108,7 +108,33 @@ public class Scene {
         firstMiddleClickPosition = null;
 
         new GameObserver();
-        timer = new Timer();
+        attackRunnable = () -> {
+            System.out.println("attack");
+            for (Entity entity : entities) {
+                RawEntity rawEntity = entity.getRawEntity();
+
+                if (rawEntity instanceof RawUnit) {
+                    RawUnit rawUnit = (RawUnit) rawEntity;
+
+                    if (rawEntity.getSide().equals(Side.ENEMY)) {
+                        RawEntity randomRawEntity = getRandomFriendlyEntity();
+
+                        int row = randomRawEntity.getTilePosition().getRow();
+                        int column = randomRawEntity.getTilePosition().getColumn();
+
+                        Tile destinationTile = new Tile(row, column);
+
+                        if (randomRawEntity instanceof RawBuilding) {
+                            List<Tile> extentPositions = ((RawBuilding) randomRawEntity).getExtentPositions();
+                            destinationTile = extentPositions.get(new Random().nextInt(extentPositions.size()));
+                        }
+
+                        rawUnit.setDestinationTile(destinationTile);
+                        rawUnit.calculatePath();
+                    }
+                }
+            }
+        };
     }
 
     public static void render() {
@@ -151,28 +177,6 @@ public class Scene {
                 player.move(firstMiddleClickPosition);
 
                 if (Camera.isMouseGrabbed()) {
-                    float time = timer.getTime();
-                    if (time >= 5 && time < 6) {
-                        for (Entity entity : entities) {
-                            RawEntity rawEntity = entity.getRawEntity();
-
-                            if (rawEntity instanceof RawUnit) {
-                                RawUnit rawUnit = (RawUnit) rawEntity;
-
-                                if (rawEntity.getSide().equals(Side.ENEMY) && rawUnit.getPath().isEmpty()) {
-                                    RawEntity randomRawEntity = getRandomFriendlyEntity().getRawEntity();
-                                    int[] extent = new int[]{0, 0};
-                                    if (randomRawEntity instanceof RawBuilding) {
-                                        extent = ((RawBuilding) randomRawEntity).getExtent();
-                                    }
-                                    Tile destinationTile = new Tile(randomRawEntity.getTilePosition().getRow() + 1, randomRawEntity.getTilePosition().getColumn());
-
-                                    rawUnit.setDestinationTile(destinationTile);
-                                    rawUnit.calculatePath();
-                                }
-                            }
-                        }
-                    }
 
                     if (Mouse.isButtonDown(1) && !rightClick) {
                         checkClick();
@@ -243,8 +247,7 @@ public class Scene {
             }
 
             UnitCreator.lookForChanges();
-        }
-        catch (IndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             InfoProvider.writeMessage("Out of map.");
         }
     }
@@ -266,13 +269,13 @@ public class Scene {
                     if (rawEntity.isAlive()) {
                         if (rawEntity instanceof RawUnit) {
                             RawUnit rawUnit = (RawUnit) rawEntity;
-                            rawUnit.performAction(rawUnit.getDestinationTile());
+                            rawUnit.performAction();
                         }
                     }
                     if (rawEntity.isMarkedForDeletion) {
                         it.remove();
-                        if (selectedEntities.contains(entity)) {
-                            selectedEntities.remove(entity);
+                        if (selectedEntities.contains(entity.getRawEntity())) {
+                            selectedEntities.remove(entity.getRawEntity());
                         }
                         RawMap.setRawEntities();
                         RawMap.lookForChanges();
@@ -310,12 +313,11 @@ public class Scene {
                     System.out.println(destinationEntity);
 
                     if (destinationEntity instanceof RawUnit || destinationEntity == null) {
-                        for (RawEntity entity : selectedEntities) {
+                        selectedEntities.stream().filter(entity -> entity instanceof RawUnit).forEach(entity -> {
                             RawUnit rawUnit = (RawUnit) entity;
                             rawUnit.setDestinationTile(selectedTile);
                             rawUnit.calculatePath();
-
-                        }
+                        });
                     }
                 } catch (ArrayIndexOutOfBoundsException ex) {
                     InfoProvider.writeMessage("Out of map.");
@@ -480,19 +482,19 @@ public class Scene {
         }
     }
 
-    public static Timer getTimer() {
-        return timer;
-    }
+    public static RawEntity getRandomFriendlyEntity() {
+        List<RawEntity> friends = new ArrayList<>();
 
-    private static Entity getRandomFriendlyEntity() {
-        List<Entity> friends = new ArrayList<>();
-
-        for (Entity entity : entities) {
-            if (entity.getRawEntity().getSide().equals(Side.FRIEND)) {
+        for (RawEntity entity : RawMap.getRawEntities()) {
+            if (entity.getSide().equals(Side.FRIEND)) {
                 friends.add(entity);
             }
         }
 
         return friends.get(new Random().nextInt(friends.size()));
+    }
+
+    public static Runnable getAttackRunnable() {
+        return attackRunnable;
     }
 }

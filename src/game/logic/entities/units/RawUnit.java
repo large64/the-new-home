@@ -30,31 +30,41 @@ public class RawUnit extends RawEntity {
         this.setSide(side);
     }
 
-    public void performAction(Tile tile) {
-        // @TODO: make units avoid being on the same title when their destinations are approached by them
-        if (!this.path.isEmpty() && destinationTile != null) {
-            try {
-                RawEntity toBeApproached = RawMap.whatIsOnTile(tile);
+    public void performAction() {
+        if (destinationTile != null) {
+            RawEntity destinationEntity = RawMap.whatIsOnTile(destinationTile);
+            if (destinationEntity != null) {
+                switch (side) {
+                    case FRIEND:
 
-                if (toBeApproached == null) {
-                    step();
-                }
-                else if (!toBeApproached.getSide().equals(side)) {
-                    if (this.isNextToAnEntity(toBeApproached)) {
-                        if (toBeApproached.isAlive()) {
-                            if (this instanceof RawSoldier) {
-                                ((RawSoldier) this).attack(toBeApproached);
+                        if (true) {
+                            if (!this.isNextToAnEntity(destinationEntity)) {
+                                this.step();
+                            } else if (destinationEntity.getSide().equals(Side.ENEMY)) {
+                                if (destinationEntity.isAlive()) {
+                                    ((RawSoldier) this).attack(destinationEntity);
+                                } else {
+                                    destinationEntity.isMarkedForDeletion = true;
+                                }
                             }
-                        } else {
-                            toBeApproached.isMarkedForDeletion = true;
                         }
-                    }
-                    else {
-                        step();
-                    }
+                        break;
+                    case ENEMY:
+                        if (destinationEntity != null) {
+                            if (!this.isNextToAnEntity(destinationEntity)) {
+                                this.step();
+                            } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
+                                if (destinationEntity.isAlive()) {
+                                    ((RawSoldier) this).attack(destinationEntity);
+                                } else {
+                                    destinationEntity.isMarkedForDeletion = true;
+                                }
+                            }
+                        }
+                        break;
                 }
-            } catch (IndexOutOfBoundsException ex) {
-                this.getPath().clear();
+            } else if (!path.isEmpty()) {
+                step();
             }
         }
     }
@@ -63,44 +73,43 @@ public class RawUnit extends RawEntity {
      * Finds a way to tile (if there is). It is an implementation of A* algorithm.
      */
     public void calculatePath() {
-        if (destinationTile != null) {
-            this.path.clear();
-            List<Node> open = new ArrayList<>();
-            Queue<Node> closed = new LinkedList<>();
+        this.path.clear();
+        List<Node> open = new ArrayList<>();
+        Queue<Node> closed = new LinkedList<>();
 
-            Node startPosition = new Node(this.getTilePosition().getRow(), this.getTilePosition().getColumn());
-            open.add(startPosition);
+        Node startPosition = new Node(this.getTilePosition().getRow(), this.getTilePosition().getColumn());
+        open.add(startPosition);
 
-            while (!open.isEmpty()) {
-                Node current = open.get(0);
-                int min = current.fCost;
+        while (!open.isEmpty()) {
+            Node current = open.get(0);
+            int min = current.fCost;
 
-                for (Node innerCurrent : open) {
-                    if (innerCurrent.fCost < min) {
-                        min = innerCurrent.fCost;
-                        current = innerCurrent;
-                    }
+            for (Node innerCurrent : open) {
+                if (innerCurrent.fCost < min) {
+                    min = innerCurrent.fCost;
+                    current = innerCurrent;
                 }
-
-                if (current.equals(new Node(destinationTile.getRow(), destinationTile.getColumn()))) {
-                    while (current != null) {
-                        this.path.add(current);
-                        current = current.parent;
-                    }
-                    Collections.reverse(this.path);
-                    currentNode = path.get(0);
-                    path.remove(0);
-                    return;
-                }
-
-                open.remove(current);
-                closed.add(current);
-
-                ArrayList<Node> neighbors = current.getNeighbors();
-
-                processNeighbors(neighbors, destinationTile, open, closed, current);
             }
+
+            if (current.equals(new Node(destinationTile.getRow(), destinationTile.getColumn()))) {
+                while (current != null) {
+                    this.path.add(current);
+                    current = current.parent;
+                }
+                Collections.reverse(this.path);
+                currentNode = path.get(0);
+                path.remove(0);
+                return;
+            }
+
+            open.remove(current);
+            closed.add(current);
+
+            ArrayList<Node> neighbors = current.getNeighbors();
+
+            processNeighbors(neighbors, destinationTile, open, closed, current);
         }
+
     }
 
     /**
@@ -146,7 +155,7 @@ public class RawUnit extends RawEntity {
     }
 
     public void step() {
-        if (this.path != null && !currentNode.isProcessed) {
+        if (!this.path.isEmpty() && !currentNode.isProcessed) {
             Node toNode = path.get(0);
 
             Position currentPosition = this.position;

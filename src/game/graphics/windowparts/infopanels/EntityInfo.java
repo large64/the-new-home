@@ -100,8 +100,7 @@ public class EntityInfo {
 
             if (entity.getSide().equals(Side.ENEMY)) {
                 singlePanel.setBackground(Color.RED);
-            }
-            else {
+            } else {
                 singlePanel.setBackground(null);
             }
 

@@ -22,6 +22,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.util.Random;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by large64 on 31/10/15.
@@ -171,7 +174,10 @@ public class Window {
             RawMap.lookForChanges();
 
             Scene.setGameMode(GameMode.ONGOING);
-            Scene.getTimer().set(0);
+            GameObserver.lookForChanges();
+
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 10, 10, TimeUnit.SECONDS);
         });
 
         JButton button2 = new JButton("Quit");

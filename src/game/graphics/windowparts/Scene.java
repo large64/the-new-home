@@ -172,7 +172,7 @@ public class Scene {
                     picker.update();
                     PositionInfo.lookForChanges(picker);
 
-                    EntityInfo.refreshInfo();
+                    EntityInfo.lookForChanges();
                     MiniMap.lookForChanges();
                     //guiRenderer.render(guis);
                     processEntities(MasterRenderer.getMasterRenderer());

@@ -78,7 +78,7 @@ public class EntityInfo {
         wrapperPanel.add(placeholderLabel);
     }
 
-    public static void refreshInfo() {
+    public static void lookForChanges() {
         if (entities.size() == 1) {
             multiPanel.setVisible(false);
             removeMultiPanelIcons();

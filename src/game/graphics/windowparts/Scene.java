@@ -28,13 +28,12 @@ import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -44,6 +43,7 @@ public class Scene {
     private static Map mainMap;
     private static Player player;
     private static GameMode gameMode;
+    private static Timer timer;
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
@@ -108,6 +108,7 @@ public class Scene {
         firstMiddleClickPosition = null;
 
         new GameObserver();
+        timer = new Timer();
     }
 
     public static void render() {
@@ -150,6 +151,29 @@ public class Scene {
                 player.move(firstMiddleClickPosition);
 
                 if (Camera.isMouseGrabbed()) {
+                    float time = timer.getTime();
+                    if (time >= 5 && time < 6) {
+                        for (Entity entity : entities) {
+                            RawEntity rawEntity = entity.getRawEntity();
+
+                            if (rawEntity instanceof RawUnit) {
+                                RawUnit rawUnit = (RawUnit) rawEntity;
+
+                                if (rawEntity.getSide().equals(Side.ENEMY) && rawUnit.getPath().isEmpty()) {
+                                    RawEntity randomRawEntity = getRandomFriendlyBuilding().getRawEntity();
+                                    int[] extent = new int[]{0, 0};
+                                    if (randomRawEntity instanceof RawBuilding) {
+                                        extent = ((RawBuilding) randomRawEntity).getExtent();
+                                    }
+                                    Tile destinationTile = new Tile(randomRawEntity.getTilePosition().getRow() - extent[0], randomRawEntity.getTilePosition().getColumn() - extent[1]);
+
+                                    rawUnit.setDestinationTile(destinationTile);
+                                    rawUnit.calculatePath();
+                                }
+                            }
+                        }
+                    }
+
                     if (Mouse.isButtonDown(1) && !rightClick) {
                         checkClick();
                     }
@@ -175,6 +199,7 @@ public class Scene {
                     //guiRenderer.render(guis);
                     processEntities(MasterRenderer.getMasterRenderer());
                 }
+                Timer.tick();
                 break;
         }
     }
@@ -441,5 +466,21 @@ public class Scene {
                 MiniMap.lookForChanges();
             }
         }
+    }
+
+    public static Timer getTimer() {
+        return timer;
+    }
+
+    private static Entity getRandomFriendlyBuilding() {
+        List<Entity> buildings = new ArrayList<>();
+
+        for (Entity entity : entities) {
+            if (entity instanceof Building) {
+                buildings.add(entity);
+            }
+        }
+
+        return buildings.get(new Random().nextInt(buildings.size()));
     }
 }

@@ -9,12 +9,14 @@ import game.logic.toolbox.Side;
  * Created by large64 on 10/10/15.
  */
 public class Hospital extends Building {
+    private static final Type type = Type.HOSPITAL;
+
     public Hospital() {
         super();
         this.setModel(Scene.getModelsMap().get("hospitalBuilding"));
     }
 
     public Hospital(TexturedModel model, float scale, Side side) {
-        super(model, scale, side, Type.HOSPITAL);
+        super(model, scale, side, type);
     }
 }

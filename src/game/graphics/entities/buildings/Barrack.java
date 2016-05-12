@@ -9,12 +9,14 @@ import game.logic.toolbox.Side;
  * Created by large64 on 10/10/15.
  */
 public class Barrack extends Building {
+    private static final Type type = Type.BARRACK;
+
     public Barrack() {
         super();
         this.setModel(Scene.getModelsMap().get("barrackBuilding"));
     }
 
     public Barrack(TexturedModel model, float scale, Side side) {
-        super(model, scale, side, Type.BARRACK);
+        super(model, scale, side, type);
     }
 }

@@ -36,12 +36,11 @@ public class RawUnit extends RawEntity {
             try {
                 RawEntity enemy = RawMap.whatIsOnTile(tile);
 
-                if (enemy != null && !enemy.getSide().equals(Side.FRIEND) && this.isNextToAnEntity(enemy)) {
+                if (enemy != null && !enemy.getSide().equals(side) && this.isNextToAnEntity(enemy)) {
                     if (enemy.isAlive()) {
                         enemy.changeHealth(-0.5f);
                     } else {
                         enemy.isMarkedForDeletion = true;
-                        this.step();
                     }
                 } else {
                     this.step();
@@ -138,7 +137,7 @@ public class RawUnit extends RawEntity {
         }
     }
 
-    private void step() {
+    public void step() {
         if (this.path != null && !currentNode.isProcessed) {
             Node toNode = path.get(0);
 

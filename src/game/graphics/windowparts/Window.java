@@ -1,6 +1,7 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.entities.buildings.Home;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.toolbox.GameMode;
@@ -149,6 +150,11 @@ public class Window {
                 xInitial += 5;
             }
 
+            TexturedModel homeModel = Scene.getModelsMap().get("homeBuilding");
+            zInitial = 90;
+            float y = Scene.getMainMap().getHeightOfMap(100, zInitial);
+            new Home(homeModel, new Vector3f(100, y, zInitial), 1, Side.FRIEND);
+
             Random random = new Random();
 
             for (int i = 0; i < 4; i++) {
@@ -165,6 +171,7 @@ public class Window {
             RawMap.lookForChanges();
 
             Scene.setGameMode(GameMode.ONGOING);
+            Scene.getTimer().set(0);
         });
 
         JButton button2 = new JButton("Quit");

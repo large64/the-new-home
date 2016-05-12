@@ -10,16 +10,18 @@ import org.lwjgl.util.vector.Vector3f;
  * Created by large64 on 10/10/15.
  */
 public class Soldier extends Unit {
+    private static final Type type = Type.SOLDIER;
+
     public Soldier() {
         super();
         this.setModel(Scene.getModelsMap().get("soldierUnit"));
     }
 
     public Soldier(TexturedModel model, float scale, Side side) {
-        super(model, scale, side, Type.SOLDIER);
+        super(model, scale, side, type);
     }
 
     public Soldier(TexturedModel model, Vector3f position, float scale, Side side) {
-        super(model, position, scale, Type.SOLDIER, side);
+        super(model, position, scale, type, side);
     }
 }

@@ -12,7 +12,7 @@ import org.lwjgl.util.vector.Vector4f;
 
 public class MousePicker {
 
-    private static final int RECURSION_COUNT = 200;
+    private static final int RECURSION_COUNT = 30;
     private static final float RAY_RANGE = 600;
 
     private Vector3f currentRay = new Vector3f();

@@ -7,6 +7,7 @@ import game.graphics.toolbox.GameMode;
 import game.logic.entities.RawEntity;
 import game.logic.entities.buildings.RawBarrack;
 import game.logic.entities.buildings.RawHospital;
+import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 
 import javax.swing.*;
@@ -29,6 +30,7 @@ public class UnitCreator {
     private static MouseListener createHealerListener;
 
     private static JLabel bottomLabel = new JLabel();
+    private static boolean isEntityAdded = false;
 
     public UnitCreator() {
         wrapperPanel = new JPanel(new BorderLayout());
@@ -60,9 +62,16 @@ public class UnitCreator {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                TexturedModel healerModel = Scene.getModelsMap().get("healerUnit");
-                Healer healer = new Healer(healerModel, 1, Side.FRIEND);
-                Scene.setLevitatingEntity(healer);
+                if (!isEntityAdded) {
+                    if (GameObserver.getNumberOfEnemyEntities() < 1) {
+                        TexturedModel healerModel = Scene.getModelsMap().get("healerUnit");
+                        Healer healer = new Healer(healerModel, 1, Side.FRIEND);
+                        Scene.setLevitatingEntity(healer);
+                        isEntityAdded = true;
+                    } else {
+                        InfoProvider.writeMessage("Cannot create unit now, you're under attack!");
+                    }
+                }
             }
         };
 
@@ -70,14 +79,21 @@ public class UnitCreator {
             @Override
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
-                TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
-                Soldier soldier = new Soldier(soldierModel, 1, Side.FRIEND);
-                Scene.setLevitatingEntity(soldier);
+                if (!isEntityAdded) {
+                    if (GameObserver.getNumberOfEnemyEntities() < 1) {
+                        TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
+                        Soldier soldier = new Soldier(soldierModel, 1, Side.FRIEND);
+                        Scene.setLevitatingEntity(soldier);
+                        isEntityAdded = true;
+                    } else {
+                        InfoProvider.writeMessage("Cannot create unit now, enemies are close!");
+                    }
+                }
             }
         };
     }
 
-    public static JPanel getWrapperPanel() {
+    static JPanel getWrapperPanel() {
         return wrapperPanel;
     }
 
@@ -85,7 +101,7 @@ public class UnitCreator {
         java.util.List<RawEntity> selectedEntities = Scene.getSelectedEntities();
 
         if ((Scene.getGameMode().equals(GameMode.ONGOING) || !selectedEntities.isEmpty()) && selectedEntities.size() == 1) {
-
+            isEntityAdded = false;
             RawEntity selectedEntity = selectedEntities.get(0);
             if (selectedEntity instanceof RawHospital) {
                 hospitalLabel.setVisible(true);

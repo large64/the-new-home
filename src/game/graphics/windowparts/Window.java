@@ -158,14 +158,6 @@ public class Window {
             float y = Scene.getMainMap().getHeightOfMap(5, zInitial);
             new Home(homeModel, new Vector3f(10, y, zInitial), 1, Side.FRIEND);
 
-            Random random = new Random();
-
-            for (int i = 0; i < 4; i++) {
-                xInitial = (float) random.nextInt((199 - 0) + 1) + 0;
-                zInitial = (float) random.nextInt((199 - 0) + 1) + 0;
-                new Soldier(soldierModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.ENEMY);
-            }
-
             //menuFrame.setVisible(false);
             Camera.setIsMouseGrabbed(true);
 
@@ -178,6 +170,7 @@ public class Window {
 
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 10, 10, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Scene.getEntityCreatorRunnable(), 13, 180, TimeUnit.SECONDS);
         });
 
         JButton button2 = new JButton("Quit");

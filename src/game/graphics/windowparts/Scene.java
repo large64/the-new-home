@@ -5,6 +5,7 @@ import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
 import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Building;
+import game.graphics.entities.units.Soldier;
 import game.graphics.entities.units.Unit;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
@@ -44,6 +45,8 @@ public class Scene {
     private static Player player;
     private static GameMode gameMode;
     private static Runnable attackRunnable;
+    private static Runnable entityCreatorRunnable;
+    private static int numberOfWaves;
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
@@ -108,8 +111,28 @@ public class Scene {
         firstMiddleClickPosition = null;
 
         new GameObserver();
+        numberOfWaves = 4;
+
+        entityCreatorRunnable = () -> {
+            InfoProvider.writeMessage("A wave of enemies is coming!");
+            float xInitial = 90;
+            float zInitial = 100;
+            TexturedModel soldierModel = Scene.getModelsMap().get("enemyUnit");
+
+            Random random = new Random();
+
+            for (int i = 0; i < 4; i++) {
+                xInitial = (float) random.nextInt((199 - 0) + 1) + 0;
+                zInitial = (float) random.nextInt((199 - 0) + 1) + 0;
+                new Soldier(soldierModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.ENEMY);
+            }
+
+            MiniMap.setEntities();
+            RawMap.setRawEntities();
+            RawMap.lookForChanges();
+        };
+
         attackRunnable = () -> {
-            System.out.println("attack");
             for (Entity entity : entities) {
                 RawEntity rawEntity = entity.getRawEntity();
 
@@ -135,6 +158,10 @@ public class Scene {
                 }
             }
         };
+    }
+
+    public static Runnable getEntityCreatorRunnable() {
+        return entityCreatorRunnable;
     }
 
     public static void render() {
@@ -310,7 +337,6 @@ public class Scene {
             case ONGOING:
                 try {
                     RawEntity destinationEntity = RawMap.whatIsOnTile(selectedTile);
-                    System.out.println(destinationEntity);
 
                     if (destinationEntity instanceof RawUnit || destinationEntity == null) {
                         selectedEntities.stream().filter(entity -> entity instanceof RawUnit).forEach(entity -> {
@@ -418,6 +444,10 @@ public class Scene {
         TexturedModel barrackModel = new TexturedModel(OBJLoader.loadObjModel("barrack", loader),
                 new ModelTexture(loader.loadTexture("barrack_texture")));
         modelsMap.put("barrackBuilding", barrackModel);
+
+        TexturedModel enemySoldierModel = new TexturedModel(OBJLoader.loadObjModel("enemy", loader),
+                new ModelTexture(loader.loadTexture("enemy_texture")));
+        modelsMap.put("enemyUnit", enemySoldierModel);
     }
 
     public static List<RawEntity> getRawEntities() {

@@ -36,30 +36,28 @@ public class RawUnit extends RawEntity {
             if (destinationEntity != null) {
                 switch (side) {
                     case FRIEND:
-
-                        if (true) {
-                            if (!this.isNextToAnEntity(destinationEntity)) {
-                                this.step();
-                            } else if (destinationEntity.getSide().equals(Side.ENEMY)) {
-                                if (destinationEntity.isAlive()) {
-                                    ((RawSoldier) this).attack(destinationEntity);
-                                } else {
-                                    destinationEntity.isMarkedForDeletion = true;
-                                }
+                        if (!this.isNextToAnEntity(destinationEntity)) {
+                            this.step();
+                        } else if (destinationEntity.getSide().equals(Side.ENEMY)) {
+                            if (destinationEntity.isAlive()) {
+                                ((RawSoldier) this).attack(destinationEntity);
+                            } else {
+                                destinationEntity.setBeingAttacked(false);
+                                destinationEntity.isMarkedForDeletion = true;
                             }
                         }
                         break;
                     case ENEMY:
-                        if (destinationEntity != null) {
-                            if (!this.isNextToAnEntity(destinationEntity)) {
-                                this.step();
-                            } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
-                                if (destinationEntity.isAlive()) {
-                                    ((RawSoldier) this).attack(destinationEntity);
-                                } else {
-                                    destinationEntity.isMarkedForDeletion = true;
-                                }
+                        if (!this.isNextToAnEntity(destinationEntity)) {
+                            this.step();
+                        } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
+                            if (destinationEntity.isAlive()) {
+                                ((RawSoldier) this).attack(destinationEntity);
+                            } else {
+                                destinationEntity.isMarkedForDeletion = true;
                             }
+                        } else {
+                            destinationEntity.setBeingAttacked(false);
                         }
                         break;
                 }

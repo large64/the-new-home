@@ -36,6 +36,9 @@ import org.lwjgl.util.vector.Vector3f;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Dénes on 2016. 04. 13..
@@ -158,6 +161,11 @@ public class Scene {
                 }
             }
         };
+
+        Runnable refreshMiniMapRunnable = MiniMap::lookForChanges;
+
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(refreshMiniMapRunnable, 3, 3, TimeUnit.SECONDS);
     }
 
     public static Runnable getEntityCreatorRunnable() {
@@ -226,7 +234,6 @@ public class Scene {
                     PositionInfo.lookForChanges(picker);
 
                     EntityInfo.lookForChanges();
-                    MiniMap.lookForChanges();
                     //guiRenderer.render(guis);
                     processEntities(MasterRenderer.getMasterRenderer());
                 }
@@ -448,6 +455,10 @@ public class Scene {
         TexturedModel enemySoldierModel = new TexturedModel(OBJLoader.loadObjModel("enemy", loader),
                 new ModelTexture(loader.loadTexture("enemy_texture")));
         modelsMap.put("enemyUnit", enemySoldierModel);
+
+        TexturedModel palmTreeModel = new TexturedModel(OBJLoader.loadObjModel("tree", loader),
+                new ModelTexture(loader.loadTexture("palm_tree")));
+        modelsMap.put("palmTreeNeutral", palmTreeModel);
     }
 
     public static List<RawEntity> getRawEntities() {
@@ -507,12 +518,11 @@ public class Scene {
                 RawMap.setRawEntities();
                 RawMap.lookForChanges();
                 levitatingEntity = null;
-                MiniMap.lookForChanges();
             }
         }
     }
 
-    public static RawEntity getRandomFriendlyEntity() {
+    private static RawEntity getRandomFriendlyEntity() {
         List<RawEntity> friends = new ArrayList<>();
 
         for (RawEntity entity : RawMap.getRawEntities()) {

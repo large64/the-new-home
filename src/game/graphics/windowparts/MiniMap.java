@@ -1,6 +1,7 @@
 package game.graphics.windowparts;
 
 import game.logic.entities.RawEntity;
+import game.logic.entities.RawNeutral;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.toolbox.map.Position;
 
@@ -41,7 +42,7 @@ public class MiniMap {
                 for (int y = 0; y < mappedSize; y++) {
                     MiniMap.image.setRGB(x, y, BASE_TILE_COLOR.getRGB());
                     for (RawEntity entity : entities) {
-                        if (entity.isAlive()) {
+                        if (entity.isAlive() && !(entity instanceof RawNeutral)) {
                             Position entityPosition = entity.getTilePosition().toPosition();
                             if ((int) (entityPosition.getRow() / MAPPING_RATIO) == x && (int) (entityPosition.getColumn() / MAPPING_RATIO) == y) {
                                 MiniMap.image.setRGB(x, y, BASE_ENTITY_COLOR.getRGB());
@@ -53,15 +54,15 @@ public class MiniMap {
                                     for (int i = (x - extentX); i < (x + extentX); i++) {
                                         for (int j = (y - extentY); j < (y + extentY); j++) {
                                             MiniMap.image.setRGB(i, j, BASE_ENTITY_COLOR.getRGB());
+
+                                            if (entity.isBeingAttacked()) {
+                                                MiniMap.image.setRGB(i, j, BEING_ATTACKED_COLOR.getRGB());
+                                            }
+                                            if (entity.isBeingHealed()) {
+                                                MiniMap.image.setRGB(i, j, BEING_HEALED_COLOR.getRGB());
+                                            }
                                         }
                                     }
-                                }
-
-                                if (entity.isBeingAttacked()) {
-                                    MiniMap.image.setRGB(x, y, BEING_ATTACKED_COLOR.getRGB());
-                                }
-                                if (entity.isBeingHealed()) {
-                                    MiniMap.image.setRGB(x, y, BEING_HEALED_COLOR.getRGB());
                                 }
                             }
                         }

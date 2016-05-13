@@ -51,10 +51,19 @@ class InfoProvider {
     }
 
     static void writeMessage(String message) {
-        String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
+        String previousMessage = "";
 
-        String toAppend = "-------------------------------------------" + '\n';
-        messages.add(message);
-        textArea.append(toAppend + timeStamp + ": " + message + '\n');
+        if (!messages.isEmpty()) {
+            previousMessage = messages.get(messages.size() - 1);
+        }
+
+        // Prevent duplicates
+        if (!previousMessage.equals(message)) {
+            String timeStamp = new SimpleDateFormat("HH:mm:ss").format(new Date());
+
+            String toAppend = "-------------------------------------------" + '\n';
+            messages.add(message);
+            textArea.append(toAppend + timeStamp + ": " + message + '\n');
+        }
     }
 }

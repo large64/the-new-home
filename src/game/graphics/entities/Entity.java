@@ -92,8 +92,9 @@ public class Entity {
         int z = (int) position.getZ();
 
         this.rawEntity = new RawNeutral(new Position(x, z));
-        this.position = this.rawEntity.getTilePosition().toPosition();
-        this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
+        this.position = position;
+
+        Scene.addEntity(this);
     }
 
     public void refreshPosition() {

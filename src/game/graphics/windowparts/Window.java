@@ -1,6 +1,7 @@
 package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
+import game.graphics.entities.Entity;
 import game.graphics.entities.buildings.Home;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
@@ -143,6 +144,15 @@ public class Window {
         button.addActionListener(e -> {
             Scene.getEntities().clear();
 
+            TexturedModel palmTreeModel = Scene.getModelsMap().get("palmTreeNeutral");
+            Random random = new Random();
+            for (int i = 0; i < 10; i++) {
+                int x = random.nextInt(200);
+                int z = random.nextInt(200);
+
+                new Entity(palmTreeModel, new Vector3f(x, Scene.getMainMap().getHeightOfMap(x, z), z), 0, 0, 0, 1);
+            }
+
             float xInitial = 90;
             float zInitial = 100;
             TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
@@ -169,8 +179,8 @@ public class Window {
             GameObserver.lookForChanges();
 
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 10, 10, TimeUnit.SECONDS);
-            scheduler.scheduleAtFixedRate(Scene.getEntityCreatorRunnable(), 13, 180, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 10, 15, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Scene.getEntityCreatorRunnable(), 11, 180, TimeUnit.SECONDS);
         });
 
         JButton button2 = new JButton("Quit");

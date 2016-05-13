@@ -41,7 +41,6 @@ public abstract class RawEntity {
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
         RawMap.lookForChanges();
-        //Scene.addRawEntity(this);
     }
 
     protected boolean isNextToAnEntity(RawEntity rawEntity) {
@@ -93,9 +92,6 @@ public abstract class RawEntity {
             this.isBeingAttacked = true;
         } else if (by > 0) {
             this.isBeingHealed = true;
-        } else {
-            this.isBeingAttacked = false;
-            this.isBeingHealed = false;
         }
     }
 
@@ -107,8 +103,16 @@ public abstract class RawEntity {
         return isBeingAttacked;
     }
 
+    public void setBeingAttacked(boolean beingAttacked) {
+        isBeingAttacked = beingAttacked;
+    }
+
     public boolean isBeingHealed() {
         return isBeingHealed;
+    }
+
+    public void setBeingHealed(boolean beingHealed) {
+        isBeingHealed = beingHealed;
     }
 
     public Side getSide() {

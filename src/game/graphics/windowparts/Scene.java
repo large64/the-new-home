@@ -5,7 +5,6 @@ import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
 import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Building;
-import game.graphics.entities.units.Soldier;
 import game.graphics.entities.units.Unit;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
@@ -23,6 +22,7 @@ import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
+import game.logic.toolbox.AttackWave;
 import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
@@ -114,26 +114,7 @@ public class Scene {
 
         new GameObserver();
 
-        entityCreatorRunnable = () -> {
-            if (gameMode == GameMode.ONGOING) {
-                InfoProvider.writeMessage("A wave of enemies is coming!");
-                float xInitial = 90;
-                float zInitial = 100;
-                TexturedModel soldierModel = Scene.getModelsMap().get("enemyUnit");
-
-                Random random = new Random();
-
-                for (int i = 0; i < 4; i++) {
-                    xInitial = (float) random.nextInt((199 - 0) + 1) + 0;
-                    zInitial = (float) random.nextInt((199 - 0) + 1) + 0;
-                    new Soldier(soldierModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.ENEMY);
-                }
-
-                MiniMap.setEntities();
-                RawMap.setRawEntities();
-                RawMap.lookForChanges();
-            }
-        };
+        entityCreatorRunnable = new AttackWave(4, 2);
 
         attackRunnable = () -> {
             for (Entity entity : entities) {
@@ -323,6 +304,8 @@ public class Scene {
                         }
                     }
                     if (rawEntity.isMarkedForDeletion) {
+                        rawEntity.setAttacker(null);
+                        rawEntity.setBeingAttacked(false);
                         it.remove();
                         if (selectedEntities.contains(entity.getRawEntity())) {
                             selectedEntities.remove(entity.getRawEntity());

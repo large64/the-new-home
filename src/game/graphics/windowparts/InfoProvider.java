@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Dénes on 2016. 05. 11..
  */
-class InfoProvider {
+public class InfoProvider {
     private static List<String> messages;
     private static JTextArea textArea;
     private static JPanel wrapperPanel;
@@ -50,7 +50,7 @@ class InfoProvider {
         return wrapperPanel;
     }
 
-    static void writeMessage(String message) {
+    public static void writeMessage(String message) {
         String previousMessage = "";
 
         if (!messages.isEmpty()) {

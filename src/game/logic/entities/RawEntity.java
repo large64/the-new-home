@@ -149,10 +149,6 @@ public abstract class RawEntity {
         isSelected = selected;
     }
 
-    public RawEntity getAttacker() {
-        return attacker;
-    }
-
     public void setAttacker(RawEntity attacker) {
         this.attacker = attacker;
         this.isBeingAttacked = true;

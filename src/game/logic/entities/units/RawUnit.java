@@ -30,40 +30,32 @@ public class RawUnit extends RawEntity {
         this.setSide(side);
     }
 
-    public void performAction() {
-        if (destinationTile != null) {
-            RawEntity destinationEntity = RawMap.whatIsOnTile(destinationTile);
-            if (destinationEntity != null) {
-                switch (side) {
-                    case FRIEND:
-                        if (!this.isNextToAnEntity(destinationEntity)) {
-                            this.step();
-                        } else if (destinationEntity.getSide().equals(Side.ENEMY)) {
-                            if (destinationEntity.isAlive()) {
-                                ((RawSoldier) this).attack(destinationEntity);
-                            } else {
-                                destinationEntity.setBeingAttacked(false);
-                                destinationEntity.isMarkedForDeletion = true;
-                            }
-                        }
-                        break;
-                    case ENEMY:
-                        if (!this.isNextToAnEntity(destinationEntity)) {
-                            this.step();
-                        } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
-                            if (destinationEntity.isAlive()) {
-                                ((RawSoldier) this).attack(destinationEntity);
-                            } else {
-                                destinationEntity.isMarkedForDeletion = true;
-                            }
-                        } else {
-                            destinationEntity.setBeingAttacked(false);
-                        }
-                        break;
+    public void performAction(RawEntity destinationEntity) {
+        switch (side) {
+            case FRIEND:
+                if (!this.isNextToAnEntity(destinationEntity)) {
+                    this.step();
+                } else if (destinationEntity.getSide().equals(Side.ENEMY)) {
+                    if (destinationEntity.isAlive()) {
+                        ((RawSoldier) this).attack(destinationEntity);
+                        destinationEntity.setAttacker(this);
+                    } else {
+                        destinationEntity.isMarkedForDeletion = true;
+                    }
                 }
-            } else if (!path.isEmpty()) {
-                step();
-            }
+                break;
+            case ENEMY:
+                if (!this.isNextToAnEntity(destinationEntity)) {
+                    this.step();
+                } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
+                    if (destinationEntity.isAlive()) {
+                        ((RawSoldier) this).attack(destinationEntity);
+                        destinationEntity.setAttacker(this);
+                    } else {
+                        destinationEntity.isMarkedForDeletion = true;
+                    }
+                }
+                break;
         }
     }
 
@@ -235,6 +227,7 @@ public class RawUnit extends RawEntity {
     private void stopWalking() {
         this.tilePosition = Tile.positionToTile(this.position);
         this.position = this.tilePosition.toPosition();
+        setDestinationTile(null);
     }
 
     private float distance(float a, float b) {

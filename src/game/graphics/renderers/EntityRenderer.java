@@ -42,6 +42,11 @@ public class EntityRenderer {
                 } else {
                     shader.loadShineVariables(shineDamper, reflectivity);
                 }
+                if (entity.getRawEntity().isBeingAttacked()) {
+                    shader.loadIsBeingAttacked(true);
+                } else {
+                    shader.loadIsBeingAttacked(false);
+                }
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
                         GL11.GL_UNSIGNED_INT, 0);
             }

@@ -1,6 +1,5 @@
 package game.logic.entities;
 
-import game.graphics.entities.Entity;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
@@ -26,9 +25,9 @@ public abstract class RawEntity {
     private Position defaultPosition;
     private boolean isBeingAttacked = false;
     private boolean isBeingHealed = false;
-    private Entity entity;
     private boolean isSelected = false;
     private String id;
+    private RawEntity attacker;
 
     public RawEntity() {
     }
@@ -41,6 +40,7 @@ public abstract class RawEntity {
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
         RawMap.lookForChanges();
+        attacker = null;
     }
 
     protected boolean isNextToAnEntity(RawEntity rawEntity) {
@@ -87,12 +87,6 @@ public abstract class RawEntity {
 
     public void changeHealth(float by) {
         this.health += by;
-
-        if (by < 0) {
-            this.isBeingAttacked = true;
-        } else if (by > 0) {
-            this.isBeingHealed = true;
-        }
     }
 
     public boolean isAlive() {
@@ -131,14 +125,6 @@ public abstract class RawEntity {
         this.tilePosition = tilePosition;
     }
 
-    public Entity getEntity() {
-        return entity;
-    }
-
-    public void setEntity(Entity entity) {
-        this.entity = entity;
-    }
-
     public Position getPosition() {
         return position;
     }
@@ -161,6 +147,14 @@ public abstract class RawEntity {
 
     public void setSelected(boolean selected) {
         isSelected = selected;
+    }
+
+    public RawEntity getAttacker() {
+        return attacker;
+    }
+
+    public void setAttacker(RawEntity attacker) {
+        this.attacker = attacker;
     }
 
     public String getId() {
@@ -186,5 +180,13 @@ public abstract class RawEntity {
         JSON += "\"isSelected\":" + isSelected();
         JSON += "}";
         return JSON;
+    }
+
+    public boolean isAttackerAround() {
+        try {
+            return attacker != null && ((RawUnit) attacker).getDestinationTile().equals(this.tilePosition);
+        } catch (NullPointerException ex) {
+            return false;
+        }
     }
 }

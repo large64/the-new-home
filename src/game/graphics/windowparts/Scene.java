@@ -55,7 +55,7 @@ public class Scene {
     private static ArrayList<Map> maps;
     private static List<RawEntity> selectedEntities = new ArrayList<>();
     private static Entity levitatingEntity = null;
-    private static List<Entity> entities = new ArrayList<>();
+    private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
     private static java.util.Map<String, TexturedModel> modelsMap;
     private static MasterRenderer masterRenderer = MasterRenderer.getMasterRenderer();
 
@@ -117,22 +117,24 @@ public class Scene {
         numberOfWaves = 4;
 
         entityCreatorRunnable = () -> {
-            InfoProvider.writeMessage("A wave of enemies is coming!");
-            float xInitial = 90;
-            float zInitial = 100;
-            TexturedModel soldierModel = Scene.getModelsMap().get("enemyUnit");
+            if (gameMode == GameMode.ONGOING) {
+                InfoProvider.writeMessage("A wave of enemies is coming!");
+                float xInitial = 90;
+                float zInitial = 100;
+                TexturedModel soldierModel = Scene.getModelsMap().get("enemyUnit");
 
-            Random random = new Random();
+                Random random = new Random();
 
-            for (int i = 0; i < 4; i++) {
-                xInitial = (float) random.nextInt((199 - 0) + 1) + 0;
-                zInitial = (float) random.nextInt((199 - 0) + 1) + 0;
-                new Soldier(soldierModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.ENEMY);
+                for (int i = 0; i < 4; i++) {
+                    xInitial = (float) random.nextInt((199 - 0) + 1) + 0;
+                    zInitial = (float) random.nextInt((199 - 0) + 1) + 0;
+                    new Soldier(soldierModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.ENEMY);
+                }
+
+                MiniMap.setEntities();
+                RawMap.setRawEntities();
+                RawMap.lookForChanges();
             }
-
-            MiniMap.setEntities();
-            RawMap.setRawEntities();
-            RawMap.lookForChanges();
         };
 
         attackRunnable = () -> {
@@ -301,9 +303,25 @@ public class Scene {
                     RawEntity rawEntity = entity.getRawEntity();
 
                     if (rawEntity.isAlive()) {
+                        if (!rawEntity.isAttackerAround()) {
+                            rawEntity.setBeingAttacked(false);
+                        } else {
+                            rawEntity.setBeingAttacked(true);
+                        }
+
                         if (rawEntity instanceof RawUnit) {
                             RawUnit rawUnit = (RawUnit) rawEntity;
-                            rawUnit.performAction();
+                            if (rawUnit.getDestinationTile() != null) {
+                                Tile destinationTile = rawUnit.getDestinationTile();
+
+                                RawEntity destinationEntity = RawMap.whatIsOnTile(destinationTile);
+                                if (destinationEntity != null) {
+                                    destinationEntity.setAttacker(null);
+                                    rawUnit.performAction(destinationEntity);
+                                } else if (!rawUnit.getPath().isEmpty()) {
+                                    rawUnit.step();
+                                }
+                            }
                         }
                     }
                     if (rawEntity.isMarkedForDeletion) {

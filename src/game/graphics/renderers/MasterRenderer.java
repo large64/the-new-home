@@ -69,8 +69,8 @@ public class MasterRenderer {
 
         // Start an infinite loop for rendering
         while (!Display.isCloseRequested()) {
-            masterRenderer.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
             Scene.render();
+            masterRenderer.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
             DisplayManager.updateDisplay();
         }
 

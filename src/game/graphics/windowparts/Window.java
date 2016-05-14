@@ -40,6 +40,7 @@ public class Window {
     private static JPanel entityInfoPanel;
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
+    private static ScheduledExecutorService scheduler;
 
     public Window(Canvas canvas) {
 
@@ -179,8 +180,8 @@ public class Window {
             GameObserver.lookForChanges();
 
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 10, 15, TimeUnit.SECONDS);
-            scheduler.scheduleAtFixedRate(Scene.getEntityCreatorRunnable(), 11, 180, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 11, 15, TimeUnit.SECONDS);
+            scheduler.scheduleAtFixedRate(Scene.getEntityCreatorRunnable(), 10, 180, TimeUnit.SECONDS);
         });
 
         JButton button2 = new JButton("Quit");

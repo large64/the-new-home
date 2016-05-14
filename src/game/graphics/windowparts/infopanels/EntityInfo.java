@@ -117,7 +117,7 @@ public class EntityInfo {
                     label.setIcon(new ImageIcon(typeAndImage[1]));
                     label.setText(String.valueOf(entity.getHealth()));
                     label.setHorizontalTextPosition(JLabel.CENTER);
-                    label.setVerticalTextPosition(JLabel.BOTTOM);
+                    label.setForeground(Color.WHITE);
                     label.setIconTextGap(-2);
                     label.setPreferredSize(new Dimension(50, 50));
                 }

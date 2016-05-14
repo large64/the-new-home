@@ -4,7 +4,10 @@ import game.graphics.entities.buildings.Barrack;
 import game.graphics.entities.buildings.Home;
 import game.graphics.entities.buildings.Hospital;
 import game.graphics.models.TexturedModel;
+import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Scene;
+import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 
 import javax.swing.*;
@@ -27,26 +30,35 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
-        Map<String, TexturedModel> modelsMap = Scene.getModelsMap();
-
         button.setBorder(null);
+        if (Scene.getGameMode().equals(GameMode.BUILDING)) {
+            GameObserver.lookForChanges();
+            if (GameObserver.getNumberOfEnemyEntities() == 0) {
+                Map<String, TexturedModel> modelsMap = Scene.getModelsMap();
 
-        switch (button.getName()) {
-            case "home":
-                TexturedModel homeModel = modelsMap.get("homeBuilding");
-                Home home = new Home(homeModel, 1, Side.FRIEND);
-                Scene.setLevitatingEntity(home);
-                break;
-            case "hospital":
-                TexturedModel hospitalModel = modelsMap.get("hospitalBuilding");
-                Hospital hospital = new Hospital(hospitalModel, 1, Side.FRIEND);
-                Scene.setLevitatingEntity(hospital);
-                break;
-            case "barrack":
-                TexturedModel barrackModel = modelsMap.get("barrackBuilding");
-                Barrack barrack = new Barrack(barrackModel, 1, Side.FRIEND);
-                Scene.setLevitatingEntity(barrack);
-                break;
+                button.setBorder(null);
+
+                switch (button.getName()) {
+                    case "home":
+                        TexturedModel homeModel = modelsMap.get("homeBuilding");
+                        Home home = new Home(homeModel, 1, Side.FRIEND);
+                        Scene.setLevitatingEntity(home);
+                        break;
+                    case "hospital":
+                        TexturedModel hospitalModel = modelsMap.get("hospitalBuilding");
+                        Hospital hospital = new Hospital(hospitalModel, 1, Side.FRIEND);
+                        Scene.setLevitatingEntity(hospital);
+                        break;
+                    case "barrack":
+                        TexturedModel barrackModel = modelsMap.get("barrackBuilding");
+                        Barrack barrack = new Barrack(barrackModel, 1, Side.FRIEND);
+                        Scene.setLevitatingEntity(barrack);
+                        break;
+                }
+            }
+            else {
+                InfoProvider.writeMessage("You can't build now. Enemies are nearby!");
+            }
         }
     }
 

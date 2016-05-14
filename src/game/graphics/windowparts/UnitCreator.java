@@ -86,7 +86,7 @@ public class UnitCreator {
                         Scene.setLevitatingEntity(soldier);
                         isEntityAdded = true;
                     } else {
-                        InfoProvider.writeMessage("Cannot create unit now, enemies are close!");
+                        InfoProvider.writeMessage("Cannot create unit now, enemies are nearby!");
                     }
                 }
             }

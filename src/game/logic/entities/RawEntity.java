@@ -155,6 +155,7 @@ public abstract class RawEntity {
 
     public void setAttacker(RawEntity attacker) {
         this.attacker = attacker;
+        this.isBeingAttacked = true;
     }
 
     public String getId() {

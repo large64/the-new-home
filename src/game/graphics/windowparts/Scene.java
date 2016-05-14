@@ -49,7 +49,6 @@ public class Scene {
     private static GameMode gameMode;
     private static Runnable attackRunnable;
     private static Runnable entityCreatorRunnable;
-    private static int numberOfWaves;
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
@@ -114,7 +113,6 @@ public class Scene {
         firstMiddleClickPosition = null;
 
         new GameObserver();
-        numberOfWaves = 4;
 
         entityCreatorRunnable = () -> {
             if (gameMode == GameMode.ONGOING) {

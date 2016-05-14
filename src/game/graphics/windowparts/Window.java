@@ -141,7 +141,7 @@ public class Window {
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
             Scene.getEntities().clear();
-            Scene.setEntityCreatorRunnable(new AttackWave(4, 1));
+            Scene.setEntityCreatorRunnable(new AttackWave(4, 2));
             Scene.getPlayer().getCamera().reset();
             InfoProvider.clear();
 
@@ -165,9 +165,10 @@ public class Window {
             }
 
             TexturedModel homeModel = Scene.getModelsMap().get("homeBuilding");
-            zInitial = 10;
-            float y = Scene.getMainMap().getHeightOfMap(5, zInitial);
-            new Home(homeModel, new Vector3f(10, y, zInitial), 1, Side.FRIEND);
+            xInitial = 100;
+            zInitial = 90;
+            float y = Scene.getMainMap().getHeightOfMap(xInitial, zInitial);
+            new Home(homeModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
 
             //menuFrame.setVisible(false);
             Camera.setIsMouseGrabbed(true);

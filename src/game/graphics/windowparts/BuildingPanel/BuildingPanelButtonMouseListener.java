@@ -7,6 +7,7 @@ import game.graphics.models.TexturedModel;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Scene;
+import game.logic.exceptions.EnemyNearbyException;
 import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Dénes on 2016. 04. 23..
  */
-public class BuildingPanelButtonMouseListener extends MouseAdapter {
+class BuildingPanelButtonMouseListener extends MouseAdapter {
     private JLabel button;
 
     BuildingPanelButtonMouseListener(JLabel button) {
@@ -33,7 +34,13 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
         button.setBorder(null);
         if (Scene.getGameMode().equals(GameMode.BUILDING)) {
             GameObserver.lookForChanges();
-            if (GameObserver.getNumberOfEnemyEntities() == 0) {
+            if (GameObserver.getNumberOfEnemyEntities() > 0) {
+                try {
+                    throw new EnemyNearbyException();
+                } catch (EnemyNearbyException e1) {
+                    InfoProvider.writeMessage("Cannot build now. Enemies nearby!");
+                }
+            } else {
                 Map<String, TexturedModel> modelsMap = Scene.getModelsMap();
 
                 button.setBorder(null);
@@ -55,8 +62,6 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
                         Scene.setLevitatingEntity(barrack);
                         break;
                 }
-            } else {
-                InfoProvider.writeMessage("You can't build now. Enemies are nearby!");
             }
         }
     }

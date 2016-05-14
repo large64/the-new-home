@@ -7,6 +7,8 @@ import game.graphics.toolbox.GameMode;
 import game.logic.entities.RawEntity;
 import game.logic.entities.buildings.RawBarrack;
 import game.logic.entities.buildings.RawHospital;
+import game.logic.exceptions.EnemyNearbyException;
+import game.logic.exceptions.NotEnoughHousesException;
 import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 
@@ -80,13 +82,23 @@ public class UnitCreator {
             public void mouseReleased(MouseEvent e) {
                 super.mouseReleased(e);
                 if (!isEntityAdded) {
-                    if (GameObserver.getNumberOfEnemyEntities() < 1) {
+                    if (GameObserver.getNumberOfEnemyEntities() > 0) {
+                        try {
+                            throw new EnemyNearbyException();
+                        } catch (EnemyNearbyException e1) {
+                            InfoProvider.writeMessage("Cannot create unit now, enemies nearby!");
+                        }
+                    } else if ((GameObserver.getNumberOfHomes() * 5) - GameObserver.getNumberOfSoldiers() < 1) {
+                        try {
+                            throw new NotEnoughHousesException();
+                        } catch (NotEnoughHousesException e1) {
+                            InfoProvider.writeMessage("You need to build one more house to create a soldier.");
+                        }
+                    } else {
                         TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
                         Soldier soldier = new Soldier(soldierModel, 1, Side.FRIEND);
                         Scene.setLevitatingEntity(soldier);
                         isEntityAdded = true;
-                    } else {
-                        InfoProvider.writeMessage("Cannot create unit now, enemies are nearby!");
                     }
                 }
             }

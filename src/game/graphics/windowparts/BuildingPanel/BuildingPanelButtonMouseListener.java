@@ -55,8 +55,7 @@ public class BuildingPanelButtonMouseListener extends MouseAdapter {
                         Scene.setLevitatingEntity(barrack);
                         break;
                 }
-            }
-            else {
+            } else {
                 InfoProvider.writeMessage("You can't build now. Enemies are nearby!");
             }
         }

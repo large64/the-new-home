@@ -12,10 +12,7 @@ import game.graphics.windowparts.infopanels.ActionInfo;
 import game.graphics.windowparts.infopanels.EntityInfo;
 import game.graphics.windowparts.infopanels.PositionInfo;
 import game.logic.entities.RawMap;
-import game.logic.toolbox.GameLoader;
-import game.logic.toolbox.GameObserver;
-import game.logic.toolbox.GameSaver;
-import game.logic.toolbox.Side;
+import game.logic.toolbox.*;
 import org.lwjgl.util.vector.Vector3f;
 
 import javax.swing.*;
@@ -144,6 +141,9 @@ public class Window {
         JButton button = new JButton("New Game");
         button.addActionListener(e -> {
             Scene.getEntities().clear();
+            Scene.setEntityCreatorRunnable(new AttackWave(4, 1));
+            Scene.getPlayer().getCamera().reset();
+            InfoProvider.clear();
 
             TexturedModel palmTreeModel = Scene.getModelsMap().get("palmTreeNeutral");
             Random random = new Random();

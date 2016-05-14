@@ -1,6 +1,8 @@
 package game.logic.toolbox;
 
 import game.graphics.entities.Entity;
+import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.buildings.RawBarrack;
@@ -135,5 +137,15 @@ public class GameObserver {
 
     public static int getNumberOfScientists() {
         return numberOfScientists;
+    }
+
+    public static void checkGameOver(AttackWave attackWave) {
+        if (attackWave.isAllWavesAreGone() && getNumberOfEnemyEntities() == 0) {
+            InfoProvider.writeMessage("Congratulations! You are the winner!");
+            Scene.setGameMode(GameMode.STOPPED);
+        } else if (getNumberOfFriendlyEntities() == 0) {
+            InfoProvider.writeMessage("You have lost. Maybe next time!");
+            Scene.setGameMode(GameMode.STOPPED);
+        }
     }
 }

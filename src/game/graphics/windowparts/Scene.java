@@ -29,7 +29,6 @@ import game.logic.toolbox.map.Position;
 import game.logic.toolbox.map.Tile;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.util.Timer;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
@@ -48,7 +47,7 @@ public class Scene {
     private static Player player;
     private static GameMode gameMode;
     private static Runnable attackRunnable;
-    private static Runnable entityCreatorRunnable;
+    private static AttackWave entityCreatorRunnable;
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
@@ -114,7 +113,7 @@ public class Scene {
 
         new GameObserver();
 
-        entityCreatorRunnable = new AttackWave(4, 2);
+        entityCreatorRunnable = new AttackWave(4, 1);
 
         attackRunnable = () -> {
             for (Entity entity : entities) {
@@ -151,6 +150,10 @@ public class Scene {
 
     public static Runnable getEntityCreatorRunnable() {
         return entityCreatorRunnable;
+    }
+
+    public static void setEntityCreatorRunnable(AttackWave entityCreatorRunnable) {
+        Scene.entityCreatorRunnable = entityCreatorRunnable;
     }
 
     public static void render() {
@@ -216,9 +219,9 @@ public class Scene {
 
                     EntityInfo.lookForChanges();
                     //guiRenderer.render(guis);
-                    processEntities(MasterRenderer.getMasterRenderer());
+                    processEntities(masterRenderer);
                 }
-                Timer.tick();
+                GameObserver.checkGameOver(entityCreatorRunnable);
                 break;
         }
     }
@@ -312,6 +315,7 @@ public class Scene {
                         }
                         RawMap.setRawEntities();
                         RawMap.lookForChanges();
+                        GameObserver.lookForChanges();
                     }
                     renderer.processEntity(entity);
                 }

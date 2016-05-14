@@ -19,7 +19,7 @@ public class Camera {
     private static final float DEFAULT_X = 103;
     private static final float DEFAULT_Z = 140;
     // Set default position (y) to be the maximum back zoom level
-    private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
+    public static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float MIDDLE_CLICK_MARGIN = 30;
     private static boolean isMouseGrabbed = true;
     private Vector3f position;
@@ -79,7 +79,7 @@ public class Camera {
         this.position = position;
     }
 
-    void reset() {
+    public void reset() {
         this.position = new Vector3f(DEFAULT_POSITION);
     }
 

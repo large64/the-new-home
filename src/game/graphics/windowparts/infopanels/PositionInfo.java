@@ -18,6 +18,13 @@ public class PositionInfo {
         textPane.setEnabled(false);
         textPane.setOpaque(false);
         textPane.setDisabledTextColor(new Color(0, 0, 0));
+        textPane.setText(
+                "x:\n" +
+                        "y:\n" +
+                        "z:\n" +
+                        "tX:\n" +
+                        "tZ: "
+        );
     }
 
     public static void lookForChanges(MousePicker picker) {

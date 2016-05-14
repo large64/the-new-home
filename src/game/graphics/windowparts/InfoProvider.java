@@ -36,6 +36,8 @@ public class InfoProvider {
         DefaultCaret caret = (DefaultCaret) textArea.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
+        textArea.setText("Welcome to The New Home! Tips and messages will be shown here." + '\n');
+
         JScrollPane scrollPane = new JScrollPane(textArea);
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setPreferredSize(new Dimension(200, Window.BOTTOM_COMPONENT_HEIGHT));

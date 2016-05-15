@@ -101,21 +101,13 @@ public class MousePicker {
     private boolean intersectionInRange(float start, float finish, Vector3f ray, Map map) {
         Vector3f startPoint = getPointOnRay(ray, start);
         Vector3f endPoint = getPointOnRay(ray, finish);
-        if (!isUnderGround(startPoint, map) && isUnderGround(endPoint, map)) {
-            return true;
-        } else {
-            return false;
-        }
+        return !isUnderGround(startPoint, map) && isUnderGround(endPoint, map);
     }
 
     private boolean isUnderGround(Vector3f testPoint, Map map) {
         float height = 0;
         height = map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
-        if (testPoint.y < height) {
-            return true;
-        } else {
-            return false;
-        }
+        return testPoint.y < height;
     }
 
     public void setCamera(Camera camera) {

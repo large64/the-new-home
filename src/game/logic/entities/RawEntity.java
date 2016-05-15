@@ -20,7 +20,6 @@ public abstract class RawEntity {
     protected float rotation;
     protected float health;
     protected Side side;
-    private Position defaultPosition;
     private boolean isBeingAttacked = false;
     private boolean isBeingHealed = false;
     private boolean isSelected = false;
@@ -36,7 +35,6 @@ public abstract class RawEntity {
         this.rotation = 0;
         this.tilePosition = Tile.positionToTile(position);
         this.health = DEFAULT_HEALTH;
-        this.defaultPosition = new Position(position.x, position.z);
         RawMap.lookForChanges();
         approachingEntity = null;
     }

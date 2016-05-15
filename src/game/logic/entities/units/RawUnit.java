@@ -31,7 +31,7 @@ public class RawUnit extends RawEntity {
     public void performAction(RawEntity destinationEntity) {
         switch (side) {
             case FRIEND:
-                if (!this.isNextToAnEntity(destinationEntity)) {
+                if (this.isNotNextToAnEntity(destinationEntity)) {
                     this.step();
                 } else if (destinationEntity.getSide().equals(Side.ENEMY) && this instanceof RawSoldier) {
                     if (destinationEntity.isAlive()) {
@@ -46,7 +46,7 @@ public class RawUnit extends RawEntity {
                 }
                 break;
             case ENEMY:
-                if (!this.isNextToAnEntity(destinationEntity)) {
+                if (this.isNotNextToAnEntity(destinationEntity)) {
                     this.step();
                 } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
                     if (destinationEntity.isAlive()) {

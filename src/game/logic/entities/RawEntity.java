@@ -39,7 +39,7 @@ public abstract class RawEntity {
         approachingEntity = null;
     }
 
-    protected boolean isNextToAnEntity(RawEntity rawEntity) {
+    protected boolean isNotNextToAnEntity(RawEntity rawEntity) {
         int currentTileX = getTilePosition().getColumn();
         int currentTileY = getTilePosition().getRow();
 
@@ -53,7 +53,7 @@ public abstract class RawEntity {
                 int yOffset = Math.abs(currentTileY - entityTileY);
 
                 if (xOffset == 1 && yOffset == 1) {
-                    return true;
+                    return false;
                 }
             }
         } else {
@@ -67,10 +67,10 @@ public abstract class RawEntity {
             validOffsets.add(-1);
             validOffsets.add(1);
 
-            return (validOffsets.contains(rowOffset) && validOffsets.contains(columnOffset));
+            return (!validOffsets.contains(rowOffset) || !validOffsets.contains(columnOffset));
         }
 
-        return false;
+        return true;
     }
 
     public int getHealth() {

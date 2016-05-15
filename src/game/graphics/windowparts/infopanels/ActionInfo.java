@@ -10,9 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
-/**
- * Created by Dénes on 2016. 02. 20..
- */
 public class ActionInfo {
     private static ArrayList<JButton> actionButtons = new ArrayList<>();
     private static JPanel wrapperPanel;

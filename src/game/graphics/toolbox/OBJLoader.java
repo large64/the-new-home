@@ -8,9 +8,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by large64 on 9/15/15.
- */
 public class OBJLoader {
     public static RawModel loadObjModel(String fileName, Loader loader) {
         FileReader fileReader = null;

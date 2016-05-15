@@ -5,9 +5,6 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.opengl.*;
 
-/**
- * Created by large64 on 9/6/15.
- */
 public class DisplayManager {
     private static final int WIDTH = Window.getWidth();
     private static final int FPS_CAP = 60;

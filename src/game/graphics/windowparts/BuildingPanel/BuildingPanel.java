@@ -6,9 +6,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-/**
- * Created by Dénes on 2016. 04. 23..
- */
 public class BuildingPanel {
     private static JPanel buildingPanel;
 

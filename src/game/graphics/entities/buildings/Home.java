@@ -6,9 +6,6 @@ import game.graphics.windowparts.Scene;
 import game.logic.toolbox.Side;
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by large64 on 10/10/15.
- */
 public class Home extends Building {
     private static final Type type = Type.HOME;
 

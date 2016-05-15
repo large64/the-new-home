@@ -24,9 +24,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by large64 on 31/10/15.
- */
 public class Window {
     public static final int BOTTOM_COMPONENT_HEIGHT = 130;
     private static final Color MENU_BG_COLOR = new Color(2, 120, 0);

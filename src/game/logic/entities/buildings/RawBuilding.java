@@ -8,9 +8,6 @@ import game.logic.toolbox.map.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dénes on 2015. 11. 06..
- */
 public class RawBuilding extends RawEntity {
     private int[] extent = new int[2];
 

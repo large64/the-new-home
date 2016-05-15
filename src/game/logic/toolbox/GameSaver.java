@@ -10,9 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.List;
 
-/**
- * Created by Dénes on 2016. 05. 09..
- */
 public class GameSaver {
     public static void save() {
         if (Scene.getGameMode().equals(GameMode.PAUSED)) {

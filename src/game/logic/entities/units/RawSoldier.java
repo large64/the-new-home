@@ -3,9 +3,6 @@ package game.logic.entities.units;
 import game.logic.entities.RawEntity;
 import game.logic.toolbox.Side;
 
-/**
- * Created by large64 on 23/11/15.
- */
 public class RawSoldier extends RawUnit {
     private static final String ID = "soldier";
     private String id = ID + counter;

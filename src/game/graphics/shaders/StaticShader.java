@@ -9,9 +9,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.util.List;
 
-/**
- * Created by large64 on 2015.09.08..
- */
 public class StaticShader extends ShaderProgram {
     private static final int MAX_LIGHTS = 4;
 

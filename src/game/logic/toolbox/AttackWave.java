@@ -11,9 +11,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.util.Random;
 
-/**
- * Created by Dénes on 2016. 05. 14..
- */
 public class AttackWave implements Runnable {
     private int nrOfEntities;
     private int nrOfWaves;

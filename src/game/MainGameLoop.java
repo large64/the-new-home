@@ -10,9 +10,6 @@ import org.lwjgl.opengl.Display;
 
 import java.awt.*;
 
-/**
- * Created by large64 on 9/6/15.
- */
 public class MainGameLoop {
     public static void main(String[] args) {
         Canvas canvas = new Canvas();

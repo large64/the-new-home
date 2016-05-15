@@ -2,9 +2,6 @@ package game.graphics.entities;
 
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by large64 on 2015.09.16..
- */
 public class Light {
     private Vector3f position;
     private Vector3f color;

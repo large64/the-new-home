@@ -2,9 +2,6 @@ package game.logic.toolbox.map;
 
 import java.util.ArrayList;
 
-/**
- * Created by large64 on 19/11/15.
- */
 public class Node {
     private static final int DISTANCE = 10;
     private static final int DIAGONAL_DISTANCE = 14;

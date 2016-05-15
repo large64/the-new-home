@@ -16,9 +16,6 @@ import game.logic.entities.units.RawUnit;
 
 import java.util.List;
 
-/**
- * Created by Dénes on 2016. 05. 10..
- */
 public class GameObserver {
     private static int numberOfEntities;
 

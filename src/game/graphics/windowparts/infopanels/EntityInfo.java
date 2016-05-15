@@ -10,9 +10,6 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.util.List;
 
-/**
- * Created by Dénes on 2015. 12. 07..
- */
 public class EntityInfo {
     public static final int MULTI_SIZE = 8;
 

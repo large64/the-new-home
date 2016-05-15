@@ -14,9 +14,6 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
 
-/**
- * Created by large64 on 9/22/15.
- */
 public class MapRenderer {
     private TerrainShader shader;
 

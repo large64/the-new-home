@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by large64 on 2015.09.17..
- */
 public class MasterRenderer {
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
@@ -44,10 +41,6 @@ public class MasterRenderer {
         createProjectionMatrix();
         this.renderer = new EntityRenderer(shader, projectionMatrix);
         this.mapRenderer = new MapRenderer(terrainShader, projectionMatrix);
-    }
-
-    public Object clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException();
     }
 
     static void enableCulling() {
@@ -77,7 +70,6 @@ public class MasterRenderer {
             DisplayManager.updateDisplay();
         }
 
-        //guiRenderer.cleanUp();
         instance.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
@@ -92,6 +84,10 @@ public class MasterRenderer {
             instance = new MasterRenderer();
         }
         return instance;
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 
     private void createProjectionMatrix() {

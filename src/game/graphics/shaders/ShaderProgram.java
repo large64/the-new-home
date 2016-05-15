@@ -12,9 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 
-/**
- * Created by large64 on 2015.09.08..
- */
 public abstract class ShaderProgram {
     private static FloatBuffer matrixBuffer = BufferUtils.createFloatBuffer(16);
     private int programID;

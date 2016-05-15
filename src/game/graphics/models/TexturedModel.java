@@ -2,9 +2,6 @@ package game.graphics.models;
 
 import game.graphics.textures.ModelTexture;
 
-/**
- * Created by large64 on 2015.09.14..
- */
 public class TexturedModel {
     private RawModel rawModel;
     private ModelTexture texture;

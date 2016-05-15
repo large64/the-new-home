@@ -2,9 +2,6 @@ package game.graphics.entities;
 
 import org.lwjgl.util.vector.Vector2f;
 
-/**
- * Created by large64 on 2015.09.26..
- */
 public class Player {
     private Camera camera;
 

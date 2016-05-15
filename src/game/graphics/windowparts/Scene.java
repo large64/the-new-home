@@ -40,9 +40,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by Dénes on 2016. 04. 13..
- */
 public class Scene {
     private static Map mainMap;
     private static Player player;

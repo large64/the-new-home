@@ -2,9 +2,6 @@ package game.logic.entities.buildings;
 
 import game.logic.toolbox.Side;
 
-/**
- * Created by Dénes on 2016. 05. 04..
- */
 public class RawBarrack extends RawBuilding {
     private static final String ID = "barrack";
     private String id = ID + counter;

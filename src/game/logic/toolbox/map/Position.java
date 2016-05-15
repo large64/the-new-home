@@ -2,9 +2,6 @@ package game.logic.toolbox.map;
 
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by Dénes on 2015. 11. 07..
- */
 public class Position extends Vector3f {
     public Position(float x, float z) {
         this.x = x;

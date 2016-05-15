@@ -7,9 +7,6 @@ import game.logic.toolbox.map.Tile;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Created by large64 on 23/10/15.
- */
 public class PositionInfo {
     private static JTextPane textPane;
 

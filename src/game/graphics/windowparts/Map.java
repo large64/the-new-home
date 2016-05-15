@@ -13,9 +13,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * Created by large64 on 9/22/15.
- */
 public class Map {
     private static final float SIZE = 200;
     private static final float MAX_HEIGHT = 5;

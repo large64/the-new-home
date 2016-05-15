@@ -33,9 +33,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
 
-/**
- * Created by Dénes on 2015. 11. 21..
- */
 public class GameLoader {
     private static List<Entity> entities = new ArrayList<>();
     private static List<RawEntity> rawEntities = new ArrayList<>();

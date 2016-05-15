@@ -2,9 +2,6 @@ package game.logic.entities.buildings;
 
 import game.logic.toolbox.Side;
 
-/**
- * Created by Dénes on 2016. 05. 04..
- */
 public class RawHospital extends RawBuilding {
     private static final String ID = "hospital";
     private String id = ID + counter;

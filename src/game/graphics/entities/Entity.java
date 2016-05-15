@@ -14,9 +14,6 @@ import game.logic.toolbox.Side;
 import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by large64 on 10/10/15.
- */
 public class Entity {
     protected TexturedModel model;
     protected Vector3f position;

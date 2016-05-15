@@ -10,9 +10,6 @@ import game.logic.toolbox.map.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dénes on 2015. 11. 06..
- */
 public abstract class RawEntity {
     private static final int DEFAULT_HEALTH = 100;
 

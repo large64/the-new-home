@@ -2,9 +2,6 @@ package game.graphics.textures;
 
 import java.nio.ByteBuffer;
 
-/**
- * Created by large64 on 2015.09.29..
- */
 public class TextureData {
     private int width;
     private int height;

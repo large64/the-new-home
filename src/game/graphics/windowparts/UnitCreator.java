@@ -20,9 +20,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 
-/**
- * Created by Dénes on 2016. 05. 10..
- */
 public class UnitCreator {
     private static JPanel wrapperPanel;
     private static JLabel hospitalLabel;

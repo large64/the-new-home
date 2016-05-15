@@ -8,9 +8,6 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by large64 on 9/15/15.
- */
 public class Camera {
     private static final int MAX_ZOOM = 10;
     private static final int MAX_BACK_ZOOM = 35;

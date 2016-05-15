@@ -9,9 +9,6 @@ import game.logic.toolbox.map.Tile;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dénes on 2015. 12. 01..
- */
 public class RawMap {
     private static final int TILE_SIZE = 5;
     private static final int NR_OF_TILES = (int) (Map.getSIZE() / TILE_SIZE);

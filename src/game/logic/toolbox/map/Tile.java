@@ -3,9 +3,6 @@ package game.logic.toolbox.map;
 import game.graphics.windowparts.Map;
 import game.logic.entities.RawMap;
 
-/**
- * Created by large64 on 2015.12.01..
- */
 public class Tile {
     private static final float[] OFFSETS = {2.5f, 3.25f};
 

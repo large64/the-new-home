@@ -1,8 +1,5 @@
 package game.graphics.textures;
 
-/**
- * Created by large64 on 2015.09.26..
- */
 public class TerrainTexturePack {
     private TerrainTexture backgroundTexture;
     private TerrainTexture rTexture;

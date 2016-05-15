@@ -15,9 +15,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by large64 on 2015.09.08..
- */
 public class EntityRenderer {
     private StaticShader shader;
     private float shineDamper = 1;

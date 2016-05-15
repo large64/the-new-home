@@ -11,9 +11,6 @@ import game.logic.toolbox.map.Tile;
 
 import java.util.*;
 
-/**
- * Created by Dénes on 2015. 11. 06..
- */
 public class RawUnit extends RawEntity {
     private static final float MOVEMENT_SPEED = 7;
     private static final float DIAGONAL_ATTENUATION = 0.04f;

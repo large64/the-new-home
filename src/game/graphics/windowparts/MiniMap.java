@@ -11,9 +11,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Dénes on 2015. 11. 06..
- */
 public class MiniMap {
     // @TODO: show which part of the map the user is currently on (viewport)
     private static final Color BASE_TILE_COLOR = new Color(183, 177, 42);

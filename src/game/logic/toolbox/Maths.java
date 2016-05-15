@@ -5,9 +5,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by large64 on 2015.09.14..
- */
 public class Maths {
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry,
                                                       float rz, float scale) {

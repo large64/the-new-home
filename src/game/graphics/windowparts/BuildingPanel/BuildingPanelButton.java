@@ -2,9 +2,6 @@ package game.graphics.windowparts.buildingpanel;
 
 import javax.swing.*;
 
-/**
- * Created by Dénes on 2016. 04. 23..
- */
 public class BuildingPanelButton extends JLabel {
     public BuildingPanelButton(String fileName, String tooltipString) {
         ImageIcon image = new ImageIcon("res/" + fileName + ".png");

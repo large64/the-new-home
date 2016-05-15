@@ -18,9 +18,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Map;
 
-/**
- * Created by Dénes on 2016. 04. 23..
- */
 class BuildingPanelButtonMouseListener extends MouseAdapter {
     private JLabel button;
 

@@ -2,9 +2,6 @@ package game.logic.entities.units;
 
 import game.logic.toolbox.Side;
 
-/**
- * Created by Dénes on 2016. 05. 07..
- */
 public class RawScientist extends RawUnit {
     private static final String ID = "scientist";
     private String id = ID + counter;

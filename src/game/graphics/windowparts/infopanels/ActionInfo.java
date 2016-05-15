@@ -3,6 +3,8 @@ package game.graphics.windowparts.infopanels;
 import game.graphics.windowparts.Scene;
 import game.logic.entities.RawEntity;
 import game.logic.entities.units.RawUnit;
+import game.logic.toolbox.Side;
+import game.logic.toolbox.map.Tile;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,73 +15,71 @@ import java.util.ArrayList;
  */
 public class ActionInfo {
     private static ArrayList<JButton> actionButtons = new ArrayList<>();
-    private JPanel wrapperPanel;
+    private static JPanel wrapperPanel;
 
     public ActionInfo() {
-        wrapperPanel = new JPanel(new GridLayout(3, 3));
+        wrapperPanel = new JPanel(new GridLayout(1, 2));
         wrapperPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0), 1));
         wrapperPanel.setOpaque(false);
 
         loadButtons();
         for (JButton button : actionButtons) {
+            button.setBackground(Color.DARK_GRAY);
+            button.setForeground(Color.WHITE);
             wrapperPanel.add(button);
         }
 
         wrapperPanel.setPreferredSize(new Dimension(180, game.graphics.windowparts.Window.BOTTOM_COMPONENT_HEIGHT));
+        wrapperPanel.setVisible(false);
+    }
+
+    public static void lookForChanges() {
+        if (!Scene.getSelectedEntities().isEmpty()) {
+            wrapperPanel.setVisible(true);
+        } else {
+            wrapperPanel.setVisible(false);
+        }
     }
 
     private void loadButtons() {
-        JButton button0 = new JButton("X");
-        button0.addActionListener(el -> {
+        JButton stopButton = new JButton("X");
+        stopButton.addActionListener(el -> {
             if (!Scene.getSelectedEntities().isEmpty()) {
-                for (RawEntity entity : Scene.getSelectedEntities()) {
-                    if (entity instanceof RawUnit) {
-                        RawUnit rawUnit = (RawUnit) entity;
-                        if (rawUnit.isMoving()) {
-                            rawUnit.getPath().clear();
+                Scene.getSelectedEntities().stream().filter(entity -> entity instanceof RawUnit).forEach(entity -> {
+                    RawUnit rawUnit = (RawUnit) entity;
+                    if (rawUnit.isMoving()) {
+                        rawUnit.getPath().clear();
+                    }
+                });
+            }
+        });
+        actionButtons.add(stopButton);
+
+        JButton attackButton = new JButton("ATK");
+        attackButton.addActionListener(el -> {
+            if (!Scene.getSelectedEntities().isEmpty()) {
+                for (RawEntity rawEntity : Scene.getSelectedEntities()) {
+                    if (rawEntity instanceof RawUnit) {
+                        RawUnit rawUnit = (RawUnit) rawEntity;
+
+                        if (rawEntity.getSide().equals(Side.FRIEND)) {
+                            RawEntity randomRawEntity = Scene.getRandomEntity(Side.ENEMY);
+
+                            if (randomRawEntity != null) {
+                                int row = randomRawEntity.getTilePosition().getRow();
+                                int column = randomRawEntity.getTilePosition().getColumn();
+
+                                Tile destinationTile = new Tile(row, column);
+
+                                rawUnit.setDestinationTile(destinationTile);
+                                rawUnit.calculatePath();
+                            }
                         }
                     }
                 }
             }
         });
-        actionButtons.add(button0);
-
-        JButton button1 = new JButton("->");
-        // @TODO: create actionlistener (move)
-        actionButtons.add(button1);
-
-        JButton button2 = new JButton("<->");
-        // @TODO: create actionlistener (patrol)
-        actionButtons.add(button2);
-
-        JButton button3 = new JButton("ATK");
-        // @TODO: create actionlistener (attack)
-        actionButtons.add(button3);
-
-        JButton button4 = new JButton();
-        button4.setContentAreaFilled(false);
-        button4.setBorder(BorderFactory.createLineBorder(new Color(195, 195, 195), 1));
-        actionButtons.add(button4);
-
-        JButton button5 = new JButton();
-        button5.setContentAreaFilled(false);
-        button5.setBorder(BorderFactory.createLineBorder(new Color(195, 195, 195), 1));
-        actionButtons.add(button5);
-
-        JButton button6 = new JButton();
-        button6.setContentAreaFilled(false);
-        button6.setBorder(BorderFactory.createLineBorder(new Color(195, 195, 195), 1));
-        actionButtons.add(button6);
-
-        JButton button7 = new JButton();
-        button7.setContentAreaFilled(false);
-        button7.setBorder(BorderFactory.createLineBorder(new Color(195, 195, 195), 1));
-        actionButtons.add(button7);
-
-        JButton button8 = new JButton();
-        button8.setContentAreaFilled(false);
-        button8.setBorder(BorderFactory.createLineBorder(new Color(195, 195, 195), 1));
-        actionButtons.add(button8);
+        actionButtons.add(attackButton);
     }
 
     public JPanel getWrapperPanel() {

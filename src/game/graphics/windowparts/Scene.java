@@ -16,6 +16,7 @@ import game.graphics.toolbox.Loader;
 import game.graphics.toolbox.MousePicker;
 import game.graphics.toolbox.OBJLoader;
 import game.graphics.windowparts.buildingpanel.BuildingPanel;
+import game.graphics.windowparts.infopanels.ActionInfo;
 import game.graphics.windowparts.infopanels.EntityInfo;
 import game.graphics.windowparts.infopanels.PositionInfo;
 import game.logic.entities.RawEntity;
@@ -123,20 +124,22 @@ public class Scene {
                     RawUnit rawUnit = (RawUnit) rawEntity;
 
                     if (rawEntity.getSide().equals(Side.ENEMY)) {
-                        RawEntity randomRawEntity = getRandomFriendlyEntity();
+                        RawEntity randomRawEntity = getRandomEntity(Side.FRIEND);
 
-                        int row = randomRawEntity.getTilePosition().getRow();
-                        int column = randomRawEntity.getTilePosition().getColumn();
+                        if (randomRawEntity != null) {
+                            int row = randomRawEntity.getTilePosition().getRow();
+                            int column = randomRawEntity.getTilePosition().getColumn();
 
-                        Tile destinationTile = new Tile(row, column);
+                            Tile destinationTile = new Tile(row, column);
 
-                        if (randomRawEntity instanceof RawBuilding) {
-                            List<Tile> extentPositions = ((RawBuilding) randomRawEntity).getExtentPositions();
-                            destinationTile = extentPositions.get(new Random().nextInt(extentPositions.size()));
+                            if (randomRawEntity instanceof RawBuilding) {
+                                List<Tile> extentPositions = ((RawBuilding) randomRawEntity).getExtentPositions();
+                                destinationTile = extentPositions.get(new Random().nextInt(extentPositions.size()));
+                            }
+
+                            rawUnit.setDestinationTile(destinationTile);
+                            rawUnit.calculatePath();
                         }
-
-                        rawUnit.setDestinationTile(destinationTile);
-                        rawUnit.calculatePath();
                     }
                 }
             }
@@ -265,6 +268,7 @@ public class Scene {
             }
 
             UnitCreator.lookForChanges();
+            ActionInfo.lookForChanges();
         } catch (IndexOutOfBoundsException ex) {
             InfoProvider.writeMessage("Out of map.");
         }
@@ -525,16 +529,22 @@ public class Scene {
         }
     }
 
-    private static RawEntity getRandomFriendlyEntity() {
-        List<RawEntity> friends = new ArrayList<>();
+    public static RawEntity getRandomEntity(Side side) {
+        try {
+            List<RawEntity> friends = new ArrayList<>();
 
-        for (RawEntity entity : RawMap.getRawEntities()) {
-            if (entity.getSide().equals(Side.FRIEND)) {
-                friends.add(entity);
+            for (RawEntity entity : RawMap.getRawEntities()) {
+                if (entity.getSide().equals(side)) {
+                    friends.add(entity);
+                }
             }
+
+            return friends.get(new Random().nextInt(friends.size()));
+        } catch (IllegalArgumentException ex) {
+            InfoProvider.writeMessage("No " + side + " entity on map currently.");
         }
 
-        return friends.get(new Random().nextInt(friends.size()));
+        return null;
     }
 
     public static Runnable getAttackRunnable() {

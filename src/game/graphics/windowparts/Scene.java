@@ -42,20 +42,18 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Scene {
+    private final static List<RawEntity> selectedEntities = new ArrayList<>();
+    private final static MasterRenderer masterRenderer = MasterRenderer.getInstance();
     private static Map mainMap;
     private static Player player;
     private static GameMode gameMode;
     private static Runnable attackRunnable;
     private static AttackWave entityCreatorRunnable;
-
     private static List<Light> lights;
     private static ArrayList<Map> maps;
-    private final static List<RawEntity> selectedEntities = new ArrayList<>();
     private static Entity levitatingEntity = null;
     private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
     private static java.util.Map<String, TexturedModel> modelsMap;
-    private final static MasterRenderer masterRenderer = MasterRenderer.getInstance();
-
     private static MousePicker picker;
 
     private static boolean rightClick;

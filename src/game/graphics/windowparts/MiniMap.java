@@ -22,12 +22,11 @@ public class MiniMap {
     private final static float MAPPING_RATIO = 1.6f;
 
     private final static int SIZE = (int) Map.getSIZE();
-    private static List<RawEntity> entities = new ArrayList<>();
-
     private final static int MAPPED_SIZE = (int) (SIZE / MAPPING_RATIO);
     private final static BufferedImage IMAGE = new BufferedImage(MAPPED_SIZE, MAPPED_SIZE, BufferedImage.TYPE_INT_RGB);
     private final static List<Position> MARKERS = new ArrayList<>();
     private final static JLabel LABEL = new JLabel();
+    private static List<RawEntity> entities = new ArrayList<>();
 
     public MiniMap() {
         MiniMap.lookForChanges();

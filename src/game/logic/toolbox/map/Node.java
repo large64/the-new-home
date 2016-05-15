@@ -8,13 +8,12 @@ public class Node {
 
     public final int row;
     public final int column;
+    private final ArrayList<Node> neighbors = new ArrayList<>();
     public int fCost;
     public int hCost;
     public int gCost;
     public Node parent = null;
     public boolean isProcessed = false;
-
-    private final ArrayList<Node> neighbors = new ArrayList<>();
 
     public Node(int row, int column) {
         this.column = column;

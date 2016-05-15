@@ -21,14 +21,12 @@ import java.awt.event.MouseListener;
 import java.util.Arrays;
 
 class UnitCreator {
+    private final static JLabel bottomLabel = new JLabel();
     private static JPanel wrapperPanel;
     private static JLabel hospitalLabel;
     private static JLabel barrackLabel;
-
     private static MouseListener createSoldierListener;
     private static MouseListener createHealerListener;
-
-    private final static JLabel bottomLabel = new JLabel();
     private static boolean isEntityAdded = false;
 
     public UnitCreator() {

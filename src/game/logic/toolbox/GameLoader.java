@@ -11,7 +11,6 @@ import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.MiniMap;
 import game.graphics.windowparts.Scene;
 import game.graphics.windowparts.Window;
-import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
 import game.logic.entities.buildings.RawBarrack;
 import game.logic.entities.buildings.RawHome;
@@ -122,6 +121,7 @@ public class GameLoader {
         MiniMap.setEntities();
         RawMap.setRawEntities();
         RawMap.lookForChanges();
+        GameObserver.lookForChanges();
     }
 
     private static String getFileContent(File file) {

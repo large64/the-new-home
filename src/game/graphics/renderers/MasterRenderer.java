@@ -31,9 +31,9 @@ public class MasterRenderer {
     private final StaticShader shader = new StaticShader();
     private final java.util.Map<TexturedModel, List<Entity>> entityMap = new HashMap<>();
     private final EntityRenderer renderer;
-    private Matrix4f projectionMatrix;
     private final MapRenderer mapRenderer;
     private final TerrainShader terrainShader = new TerrainShader();
+    private Matrix4f projectionMatrix;
 
 
     private MasterRenderer() {

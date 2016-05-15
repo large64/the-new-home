@@ -34,16 +34,16 @@ public class Map {
         this.model = generateMap(loader, heightOfMap);
     }
 
-    public TerrainTexturePack getTexturePack() {
-        return texturePack;
-    }
-
     public static TerrainTexture getBlendMap() {
         return blendMap;
     }
 
     public static float getSIZE() {
         return SIZE;
+    }
+
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
     }
 
     private RawModel generateMap(Loader loader, String heightMap) {

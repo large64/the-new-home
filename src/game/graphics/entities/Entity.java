@@ -15,13 +15,13 @@ import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Entity {
+    private final int textureIndex = 0;
     private TexturedModel model;
     private Vector3f position;
     private float scale;
     private RawEntity rawEntity;
     private float rotation;
     private float rotX, rotZ, rotY;
-    private final int textureIndex = 0;
 
     protected Entity() {
     }

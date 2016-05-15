@@ -1,5 +1,6 @@
 package game.logic.toolbox;
 
+import game.graphics.entities.units.Scientist;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.toolbox.GameMode;
@@ -42,6 +43,14 @@ public class AttackWave implements Runnable {
             RawMap.setRawEntities();
             RawMap.lookForChanges();
             GameObserver.lookForChanges();
+
+            if (GameObserver.getNumberOfScientists() == 0 && currentWaveNr > 0) {
+                TexturedModel scientistModel = Scene.getModelsMap().get("scientistUnit");
+
+                Scientist scientist = new Scientist(scientistModel, new Vector3f(186, 0, 103), 1, Side.FRIEND);
+
+                InfoProvider.writeMessage("You have been rewarded a Scientist! It's at " + scientist.getRawEntity().getTilePosition());
+            }
 
             if ((currentWaveNr + 1) == nrOfWaves) {
                 allWavesAreGone = true;

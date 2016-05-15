@@ -3,6 +3,7 @@ package game.graphics.windowparts;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.buildings.Home;
+import game.graphics.entities.units.Scientist;
 import game.graphics.entities.units.Soldier;
 import game.graphics.models.TexturedModel;
 import game.graphics.toolbox.GameMode;
@@ -160,6 +161,10 @@ public class Window {
                 new Soldier(soldierModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
                 xInitial += 5;
             }
+
+            xInitial += 5;
+            TexturedModel scientistModel = Scene.getModelsMap().get("scientistUnit");
+            new Scientist(scientistModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.FRIEND);
 
             TexturedModel homeModel = Scene.getModelsMap().get("homeBuilding");
             xInitial = 100;

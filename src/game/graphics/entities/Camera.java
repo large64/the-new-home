@@ -19,9 +19,9 @@ public class Camera {
     private static final Vector3f DEFAULT_POSITION = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     private static final float MIDDLE_CLICK_MARGIN = 30;
     private static boolean isMouseGrabbed = true;
-    private Vector3f position;
     private final float pitch = DEFAULT_PITCH;
     private final float yaw = 0;
+    private Vector3f position;
     private float newZoomDistance;
 
     public Camera() {

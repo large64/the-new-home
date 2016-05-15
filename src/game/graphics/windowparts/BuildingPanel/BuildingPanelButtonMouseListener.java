@@ -8,6 +8,7 @@ import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Scene;
 import game.logic.exceptions.EnemyNearbyException;
+import game.logic.exceptions.NoScientistException;
 import game.logic.toolbox.GameObserver;
 import game.logic.toolbox.Side;
 
@@ -36,6 +37,12 @@ class BuildingPanelButtonMouseListener extends MouseAdapter {
                     throw new EnemyNearbyException();
                 } catch (EnemyNearbyException e1) {
                     InfoProvider.writeMessage("Cannot build now. Enemies nearby!");
+                }
+            } else if (GameObserver.getNumberOfScientists() == 0) {
+                try {
+                    throw new NoScientistException();
+                } catch (NoScientistException e2) {
+                    InfoProvider.writeMessage("You need to have at least one scientist to build.");
                 }
             } else {
                 Map<String, TexturedModel> modelsMap = Scene.getModelsMap();

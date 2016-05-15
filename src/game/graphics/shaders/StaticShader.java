@@ -8,7 +8,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.List;
 
 public class StaticShader extends ShaderProgram {

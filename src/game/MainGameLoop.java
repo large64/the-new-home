@@ -16,7 +16,7 @@ import java.awt.*;
 public class MainGameLoop {
     public static void main(String[] args) {
         Canvas canvas = new Canvas();
-        Window window = new Window(canvas);
+        new Window(canvas);
         canvas.setSize(Window.getWidth(), Window.getHeight());
         try {
             Display.setParent(canvas);

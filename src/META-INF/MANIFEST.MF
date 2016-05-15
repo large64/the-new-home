@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: libs/JSONUtil-1.4.jar libs/lwjgl-2.9.3/jar/lwjgl.jar libs/
- lwjgl-2.9.3/jar/lwjgl_util.jar libs/PNGDecoder.jar libs/slick-util.ja
- r
-Main-Class: game.MainGameLoop
-

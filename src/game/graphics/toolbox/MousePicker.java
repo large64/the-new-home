@@ -88,8 +88,7 @@ public class MousePicker {
     private Vector3f binarySearch(int count, float start, float finish, Vector3f ray) {
         float half = start + ((finish - start) / 2f);
         if (count >= RECURSION_COUNT) {
-            Vector3f endPoint = getPointOnRay(ray, half);
-            return endPoint;
+            return getPointOnRay(ray, half);
         }
         if (intersectionInRange(start, half, ray, this.map)) {
             return binarySearch(count + 1, start, half, ray);

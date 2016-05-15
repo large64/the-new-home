@@ -1,0 +1,1 @@
+java -Djava.library.path="%cd%\libs\lwjgl-2.9.3\native\windows" -jar the_new_home.jar

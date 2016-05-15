@@ -7,13 +7,15 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
+import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class StaticShader extends ShaderProgram {
     private static final int MAX_LIGHTS = 4;
 
-    private static final String VERTEX_FILE = "src/game/graphics/shaders/vertexShader";
-    private static final String FRAGMENT_FILE = "src/game/graphics/shaders/fragmentShader";
+    private static final String VERTEX_FILE = new File("").getAbsolutePath() + "\\shaders\\vertexShader";
+    private static final String FRAGMENT_FILE = new File("").getAbsolutePath() + "\\shaders\\fragmentShader";
 
     private int location_transformationMatrix;
     private int location_projectionMatrix;
@@ -67,6 +69,7 @@ public class StaticShader extends ShaderProgram {
 
     @Override
     protected void bindAttributes() {
+        System.out.println(StaticShader.class.getProtectionDomain().getCodeSource().getLocation().toString());
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
         super.bindAttribute(2, "normal");

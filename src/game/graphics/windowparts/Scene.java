@@ -56,7 +56,7 @@ public class Scene {
     private static Entity levitatingEntity = null;
     private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
     private static java.util.Map<String, TexturedModel> modelsMap;
-    private static MasterRenderer masterRenderer = MasterRenderer.getMasterRenderer();
+    private static MasterRenderer masterRenderer = MasterRenderer.getInstance();
 
     private static MousePicker picker;
 

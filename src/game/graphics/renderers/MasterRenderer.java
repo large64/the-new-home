@@ -24,11 +24,11 @@ import java.util.List;
  * Created by large64 on 2015.09.17..
  */
 public class MasterRenderer {
-    private static final float FOV = 70; // Field of view
+    private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
     private static final float FAR_PLANE = 1000f;
 
-    private static MasterRenderer masterRenderer;
+    private static MasterRenderer instance;
     private static Loader loader;
 
     private StaticShader shader = new StaticShader();
@@ -39,11 +39,15 @@ public class MasterRenderer {
     private TerrainShader terrainShader = new TerrainShader();
 
 
-    public MasterRenderer() {
+    private MasterRenderer() {
         enableCulling();
         createProjectionMatrix();
         this.renderer = new EntityRenderer(shader, projectionMatrix);
         this.mapRenderer = new MapRenderer(terrainShader, projectionMatrix);
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        throw new CloneNotSupportedException();
     }
 
     static void enableCulling() {
@@ -56,12 +60,11 @@ public class MasterRenderer {
     }
 
     public static void renderScene() {
-        // @TODO: create selectable actions
         DisplayManager.createDisplay();
         loader = new Loader();
 
         // Set additional things like renderer, picker
-        masterRenderer = new MasterRenderer();
+        instance = new MasterRenderer();
 
         EntityInfo.setEntities(Scene.getSelectedEntities());
 
@@ -70,12 +73,12 @@ public class MasterRenderer {
         // Start an infinite loop for rendering
         while (!Display.isCloseRequested()) {
             Scene.render();
-            masterRenderer.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
+            instance.render(Scene.getLights(), Scene.getPlayer().getCamera(), Scene.getMaps());
             DisplayManager.updateDisplay();
         }
 
         //guiRenderer.cleanUp();
-        masterRenderer.cleanUp();
+        instance.cleanUp();
         loader.cleanUp();
         DisplayManager.closeDisplay();
     }
@@ -84,8 +87,11 @@ public class MasterRenderer {
         return loader;
     }
 
-    public static MasterRenderer getMasterRenderer() {
-        return masterRenderer;
+    public static MasterRenderer getInstance() {
+        if (instance == null) {
+            instance = new MasterRenderer();
+        }
+        return instance;
     }
 
     private void createProjectionMatrix() {

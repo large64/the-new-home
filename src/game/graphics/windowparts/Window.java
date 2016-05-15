@@ -35,9 +35,9 @@ public class Window {
     private static JFrame menuFrame;
     private static JPanel menuPanel;
     private static JPanel entityInfoPanel;
+    private static JCheckBox tilesCheckbox;
     private static boolean isTilesShown = false;
     private static JComboBox gameModeList;
-    private static ScheduledExecutorService scheduler;
 
     public Window(Canvas canvas) {
 
@@ -46,7 +46,7 @@ public class Window {
 
         loadDefaultMenu();
 
-        JCheckBox tilesCheckbox = new JCheckBox("Show tiles");
+        tilesCheckbox = new JCheckBox("Show tiles");
         JPanel checkboxPanel = new JPanel();
 
         checkboxPanel.setBorder(BorderFactory.createLineBorder(new Color(122, 138, 153), 1, false));
@@ -296,6 +296,10 @@ public class Window {
         return entityInfoPanel;
     }
 
+    public static JCheckBox getTilesCheckbox() {
+        return tilesCheckbox;
+    }
+
     public static void showMenu() {
         Scene.setGameMode(GameMode.PAUSED);
         menuFrame.setVisible(true);
@@ -303,5 +307,6 @@ public class Window {
         menuFrame.toFront();
         menuFrame.setFocusable(true);
         menuFrame.requestFocus();
+        gameModeList.setEnabled(false);
     }
 }

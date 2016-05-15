@@ -192,7 +192,7 @@ public class Scene {
                 break;
             case ONGOING:
                 BuildingPanel.setBuilderPanelInvisible();
-                //if (mainMap.isTilesShown()) mainMap.setTilesShown(false);
+                if (mainMap.isTilesShown() && !Window.getTilesCheckbox().isSelected()) mainMap.setTilesShown(false);
                 player.move(firstMiddleClickPosition);
 
                 if (Camera.isMouseGrabbed()) {

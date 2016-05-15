@@ -19,9 +19,9 @@ public class Map {
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
     private static TerrainTexturePack texturePack;
     private static TerrainTexture blendMap;
-    private float x;
-    private float z;
-    private RawModel model;
+    private final float x;
+    private final float z;
+    private final RawModel model;
     private boolean isTilesShown = false;
     private float[][] heights;
 
@@ -34,7 +34,7 @@ public class Map {
         this.model = generateMap(loader, heightOfMap);
     }
 
-    public static TerrainTexturePack getTexturePack() {
+    public TerrainTexturePack getTexturePack() {
         return texturePack;
     }
 

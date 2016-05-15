@@ -7,15 +7,15 @@ import game.logic.toolbox.Side;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Building extends Entity {
-    public Building() {
+    Building() {
         this.setScale(1);
     }
 
-    public Building(TexturedModel model, float scale, Side side, Type type) {
+    Building(TexturedModel model, float scale, Side side, Type type) {
         super(model, new Vector3f(0, 0, 0), 0, 0, 0, scale, type, side);
     }
 
-    public Building(TexturedModel model, Vector3f position, float scale, Type type, Side side) {
+    Building(TexturedModel model, Vector3f position, float scale, Type type, Side side) {
         super(model, position, 0, 0, 0, scale, type, side);
     }
 }

@@ -7,15 +7,15 @@ import game.logic.toolbox.Side;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Unit extends Entity {
-    public Unit() {
+    Unit() {
         this.setScale(1);
     }
 
-    public Unit(TexturedModel model, float scale, Side side, Type type) {
+    Unit(TexturedModel model, float scale, Side side, Type type) {
         super(model, new Vector3f(0, 0, 0), 0, 0, 0, scale, type, side);
     }
 
-    public Unit(TexturedModel model, Vector3f position, float scale, Type type, Side side) {
+    Unit(TexturedModel model, Vector3f position, float scale, Type type, Side side) {
         super(model, position, 0, 0, 0, scale, type, side);
     }
 }

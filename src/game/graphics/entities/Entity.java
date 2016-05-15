@@ -15,19 +15,18 @@ import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Entity {
-    protected TexturedModel model;
-    protected Vector3f position;
-    protected float rotY;
-    protected float scale;
+    private TexturedModel model;
+    private Vector3f position;
+    private float scale;
     private RawEntity rawEntity;
     private float rotation;
-    private float rotX, rotZ;
-    private int textureIndex = 0;
+    private float rotX, rotZ, rotY;
+    private final int textureIndex = 0;
 
-    public Entity() {
+    protected Entity() {
     }
 
-    public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type, Side side) {
+    protected Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, Type type, Side side) {
         this.model = model;
         this.rotX = rotX;
         this.rotY = rotY;
@@ -66,16 +65,6 @@ public class Entity {
         Scene.addEntity(this);
         this.position = this.rawEntity.getTilePosition().toPosition();
         this.position.y = Scene.getMainMap().getHeightOfMap(position.getX(), position.getZ());
-    }
-
-    public Entity(TexturedModel model, float scale, Side side) {
-        this.model = model;
-        this.scale = scale;
-
-        this.rawEntity = new RawNeutral(new Position(0, 0));
-        this.position = this.rawEntity.getTilePosition().toPosition();
-
-        this.getRawEntity().setSide(side);
     }
 
     public Entity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
@@ -122,7 +111,7 @@ public class Entity {
         return model;
     }
 
-    public void setModel(TexturedModel model) {
+    protected void setModel(TexturedModel model) {
         this.model = model;
     }
 
@@ -138,39 +127,19 @@ public class Entity {
         return rotX;
     }
 
-    public void setRotX(float rotX) {
-        this.rotX = rotX;
-    }
-
     public float getRotY() {
         return rotY;
-    }
-
-    public void setRotY(float rotY) {
-        this.rotY = rotY;
     }
 
     public float getRotZ() {
         return rotZ;
     }
 
-    public void setRotZ(float rotZ) {
-        this.rotZ = rotZ;
-    }
-
     public float getScale() {
         return scale;
     }
 
-    public void setScale(float scale) {
+    protected void setScale(float scale) {
         this.scale = scale;
-    }
-
-    public float getRotation() {
-        return rotation;
-    }
-
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
     }
 }

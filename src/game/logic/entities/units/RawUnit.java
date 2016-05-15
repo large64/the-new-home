@@ -19,10 +19,10 @@ public class RawUnit extends RawEntity {
     private Node currentNode;
     private Tile destinationTile;
 
-    public RawUnit() {
+    RawUnit() {
     }
 
-    public RawUnit(int row, int column, Side side) {
+    RawUnit(int row, int column, Side side) {
         super(new Position(row, column));
         this.position = this.getTilePosition().toPosition();
         this.setSide(side);

@@ -6,15 +6,15 @@ public class Node {
     private static final int DISTANCE = 10;
     private static final int DIAGONAL_DISTANCE = 14;
 
-    public int row;
-    public int column;
+    public final int row;
+    public final int column;
     public int fCost;
     public int hCost;
     public int gCost;
     public Node parent = null;
     public boolean isProcessed = false;
 
-    private ArrayList<Node> neighbors = new ArrayList<>();
+    private final ArrayList<Node> neighbors = new ArrayList<>();
 
     public Node(int row, int column) {
         this.column = column;

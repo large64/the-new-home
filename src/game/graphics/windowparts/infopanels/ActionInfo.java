@@ -11,7 +11,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ActionInfo {
-    private static ArrayList<JButton> actionButtons = new ArrayList<>();
+    private static final ArrayList<JButton> ACTION_BUTTONS = new ArrayList<>();
     private static JPanel wrapperPanel;
 
     public ActionInfo() {
@@ -20,7 +20,7 @@ public class ActionInfo {
         wrapperPanel.setOpaque(false);
 
         loadButtons();
-        for (JButton button : actionButtons) {
+        for (JButton button : ACTION_BUTTONS) {
             button.setBackground(Color.DARK_GRAY);
             button.setForeground(Color.WHITE);
             wrapperPanel.add(button);
@@ -50,33 +50,31 @@ public class ActionInfo {
                 });
             }
         });
-        actionButtons.add(stopButton);
+        ACTION_BUTTONS.add(stopButton);
 
         JButton attackButton = new JButton("ATK");
         attackButton.addActionListener(el -> {
             if (!Scene.getSelectedEntities().isEmpty()) {
-                for (RawEntity rawEntity : Scene.getSelectedEntities()) {
-                    if (rawEntity instanceof RawUnit) {
-                        RawUnit rawUnit = (RawUnit) rawEntity;
+                Scene.getSelectedEntities().stream().filter(rawEntity -> rawEntity instanceof RawUnit).forEach(rawEntity -> {
+                    RawUnit rawUnit = (RawUnit) rawEntity;
 
-                        if (rawEntity.getSide().equals(Side.FRIEND)) {
-                            RawEntity randomRawEntity = Scene.getRandomEntity(Side.ENEMY);
+                    if (rawEntity.getSide().equals(Side.FRIEND)) {
+                        RawEntity randomRawEntity = Scene.getRandomEntity(Side.ENEMY);
 
-                            if (randomRawEntity != null) {
-                                int row = randomRawEntity.getTilePosition().getRow();
-                                int column = randomRawEntity.getTilePosition().getColumn();
+                        if (randomRawEntity != null) {
+                            int row = randomRawEntity.getTilePosition().getRow();
+                            int column = randomRawEntity.getTilePosition().getColumn();
 
-                                Tile destinationTile = new Tile(row, column);
+                            Tile destinationTile = new Tile(row, column);
 
-                                rawUnit.setDestinationTile(destinationTile);
-                                rawUnit.calculatePath();
-                            }
+                            rawUnit.setDestinationTile(destinationTile);
+                            rawUnit.calculatePath();
                         }
                     }
-                }
+                });
             }
         });
-        actionButtons.add(attackButton);
+        ACTION_BUTTONS.add(attackButton);
     }
 
     public JPanel getWrapperPanel() {

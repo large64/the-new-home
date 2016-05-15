@@ -15,10 +15,10 @@ import org.lwjgl.util.vector.Matrix4f;
 import java.util.List;
 import java.util.Map;
 
-public class EntityRenderer {
-    private StaticShader shader;
-    private float shineDamper = 1;
-    private float reflectivity = 0;
+class EntityRenderer {
+    private final StaticShader shader;
+    private final float shineDamper = 1;
+    private final float reflectivity = 0;
 
     public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;

@@ -14,8 +14,8 @@ import org.lwjgl.util.vector.Vector3f;
 
 import java.util.ArrayList;
 
-public class MapRenderer {
-    private TerrainShader shader;
+class MapRenderer {
+    private final TerrainShader shader;
 
     public MapRenderer(TerrainShader shader, Matrix4f projectionMatrix) {
         this.shader = shader;

@@ -26,10 +26,10 @@ public abstract class RawEntity {
     private String id;
     private RawEntity approachingEntity;
 
-    public RawEntity() {
+    protected RawEntity() {
     }
 
-    public RawEntity(Position position) {
+    protected RawEntity(Position position) {
         counter++;
         this.position = position;
         this.rotation = 0;
@@ -169,7 +169,7 @@ public abstract class RawEntity {
         }
     }
 
-    public String getId() {
+    protected String getId() {
         if (this.id != null) {
             return this.id;
         }

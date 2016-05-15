@@ -96,7 +96,7 @@ public class GameObserver {
         return numberOfEntities;
     }
 
-    public static int getNumberOfFriendlyEntities() {
+    private static int getNumberOfFriendlyEntities() {
         return numberOfFriendlyEntities;
     }
 

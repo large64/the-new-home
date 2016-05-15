@@ -13,10 +13,6 @@ public class Player {
         camera.move(firstMiddleClickPosition);
     }
 
-    public void reset() {
-        camera.reset();
-    }
-
     public Camera getCamera() {
         return camera;
     }

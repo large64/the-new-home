@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 public class Scene {
     private static Map mainMap;
@@ -49,11 +50,11 @@ public class Scene {
 
     private static List<Light> lights;
     private static ArrayList<Map> maps;
-    private static List<RawEntity> selectedEntities = new ArrayList<>();
+    private final static List<RawEntity> selectedEntities = new ArrayList<>();
     private static Entity levitatingEntity = null;
     private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
     private static java.util.Map<String, TexturedModel> modelsMap;
-    private static MasterRenderer masterRenderer = MasterRenderer.getInstance();
+    private final static MasterRenderer masterRenderer = MasterRenderer.getInstance();
 
     private static MousePicker picker;
 
@@ -464,11 +465,7 @@ public class Scene {
     }
 
     public static List<RawEntity> getRawEntities() {
-        List<RawEntity> rawEntities = new ArrayList<>();
-        for (Entity entity : entities) {
-            rawEntities.add(entity.getRawEntity());
-        }
-        return rawEntities;
+        return entities.stream().map(Entity::getRawEntity).collect(Collectors.toList());
     }
 
     public static MousePicker getPicker() {
@@ -526,13 +523,8 @@ public class Scene {
 
     public static RawEntity getRandomEntity(Side side) {
         try {
-            List<RawEntity> friends = new ArrayList<>();
-
-            for (RawEntity entity : RawMap.getRawEntities()) {
-                if (entity.getSide().equals(side)) {
-                    friends.add(entity);
-                }
-            }
+            List<RawEntity> friends = RawMap.getRawEntities().stream().filter(entity ->
+                    entity.getSide().equals(side)).collect(Collectors.toList());
 
             return friends.get(new Random().nextInt(friends.size()));
         } catch (IllegalArgumentException ex) {

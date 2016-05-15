@@ -20,7 +20,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Arrays;
 
-public class UnitCreator {
+class UnitCreator {
     private static JPanel wrapperPanel;
     private static JLabel hospitalLabel;
     private static JLabel barrackLabel;
@@ -28,7 +28,7 @@ public class UnitCreator {
     private static MouseListener createSoldierListener;
     private static MouseListener createHealerListener;
 
-    private static JLabel bottomLabel = new JLabel();
+    private final static JLabel bottomLabel = new JLabel();
     private static boolean isEntityAdded = false;
 
     public UnitCreator() {

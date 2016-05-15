@@ -14,14 +14,11 @@ public class MousePicker {
 
     private static final int RECURSION_COUNT = 30;
     private static final float RAY_RANGE = 600;
-
+    private final Matrix4f projectionMatrix;
+    private final Map map;
     private Vector3f currentRay = new Vector3f();
-
-    private Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
     private Camera camera;
-    private Map map;
-
     private Vector3f currentTerrainPoint;
 
     public MousePicker(Camera cam, Matrix4f projection, Map map) {
@@ -33,10 +30,6 @@ public class MousePicker {
 
     public Vector3f getCurrentTerrainPoint() {
         return currentTerrainPoint;
-    }
-
-    public Vector3f getCurrentRay() {
-        return currentRay;
     }
 
     public void update() {
@@ -104,8 +97,7 @@ public class MousePicker {
     }
 
     private boolean isUnderGround(Vector3f testPoint, Map map) {
-        float height = 0;
-        height = map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
+        float height = map.getHeightOfMap(testPoint.getX(), testPoint.getZ());
         return testPoint.y < height;
     }
 

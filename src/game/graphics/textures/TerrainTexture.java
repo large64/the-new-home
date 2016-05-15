@@ -1,7 +1,7 @@
 package game.graphics.textures;
 
 public class TerrainTexture {
-    private int textureID;
+    private final int textureID;
 
     public TerrainTexture(int textureID) {
         this.textureID = textureID;

@@ -11,10 +11,10 @@ import java.util.List;
 public class RawBuilding extends RawEntity {
     private int[] extent = new int[2];
 
-    public RawBuilding() {
+    RawBuilding() {
     }
 
-    public RawBuilding(int row, int column, int health, Side side) {
+    RawBuilding(int row, int column, int health, Side side) {
         super(new Position(row, column));
         this.setHealth(health);
         this.setSide(side);

@@ -19,7 +19,7 @@ import java.awt.event.MouseEvent;
 import java.util.Map;
 
 class BuildingPanelButtonMouseListener extends MouseAdapter {
-    private JLabel button;
+    private final JLabel button;
 
     BuildingPanelButtonMouseListener(JLabel button) {
         this.button = button;

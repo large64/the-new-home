@@ -21,15 +21,6 @@ public class Maths {
         return matrix;
     }
 
-    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
-        Matrix4f matrix = new Matrix4f();
-        matrix.setIdentity();
-        Matrix4f.translate(translation, matrix, matrix);
-        Matrix4f.scale(new Vector3f(scale.x, scale.y, 1f), matrix, matrix);
-
-        return matrix;
-    }
-
     public static Matrix4f createViewMatrix(Camera camera) {
         Matrix4f viewMatrix = new Matrix4f();
         viewMatrix.setIdentity();
@@ -50,14 +41,5 @@ public class Maths {
                 + (point1.x - point3.x) * (position.y - point3.z)) / det;
         float l3 = 1.0f - l1 - l2;
         return l1 * point1.y + l2 * point2.y + l3 * point3.y;
-    }
-
-    public static boolean vectorsEqual(Vector3f vector1, Vector3f vector2) {
-        return (int) vector1.getX() == (int) vector2.getX() &&
-                (int) vector1.getZ() == (int) vector2.getZ();
-    }
-
-    public static Vector3f roundVector(Vector3f vector) {
-        return new Vector3f((int) vector.x, (int) vector.y, (int) vector.z);
     }
 }

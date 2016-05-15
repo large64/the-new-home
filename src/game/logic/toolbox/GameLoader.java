@@ -34,10 +34,9 @@ import java.util.*;
 import java.util.List;
 
 public class GameLoader {
-    private static List<Entity> entities = new ArrayList<>();
-    private static List<RawEntity> rawEntities = new ArrayList<>();
+    private static final List<Entity> ENTITIES = new ArrayList<>();
 
-    public static void load(String filename) {
+    private static void load(String filename) {
         File jsonFile = new File("res/saved_games/" + filename + ".json");
         String jsonFileContent = GameLoader.getFileContent(jsonFile);
         LinkedHashMap jsonData;
@@ -119,7 +118,7 @@ public class GameLoader {
         MiniMap.getEntities().clear();
         RawMap.getRawEntities().clear();
 
-        Scene.setEntities(entities);
+        Scene.setEntities(ENTITIES);
         MiniMap.setEntities();
         RawMap.setRawEntities();
         RawMap.lookForChanges();
@@ -173,11 +172,10 @@ public class GameLoader {
                 if (isSelected) {
                     Scene.getSelectedEntities().add(rawSoldier);
                 }
-                rawEntities.add(rawSoldier);
 
                 Soldier soldier = new Soldier();
                 soldier.setRawEntity(rawSoldier);
-                entities.add(soldier);
+                ENTITIES.add(soldier);
                 break;
             case "healer":
                 RawHealer rawHealer = new RawHealer();
@@ -195,11 +193,10 @@ public class GameLoader {
                 if (isSelected) {
                     Scene.getSelectedEntities().add(rawHealer);
                 }
-                rawEntities.add(rawHealer);
 
                 Healer healer = new Healer();
                 healer.setRawEntity(rawHealer);
-                entities.add(healer);
+                ENTITIES.add(healer);
                 break;
             case "home":
                 RawHome rawHome = new RawHome();
@@ -213,12 +210,11 @@ public class GameLoader {
                 if (isSelected) {
                     Scene.getSelectedEntities().add(rawHome);
                 }
-                rawEntities.add(rawHome);
 
                 Home home = new Home();
                 home.setRawEntity(rawHome);
                 home.refreshPosition();
-                entities.add(home);
+                ENTITIES.add(home);
                 break;
             case "hospital":
                 RawHospital rawHospital = new RawHospital();
@@ -232,12 +228,11 @@ public class GameLoader {
                 if (isSelected) {
                     Scene.getSelectedEntities().add(rawHospital);
                 }
-                rawEntities.add(rawHospital);
 
                 Hospital hospital = new Hospital();
                 hospital.setRawEntity(rawHospital);
                 hospital.refreshPosition();
-                entities.add(hospital);
+                ENTITIES.add(hospital);
                 break;
             case "barrack":
                 RawBarrack rawBarrack = new RawBarrack();
@@ -251,12 +246,11 @@ public class GameLoader {
                 if (isSelected) {
                     Scene.getSelectedEntities().add(rawBarrack);
                 }
-                rawEntities.add(rawBarrack);
 
                 Barrack barrack = new Barrack();
                 barrack.setRawEntity(rawBarrack);
                 barrack.refreshPosition();
-                entities.add(barrack);
+                ENTITIES.add(barrack);
                 break;
         }
     }
@@ -293,9 +287,7 @@ public class GameLoader {
 
         JButton button = new JButton("Cancel");
         button.setHorizontalAlignment(JButton.CENTER);
-        button.addActionListener(e -> {
-            Window.loadDefaultMenu();
-        });
+        button.addActionListener(e -> Window.loadDefaultMenu());
         loaderPanel.add(button);
 
         return loaderPanel;

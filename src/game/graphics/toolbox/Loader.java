@@ -1,8 +1,6 @@
 package game.graphics.toolbox;
 
-import de.matthiasmann.twl.utils.PNGDecoder;
 import game.graphics.models.RawModel;
-import game.graphics.textures.TextureData;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 import org.newdawn.slick.opengl.Texture;
@@ -18,9 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Loader {
-    private List<Integer> vaos = new ArrayList<Integer>();
-    private List<Integer> vbos = new ArrayList<Integer>();
-    private List<Integer> textures = new ArrayList<>();
+    private final List<Integer> vaos = new ArrayList<>();
+    private final List<Integer> vbos = new ArrayList<>();
+    private final List<Integer> textures = new ArrayList<>();
 
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices) {
         int vaoID = createVAO();
@@ -78,23 +76,10 @@ public class Loader {
         return buffer;
     }
 
-    public RawModel loadToVAO(float[] positions, int dimensions) {
-        int vaoID = createVAO();
-        this.storeDataInAttributeList(0, dimensions, positions);
-        unbindVAO();
-        return new RawModel(vaoID, positions.length / dimensions);
-    }
-
     public void cleanUp() {
-        for (int vao : vaos) {
-            GL30.glDeleteVertexArrays(vao);
-        }
-        for (int vbo : vbos) {
-            GL15.glDeleteBuffers(vbo);
-        }
-        for (int texture : textures) {
-            GL11.glDeleteTextures(texture);
-        }
+        vaos.forEach(GL30::glDeleteVertexArrays);
+        vbos.forEach(GL15::glDeleteBuffers);
+        textures.forEach(GL11::glDeleteTextures);
     }
 
     public int loadTexture(String fileName) {
@@ -116,48 +101,5 @@ public class Loader {
         textures.add(textureID);
 
         return textureID;
-    }
-
-    public int loadCubeMap(String[] textureFiles) {
-        int texID = GL11.glGenTextures();
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texID);
-
-        for (int i = 0; i < textureFiles.length; i++) {
-            TextureData data = decodeTextureFile("res/" + textureFiles[i] + ".png");
-            GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL11.GL_RGBA, data.getWidth(),
-                    data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
-        }
-
-        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-
-        textures.add(texID);
-        return texID;
-    }
-
-    private TextureData decodeTextureFile(String fileName) {
-        int width = 0;
-        int height = 0;
-        ByteBuffer buffer = null;
-
-        try {
-            FileInputStream fileInputStream = new FileInputStream(fileName);
-            PNGDecoder decoder = new PNGDecoder(fileInputStream);
-            width = decoder.getWidth();
-            height = decoder.getHeight();
-            buffer = ByteBuffer.allocateDirect(4 * width * height);
-            decoder.decode(buffer, width * 4, PNGDecoder.Format.RGBA);
-            buffer.flip();
-            fileInputStream.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            System.err.println("Could not load file " + fileName + ".");
-            System.exit(-1);
-        }
-
-        return new TextureData(width, height, buffer);
     }
 }

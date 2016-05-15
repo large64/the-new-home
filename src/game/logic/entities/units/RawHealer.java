@@ -1,5 +1,6 @@
 package game.logic.entities.units;
 
+import game.logic.entities.RawEntity;
 import game.logic.toolbox.Side;
 
 /**
@@ -32,5 +33,9 @@ public class RawHealer extends RawUnit {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void heal(RawEntity selectedEntity) {
+        selectedEntity.changeHealth(0.05f);
     }
 }

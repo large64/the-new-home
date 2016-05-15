@@ -13,6 +13,7 @@ uniform vec3 attenuation[4];
 uniform float shineDamper;
 uniform float reflectivity;
 uniform float isBeingAttacked;
+uniform float isBeingHealed;
 
 void main(void) {
     vec3 unitNormal = normalize(surfaceNormal);
@@ -43,6 +44,10 @@ void main(void) {
 
     if (isBeingAttacked > 0.5) {
         textureColor += vec4(20.0, 0.0, 0.0, 1.0);
+    }
+
+    if (isBeingHealed > 0.5) {
+        textureColor += vec4(0.0, 10.0, 0.0, 1.0);
     }
 
     if (textureColor.a < 0.5) {

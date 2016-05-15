@@ -1,5 +1,6 @@
 package game.logic.entities;
 
+import game.graphics.entities.Type;
 import game.logic.entities.buildings.RawBuilding;
 import game.logic.entities.units.RawUnit;
 import game.logic.toolbox.Side;
@@ -27,7 +28,7 @@ public abstract class RawEntity {
     private boolean isBeingHealed = false;
     private boolean isSelected = false;
     private String id;
-    private RawEntity attacker;
+    private RawEntity approachingEntity;
 
     public RawEntity() {
     }
@@ -40,7 +41,7 @@ public abstract class RawEntity {
         this.health = DEFAULT_HEALTH;
         this.defaultPosition = new Position(position.x, position.z);
         RawMap.lookForChanges();
-        attacker = null;
+        approachingEntity = null;
     }
 
     protected boolean isNextToAnEntity(RawEntity rawEntity) {
@@ -86,7 +87,9 @@ public abstract class RawEntity {
     }
 
     public void changeHealth(float by) {
-        this.health += by;
+        if (this.health <= 100) {
+            this.health += by;
+        }
     }
 
     public boolean isAlive() {
@@ -149,9 +152,26 @@ public abstract class RawEntity {
         isSelected = selected;
     }
 
-    public void setAttacker(RawEntity attacker) {
-        this.attacker = attacker;
-        this.isBeingAttacked = true;
+    public void setApproachingEntity(RawEntity approachingEntity, Type approachingEntityType) {
+        this.approachingEntity = approachingEntity;
+        if (approachingEntityType != null && approachingEntity != null) {
+            switch (approachingEntityType) {
+                case SOLDIER:
+                    this.isBeingAttacked = true;
+                    this.isBeingHealed = false;
+                    break;
+                case HEALER:
+                    this.isBeingHealed = true;
+                    this.isBeingAttacked = false;
+                    break;
+                default:
+                    this.isBeingHealed = false;
+                    this.isBeingAttacked = false;
+            }
+        } else {
+            this.isBeingHealed = false;
+            this.isBeingAttacked = false;
+        }
     }
 
     public String getId() {
@@ -179,9 +199,9 @@ public abstract class RawEntity {
         return JSON;
     }
 
-    public boolean isAttackerAround() {
+    public boolean isApproachingEntityAround() {
         try {
-            return attacker != null && ((RawUnit) attacker).getDestinationTile().equals(this.tilePosition);
+            return approachingEntity != null && ((RawUnit) approachingEntity).getDestinationTile().equals(this.tilePosition);
         } catch (NullPointerException ex) {
             return false;
         }

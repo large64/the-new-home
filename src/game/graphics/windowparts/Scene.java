@@ -221,7 +221,6 @@ public class Scene {
                     PositionInfo.lookForChanges(picker);
 
                     EntityInfo.lookForChanges();
-                    //guiRenderer.render(guis);
                     processEntities(masterRenderer);
                 }
                 GameObserver.checkGameOver(entityCreatorRunnable);
@@ -289,10 +288,9 @@ public class Scene {
                     RawEntity rawEntity = entity.getRawEntity();
 
                     if (rawEntity.isAlive()) {
-                        if (!rawEntity.isAttackerAround()) {
+                        if (!rawEntity.isApproachingEntityAround()) {
                             rawEntity.setBeingAttacked(false);
-                        } else {
-                            rawEntity.setBeingAttacked(true);
+                            rawEntity.setBeingHealed(false);
                         }
 
                         if (rawEntity instanceof RawUnit) {
@@ -302,7 +300,7 @@ public class Scene {
 
                                 RawEntity destinationEntity = RawMap.whatIsOnTile(destinationTile);
                                 if (destinationEntity != null) {
-                                    destinationEntity.setAttacker(null);
+                                    destinationEntity.setApproachingEntity(null, null);
                                     rawUnit.performAction(destinationEntity);
                                 } else if (!rawUnit.getPath().isEmpty()) {
                                     rawUnit.step();
@@ -311,7 +309,7 @@ public class Scene {
                         }
                     }
                     if (rawEntity.isMarkedForDeletion) {
-                        rawEntity.setAttacker(null);
+                        rawEntity.setApproachingEntity(null, null);
                         rawEntity.setBeingAttacked(false);
                         it.remove();
                         if (selectedEntities.contains(entity.getRawEntity())) {

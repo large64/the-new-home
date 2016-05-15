@@ -1,5 +1,6 @@
 package game.logic.entities.units;
 
+import game.graphics.entities.Type;
 import game.graphics.toolbox.DisplayManager;
 import game.logic.entities.RawEntity;
 import game.logic.entities.RawMap;
@@ -35,13 +36,16 @@ public class RawUnit extends RawEntity {
             case FRIEND:
                 if (!this.isNextToAnEntity(destinationEntity)) {
                     this.step();
-                } else if (destinationEntity.getSide().equals(Side.ENEMY)) {
+                } else if (destinationEntity.getSide().equals(Side.ENEMY) && this instanceof RawSoldier) {
                     if (destinationEntity.isAlive()) {
                         ((RawSoldier) this).attack(destinationEntity);
-                        destinationEntity.setAttacker(this);
+                        destinationEntity.setApproachingEntity(this, Type.SOLDIER);
                     } else {
                         destinationEntity.isMarkedForDeletion = true;
                     }
+                } else if (destinationEntity.getSide().equals(Side.FRIEND) && this instanceof RawHealer) {
+                    ((RawHealer) this).heal(destinationEntity);
+                    destinationEntity.setApproachingEntity(this, Type.HEALER);
                 }
                 break;
             case ENEMY:
@@ -50,7 +54,7 @@ public class RawUnit extends RawEntity {
                 } else if (destinationEntity.getSide().equals(Side.FRIEND)) {
                     if (destinationEntity.isAlive()) {
                         ((RawSoldier) this).attack(destinationEntity);
-                        destinationEntity.setAttacker(this);
+                        destinationEntity.setApproachingEntity(this, Type.SOLDIER);
                     } else {
                         destinationEntity.isMarkedForDeletion = true;
                     }

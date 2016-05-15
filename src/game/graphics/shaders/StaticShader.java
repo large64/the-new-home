@@ -30,6 +30,7 @@ public class StaticShader extends ShaderProgram {
     private int location_offset;
     private int location_attenuation[];
     private int location_isBeingAttacked;
+    private int location_isBeingHealed;
 
     public StaticShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -46,6 +47,7 @@ public class StaticShader extends ShaderProgram {
         location_numberOfRows = super.getUniformLocation("numberOfRows");
         location_offset = super.getUniformLocation("offset");
         location_isBeingAttacked = super.getUniformLocation("isBeingAttacked");
+        location_isBeingHealed = super.getUniformLocation("isBeingHealed");
 
         location_lightPosition = new int[MAX_LIGHTS];
         location_lightColor = new int[MAX_LIGHTS];
@@ -79,6 +81,10 @@ public class StaticShader extends ShaderProgram {
 
     public void loadIsBeingAttacked(boolean isBeingAttacked) {
         super.loadBoolean(location_isBeingAttacked, isBeingAttacked);
+    }
+
+    public void loadIsBeingHealed(boolean isBeingHealed) {
+        super.loadBoolean(location_isBeingHealed, isBeingHealed);
     }
 
     public void loadShineVariables(float damper, float reflectivity) {

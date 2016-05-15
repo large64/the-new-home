@@ -47,6 +47,11 @@ public class EntityRenderer {
                 } else {
                     shader.loadIsBeingAttacked(false);
                 }
+                if (entity.getRawEntity().isBeingHealed()) {
+                    shader.loadIsBeingHealed(true);
+                } else {
+                    shader.loadIsBeingHealed(false);
+                }
                 GL11.glDrawElements(GL11.GL_TRIANGLES, model.getRawModel().getVertexCount(),
                         GL11.GL_UNSIGNED_INT, 0);
             }

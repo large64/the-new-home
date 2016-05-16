@@ -15,7 +15,7 @@ import java.io.IOException;
 
 public class Map {
     private static final float SIZE = 200;
-    private static final float MAX_HEIGHT = 5;
+    private static final float MAX_HEIGHT = 7;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
     private static TerrainTexturePack texturePack;
     private static TerrainTexture blendMap;

@@ -88,6 +88,5 @@ class EntityRenderer {
                 entity.getRotY(), entity.getRotZ(), entity.getScale());
 
         shader.loadTransformationMatrix(transformationMatrix);
-        shader.loadOffset(entity.getTextureXOffset(), entity.getTextureYOffset());
     }
 }

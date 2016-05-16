@@ -172,7 +172,7 @@ public class Scene {
                 BuildingPanel.setBuilderPanelVisible();
                 if (!mainMap.isTilesShown()) mainMap.setTilesShown(true);
 
-                if (Camera.isMouseGrabbed()) {
+                if (Player.isMouseGrabbed()) {
                     if (Mouse.isButtonDown(2) && !middleClick) {
                         firstMiddleClickPosition = new Vector2f(Mouse.getX(), Mouse.getY());
                     }
@@ -194,7 +194,7 @@ public class Scene {
                 if (mainMap.isTilesShown() && !Window.getTilesCheckbox().isSelected()) mainMap.setTilesShown(false);
                 player.move(firstMiddleClickPosition);
 
-                if (Camera.isMouseGrabbed()) {
+                if (Player.isMouseGrabbed()) {
 
                     if (Mouse.isButtonDown(1) && !rightClick) {
                         checkClick();

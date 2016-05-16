@@ -24,12 +24,10 @@ public class RawMap {
         places = new RawEntity[SIZE][SIZE];
 
         if (!rawEntities.isEmpty()) {
-            // @TODO: should not store the whole entity
             rawEntities.stream().filter(RawEntity::isAlive).forEach(entity -> {
                 int x = entity.getTilePosition().getColumn();
                 int y = entity.getTilePosition().getRow();
 
-                // @TODO: should not store the whole entity
                 places[x][y] = entity;
 
                 if (entity instanceof RawBuilding && ((RawBuilding) entity).hasExtent()) {

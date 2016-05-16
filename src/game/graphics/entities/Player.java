@@ -20,4 +20,12 @@ public class Player {
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
+
+    public static void setIsMouseGrabbed(boolean isMouseGrabbed) {
+        Camera.setIsMouseGrabbed(isMouseGrabbed);
+    }
+
+    public static boolean isMouseGrabbed() {
+        return Camera.isMouseGrabbed();
+    }
 }

@@ -2,6 +2,7 @@ package game.graphics.windowparts;
 
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
+import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Home;
 import game.graphics.entities.units.Scientist;
 import game.graphics.entities.units.Soldier;
@@ -173,7 +174,7 @@ public class Window {
             new Home(homeModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
 
             //menuFrame.setVisible(false);
-            Camera.setIsMouseGrabbed(true);
+            Player.setIsMouseGrabbed(true);
 
             MiniMap.setEntities();
             RawMap.setRawEntities();
@@ -193,7 +194,7 @@ public class Window {
         JButton button3 = new JButton("Resume");
         button3.addActionListener(el -> {
             menuFrame.setVisible(false);
-            Camera.setIsMouseGrabbed(true);
+            Player.setIsMouseGrabbed(true);
             Scene.setGameMode(GameMode.ONGOING);
         });
 

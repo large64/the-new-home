@@ -28,11 +28,11 @@ public class Camera {
         this.position = new Vector3f(DEFAULT_X, (float) MAX_BACK_ZOOM, DEFAULT_Z);
     }
 
-    public static boolean isMouseGrabbed() {
+    static boolean isMouseGrabbed() {
         return isMouseGrabbed;
     }
 
-    public static void setIsMouseGrabbed(boolean isMouseGrabbed) {
+    static void setIsMouseGrabbed(boolean isMouseGrabbed) {
         Camera.isMouseGrabbed = isMouseGrabbed;
     }
 

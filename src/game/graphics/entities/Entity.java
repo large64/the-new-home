@@ -15,7 +15,6 @@ import game.logic.toolbox.map.Position;
 import org.lwjgl.util.vector.Vector3f;
 
 public class Entity {
-    private final int textureIndex = 0;
     private TexturedModel model;
     private Vector3f position;
     private float scale;
@@ -87,16 +86,6 @@ public class Entity {
         this.position = getRawEntity().getPosition();
         this.rotY = getRawEntity().getRotation();
         this.position.y = Scene.getMainMap().getHeightOfMap(this.position.x, this.position.z);
-    }
-
-    public float getTextureXOffset() {
-        int column = textureIndex % model.getTexture().getNumberOfRows();
-        return (float) column / (float) model.getTexture().getNumberOfRows();
-    }
-
-    public float getTextureYOffset() {
-        int row = textureIndex / model.getTexture().getNumberOfRows();
-        return (float) row / (float) model.getTexture().getNumberOfRows();
     }
 
     public RawEntity getRawEntity() {

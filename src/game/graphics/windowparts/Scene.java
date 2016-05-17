@@ -156,12 +156,7 @@ public class Scene {
     public static void render() {
         switch (gameMode) {
             case STOPPED:
-                Component menu = Window.getMenuFrame();
-                if (!menu.isVisible()) {
-                    menu.setVisible(true);
-                    menu.setFocusable(true);
-                    menu.requestFocus();
-                }
+                Window.showMenu();
                 break;
             case PAUSED:
                 processEntities(masterRenderer);

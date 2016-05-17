@@ -130,7 +130,10 @@ public class GameLoader {
             AttackWave toLoadAttackWave = new AttackWave(nrOfWaves, currentWaveNr);
             ScheduledExecutorService scheduledExecutorService = Scene.getScheduler();
 
-            scheduledExecutorService.scheduleAtFixedRate(toLoadAttackWave, 3, 120, TimeUnit.SECONDS);
+            if (Scene.getService() != null) {
+                Scene.getService().cancel(true);
+            }
+            Scene.setService(scheduledExecutorService.scheduleAtFixedRate(toLoadAttackWave, 3, 120, TimeUnit.SECONDS));
             Scene.setEntityCreatorRunnable(toLoadAttackWave);
 
             InfoProvider.writeMessage("You have " + (nrOfWaves - currentWaveNr) + " more waves! Defend yourself!");

@@ -3,6 +3,7 @@ package game.logic.toolbox;
 import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.Scene;
 
 import java.io.File;
@@ -41,17 +42,26 @@ public class GameSaver {
 
         // Get the last file
         if (listOfFiles != null) {
-            File file = listOfFiles[listOfFiles.length - 1];
-            String fileName = file.getName();
-            // Get the number out of the file name
-            String numberString = fileName.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[1];
-            int number = Integer.valueOf(numberString);
-            number++;
+            int number;
+
+            if (listOfFiles.length > 0) {
+                File file = listOfFiles[listOfFiles.length - 1];
+                String fileName = file.getName();
+                // Get the number out of the file name
+                String numberString = fileName.split("(?<=\\D)(?=\\d)|(?<=\\d)(?=\\D)")[1];
+                number = Integer.valueOf(numberString);
+                number++;
+            }
+            else {
+                number = 1;
+            }
+
 
             try (PrintWriter out = new PrintWriter("res/saved_games/save" + number + ".json")) {
                 out.println(content);
+                InfoProvider.writeMessage("Game successfully saved.");
             } catch (FileNotFoundException e) {
-                System.err.println("Could not find file to save in.");
+                InfoProvider.writeMessage("Could not save game.");
             }
         }
     }

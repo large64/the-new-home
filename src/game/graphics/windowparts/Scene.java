@@ -38,9 +38,7 @@ import org.lwjgl.util.vector.Vector3f;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 public class Scene {
@@ -58,6 +56,7 @@ public class Scene {
     private static java.util.Map<String, TexturedModel> modelsMap;
     private static MousePicker picker;
     private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);;
+    private static Future service;
 
     private static boolean rightClick;
     private static boolean leftClick;
@@ -571,8 +570,10 @@ public class Scene {
 
         setGameMode(GameMode.ONGOING);
         GameObserver.lookForChanges();
-
-        scheduler.scheduleAtFixedRate(entityCreatorRunnable, 10, 120, TimeUnit.SECONDS);
+        if (service != null) {
+            service.cancel(true);
+        }
+        service = scheduler.scheduleAtFixedRate(entityCreatorRunnable, 10, 120, TimeUnit.SECONDS);
     }
 
     public static AttackWave getEntityCreatorRunnable() {
@@ -581,5 +582,13 @@ public class Scene {
 
     public static ScheduledExecutorService getScheduler() {
         return scheduler;
+    }
+
+    public static Future getService() {
+        return service;
+    }
+
+    public static void setService(Future service) {
+        Scene.service = service;
     }
 }

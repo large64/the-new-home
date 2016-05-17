@@ -137,82 +137,34 @@ public class Window {
     public static void loadDefaultMenu() {
         menuPanel.removeAll();
 
-        JButton button = new JButton("New Game");
-        button.addActionListener(e -> {
-            Scene.getEntities().clear();
-            Scene.setEntityCreatorRunnable(new AttackWave(4, 2));
-            Scene.getPlayer().getCamera().reset();
-            InfoProvider.clear();
+        JButton newGameButton = new JButton("New Game");
+        newGameButton.addActionListener(e -> switchMenuFrameContent(Window.getNewGamePanel()));
 
-            TexturedModel palmTreeModel = Scene.getModelsMap().get("palmTreeNeutral");
-            Random random = new Random();
-            for (int i = 0; i < 10; i++) {
-                int x = random.nextInt(200);
-                int z = random.nextInt(200);
+        JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(e1 -> mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING)));
 
-                new Entity(palmTreeModel, new Vector3f(x, Scene.getMainMap().getHeightOfMap(x, z), z), 0, 0, 0, 1);
-            }
-
-            float xInitial = 90;
-            float zInitial = 100;
-            TexturedModel soldierModel = Scene.getModelsMap().get("soldierUnit");
-
-            for (int i = 0; i < 5; i++) {
-                float y = Scene.getMainMap().getHeightOfMap(xInitial, zInitial);
-                new Soldier(soldierModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
-                xInitial += 5;
-            }
-
-            xInitial += 5;
-            TexturedModel scientistModel = Scene.getModelsMap().get("scientistUnit");
-            new Scientist(scientistModel, new Vector3f(xInitial, Scene.getMainMap().getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.FRIEND);
-
-            TexturedModel homeModel = Scene.getModelsMap().get("homeBuilding");
-            xInitial = 100;
-            zInitial = 90;
-            float y = Scene.getMainMap().getHeightOfMap(xInitial, zInitial);
-            new Home(homeModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
-
-            //menuFrame.setVisible(false);
-            Player.setIsMouseGrabbed(true);
-
-            MiniMap.setEntities();
-            RawMap.setRawEntities();
-            RawMap.lookForChanges();
-
-            Scene.setGameMode(GameMode.ONGOING);
-            GameObserver.lookForChanges();
-
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            scheduler.scheduleAtFixedRate(Scene.getAttackRunnable(), 11, 15, TimeUnit.SECONDS);
-            scheduler.scheduleAtFixedRate(Scene.getEntityCreatorRunnable(), 10, 180, TimeUnit.SECONDS);
-        });
-
-        JButton button2 = new JButton("Quit");
-        button2.addActionListener(e1 -> mainFrame.dispatchEvent(new java.awt.event.WindowEvent(mainFrame, java.awt.event.WindowEvent.WINDOW_CLOSING)));
-
-        JButton button3 = new JButton("Resume");
-        button3.addActionListener(el -> {
+        JButton resumeButton = new JButton("Resume");
+        resumeButton.addActionListener(el -> {
             menuFrame.setVisible(false);
             Player.setIsMouseGrabbed(true);
             Scene.setGameMode(GameMode.ONGOING);
         });
 
-        JButton button4 = new JButton("Save Game");
-        button4.addActionListener(e -> GameSaver.save());
+        JButton saveGameButton = new JButton("Save Game");
+        saveGameButton.addActionListener(e -> GameSaver.save());
 
-        JButton button5 = new JButton("Load Game");
-        button5.addActionListener(e -> switchMenuFrameContent(GameLoader.getLoaderPanel()));
+        JButton loadGameButton = new JButton("Load Game");
+        loadGameButton.addActionListener(e -> switchMenuFrameContent(GameLoader.getLoaderPanel()));
 
         JLabel menuTitle = new JLabel("Main Menu");
         menuTitle.setHorizontalAlignment(JLabel.CENTER);
 
         menuPanel.add(menuTitle);
-        menuPanel.add(button3);
-        menuPanel.add(button);
-        menuPanel.add(button4);
-        menuPanel.add(button5);
-        menuPanel.add(button2);
+        menuPanel.add(resumeButton);
+        menuPanel.add(newGameButton);
+        menuPanel.add(saveGameButton);
+        menuPanel.add(loadGameButton);
+        menuPanel.add(quitButton);
 
         menuPanel.revalidate();
         menuPanel.repaint();
@@ -311,5 +263,40 @@ public class Window {
         menuFrame.setFocusable(true);
         menuFrame.requestFocus();
         gameModeList.setEnabled(false);
+    }
+
+    public static JPanel getNewGamePanel() {
+        JPanel newGamePanel = new JPanel();
+        GridLayout gridLayout = new GridLayout(5, 1, 0, 10);
+        newGamePanel.setLayout(gridLayout);
+
+        JLabel title = new JLabel("New Game");
+        title.setHorizontalAlignment(JLabel.CENTER);
+        newGamePanel.add(title);
+
+        JLabel loadLabel = new JLabel("With how many enemies?");
+        loadLabel.setHorizontalAlignment(JLabel.CENTER);
+        newGamePanel.add(loadLabel);
+
+        String[] options = new String[]{"10", "15", "20"};
+
+        JComboBox optionsComboBox = new JComboBox<>(options);
+        newGamePanel.add(optionsComboBox);
+
+        JButton loadButton = new JButton("Start");
+        loadButton.setHorizontalAlignment(JButton.CENTER);
+        loadButton.addActionListener(e -> {
+            int numberOfEnemies = Integer.valueOf((String) optionsComboBox.getSelectedItem());
+            switchMenuFrameContent(null);
+            Scene.startGame(numberOfEnemies);
+        });
+        newGamePanel.add(loadButton);
+
+        JButton button = new JButton("Cancel");
+        button.setHorizontalAlignment(JButton.CENTER);
+        button.addActionListener(e -> Window.loadDefaultMenu());
+        newGamePanel.add(button);
+
+        return newGamePanel;
     }
 }

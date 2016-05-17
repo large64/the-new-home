@@ -18,9 +18,9 @@ public class AttackWave implements Runnable {
     private int currentWaveNr;
     private boolean allWavesAreGone;
 
-    public AttackWave(int nrOfEntities, int nrOfWaves) {
-        this.nrOfEntities = nrOfEntities;
-        this.nrOfWaves = nrOfWaves;
+    public AttackWave(int nrOfEntities) {
+        this.nrOfEntities = 5;
+        this.nrOfWaves = nrOfEntities / 5;
         this.currentWaveNr = 0;
         this.allWavesAreGone = false;
     }
@@ -28,7 +28,7 @@ public class AttackWave implements Runnable {
     @Override
     public void run() {
         if (Scene.getGameMode() == GameMode.ONGOING && !allWavesAreGone) {
-            InfoProvider.writeMessage("A wave of enemies is coming! (" + (currentWaveNr + 1) + ")");
+            InfoProvider.writeMessage("A wave of enemies is coming! (" + (currentWaveNr + 1) + " / " + nrOfWaves + ")");
 
             TexturedModel soldierModel = Scene.getModelsMap().get("enemyUnit");
             Random random = new Random();

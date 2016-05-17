@@ -137,12 +137,14 @@ public class GameObserver {
     }
 
     public static void checkGameOver(AttackWave attackWave) {
-        if (attackWave.isAllWavesAreGone() && getNumberOfEnemyEntities() == 0) {
-            InfoProvider.writeMessage("Congratulations! You are the winner!");
-            Scene.setGameMode(GameMode.STOPPED);
-        } else if (getNumberOfFriendlyEntities() == 0) {
-            InfoProvider.writeMessage("You have lost. Maybe next time!");
-            Scene.setGameMode(GameMode.STOPPED);
+        if (attackWave != null) {
+            if (attackWave.isAllWavesAreGone() && getNumberOfEnemyEntities() == 0) {
+                InfoProvider.writeMessage("Congratulations! You are the winner!");
+                Scene.setGameMode(GameMode.STOPPED);
+            } else if (getNumberOfFriendlyEntities() == 0) {
+                InfoProvider.writeMessage("You have lost. Maybe next time!");
+                Scene.setGameMode(GameMode.STOPPED);
+            }
         }
     }
 }

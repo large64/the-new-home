@@ -98,6 +98,9 @@ class UnitCreator {
                 }
             }
         };
+
+        barrackLabel.addMouseListener(createSoldierListener);
+        hospitalLabel.addMouseListener(createHealerListener);
     }
 
     static JPanel getWrapperPanel() {
@@ -114,13 +117,11 @@ class UnitCreator {
                 hospitalLabel.setVisible(true);
                 bottomLabel.setText("Healer");
                 barrackLabel.setVisible(false);
-                changeButtonListener(createSoldierListener, createHealerListener);
                 wrapperPanel.setVisible(true);
             } else if (selectedEntity instanceof RawBarrack) {
                 hospitalLabel.setVisible(false);
                 bottomLabel.setText("Soldier");
                 barrackLabel.setVisible(true);
-                changeButtonListener(createHealerListener, createSoldierListener);
                 wrapperPanel.setVisible(true);
             } else {
                 wrapperPanel.setVisible(false);
@@ -130,12 +131,5 @@ class UnitCreator {
             wrapperPanel.setVisible(false);
             bottomLabel.setText(null);
         }
-    }
-
-    private static void changeButtonListener(MouseListener listener, MouseListener toListener) {
-        if (Arrays.asList(wrapperPanel.getMouseListeners()).contains(listener)) {
-            wrapperPanel.removeMouseListener(listener);
-        }
-        wrapperPanel.addMouseListener(toListener);
     }
 }

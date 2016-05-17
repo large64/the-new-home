@@ -1,10 +1,12 @@
 package game.graphics.windowparts;
 
-import game.graphics.entities.Camera;
 import game.graphics.entities.Entity;
 import game.graphics.entities.Light;
 import game.graphics.entities.Player;
 import game.graphics.entities.buildings.Building;
+import game.graphics.entities.buildings.Home;
+import game.graphics.entities.units.Scientist;
+import game.graphics.entities.units.Soldier;
 import game.graphics.entities.units.Unit;
 import game.graphics.models.TexturedModel;
 import game.graphics.renderers.MasterRenderer;
@@ -110,7 +112,7 @@ public class Scene {
 
         new GameObserver();
 
-        entityCreatorRunnable = new AttackWave(4, 1);
+        entityCreatorRunnable = null;
 
         attackRunnable = () -> {
             for (Entity entity : entities) {
@@ -145,10 +147,6 @@ public class Scene {
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(refreshMiniMapRunnable, 3, 3, TimeUnit.SECONDS);
-    }
-
-    public static Runnable getEntityCreatorRunnable() {
-        return entityCreatorRunnable;
     }
 
     public static void setEntityCreatorRunnable(AttackWave entityCreatorRunnable) {
@@ -532,7 +530,53 @@ public class Scene {
         return null;
     }
 
-    public static Runnable getAttackRunnable() {
-        return attackRunnable;
+    static void startGame(int nrOfEnemies) {
+        entities.clear();
+        setEntityCreatorRunnable(new AttackWave(nrOfEnemies));
+        player.getCamera().reset();
+        InfoProvider.clear();
+
+        TexturedModel palmTreeModel = modelsMap.get("palmTreeNeutral");
+        Random random = new Random();
+        for (int i = 0; i < 10; i++) {
+            int x = random.nextInt(200);
+            int z = random.nextInt(200);
+
+            new Entity(palmTreeModel, new Vector3f(x, mainMap.getHeightOfMap(x, z), z), 0, 0, 0, 1);
+        }
+
+        float xInitial = 90;
+        float zInitial = 100;
+        TexturedModel soldierModel = modelsMap.get("soldierUnit");
+
+        for (int i = 0; i < 5; i++) {
+            float y = mainMap.getHeightOfMap(xInitial, zInitial);
+            new Soldier(soldierModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
+            xInitial += 5;
+        }
+
+        xInitial += 5;
+        TexturedModel scientistModel = modelsMap.get("scientistUnit");
+        new Scientist(scientistModel, new Vector3f(xInitial, mainMap.getHeightOfMap(xInitial, zInitial), zInitial), 1, Side.FRIEND);
+
+        TexturedModel homeModel = modelsMap.get("homeBuilding");
+        xInitial = 100;
+        zInitial = 90;
+        float y = mainMap.getHeightOfMap(xInitial, zInitial);
+        new Home(homeModel, new Vector3f(xInitial, y, zInitial), 1, Side.FRIEND);
+
+        //menuFrame.setVisible(false);
+        Player.setIsMouseGrabbed(true);
+
+        MiniMap.setEntities();
+        RawMap.setRawEntities();
+        RawMap.lookForChanges();
+
+        setGameMode(GameMode.ONGOING);
+        GameObserver.lookForChanges();
+
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(attackRunnable, 11, 15, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(entityCreatorRunnable, 10, 120, TimeUnit.SECONDS);
     }
 }

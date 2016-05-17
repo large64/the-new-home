@@ -151,7 +151,14 @@ public class Window {
         });
 
         JButton saveGameButton = new JButton("Save Game");
-        saveGameButton.addActionListener(e -> GameSaver.save());
+        saveGameButton.addActionListener(e -> {
+            if (GameObserver.getNumberOfEnemyEntities() > 0) {
+                InfoProvider.writeMessage("Cannot save while battling.");
+            }
+            else {
+                GameSaver.save();
+            }
+        });
 
         JButton loadGameButton = new JButton("Load Game");
         loadGameButton.addActionListener(e -> switchMenuFrameContent(GameLoader.getLoaderPanel()));

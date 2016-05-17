@@ -8,6 +8,7 @@ import game.graphics.entities.buildings.Hospital;
 import game.graphics.entities.units.Healer;
 import game.graphics.entities.units.Soldier;
 import game.graphics.toolbox.GameMode;
+import game.graphics.windowparts.InfoProvider;
 import game.graphics.windowparts.MiniMap;
 import game.graphics.windowparts.Scene;
 import game.graphics.windowparts.Window;
@@ -31,6 +32,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class GameLoader {
     private static final List<Entity> ENTITIES = new ArrayList<>();
@@ -42,6 +46,7 @@ public class GameLoader {
 
         ArrayList parsedEntities;
         LinkedHashMap parsedPlayer;
+        LinkedHashMap parsedEnemies;
 
 
         JSONConfig config = new JSONConfig();
@@ -113,6 +118,22 @@ public class GameLoader {
             // Refresh player and picker of the scene
             Scene.getPlayer().setCamera(camera);
             Scene.getPicker().setCamera(camera);
+
+            parsedEnemies = (LinkedHashMap) jsonData.get("enemies");
+
+            String nrOfWavesString = (String) parsedEnemies.get("nrOfWaves");
+            int nrOfWaves = Integer.valueOf(nrOfWavesString);
+
+            String currentWaveNrString = (String) parsedEnemies.get("currentWaveNr");
+            int currentWaveNr = Integer.valueOf(currentWaveNrString);
+
+            AttackWave toLoadAttackWave = new AttackWave(nrOfWaves, currentWaveNr);
+            ScheduledExecutorService scheduledExecutorService = Scene.getScheduler();
+
+            scheduledExecutorService.scheduleAtFixedRate(toLoadAttackWave, 3, 120, TimeUnit.SECONDS);
+            Scene.setEntityCreatorRunnable(toLoadAttackWave);
+
+            InfoProvider.writeMessage("You have " + (nrOfWaves - currentWaveNr) + " more waves! Defend yourself!");
         }
         MiniMap.getEntities().clear();
         RawMap.getRawEntities().clear();

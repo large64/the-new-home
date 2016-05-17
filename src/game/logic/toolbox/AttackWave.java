@@ -25,9 +25,16 @@ public class AttackWave implements Runnable {
         this.allWavesAreGone = false;
     }
 
+    AttackWave(int nrOfWaves, int currentWaveNr) {
+        this.nrOfEntities = 5;
+        this.nrOfWaves = nrOfWaves;
+        this.currentWaveNr = currentWaveNr;
+        this.allWavesAreGone = false;
+    }
+
     @Override
     public void run() {
-        if (Scene.getGameMode() == GameMode.ONGOING && !allWavesAreGone) {
+        if ((Scene.getGameMode() != GameMode.STOPPED || Scene.getGameMode() != GameMode.PAUSED) && !allWavesAreGone) {
             InfoProvider.writeMessage("A wave of enemies is coming! (" + (currentWaveNr + 1) + " / " + nrOfWaves + ")");
 
             TexturedModel soldierModel = Scene.getModelsMap().get("enemyUnit");
@@ -48,6 +55,7 @@ public class AttackWave implements Runnable {
                 TexturedModel scientistModel = Scene.getModelsMap().get("scientistUnit");
 
                 Scientist scientist = new Scientist(scientistModel, new Vector3f(186, 0, 103), 1, Side.FRIEND);
+                RawMap.setRawEntities();
 
                 InfoProvider.writeMessage("You have been rewarded a Scientist! It's at " + scientist.getRawEntity().getTilePosition());
             }
@@ -60,7 +68,16 @@ public class AttackWave implements Runnable {
         }
     }
 
-    public boolean isAllWavesAreGone() {
+    boolean isAllWavesAreGone() {
         return allWavesAreGone;
+    }
+
+    public String toJSON() {
+        String JSON = "";
+        JSON += "{";
+        JSON += "\"nrOfWaves\":" + "\"" + nrOfWaves + "\",";
+        JSON += "\"currentWaveNr\":" + "\"" + currentWaveNr + "\"";
+        JSON += "}";
+        return JSON;
     }
 }

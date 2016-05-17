@@ -57,6 +57,7 @@ public class Scene {
     private static List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
     private static java.util.Map<String, TexturedModel> modelsMap;
     private static MousePicker picker;
+    private static ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);;
 
     private static boolean rightClick;
     private static boolean leftClick;
@@ -147,6 +148,7 @@ public class Scene {
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(refreshMiniMapRunnable, 3, 3, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(attackRunnable, 11, 15, TimeUnit.SECONDS);
     }
 
     public static void setEntityCreatorRunnable(AttackWave entityCreatorRunnable) {
@@ -570,8 +572,14 @@ public class Scene {
         setGameMode(GameMode.ONGOING);
         GameObserver.lookForChanges();
 
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(attackRunnable, 11, 15, TimeUnit.SECONDS);
         scheduler.scheduleAtFixedRate(entityCreatorRunnable, 10, 120, TimeUnit.SECONDS);
+    }
+
+    public static AttackWave getEntityCreatorRunnable() {
+        return entityCreatorRunnable;
+    }
+
+    public static ScheduledExecutorService getScheduler() {
+        return scheduler;
     }
 }

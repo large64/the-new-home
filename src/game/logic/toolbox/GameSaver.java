@@ -28,8 +28,9 @@ public class GameSaver {
             }
 
             String JSONCamera = camera.toJSON();
+            String JSONAttackWaves = Scene.getEntityCreatorRunnable().toJSON();
 
-            String toSave = combineWithWrapper(JSONCamera, JSONEntities);
+            String toSave = combineWithWrapper(JSONCamera, JSONEntities, JSONAttackWaves);
             saveToFile(toSave);
         }
     }
@@ -55,14 +56,16 @@ public class GameSaver {
         }
     }
 
-    private static String combineWithWrapper(String player, String entities) {
+    private static String combineWithWrapper(String player, String entities, String attackWaves) {
         String withWrapper = "";
         withWrapper += "{";
         withWrapper += "\"player\":";
         withWrapper += player;
         withWrapper += "\"entities\":[";
         withWrapper += entities;
-        withWrapper += "]";
+        withWrapper += "],";
+        withWrapper += "\"enemies\":";
+        withWrapper += attackWaves;
         withWrapper += "}";
 
         return withWrapper;

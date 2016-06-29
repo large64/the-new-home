@@ -6,6 +6,7 @@ import game.graphics.entities.buildings.Barrack;
 import game.graphics.entities.buildings.Home;
 import game.graphics.entities.buildings.Hospital;
 import game.graphics.entities.units.Healer;
+import game.graphics.entities.units.Scientist;
 import game.graphics.entities.units.Soldier;
 import game.graphics.toolbox.GameMode;
 import game.graphics.windowparts.InfoProvider;
@@ -17,6 +18,7 @@ import game.logic.entities.buildings.RawBarrack;
 import game.logic.entities.buildings.RawHome;
 import game.logic.entities.buildings.RawHospital;
 import game.logic.entities.units.RawHealer;
+import game.logic.entities.units.RawScientist;
 import game.logic.entities.units.RawSoldier;
 import game.logic.toolbox.map.Node;
 import game.logic.toolbox.map.Tile;
@@ -133,10 +135,12 @@ public class GameLoader {
             if (Scene.getService() != null) {
                 Scene.getService().cancel(true);
             }
-            Scene.setService(scheduledExecutorService.scheduleAtFixedRate(toLoadAttackWave, 3, 120, TimeUnit.SECONDS));
-            Scene.setEntityCreatorRunnable(toLoadAttackWave);
+            if (nrOfWaves != 0) {
+                Scene.setService(scheduledExecutorService.scheduleAtFixedRate(toLoadAttackWave, 3, 120, TimeUnit.SECONDS));
+                Scene.setEntityCreatorRunnable(toLoadAttackWave);
 
-            InfoProvider.writeMessage("You have " + (nrOfWaves - currentWaveNr) + " more waves! Defend yourself!");
+                InfoProvider.writeMessage("You have " + (nrOfWaves - currentWaveNr) + " more waves! Defend yourself!");
+            }
         }
         MiniMap.getEntities().clear();
         RawMap.getRawEntities().clear();
@@ -221,6 +225,27 @@ public class GameLoader {
                 Healer healer = new Healer();
                 healer.setRawEntity(rawHealer);
                 ENTITIES.add(healer);
+                break;
+            case "scientist":
+                RawScientist rawScientist = new RawScientist();
+                rawScientist.setId(ID);
+                rawScientist.setPath(path);
+                if (!path.isEmpty()) {
+                    rawScientist.setCurrentNode(path.get(0));
+                }
+                rawScientist.setTilePosition(tilePosition);
+                rawScientist.setPosition(tilePosition.toPosition());
+                rawScientist.setRotation(rotation);
+                rawScientist.setHealth(health);
+                rawScientist.setSide(side);
+                rawScientist.setSelected(isSelected);
+                if (isSelected) {
+                    Scene.getSelectedEntities().add(rawScientist);
+                }
+
+                Scientist scientist = new Scientist();
+                scientist.setRawEntity(rawScientist);
+                ENTITIES.add(scientist);
                 break;
             case "home":
                 RawHome rawHome = new RawHome();

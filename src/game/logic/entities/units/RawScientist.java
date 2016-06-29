@@ -4,7 +4,10 @@ import game.logic.toolbox.Side;
 
 public class RawScientist extends RawUnit {
     private static final String ID = "scientist";
-    private final String id = ID + counter;
+    private String id = ID + counter;
+
+    public RawScientist() {
+    }
 
     public RawScientist(int row, int column, Side side) {
         super(row, column, side);
@@ -22,5 +25,9 @@ public class RawScientist extends RawUnit {
 
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -123,11 +123,17 @@ public class GameLoader {
 
             parsedEnemies = (LinkedHashMap) jsonData.get("enemies");
 
+            int nrOfWaves = 0;
             String nrOfWavesString = (String) parsedEnemies.get("nrOfWaves");
-            int nrOfWaves = Integer.valueOf(nrOfWavesString);
+            if (nrOfWavesString != null) {
+                nrOfWaves = Integer.valueOf(nrOfWavesString);
+            }
 
+            int currentWaveNr = 0;
             String currentWaveNrString = (String) parsedEnemies.get("currentWaveNr");
-            int currentWaveNr = Integer.valueOf(currentWaveNrString);
+            if (currentWaveNrString != null) {
+                currentWaveNr = Integer.valueOf(currentWaveNrString);
+            }
 
             AttackWave toLoadAttackWave = new AttackWave(nrOfWaves, currentWaveNr);
             ScheduledExecutorService scheduledExecutorService = Scene.getScheduler();

@@ -28,14 +28,14 @@ public class GameSaver {
                 JSONEntities += entity;
             }
 
-            try {
-                String JSONCamera = camera.toJSON();
-                String JSONAttackWaves = Scene.getEntityCreatorRunnable().toJSON();
+            String JSONCamera = camera.toJSON();
 
+            try {
+                String JSONAttackWaves = Scene.getEntityCreatorRunnable().toJSON();
                 String toSave = combineWithWrapper(JSONCamera, JSONEntities, JSONAttackWaves);
                 saveToFile(toSave);
             } catch (NullPointerException ex) {
-                InfoProvider.writeMessage("Nothing to save.");
+                InfoProvider.writeMessage("Cannot save now.");
             }
         }
     }
